@@ -1,0 +1,147 @@
+{
+  "benchmark_version": "8.0",
+  "models": {
+    "codex": {
+      "model": "gpt-6-sol",
+      "earned": 908,
+      "evaluated_points": 908,
+      "total_points": 908,
+      "completed_cases": 25,
+      "total_cases": 25,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 724,
+          "total": 724
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 724
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_repair_aob",
+          "seconds": 175.08,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v8\\codex_repair.json"
+        }
+      ],
+      "source_files": [
+        "results\\v7\\codex_combined.json",
+        "results\\v8\\codex_repair.json"
+      ]
+    },
+    "claude": {
+      "model": "claude-opus-4-7",
+      "earned": 896,
+      "evaluated_points": 908,
+      "total_points": 908,
+      "completed_cases": 25,
+      "total_cases": 25,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 70,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 714,
+          "total": 724
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 724
+      },
+      "lost_points": [
+        {
+          "case_id": "pe_reloc",
+          "question_id": "q1",
+          "earned": 0,
+          "points": 2
+        },
+        {
+          "case_id": "hard_delay_import",
+          "question_id": "q6",
+          "earned": 0,
+          "points": 10
+        }
+      ],
+      "attempts": [
+        {
+          "case_id": "hard_repair_aob",
+          "seconds": 135.28,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v8\\claude_repair.json"
+        }
+      ],
+      "source_files": [
+        "results\\v7\\claude_combined.json",
+        "results\\v8\\claude_repair.json"
+      ]
+    },
+    "opencode": {
+      "model": "explabs/glm-5.3-flash-abliterated",
+      "earned": 572,
+      "evaluated_points": 572,
+      "total_points": 908,
+      "completed_cases": 23,
+      "total_cases": 25,
+      "missing_cases": [
+        "hard_resource_stream",
+        "hard_tls_state"
+      ],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 388,
+          "total": 724
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 388
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_repair_aob",
+          "seconds": 1535.59,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v8\\opencode_repair.json"
+        }
+      ],
+      "source_files": [
+        "results\\v7\\opencode_combined.json",
+        "results\\v8\\opencode_repair.json"
+      ]
+    }
+  }
+}

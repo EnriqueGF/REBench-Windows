@@ -1,0 +1,433 @@
+{
+  "benchmark_version": "1.0",
+  "started_at": "2026-10-04T12:37:56.070278+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "pe_rva",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 45.69,
+      "raw_output": "Got it. PE header at 0x80. Parsing:\n\n- ImageBase: `00 00 00 40 01 00 00 00` = 0x140000000\n- EntryPoint RVA: `00 10 00 00` = 0x1000\n- SectionAlignment: 0x1000, FileAlignment: 0x200\n- SizeOfImage: 0x4000\n\nSections:\n- .text: VS=0x200, VA=0x1000, RS=0x200, RP=0x400\n- .rdata: VS=0x300, VA=0x2000, RS=0x200, RP=0x600\n- .reloc: VS=0x200, VA=0x3000, RS=0x200, RP=0x800\n\nq1: RVA 0x2080 → in .rdata (VA=0x2000, RP=0x600). Offset = 0x600 + 0x80 = 0x680.\n\nq2: RVA 0x2250 → .rdata VS=0x300 covers 0x2000-0x22FF, so 0x2250 is within VirtualSize but RawSize is only 0x200 (covers 0x2000-0x21FF). So 0x2250 is in the virtual tail → B.\n\nq3: EP VA = ImageBase + EP RVA = 0x140000000 + 0x1000 = 0x140001000 → B.\n\n{\"case_id\":\"pe_rva\",\"answers\":{\"q1\":\"0x680\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\".rdata: VA=0x2000, RP=0x600, RS=0x200, VS=0x300. RVA 0x2080 → 0x600+0x80=0x680. RVA 0x2250 está dentro de VS pero más allá de RS (0x200), por lo que es cola virtual sin bytes en disco. ImageBase=0x140000000 + EP RVA 0x1000 = 0x140001000.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "pe_rva",
+        "answers": {
+          "q1": "0x680",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": ".rdata: VA=0x2000, RP=0x600, RS=0x200, VS=0x300. RVA 0x2080 → 0x600+0x80=0x680. RVA 0x2250 está dentro de VS pero más allá de RS (0x200), por lo que es cola virtual sin bytes en disco. ImageBase=0x140000000 + EP RVA 0x1000 = 0x140001000."
+      }
+    },
+    {
+      "case_id": "pe_reloc",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 50.76,
+      "raw_output": "All zeros in .rdata. So the pre-reloc QWORD = 0, post-reloc = 0 + 0x40000000 = 0x40000000.\n\n{\"case_id\":\"pe_reloc\",\"answers\":{\"q1\":\"0x0000000040000000\",\"q2\":\"B\",\"q3\":\"0x40000000\"},\"reasoning\":\"ImageBase en header PE = 0x140000000 (offset 0xB0). Carga real 0x180000000 → delta = 0x40000000. .reloc en file 0x800: PageRVA=0x2000, BlockSize=0x0C, entrada 0xA028 = tipo 0xA (IMAGE_REL_BASED_DIR64) + offset 0x028 → RVA 0x2028. QWORD en file 0x228 (RVA 0x2028) es 0x0000000000000000; tras sumar el delta queda 0x0000000040000000.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "pe_reloc",
+        "answers": {
+          "q1": "0x0000000040000000",
+          "q2": "B",
+          "q3": "0x40000000"
+        },
+        "reasoning": "ImageBase en header PE = 0x140000000 (offset 0xB0). Carga real 0x180000000 → delta = 0x40000000. .reloc en file 0x800: PageRVA=0x2000, BlockSize=0x0C, entrada 0xA028 = tipo 0xA (IMAGE_REL_BASED_DIR64) + offset 0x028 → RVA 0x2028. QWORD en file 0x228 (RVA 0x2028) es 0x0000000000000000; tras sumar el delta queda 0x0000000040000000."
+      }
+    },
+    {
+      "case_id": "abi_x64",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 6.17,
+      "raw_output": "{\"case_id\":\"abi_x64\",\"answers\":{\"q1\":\"0x55\",\"q2\":\"B\",\"q3\":[\"A\",\"B\",\"C\"]},\"reasoning\":\"At entry, [rsp]=return addr (7ff6`21302234). [rsp+8..+0x20] are the 4 shadow space slots for RCX/RDX/R8/R9. Stack args start at [rsp+0x28]: e=0x55, [rsp+0x30]=f=0x66. RCX=0x11=a. D is false because [rsp+8] is caller-provided shadow space, not guaranteed to hold a until the callee spills.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "abi_x64",
+        "answers": {
+          "q1": "0x55",
+          "q2": "B",
+          "q3": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "reasoning": "At entry, [rsp]=return addr (7ff6`21302234). [rsp+8..+0x20] are the 4 shadow space slots for RCX/RDX/R8/R9. Stack args start at [rsp+0x28]: e=0x55, [rsp+0x30]=f=0x66. RCX=0x11=a. D is false because [rsp+8] is caller-provided shadow space, not guaranteed to hold a until the callee spills."
+      }
+    },
+    {
+      "case_id": "crash_av",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 5.7,
+      "raw_output": "{\"case_id\":\"crash_av\",\"answers\":{\"q1\":\"A\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"Parameter[0]=0 indica lectura; Parameter[1]=0x18 es la dirección. La instrucción mov rcx,[rax+18h] con rax=0 confirma lectura en 0x18 por deref de NULL. Causa: get_optional_context devolvió NULL (rax=0), por lo que debe comprobarse rax/retorno. Fix semántico: validar ctx antes de usar ctx->next.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "crash_av",
+        "answers": {
+          "q1": "A",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "Parameter[0]=0 indica lectura; Parameter[1]=0x18 es la dirección. La instrucción mov rcx,[rax+18h] con rax=0 confirma lectura en 0x18 por deref de NULL. Causa: get_optional_context devolvió NULL (rax=0), por lo que debe comprobarse rax/retorno. Fix semántico: validar ctx antes de usar ctx->next."
+      }
+    },
+    {
+      "case_id": "wow64_view",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 6.67,
+      "raw_output": "{\"case_id\":\"wow64_view\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":[\"A\",\"B\"]},\"reasoning\":\"WOW64 redirige System32 a SysWOW64 para x86; Sysnative es alias que evita la redirección. KEY_WOW64_64KEY abre la vista x64 del registro. A y B explican las discrepancias observadas; C es falso (un x86 no puede cargar DLL x64); D no se prueba (el x64 sí lo abre).\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "wow64_view",
+        "answers": {
+          "q1": "B",
+          "q2": "C",
+          "q3": [
+            "A",
+            "B"
+          ]
+        },
+        "reasoning": "WOW64 redirige System32 a SysWOW64 para x86; Sysnative es alias que evita la redirección. KEY_WOW64_64KEY abre la vista x64 del registro. A y B explican las discrepancias observadas; C es falso (un x86 no puede cargar DLL x64); D no se prueba (el x64 sí lo abre)."
+      }
+    },
+    {
+      "case_id": "unwind_x64",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 7.5,
+      "raw_output": "{\"case_id\":\"unwind_x64\",\"answers\":{\"q1\":\"B\",\"q2\":\"A\",\"q3\":[\"A\",\"B\"]},\"reasoning\":\"RtlLookupFunctionEntry devuelve NULL y la región RX no está en ninguna .pdata, así que el walker no puede deshacer push rbx + sub rsp,30h y trata el frame como leaf (q1=B). Para código generado dinámicamente se registra una RUNTIME_FUNCTION vía RtlAddFunctionTable (q2=A). Los UNWIND_CODEs deben describir las operaciones del prólogo que alteran la pila/no volátiles: PUSH_NONVOL de RBX y ALLOC_SMALL de 0x30 (q3=A,B); los NOP no afectan y el GUID del PDB no es parte del unwind.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "unwind_x64",
+        "answers": {
+          "q1": "B",
+          "q2": "A",
+          "q3": [
+            "A",
+            "B"
+          ]
+        },
+        "reasoning": "RtlLookupFunctionEntry devuelve NULL y la región RX no está en ninguna .pdata, así que el walker no puede deshacer push rbx + sub rsp,30h y trata el frame como leaf (q1=B). Para código generado dinámicamente se registra una RUNTIME_FUNCTION vía RtlAddFunctionTable (q2=A). Los UNWIND_CODEs deben describir las operaciones del prólogo que alteran la pila/no volátiles: PUSH_NONVOL de RBX y ALLOC_SMALL de 0x30 (q3=A,B); los NOP no afectan y el GUID del PDB no es parte del unwind."
+      }
+    },
+    {
+      "case_id": "symbols_pdb",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 5.69,
+      "raw_output": "{\"case_id\":\"symbols_pdb\",\"answers\":{\"q1\":\"0x71A0\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"RIP 00007ffb`400071A0 - base 00007ffb`40000000 = RVA 0x71A0. PDB cargado tiene Age 2 vs módulo Age 3: GUID+Age deben coincidir, por lo que los símbolos no son válidos (mismatched confirmado por !lmi). La atribución debe basarse en el RVA y el desensamblado real del binario cargado, no en nombres del PDB desajustado.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "symbols_pdb",
+        "answers": {
+          "q1": "0x71A0",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "RIP 00007ffb`400071A0 - base 00007ffb`40000000 = RVA 0x71A0. PDB cargado tiene Age 2 vs módulo Age 3: GUID+Age deben coincidir, por lo que los símbolos no son válidos (mismatched confirmado por !lmi). La atribución debe basarse en el RVA y el desensamblado real del binario cargado, no en nombres del PDB desajustado."
+      }
+    },
+    {
+      "case_id": "loader_lock",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 6.83,
+      "raw_output": "{\"case_id\":\"loader_lock\",\"answers\":{\"q1\":\"B\",\"q2\":\"B\",\"q3\":\"A\"},\"reasoning\":\"Thread 12 mantiene el loader lock en DllMain y espera worker_ready; Thread 18 fue creado pero está bloqueado esperando DLL_THREAD_ATTACH, que no puede ejecutarse hasta que DllMain retorne: deadlock clásico del loader. La solución es sacar la sincronización a una función Init post-LoadLibrary. La existencia de Thread 18 en LdrpCallInitRoutine prueba que CreateThread tuvo éxito.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "loader_lock",
+        "answers": {
+          "q1": "B",
+          "q2": "B",
+          "q3": "A"
+        },
+        "reasoning": "Thread 12 mantiene el loader lock en DllMain y espera worker_ready; Thread 18 fue creado pero está bloqueado esperando DLL_THREAD_ATTACH, que no puede ejecutarse hasta que DllMain retorne: deadlock clásico del loader. La solución es sacar la sincronización a una función Init post-LoadLibrary. La existencia de Thread 18 en LdrpCallInitRoutine prueba que CreateThread tuvo éxito."
+      }
+    },
+    {
+      "case_id": "etw_pid",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 5.69,
+      "raw_output": "{\"case_id\":\"etw_pid\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":\"B\"},\"reasoning\":\"new.bin fue escrito a las 12:00:04.310 por PID 4380 con process_start_key B92 (updater.exe), tras ProcessStop de A17 a las 12:00:04.000. El PID 4380 se reutilizó, por lo que correlacionar solo por PID atribuiría la escritura al proceso incorrecto; añadir process_start_key desambigua instancias.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "etw_pid",
+        "answers": {
+          "q1": "B",
+          "q2": "C",
+          "q3": "B"
+        },
+        "reasoning": "new.bin fue escrito a las 12:00:04.310 por PID 4380 con process_start_key B92 (updater.exe), tras ProcessStop de A17 a las 12:00:04.000. El PID 4380 se reutilizó, por lo que correlacionar solo por PID atribuiría la escritura al proceso incorrecto; añadir process_start_key desambigua instancias."
+      }
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 5.91,
+      "raw_output": "{\"case_id\":\"plugin_lifetime\",\"answers\":{\"q1\":\"B\",\"q2\":\"A\",\"q3\":\"A\"},\"reasoning\":\"t3 descarga el DLL dejando registry.callback como puntero colgante a memoria desmapeada (q1=B). La solución correcta es mantener una referencia al módulo mientras el callback pueda invocarse y retirarlo antes de FreeLibrary (q2=A). t4 indica que el rango puede reutilizarse por otro módulo, por lo que la dirección antigua a veces apunta a código válido pero distinto en lugar de provocar AV (q3=A).\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "plugin_lifetime",
+        "answers": {
+          "q1": "B",
+          "q2": "A",
+          "q3": "A"
+        },
+        "reasoning": "t3 descarga el DLL dejando registry.callback como puntero colgante a memoria desmapeada (q1=B). La solución correcta es mantener una referencia al módulo mientras el callback pueda invocarse y retirarlo antes de FreeLibrary (q2=A). t4 indica que el rango puede reutilizarse por otro módulo, por lo que la dirección antigua a veces apunta a código válido pero distinto en lugar de provocar AV (q3=A)."
+      }
+    },
+    {
+      "case_id": "x86_stack",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 4.95,
+      "raw_output": "{\"case_id\":\"x86_stack\",\"answers\":{\"q1\":\"0x10\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"ret 10h retira 16 bytes de argumentos tras el return address (callee-cleanup); el caller no hace add esp,10h. Patrón consistente con stdcall, pero asm manual o convenciones custom pueden replicarlo.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "x86_stack",
+        "answers": {
+          "q1": "0x10",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "ret 10h retira 16 bytes de argumentos tras el return address (callee-cleanup); el caller no hace add esp,10h. Patrón consistente con stdcall, pero asm manual o convenciones custom pueden replicarlo."
+      }
+    },
+    {
+      "case_id": "rip_relative",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 6.67,
+      "raw_output": "Build 1: RIP after instruction = 0x180005127, disp = 0xFFFFF9D9 (-0x627), target = 0x180005127 - 0x627 = 0x180004B00.\n\nBuild 2: RIP after instruction = 0x190006317, disp = 0x7E9, target = 0x190006B00. RVA = 0x6B00.\n\n{\"case_id\":\"rip_relative\",\"answers\":{\"q1\":\"0x180004B00\",\"q2\":\"0x6B00\",\"q3\":\"B\"},\"reasoning\":\"Build1: 0x80005127+(-0x627)=0x180004B00. Build2: 0x90006317+0x7E9=0x190006B00, RVA=0x6B00. El disp32 cambia entre builds por relocalización/layout; opcode y REX permanecen, por eso los 4 bytes tras 48 8B 05 deben ser comodín.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "rip_relative",
+        "answers": {
+          "q1": "0x180004B00",
+          "q2": "0x6B00",
+          "q3": "B"
+        },
+        "reasoning": "Build1: 0x80005127+(-0x627)=0x180004B00. Build2: 0x90006317+0x7E9=0x190006B00, RVA=0x6B00. El disp32 cambia entre builds por relocalización/layout; opcode y REX permanecen, por eso los 4 bytes tras 48 8B 05 deben ser comodín."
+      }
+    },
+    {
+      "case_id": "xor_config",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 14.14,
+      "raw_output": "Key = 0x5A, length = 0x13 = 19. Payload 19 bytes XOR 0x5A:\n17^5A=4D(M), 15^5A=4F(O), 1E^5A=44(D), 1F^5A=45(E), 67^5A=3D(=), 09^5A=53(S), 1B^5A=41(A), 1C^5A=46(F), 1F^5A=45(E), 61^5A=3B(;), 0A^5A=50(P), 15^5A=4F(O), 08^5A=52(R), 0E^5A=54(T), 67^5A=3D(=), 62^5A=38(8), 6E^5A=34(4), 6E^5A=34(4), 69^5A=33(3)\n\n= \"MODE=SAFE;PORT=8443\"\n\n{\"case_id\":\"xor_config\",\"answers\":{\"q1\":\"A\",\"q2\":\"0x5A\",\"q3\":\"A\"},\"reasoning\":\"Header XCFG, key=0x5A, len=0x13=19. XOR payload yields 'MODE=SAFE;PORT=8443'. Format specifies explicit length with no NUL terminator.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "xor_config",
+        "answers": {
+          "q1": "A",
+          "q2": "0x5A",
+          "q3": "A"
+        },
+        "reasoning": "Header XCFG, key=0x5A, len=0x13=19. XOR payload yields 'MODE=SAFE;PORT=8443'. Format specifies explicit length with no NUL terminator."
+      }
+    },
+    {
+      "case_id": "com_activation",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 8.14,
+      "raw_output": "{\"case_id\":\"com_activation\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":[\"A\",\"B\",\"C\"]},\"reasoning\":\"0x80010106 = RPC_E_CHANGED_MODE: el hilo UI ya se inicializó como STA y el segundo CoInitializeEx con MTA falla. Un proceso x86 no puede cargar un DLL PE32+ AMD64 in-process; SysWOW64 no convierte arquitectura (de hecho SysWOW64 aloja binarios de 32 bits). Reparaciones válidas: (A) usar un único modelo de apartamento coherente para el fallo de hilo, (B) proveer un in-proc x86 o (C) usar un servidor out-of-process x64 con marshaling para el fallo de arquitectura. (D) es incorrecta.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "com_activation",
+        "answers": {
+          "q1": "B",
+          "q2": "C",
+          "q3": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "reasoning": "0x80010106 = RPC_E_CHANGED_MODE: el hilo UI ya se inicializó como STA y el segundo CoInitializeEx con MTA falla. Un proceso x86 no puede cargar un DLL PE32+ AMD64 in-process; SysWOW64 no convierte arquitectura (de hecho SysWOW64 aloja binarios de 32 bits). Reparaciones válidas: (A) usar un único modelo de apartamento coherente para el fallo de hilo, (B) proveer un in-proc x86 o (C) usar un servidor out-of-process x64 con marshaling para el fallo de arquitectura. (D) es incorrecta."
+      }
+    },
+    {
+      "case_id": "aob_versions",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 7.39,
+      "raw_output": "{\"case_id\":\"aob_versions\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"B\"],\"q3\":\"B\"},\"reasoning\":\"The non-target block in Build B differs at 8B 48 08 vs 8B 50 08 and 85 C9 vs 85 D2, so keeping 8B 48 08 85 C9 as stable tail bytes discriminates it; disp32 and short jz offset vary between target builds (09→0C) and must be wildcarded. Pattern A preserves stable opcodes and the discriminating tail while wildcarding only the volatile disp32 and jz displacement. Post-scan, verify uniqueness, instruction boundaries, and resolve the RIP-relative target semantically.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "aob_versions",
+        "answers": {
+          "q1": "A",
+          "q2": [
+            "A",
+            "B"
+          ],
+          "q3": "B"
+        },
+        "reasoning": "The non-target block in Build B differs at 8B 48 08 vs 8B 50 08 and 85 C9 vs 85 D2, so keeping 8B 48 08 85 C9 as stable tail bytes discriminates it; disp32 and short jz offset vary between target builds (09→0C) and must be wildcarded. Pattern A preserves stable opcodes and the discriminating tail while wildcarding only the volatile disp32 and jz displacement. Post-scan, verify uniqueness, instruction boundaries, and resolve the RIP-relative target semantically."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "pe_rva",
+      "answers": {
+        "q1": "0x680",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": ".rdata: VA=0x2000, RP=0x600, RS=0x200, VS=0x300. RVA 0x2080 → 0x600+0x80=0x680. RVA 0x2250 está dentro de VS pero más allá de RS (0x200), por lo que es cola virtual sin bytes en disco. ImageBase=0x140000000 + EP RVA 0x1000 = 0x140001000."
+    },
+    {
+      "case_id": "pe_reloc",
+      "answers": {
+        "q1": "0x0000000040000000",
+        "q2": "B",
+        "q3": "0x40000000"
+      },
+      "reasoning": "ImageBase en header PE = 0x140000000 (offset 0xB0). Carga real 0x180000000 → delta = 0x40000000. .reloc en file 0x800: PageRVA=0x2000, BlockSize=0x0C, entrada 0xA028 = tipo 0xA (IMAGE_REL_BASED_DIR64) + offset 0x028 → RVA 0x2028. QWORD en file 0x228 (RVA 0x2028) es 0x0000000000000000; tras sumar el delta queda 0x0000000040000000."
+    },
+    {
+      "case_id": "abi_x64",
+      "answers": {
+        "q1": "0x55",
+        "q2": "B",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "At entry, [rsp]=return addr (7ff6`21302234). [rsp+8..+0x20] are the 4 shadow space slots for RCX/RDX/R8/R9. Stack args start at [rsp+0x28]: e=0x55, [rsp+0x30]=f=0x66. RCX=0x11=a. D is false because [rsp+8] is caller-provided shadow space, not guaranteed to hold a until the callee spills."
+    },
+    {
+      "case_id": "crash_av",
+      "answers": {
+        "q1": "A",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "Parameter[0]=0 indica lectura; Parameter[1]=0x18 es la dirección. La instrucción mov rcx,[rax+18h] con rax=0 confirma lectura en 0x18 por deref de NULL. Causa: get_optional_context devolvió NULL (rax=0), por lo que debe comprobarse rax/retorno. Fix semántico: validar ctx antes de usar ctx->next."
+    },
+    {
+      "case_id": "wow64_view",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "WOW64 redirige System32 a SysWOW64 para x86; Sysnative es alias que evita la redirección. KEY_WOW64_64KEY abre la vista x64 del registro. A y B explican las discrepancias observadas; C es falso (un x86 no puede cargar DLL x64); D no se prueba (el x64 sí lo abre)."
+    },
+    {
+      "case_id": "unwind_x64",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "RtlLookupFunctionEntry devuelve NULL y la región RX no está en ninguna .pdata, así que el walker no puede deshacer push rbx + sub rsp,30h y trata el frame como leaf (q1=B). Para código generado dinámicamente se registra una RUNTIME_FUNCTION vía RtlAddFunctionTable (q2=A). Los UNWIND_CODEs deben describir las operaciones del prólogo que alteran la pila/no volátiles: PUSH_NONVOL de RBX y ALLOC_SMALL de 0x30 (q3=A,B); los NOP no afectan y el GUID del PDB no es parte del unwind."
+    },
+    {
+      "case_id": "symbols_pdb",
+      "answers": {
+        "q1": "0x71A0",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "RIP 00007ffb`400071A0 - base 00007ffb`40000000 = RVA 0x71A0. PDB cargado tiene Age 2 vs módulo Age 3: GUID+Age deben coincidir, por lo que los símbolos no son válidos (mismatched confirmado por !lmi). La atribución debe basarse en el RVA y el desensamblado real del binario cargado, no en nombres del PDB desajustado."
+    },
+    {
+      "case_id": "loader_lock",
+      "answers": {
+        "q1": "B",
+        "q2": "B",
+        "q3": "A"
+      },
+      "reasoning": "Thread 12 mantiene el loader lock en DllMain y espera worker_ready; Thread 18 fue creado pero está bloqueado esperando DLL_THREAD_ATTACH, que no puede ejecutarse hasta que DllMain retorne: deadlock clásico del loader. La solución es sacar la sincronización a una función Init post-LoadLibrary. La existencia de Thread 18 en LdrpCallInitRoutine prueba que CreateThread tuvo éxito."
+    },
+    {
+      "case_id": "etw_pid",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": "B"
+      },
+      "reasoning": "new.bin fue escrito a las 12:00:04.310 por PID 4380 con process_start_key B92 (updater.exe), tras ProcessStop de A17 a las 12:00:04.000. El PID 4380 se reutilizó, por lo que correlacionar solo por PID atribuiría la escritura al proceso incorrecto; añadir process_start_key desambigua instancias."
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": "A"
+      },
+      "reasoning": "t3 descarga el DLL dejando registry.callback como puntero colgante a memoria desmapeada (q1=B). La solución correcta es mantener una referencia al módulo mientras el callback pueda invocarse y retirarlo antes de FreeLibrary (q2=A). t4 indica que el rango puede reutilizarse por otro módulo, por lo que la dirección antigua a veces apunta a código válido pero distinto en lugar de provocar AV (q3=A)."
+    },
+    {
+      "case_id": "x86_stack",
+      "answers": {
+        "q1": "0x10",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "ret 10h retira 16 bytes de argumentos tras el return address (callee-cleanup); el caller no hace add esp,10h. Patrón consistente con stdcall, pero asm manual o convenciones custom pueden replicarlo."
+    },
+    {
+      "case_id": "rip_relative",
+      "answers": {
+        "q1": "0x180004B00",
+        "q2": "0x6B00",
+        "q3": "B"
+      },
+      "reasoning": "Build1: 0x80005127+(-0x627)=0x180004B00. Build2: 0x90006317+0x7E9=0x190006B00, RVA=0x6B00. El disp32 cambia entre builds por relocalización/layout; opcode y REX permanecen, por eso los 4 bytes tras 48 8B 05 deben ser comodín."
+    },
+    {
+      "case_id": "xor_config",
+      "answers": {
+        "q1": "A",
+        "q2": "0x5A",
+        "q3": "A"
+      },
+      "reasoning": "Header XCFG, key=0x5A, len=0x13=19. XOR payload yields 'MODE=SAFE;PORT=8443'. Format specifies explicit length with no NUL terminator."
+    },
+    {
+      "case_id": "com_activation",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "0x80010106 = RPC_E_CHANGED_MODE: el hilo UI ya se inicializó como STA y el segundo CoInitializeEx con MTA falla. Un proceso x86 no puede cargar un DLL PE32+ AMD64 in-process; SysWOW64 no convierte arquitectura (de hecho SysWOW64 aloja binarios de 32 bits). Reparaciones válidas: (A) usar un único modelo de apartamento coherente para el fallo de hilo, (B) proveer un in-proc x86 o (C) usar un servidor out-of-process x64 con marshaling para el fallo de arquitectura. (D) es incorrecta."
+    },
+    {
+      "case_id": "aob_versions",
+      "answers": {
+        "q1": "A",
+        "q2": [
+          "A",
+          "B"
+        ],
+        "q3": "B"
+      },
+      "reasoning": "The non-target block in Build B differs at 8B 48 08 vs 8B 50 08 and 85 C9 vs 85 D2, so keeping 8B 48 08 85 C9 as stable tail bytes discriminates it; disp32 and short jz offset vary between target builds (09→0C) and must be wildcarded. Pattern A preserves stable opcodes and the discriminating tail while wildcarding only the volatile disp32 and jz displacement. Post-scan, verify uniqueness, instruction boundaries, and resolve the RIP-relative target semantically."
+    }
+  ]
+}

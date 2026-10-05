@@ -1,0 +1,44 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO crash_av: Access violation de lectura
+Una DLL falla tras recibir un contexto opcional. Distingue el tipo de acceso y el dato que falta antes de proponer una reparación.
+
+--- ARTEFACTO artifacts/crash_av/dump.txt ---
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 00007ff6`51001a42 (sample!ParseNode+0x32)
+ExceptionCode: c0000005 (Access violation)
+NumberParameters: 2
+Parameter[0]: 0000000000000000
+Parameter[1]: 0000000000000018
+
+CONTEXT:  (.ecxr)
+rax=0000000000000000 rcx=000001df3b202100
+rip=00007ff651001a42 rsp=000000d200b0f870
+sample!ParseNode+0x32:
+00007ff6`51001a42 488b4818 mov rcx,qword ptr [rax+18h]
+00007ff6`51001a46 4885c9   test rcx,rcx
+
+Pseudo source reconstruido: ctx = get_optional_context(node);
+                          use(ctx->next);
+
+
+q1 [single]: ¿Qué operación produjo la excepción?
+  A. Lectura de 0x18
+  B. Escritura en 0x18
+  C. Ejecución en 0x18
+  D. Lectura de 0x0
+
+q2 [single]: ¿Qué valor debe comprobarse primero al investigar la causa?
+  A. RCX tras la instrucción
+  B. RAX y el retorno de get_optional_context
+  C. El byte en RIP+4
+  D. El tamaño de la shadow space
+
+q3 [single]: ¿Qué corrección preserva mejor la semántica descrita?
+  A. Sustituir la instrucción por NOP siempre
+  B. Comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto
+  C. Cambiar la base preferida de la imagen
+  D. Ignorar todas las excepciones c0000005

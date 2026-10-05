@@ -1,0 +1,229 @@
+{
+  "benchmark_version": "3.0",
+  "started_at": "2026-10-04T14:00:19.506949+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "hard_pipeline",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 91.5,
+      "raw_output": "All match. Now build the DSL program:\n\nSteps:\n1. r0 = xor(x, K1)\n2. r1 = rol(r0, 13)\n3. r2 = mul(K2, y)\n4. r3 = add(r1, r2)\n5. r4 = add(r3, K3)       # r4 = r9\n6. r5 = xor(x, y)         # low-byte test only needs bit 5\n7. r6 = and(r5, 0x20)     # cond\n8. branch A: r7 = xor(r4, K4); r8 = rol(r7,17)\n9. branch B: r9 = add(r4, K5); r10 = ror(r9, 9)\n10. r11 = sel(cond=r6, a=r8, b=r10)\n11. r12 = add(x, y)\n12. r13 = mul(r12, K6)\n13. r14 = xor(r13, r11)\nreturn r14\n\nq2: RVA = 0x1100\nq3: 0x73E9A26282AC1611\nq4: 0x20\nq5: 0xc2b2ae3d27d4eb4f\n\n{\"case_id\":\"hard_pipeline\",\"answers\":{\"q1\":{\"steps\":[{\"dst\":\"r0\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"0xd6e8feb86659fd93\"},{\"dst\":\"r1\",\"op\":\"rol\",\"a\":\"r0\",\"bits\":13},{\"dst\":\"r2\",\"op\":\"mul\",\"a\":\"0x9e3779b185ebca87\",\"b\":\"y\"},{\"dst\":\"r3\",\"op\":\"add\",\"a\":\"r1\",\"b\":\"r2\"},{\"dst\":\"r4\",\"op\":\"add\",\"a\":\"r3\",\"b\":\"0xa0761d6478bd642f\"},{\"dst\":\"r5\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"y\"},{\"dst\":\"r6\",\"op\":\"and\",\"a\":\"r5\",\"b\":\"0x20\"},{\"dst\":\"r7\",\"op\":\"xor\",\"a\":\"r4\",\"b\":\"0xe7037ed1a0b428db\"},{\"dst\":\"r8\",\"op\":\"rol\",\"a\":\"r7\",\"bits\":17},{\"dst\":\"r9\",\"op\":\"add\",\"a\":\"r4\",\"b\":\"0x8ebc6af09c88c6e3\"},{\"dst\":\"r10\",\"op\":\"ror\",\"a\":\"r9\",\"bits\":9},{\"dst\":\"r11\",\"op\":\"sel\",\"cond\":\"r6\",\"a\":\"r8\",\"b\":\"r10\"},{\"dst\":\"r12\",\"op\":\"add\",\"a\":\"x\",\"b\":\"y\"},{\"dst\":\"r13\",\"op\":\"mul\",\"a\":\"r12\",\"b\":\"0xc2b2ae3d27d4eb4f\"},{\"dst\":\"r14\",\"op\":\"xor\",\"a\":\"r13\",\"b\":\"r11\"}],\"return\":\"r14\"},\"q2\":\"0x1100\",\"q3\":\"0x73E9A26282AC1611\",\"q4\":\"0x20\",\"q5\":\"0xc2b2ae3d27d4eb4f\"},\"reasoning\":\"mix_payload en RVA 0x1100: r9=K3+rol(K1^x,13)+K2*y; si bit 5 de (x^y)&0xff: rax=rol(K4^r9,17), si no rax=ror(K5+r9,9); retorna (x+y)*K6 ^ rax. Constantes en .data@0x22000: K1=0xd6e8feb86659fd93, K2=0x9e3779b185ebca87, K3=0xa0761d6478bd642f, K4=0xe7037ed1a0b428db, K5=0x8ebc6af09c88c6e3, K6=0xc2b2ae3d27d4eb4f. Verificado contra oráculo en 4 pares incluido (0x0123...,0xFEDC...)->0x73E9A26282AC1611.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_pipeline",
+        "answers": {
+          "q1": {
+            "steps": [
+              {
+                "dst": "r0",
+                "op": "xor",
+                "a": "x",
+                "b": "0xd6e8feb86659fd93"
+              },
+              {
+                "dst": "r1",
+                "op": "rol",
+                "a": "r0",
+                "bits": 13
+              },
+              {
+                "dst": "r2",
+                "op": "mul",
+                "a": "0x9e3779b185ebca87",
+                "b": "y"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "r1",
+                "b": "r2"
+              },
+              {
+                "dst": "r4",
+                "op": "add",
+                "a": "r3",
+                "b": "0xa0761d6478bd642f"
+              },
+              {
+                "dst": "r5",
+                "op": "xor",
+                "a": "x",
+                "b": "y"
+              },
+              {
+                "dst": "r6",
+                "op": "and",
+                "a": "r5",
+                "b": "0x20"
+              },
+              {
+                "dst": "r7",
+                "op": "xor",
+                "a": "r4",
+                "b": "0xe7037ed1a0b428db"
+              },
+              {
+                "dst": "r8",
+                "op": "rol",
+                "a": "r7",
+                "bits": 17
+              },
+              {
+                "dst": "r9",
+                "op": "add",
+                "a": "r4",
+                "b": "0x8ebc6af09c88c6e3"
+              },
+              {
+                "dst": "r10",
+                "op": "ror",
+                "a": "r9",
+                "bits": 9
+              },
+              {
+                "dst": "r11",
+                "op": "sel",
+                "cond": "r6",
+                "a": "r8",
+                "b": "r10"
+              },
+              {
+                "dst": "r12",
+                "op": "add",
+                "a": "x",
+                "b": "y"
+              },
+              {
+                "dst": "r13",
+                "op": "mul",
+                "a": "r12",
+                "b": "0xc2b2ae3d27d4eb4f"
+              },
+              {
+                "dst": "r14",
+                "op": "xor",
+                "a": "r13",
+                "b": "r11"
+              }
+            ],
+            "return": "r14"
+          },
+          "q2": "0x1100",
+          "q3": "0x73E9A26282AC1611",
+          "q4": "0x20",
+          "q5": "0xc2b2ae3d27d4eb4f"
+        },
+        "reasoning": "mix_payload en RVA 0x1100: r9=K3+rol(K1^x,13)+K2*y; si bit 5 de (x^y)&0xff: rax=rol(K4^r9,17), si no rax=ror(K5+r9,9); retorna (x+y)*K6 ^ rax. Constantes en .data@0x22000: K1=0xd6e8feb86659fd93, K2=0x9e3779b185ebca87, K3=0xa0761d6478bd642f, K4=0xe7037ed1a0b428db, K5=0x8ebc6af09c88c6e3, K6=0xc2b2ae3d27d4eb4f. Verificado contra oráculo en 4 pares incluido (0x0123...,0xFEDC...)->0x73E9A26282AC1611."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_pipeline",
+      "answers": {
+        "q1": {
+          "steps": [
+            {
+              "dst": "r0",
+              "op": "xor",
+              "a": "x",
+              "b": "0xd6e8feb86659fd93"
+            },
+            {
+              "dst": "r1",
+              "op": "rol",
+              "a": "r0",
+              "bits": 13
+            },
+            {
+              "dst": "r2",
+              "op": "mul",
+              "a": "0x9e3779b185ebca87",
+              "b": "y"
+            },
+            {
+              "dst": "r3",
+              "op": "add",
+              "a": "r1",
+              "b": "r2"
+            },
+            {
+              "dst": "r4",
+              "op": "add",
+              "a": "r3",
+              "b": "0xa0761d6478bd642f"
+            },
+            {
+              "dst": "r5",
+              "op": "xor",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r6",
+              "op": "and",
+              "a": "r5",
+              "b": "0x20"
+            },
+            {
+              "dst": "r7",
+              "op": "xor",
+              "a": "r4",
+              "b": "0xe7037ed1a0b428db"
+            },
+            {
+              "dst": "r8",
+              "op": "rol",
+              "a": "r7",
+              "bits": 17
+            },
+            {
+              "dst": "r9",
+              "op": "add",
+              "a": "r4",
+              "b": "0x8ebc6af09c88c6e3"
+            },
+            {
+              "dst": "r10",
+              "op": "ror",
+              "a": "r9",
+              "bits": 9
+            },
+            {
+              "dst": "r11",
+              "op": "sel",
+              "cond": "r6",
+              "a": "r8",
+              "b": "r10"
+            },
+            {
+              "dst": "r12",
+              "op": "add",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r13",
+              "op": "mul",
+              "a": "r12",
+              "b": "0xc2b2ae3d27d4eb4f"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r13",
+              "b": "r11"
+            }
+          ],
+          "return": "r14"
+        },
+        "q2": "0x1100",
+        "q3": "0x73E9A26282AC1611",
+        "q4": "0x20",
+        "q5": "0xc2b2ae3d27d4eb4f"
+      },
+      "reasoning": "mix_payload en RVA 0x1100: r9=K3+rol(K1^x,13)+K2*y; si bit 5 de (x^y)&0xff: rax=rol(K4^r9,17), si no rax=ror(K5+r9,9); retorna (x+y)*K6 ^ rax. Constantes en .data@0x22000: K1=0xd6e8feb86659fd93, K2=0x9e3779b185ebca87, K3=0xa0761d6478bd642f, K4=0xe7037ed1a0b428db, K5=0x8ebc6af09c88c6e3, K6=0xc2b2ae3d27d4eb4f. Verificado contra oráculo en 4 pares incluido (0x0123...,0xFEDC...)->0x73E9A26282AC1611."
+    }
+  ]
+}

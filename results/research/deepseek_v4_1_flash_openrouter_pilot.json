@@ -1,0 +1,15 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash",
+  "timeout_seconds": 300,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 300.05,
+      "parse_error": "timeout",
+      "stdout": "",
+      "stderr": "\u001b[0m\n> build · deepseek/deepseek-v4.1-flash\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1073, limit=1200]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [limit=1200, offset=1835]\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"(?i)virtualalloc|writeprocess|createremotethread|openprocess|loadlibrary|createthread|ntwrite|ntread|queueuser|setwindowshook|shellexecute|createprocess|winExec|winexec|resumeThread|GetThreadContext|SetThreadContext|ZwMap|NtMap|section\"\u001b[90m in evidence.txt · 8 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"(?i)\\.wncry|wncry|decrypt|encrypt|aes|rc4|chacha|xor|bitcoin|ransom|mutex|service|regsvc|taskdl|taskse|@WanaDecryptor\"\u001b[90m in evidence.txt · 180 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"^[A-Z][A-Z0-9 _/()-]+$\"\u001b[90m in evidence.txt · 0 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"(?i)http|\\.onion|user-agent|User-Agent|InternetOpen|POST|GET |cmd|powershell|\\.exe|\\.dll|\\\\\\\\|cmd\\.exe\"\u001b[90m in evidence.txt · 17 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"(?i)STRINGS|DISASSEMBLY|SECTION|IMPORT|ENTROPY|DECODED|BASE64|C2|NOTE|INDICATOR\"\u001b[90m in evidence.txt · 372 matches\u001b[0m\n\u001b[0m\n\u001b[0m$ \u001b[0mwc -l \"C:\\Users\\el_en\\AppData\\Local\\Temp\\agentre_static_vg1eyvnc\\evidence.txt\"\n9295 C:\\Users\\el_en\\AppData\\Local\\Temp\\agentre_static_vg1eyvnc\\evidence.txt\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [limit=400, offset=8900]\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"call 0x14000156b|call 0x1400014c3|call 0x14000179e|call 0x140001a52|call 0x1400015da|call 0x1400016a1|call 0x140001707|call 0x140001c8d|call 0x140001f31|call 0x1400020f7|call 0x1400021db|call 0x140001daf|call 0x1400022cb|call 0x140002990\"\u001b[90m in evidence.txt · 14 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"InternetOpen|InternetOpenUrl|socket|connect|send|htons|inet_addr|CreateService|StartService|OpenSCManager|OpenService|CreateMutex\"\u001b[90m in evidence.txt · 17 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"(?i)aesenc|aesdec|aesimc|aeskeygen|pclmul|pshufb|crc32|sha1|sha256|md5|chacha|salsa|rc4\"\u001b[90m in evidence.txt · 0 matches\u001b[0m\n"
+    }
+  ]
+}

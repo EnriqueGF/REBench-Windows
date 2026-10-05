@@ -1,0 +1,10 @@
+Proceso: reporthost.exe (x86), Windows x64
+Hilo UI: CoInitializeEx(NULL, COINIT_APARTMENTTHREADED) -> S_OK
+Hilo UI: CoInitializeEx(NULL, COINIT_MULTITHREADED) -> 0x80010106
+
+Registro comprobado en vista x64:
+HKCR\CLSID\{02C92310-8408-4B39-9C1B-11C822982501}\InprocServer32
+  (Default) = C:\Program Files\Contoso\ReportCom64.dll (PE32+, AMD64)
+
+El cliente solicita CLSCTX_INPROC_SERVER. No existe build x86 del DLL.
+El equipo propone copiar ReportCom64.dll a SysWOW64 y reintentar.

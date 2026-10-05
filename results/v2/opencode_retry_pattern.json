@@ -1,0 +1,40 @@
+{
+  "benchmark_version": "4.0",
+  "started_at": "2026-10-04T15:05:30.831663+00:00",
+  "profile": "opencode",
+  "results": [
+    {
+      "case_id": "hard_pattern",
+      "profile": "opencode",
+      "resumed_session": "ses_ef8c099bdffe3eRZjWv8owjbM9",
+      "exit_code": 0,
+      "seconds": 279.95,
+      "raw_output": "{\"case_id\":\"hard_pattern\",\"answers\":{\"q1\":\"0x1070\",\"q2\":\"0x1080\",\"q3\":\"0x1090\",\"q4\":\"A\",\"q5\":\"0x3091c972\"},\"reasoning\":\"En cada .text solo dos rutinas leen el campo de modo (8B 81 A8 02 00 00 = mov eax,[rcx+0x2A8]). La de 0x1060 evoluciona entre builds (v1: imul/xor; v2 añade lea/xor/imul; v3 añade más mezcla) y es la de auditoría; la rutina viva mantiene estructura estable con claves por build: v1 0x1070 (xor 0xa35c7e19; add 0x174f2a03; ror 29), v2 0x1080 (xor 0xc1190b7f; add 0x29ac5d11; ror 29), v3 0x1090 (xor 0x76e2845d; sub 0x1ec498f7; ror 29), cada una terminada en C1 C8 1D C3 y con un único caller en main (que combina viva^auditoría^helper antes de imprimir con %08X). Prueba de patrones sobre las tres secciones .text: A = 1 match en cada build (RVA 0x1070/0x1080/0x1090); B = 2 matches (toma también la de auditoría); C solo calza en v1 (inmediatos concretos de v1); D falla en v3 porque usa sub (2D) en lugar de add (05). Por eso A es la única firma con exactamente 1 ocurrencia en los tres .text. q5: (0x12345678 xor 0x76e2845d)=0x64d6d225; -0x1ec498f7 mod 2^32=0x4612392e; ror32 29 (= rol 3) = 0x3091c972.\"}\n",
+      "stderr": "\u001b[0m\n> build · glm-5.3-flash-abliterated\n\u001b[0m\n\u001b[0m$ \u001b[0mpython -c \"\nx = 0x12345678 ^ 0x76e2845d\nx = (x - 0x1ec498f7) & 0xFFFFFFFF\ndef ror32(v,n): return ((v>>n)|(v<<(32-n)))&0xFFFFFFFF\nprint(hex(x), hex(ror32(x,29)))\"\n0x4612392e 0x3091c972\n\u001b[0m\n\u001b[0m# \u001b[0mTodos\n[x] Parse PE headers and locate .text of the 3 builds\n[x] Find all code reading offset 0x2A8 and disassemble candidates\n[x] Distinguish live routine vs audit routine; get RVAs per build\n[x] Build AOB signature matching exactly once in all 3 .text\n[x] Compute live routine result for mode 0x12345678 (v3)\n\u001b[0m\n",
+      "submission": {
+        "case_id": "hard_pattern",
+        "answers": {
+          "q1": "0x1070",
+          "q2": "0x1080",
+          "q3": "0x1090",
+          "q4": "A",
+          "q5": "0x3091c972"
+        },
+        "reasoning": "En cada .text solo dos rutinas leen el campo de modo (8B 81 A8 02 00 00 = mov eax,[rcx+0x2A8]). La de 0x1060 evoluciona entre builds (v1: imul/xor; v2 añade lea/xor/imul; v3 añade más mezcla) y es la de auditoría; la rutina viva mantiene estructura estable con claves por build: v1 0x1070 (xor 0xa35c7e19; add 0x174f2a03; ror 29), v2 0x1080 (xor 0xc1190b7f; add 0x29ac5d11; ror 29), v3 0x1090 (xor 0x76e2845d; sub 0x1ec498f7; ror 29), cada una terminada en C1 C8 1D C3 y con un único caller en main (que combina viva^auditoría^helper antes de imprimir con %08X). Prueba de patrones sobre las tres secciones .text: A = 1 match en cada build (RVA 0x1070/0x1080/0x1090); B = 2 matches (toma también la de auditoría); C solo calza en v1 (inmediatos concretos de v1); D falla en v3 porque usa sub (2D) en lugar de add (05). Por eso A es la única firma con exactamente 1 ocurrencia en los tres .text. q5: (0x12345678 xor 0x76e2845d)=0x64d6d225; -0x1ec498f7 mod 2^32=0x4612392e; ror32 29 (= rol 3) = 0x3091c972."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_pattern",
+      "answers": {
+        "q1": "0x1070",
+        "q2": "0x1080",
+        "q3": "0x1090",
+        "q4": "A",
+        "q5": "0x3091c972"
+      },
+      "reasoning": "En cada .text solo dos rutinas leen el campo de modo (8B 81 A8 02 00 00 = mov eax,[rcx+0x2A8]). La de 0x1060 evoluciona entre builds (v1: imul/xor; v2 añade lea/xor/imul; v3 añade más mezcla) y es la de auditoría; la rutina viva mantiene estructura estable con claves por build: v1 0x1070 (xor 0xa35c7e19; add 0x174f2a03; ror 29), v2 0x1080 (xor 0xc1190b7f; add 0x29ac5d11; ror 29), v3 0x1090 (xor 0x76e2845d; sub 0x1ec498f7; ror 29), cada una terminada en C1 C8 1D C3 y con un único caller en main (que combina viva^auditoría^helper antes de imprimir con %08X). Prueba de patrones sobre las tres secciones .text: A = 1 match en cada build (RVA 0x1070/0x1080/0x1090); B = 2 matches (toma también la de auditoría); C solo calza en v1 (inmediatos concretos de v1); D falla en v3 porque usa sub (2D) en lugar de add (05). Por eso A es la única firma con exactamente 1 ocurrencia en los tres .text. q5: (0x12345678 xor 0x76e2845d)=0x64d6d225; -0x1ec498f7 mod 2^32=0x4612392e; ror32 29 (= rol 3) = 0x3091c972."
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "pe_rva": {
+    "prompt_sha256": "1aca90805cf91994d6d003d24bab9402eff16d4fa1f50e045ee56901af01514b",
+    "artifacts": {
+      "artifacts/pe64/sample_pe.bin": "98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65"
+    }
+  },
+  "pe_reloc": {
+    "prompt_sha256": "603bfa7f114e47c98891cc68bc3d9188d96f3bb5e9343d6810778a5362a1d32c",
+    "artifacts": {
+      "artifacts/pe64/sample_pe.bin": "98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65"
+    }
+  },
+  "abi_x64": {
+    "prompt_sha256": "0c4cc7231c917a7b2402c673aa675933e030afbfe6878281fbb96c5a9db7eed7",
+    "artifacts": {
+      "artifacts/abi_x64/registers.txt": "07eb3e688fc13eafa4fd0ad2361880ca976eaf243b64726b43ed45d0426933b3"
+    }
+  },
+  "crash_av": {
+    "prompt_sha256": "cb6750146c1527666ab91dd99bb5e47ba9a144ff16b5500d77cb3a92947850e5",
+    "artifacts": {
+      "artifacts/crash_av/dump.txt": "3813aac176d191923c9c9491c52946c1ca9fc33a741749e38d083095318b3c59"
+    }
+  },
+  "wow64_view": {
+    "prompt_sha256": "0b483704edf72d1f012fc8deb6abc050fe368a7e1d3dd1e3338e7dd9c2509b3d",
+    "artifacts": {
+      "artifacts/wow64_view/support.txt": "74060449ccab4628dc42c926535f154a118295627e657fc304174d2b775d7a17"
+    }
+  },
+  "unwind_x64": {
+    "prompt_sha256": "04a849d094dd1fe68015e92add9cca345707824382739fb29c6f34bd8515b17a",
+    "artifacts": {
+      "artifacts/unwind_x64/hook.txt": "674fbe8c79e6fbc1e6b72f7e1d4416d4d14c4225195e786ae8a63c60ceba14a9"
+    }
+  },
+  "symbols_pdb": {
+    "prompt_sha256": "32f5700057a8806db6042f991a381473aa027491cf1655474062f1c24f9dc09d",
+    "artifacts": {
+      "artifacts/symbols_pdb/symbols.txt": "93a64bf5ffc7c086c35e031c71e1e9f8d82d30068699470e9e5c275c8406f403"
+    }
+  },
+  "loader_lock": {
+    "prompt_sha256": "31ebe6dbde9a46c0d889ae72023784a8b80dcb604cc71a6fc4d37461def2285a",
+    "artifacts": {
+      "artifacts/loader_lock/threads.txt": "aa02518907cdfdb182b955a6b96cad7dd5a94ae81f2353416c80e1bd9abde46a"
+    }
+  },
+  "etw_pid": {
+    "prompt_sha256": "87f49436ad825f8f9dae89547352ce80ebab69bb9cbc2bb7560d505096692c44",
+    "artifacts": {
+      "artifacts/etw_pid/events.csv": "2ef88a59c03f1a994c46b082ce9158dbaf11f880c8016775ed91b0857dfc6d69"
+    }
+  },
+  "plugin_lifetime": {
+    "prompt_sha256": "ef988a934e00e4eed183709f76d49e32d7904c444903ce4e28aece78ba356941",
+    "artifacts": {
+      "artifacts/plugin_lifetime/timeline.txt": "c5e89e878c905fa35927d65dd0ed2020d91ce782f901628f995550f1eb0685ef"
+    }
+  },
+  "x86_stack": {
+    "prompt_sha256": "369e6cf87985e4761b7e6b439ca9c5b47f7de43ff97eecc3616a60fcb40f8d75",
+    "artifacts": {
+      "artifacts/x86_stack/disasm.txt": "396718a8e717282daa3e35e6e546e4c48ef2e203dc64eeba8262ec1599daa307"
+    }
+  },
+  "rip_relative": {
+    "prompt_sha256": "c6e96f20541e428e405f64957a6aa915de8b12d93eb014bf1f309eb1b50a30ef",
+    "artifacts": {
+      "artifacts/rip_relative/disasm.txt": "238c7aaa26c213e426494eef0294fd07df679133c66c3e97869167a6db9b818e"
+    }
+  },
+  "xor_config": {
+    "prompt_sha256": "dd454af71e2152bbb2a4ff5ae9bdfac34c588ee1c2d5e6a419bdaa4eb2d31a85",
+    "artifacts": {
+      "artifacts/xor_config/format.txt": "26f995f28b889a6b642537857127349084ca2bf3cfe7c2b9f08268f358034fc9",
+      "artifacts/xor_config/config.dat": "f78da0582703c5790082b82849b134f1ac5cec5c77d409623c50210b3d68840d"
+    }
+  },
+  "com_activation": {
+    "prompt_sha256": "9ea7ae01067829c72db29e89208dc6c6ab42e49c315dee2a7fd151377dd447d5",
+    "artifacts": {
+      "artifacts/com_activation/com_trace.txt": "9a50707e9b5b50f5c5a2ea936b724eb61d0b605d8a4ea8a9d21d0fab5d8ee2be"
+    }
+  },
+  "aob_versions": {
+    "prompt_sha256": "ff0768522f49d69b26f89f2df7ba7a2e2e21a10c0f1e10c6e1bbc987e3be018e",
+    "artifacts": {
+      "artifacts/aob_versions/versions.txt": "f25cbb81301177b146227097db684e7076cca4c0c529e1fabcbdea911e2f8432"
+    }
+  },
+  "hard_license": {
+    "prompt_sha256": "841789214bfcfee058fc333e60a990be2cb3ef63921aafe4c7236a60563929d7",
+    "artifacts": {
+      "artifacts/hard_license/brief.txt": "5d3d0c1df5a41e50895c1d66681e30083511a328dfd2c72c23fa40fae89149e6",
+      "artifacts/hard_license/license_probe.exe": "9fef03b6e987bf35de14a452e466ccb1e3257e14c3442166999301ff59704cf1"
+    }
+  },
+  "hard_vm": {
+    "prompt_sha256": "fb0f738281e803191aa81ba5a168a1deb413a6f8a884d7e1baf4136848ee5e17",
+    "artifacts": {
+      "artifacts/hard_vm/brief.txt": "2a5f76e36955edf80286aef78d133ea0aa366dda342cf0eb23e7dc79adaf59b3",
+      "artifacts/hard_vm/vm_guard.exe": "0517e54fe42ab92e15c78c4f084d92b68214f4207d289d2955d771c9ff0ab5b1"
+    }
+  },
+  "hard_pattern": {
+    "prompt_sha256": "c8c5393806a2420e4ec2658ea97ab0ba72f220175e7bd13497fd49d20ff3c520",
+    "artifacts": {
+      "artifacts/hard_pattern/brief.txt": "24f28f7e0f30fd15b09bcf0ab875361599e987e9f305aee92061f767608356b8",
+      "artifacts/hard_pattern/layout_v1.exe": "2fe7a82393a1ae24f756d10777f93744c2948d107c3a15020995378334b706e1",
+      "artifacts/hard_pattern/layout_v2.exe": "f9d6c2b61c736d5d7f7584fc6e56ed864479113458e63ad66ea7defa2e79b863",
+      "artifacts/hard_pattern/layout_v3.exe": "7fa003addb45b6021dc19e8853a96c505300fbc01b1a43699a04cef33a83cc36"
+    }
+  },
+  "hard_tls_state": {
+    "prompt_sha256": "a23d9f422c375a395c1ad61044614efbcdec578f04c30bb68f84a533a50e0c7d",
+    "artifacts": {
+      "artifacts/hard_tls_state/brief.txt": "10998a8b083b4a77e205ab866ab637661fe915c5a5166d69b879d66904d4c8b6",
+      "artifacts/hard_tls_state/dsl_tls.txt": "26fd450150e020081a1635c19b20a9d5ceea58304b4202270d34dbe2620298e2",
+      "artifacts/hard_tls/tls_oracle.exe": "a4876af70a7d4b2f9671c39356ec63b7791aed09107d7150e2e3098bcc3eeccf"
+    }
+  },
+  "hard_pipeline": {
+    "prompt_sha256": "9b086bb6ce7d7454a42b24b49bd036b3a4887b22aba5d7751eadea1dcaa25f33",
+    "artifacts": {
+      "artifacts/hard_pipeline/brief.txt": "f21fdffb0ae63d6eaf4c9d8d313cd95a6f989d3d08658ae50210a20f52b0ab02",
+      "artifacts/hard_pipeline/dsl.txt": "6799194c286c5098258d939b33a5ca110d684d754bf11f8bcf0e466f4f59557d",
+      "artifacts/hard_pipeline/mix_oracle.exe": "47dba733b336ae14ece65d8f2a342f663130e21cafc7f392ba20e3c93adccdb3"
+    }
+  },
+  "hard_pattern_open": {
+    "prompt_sha256": "0f0f247cbacbf8dc8ce2e7611295d8a986edf853c32e2e342475faf28d7cd4e1",
+    "artifacts": {
+      "artifacts/hard_pattern_open/brief.txt": "104b6256fcdc0c593682ce39dda047841d75ea63918aab3b890c898e752ebb58",
+      "artifacts/hard_pattern/layout_v1.exe": "2fe7a82393a1ae24f756d10777f93744c2948d107c3a15020995378334b706e1",
+      "artifacts/hard_pattern/layout_v2.exe": "f9d6c2b61c736d5d7f7584fc6e56ed864479113458e63ad66ea7defa2e79b863",
+      "artifacts/hard_pattern/layout_v3.exe": "7fa003addb45b6021dc19e8853a96c505300fbc01b1a43699a04cef33a83cc36"
+    }
+  }
+}

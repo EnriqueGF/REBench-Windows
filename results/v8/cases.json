@@ -1,0 +1,1255 @@
+{
+  "version": "8.0",
+  "language": "es",
+  "cases": [
+    {
+      "id": "pe_rva",
+      "title": "RVA frente a offset de archivo",
+      "category": "PE",
+      "difficulty": "media",
+      "track": "foundations",
+      "scenario": "Un analista recibe un PE64 mínimo y debe extraer una cadena y distinguir bytes presentes en disco de memoria inicializada por el loader. Examina las cabeceras y secciones del binario.",
+      "artifacts": [
+        "artifacts/pe64/sample_pe.bin"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "¿Cuál es el offset de archivo para RVA 0x2080? Responde en hexadecimal.",
+          "points": 1
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué ocurre con RVA 0x2250 al mapear esta imagen?",
+          "points": 1,
+          "options": {
+            "A": "Está dentro del archivo en offset 0x850.",
+            "B": "Cae en la cola virtual de .rdata y no tiene bytes propios en el archivo.",
+            "C": "Es un RVA de .reloc.",
+            "D": "Está fuera de SizeOfImage."
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Cuál es el punto de entrada expresado como VA preferida?",
+          "points": 1,
+          "options": {
+            "A": "0x140000400",
+            "B": "0x140001000",
+            "C": "0x140002000",
+            "D": "0x1000"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pe_reloc",
+      "title": "Relocación DIR64 bajo ASLR",
+      "category": "PE",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "La misma imagen se carga en 0x180000000. Reconstruye el parche que aplica el loader en la dirección cubierta por la tabla de relocaciones.",
+      "artifacts": [
+        "artifacts/pe64/sample_pe.bin"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "¿Qué valor QWORD queda en RVA 0x2028 tras aplicar la relocación?",
+          "points": 2
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué significa la entrada de relocación 0xA028?",
+          "points": 2,
+          "options": {
+            "A": "HIGHLOW en RVA 0xA028",
+            "B": "DIR64 en RVA 0x2028",
+            "C": "DIR64 en offset de archivo 0x28",
+            "D": "ABSOLUTE en RVA 0x2028"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "¿Cuál es el delta de carga aplicado?",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "id": "abi_x64",
+      "title": "Argumentos y shadow space",
+      "category": "ABI x64",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Has pausado una función Windows x64 justo al entrar, antes de su prólogo. Identifica los argumentos de una llamada mixta sin confundir shadow space y pila del llamador.",
+      "artifacts": [
+        "artifacts/abi_x64/registers.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "¿Cuál es el quinto argumento, e?",
+          "points": 2
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué representa [rsp+0x20] en este instante?",
+          "points": 2,
+          "options": {
+            "A": "Quinto argumento",
+            "B": "Cuarto slot de shadow space",
+            "C": "Dirección de retorno",
+            "D": "Sexto argumento"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "multi",
+          "prompt": "Selecciona las afirmaciones seguras.",
+          "points": 2,
+          "options": {
+            "A": "RCX contiene a.",
+            "B": "[rsp+0x28] contiene e.",
+            "C": "[rsp+0x30] contiene f.",
+            "D": "[rsp+0x08] está garantizado que contiene a."
+          }
+        }
+      ]
+    },
+    {
+      "id": "crash_av",
+      "title": "Access violation de lectura",
+      "category": "WinDbg",
+      "difficulty": "media",
+      "track": "foundations",
+      "scenario": "Una DLL falla tras recibir un contexto opcional. Distingue el tipo de acceso y el dato que falta antes de proponer una reparación.",
+      "artifacts": [
+        "artifacts/crash_av/dump.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Qué operación produjo la excepción?",
+          "points": 1,
+          "options": {
+            "A": "Lectura de 0x18",
+            "B": "Escritura en 0x18",
+            "C": "Ejecución en 0x18",
+            "D": "Lectura de 0x0"
+          }
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué valor debe comprobarse primero al investigar la causa?",
+          "points": 1,
+          "options": {
+            "A": "RCX tras la instrucción",
+            "B": "RAX y el retorno de get_optional_context",
+            "C": "El byte en RIP+4",
+            "D": "El tamaño de la shadow space"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Qué corrección preserva mejor la semántica descrita?",
+          "points": 1,
+          "options": {
+            "A": "Sustituir la instrucción por NOP siempre",
+            "B": "Comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto",
+            "C": "Cambiar la base preferida de la imagen",
+            "D": "Ignorar todas las excepciones c0000005"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wow64_view",
+      "title": "DLL aparentemente ausente",
+      "category": "WOW64",
+      "difficulty": "media",
+      "track": "foundations",
+      "scenario": "Una herramienta x86 falla al comprobar un DLL nativo y una clave de configuración en Windows x64. El informe de soporte compara resultados de procesos de distinta arquitectura.",
+      "artifacts": [
+        "artifacts/wow64_view/support.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Qué ruta permite al proceso x86 acceder al directorio System32 nativo?",
+          "points": 1,
+          "options": {
+            "A": "C:\\Windows\\SysWOW64",
+            "B": "C:\\Windows\\Sysnative",
+            "C": "C:\\Windows\\System32\\SysWOW64",
+            "D": "C:\\Windows\\WinSxS"
+          }
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué bandera permite abrir explícitamente la vista de registro x64 desde x86?",
+          "points": 1,
+          "options": {
+            "A": "KEY_WOW64_32KEY",
+            "B": "KEY_READ",
+            "C": "KEY_WOW64_64KEY",
+            "D": "REG_OPTION_VOLATILE"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "multi",
+          "prompt": "¿Qué conclusiones están sustentadas?",
+          "points": 1,
+          "options": {
+            "A": "La redirección de archivos puede explicar el ERROR_FILE_NOT_FOUND.",
+            "B": "Las vistas de registro separadas pueden explicar la diferencia de Version.",
+            "C": "El DLL nativo x64 podrá cargarse dentro del proceso x86 si se usa Sysnative.",
+            "D": "La ausencia observada desde x86 prueba que el DLL no existe en disco."
+          }
+        }
+      ]
+    },
+    {
+      "id": "unwind_x64",
+      "title": "Pila rota tras un hook",
+      "category": "Unwind",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Un plugin inserta un trampolín x64 en memoria ejecutable. Funciona en llamadas normales, pero un volcado tomado dentro del trampolín pierde frames al caminar la pila.",
+      "artifacts": [
+        "artifacts/unwind_x64/hook.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Por qué falla el unwind en +0x18?",
+          "points": 2,
+          "options": {
+            "A": "Una leaf function necesita siempre .pdata.",
+            "B": "No hay metadatos de unwind para deshacer push rbx y sub rsp,30h.",
+            "C": "RBX es volátil en Windows x64.",
+            "D": "Todo MEM_PRIVATE es ilegible para un depurador."
+          }
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué API corresponde a registrar dinámicamente una tabla de funciones para ese código?",
+          "points": 2,
+          "options": {
+            "A": "RtlAddFunctionTable",
+            "B": "VirtualProtect",
+            "C": "SetUnhandledExceptionFilter",
+            "D": "SymInitialize"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "multi",
+          "prompt": "¿Qué campos debe describir el unwind de ese prólogo?",
+          "points": 2,
+          "options": {
+            "A": "El guardado de RBX",
+            "B": "La asignación de 0x30 bytes de pila",
+            "C": "Cada instrucción NOP del cuerpo",
+            "D": "El GUID del PDB"
+          }
+        }
+      ]
+    },
+    {
+      "id": "symbols_pdb",
+      "title": "Nombre de función falso por PDB ajeno",
+      "category": "Símbolos",
+      "difficulty": "media",
+      "track": "foundations",
+      "scenario": "Dos builds de una DLL comparten nombre de archivo y una función se desplazó. Un informe usa símbolos de una build anterior y atribuye el fallo a una función que no está en el binario cargado.",
+      "artifacts": [
+        "artifacts/symbols_pdb/symbols.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "¿Cuál es el RVA del RIP?",
+          "points": 1
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Puede considerarse coincidente ese PDB solo porque coincide el GUID?",
+          "points": 1,
+          "options": {
+            "A": "Sí, Age no forma parte de la identidad.",
+            "B": "No; GUID y Age deben coincidir.",
+            "C": "Sí, si el nombre appcore.pdb coincide.",
+            "D": "No; los PDB nunca sirven con ASLR."
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Qué dato debe guiar la atribución hasta obtener símbolos correctos?",
+          "points": 1,
+          "options": {
+            "A": "El nombre de función del PDB Age 2",
+            "B": "El RVA y desensamblado del binario cargado",
+            "C": "Solo el timestamp del crash",
+            "D": "La ruta de la caché de PDB"
+          }
+        }
+      ]
+    },
+    {
+      "id": "loader_lock",
+      "title": "Bloqueo durante DllMain",
+      "category": "Loader",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Un DLL de telemetría deja colgada la aplicación durante LoadLibraryW. Hay dos hilos vivos y ninguno consume CPU.",
+      "artifacts": [
+        "artifacts/loader_lock/threads.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Cuál es la dependencia circular?",
+          "points": 2,
+          "options": {
+            "A": "WaitForSingleObject necesita un handle x86.",
+            "B": "DllMain espera al worker, cuyo arranque requiere que terminen las notificaciones serializadas del loader.",
+            "C": "CreateThread falla siempre desde DllMain.",
+            "D": "El evento worker_ready se resetea automáticamente antes de esperar."
+          }
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué cambio evita esta espera en el loader?",
+          "points": 2,
+          "options": {
+            "A": "Esperar menos tiempo dentro de DllMain.",
+            "B": "Mover inicio y sincronización del worker a una función Init explícita llamada tras LoadLibrary.",
+            "C": "Llamar LoadLibrary otra vez desde DllMain.",
+            "D": "Marcar worker_ready antes de crearlo y seguir asumiendo que inicializó."
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Qué observación descarta que CreateThread haya fallado?",
+          "points": 2,
+          "options": {
+            "A": "Thread 18 existe y espera el paso de inicialización del loader.",
+            "B": "Thread 12 está en LdrLoadDll.",
+            "C": "El evento es auto reset.",
+            "D": "La DLL tiene exports."
+          }
+        }
+      ]
+    },
+    {
+      "id": "etw_pid",
+      "title": "PID reciclado en telemetría",
+      "category": "ETW",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Un detector correlaciona una operación de archivo con un proceso usando solo PID. Un reinicio rápido hace que se atribuya la operación al proceso incorrecto.",
+      "artifacts": [
+        "artifacts/etw_pid/events.csv"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿A qué instancia pertenece new.bin?",
+          "points": 2,
+          "options": {
+            "A": "worker.exe/A17",
+            "B": "updater.exe/B92",
+            "C": "A ambas",
+            "D": "No se puede distinguir con los datos"
+          }
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué clave de correlación evita la confusión mostrada?",
+          "points": 2,
+          "options": {
+            "A": "PID solamente",
+            "B": "Nombre de imagen solamente",
+            "C": "PID más process_start_key",
+            "D": "Ruta de archivo solamente"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Cuál es el fallo del algoritmo que usa PID como identidad permanente?",
+          "points": 2,
+          "options": {
+            "A": "La hora UTC está redondeada",
+            "B": "Los PID se pueden reutilizar tras terminar un proceso",
+            "C": "ETW convierte rutas a UTF-8",
+            "D": "Los eventos FileWrite siempre carecen de PID"
+          }
+        }
+      ]
+    },
+    {
+      "id": "plugin_lifetime",
+      "title": "Puntero tras descargar un DLL",
+      "category": "Lifecycle",
+      "difficulty": "media",
+      "track": "foundations",
+      "scenario": "La aplicación almacena un callback exportado por un plugin y lo llama tras una recarga. El fallo solo aparece en algunas ejecuciones.",
+      "artifacts": [
+        "artifacts/plugin_lifetime/timeline.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Qué causa explica el comportamiento intermitente?",
+          "points": 1,
+          "options": {
+            "A": "El export cambia de nombre en cada llamada",
+            "B": "El callback queda apuntando a memoria de un módulo descargado",
+            "C": "GetProcAddress devuelve siempre una dirección relativa",
+            "D": "FreeLibrary invalida todos los hilos del proceso"
+          }
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué reparación conserva la validez del callback?",
+          "points": 1,
+          "options": {
+            "A": "Retener una referencia al módulo mientras cualquier callback pueda ejecutarse y retirarlo antes de descargar",
+            "B": "Guardar solo los 32 bits bajos del puntero",
+            "C": "Volver a llamar el puntero hasta que funcione",
+            "D": "Desactivar ASLR"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Por qué a veces se ejecuta código inesperado en vez de una AV?",
+          "points": 1,
+          "options": {
+            "A": "La dirección antigua puede quedar asignada a otro módulo",
+            "B": "El export es forwarder",
+            "C": "El retorno de GetProcAddress es ASCII",
+            "D": "El loader reescribe el registro"
+          }
+        }
+      ]
+    },
+    {
+      "id": "x86_stack",
+      "title": "Inferencia de convención x86",
+      "category": "ABI x86",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Una función x86 sin símbolos se invoca desde dos sitios. Hay que inferir quién limpia la pila, sin atribuir más semántica de la que permite el desensamblado.",
+      "artifacts": [
+        "artifacts/x86_stack/disasm.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "¿Cuántos bytes de argumentos retira el callee además de la dirección de retorno?",
+          "points": 2
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Qué afirmación está mejor sustentada?",
+          "points": 2,
+          "options": {
+            "A": "El llamador limpia cuatro argumentos",
+            "B": "El callee limpia 16 bytes de argumentos",
+            "C": "Es necesariamente __thiscall de MSVC",
+            "D": "El retorno es de tipo void"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Por qué sería excesivo afirmar una convención de fuente exacta solo con estas instrucciones?",
+          "points": 2,
+          "options": {
+            "A": "ret 10h no existe en x86",
+            "B": "Código ensamblador o convenciones personalizadas pueden compartir el mismo patrón de limpieza",
+            "C": "Los argumentos nunca se pasan por pila",
+            "D": "EAX no puede contener resultados"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rip_relative",
+      "title": "Destino de acceso RIP relative",
+      "category": "x64 assembly",
+      "difficulty": "media",
+      "track": "foundations",
+      "scenario": "En dos builds de un programa x64, una instrucción accede a un global con desplazamiento relativo. Calcula el destino efectivo y distingue el desplazamiento embebido de una dirección absoluta.",
+      "artifacts": [
+        "artifacts/rip_relative/disasm.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "¿Qué VA lee la instrucción de Build 1?",
+          "points": 1
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "¿Qué RVA lee la instrucción de Build 2?",
+          "points": 1
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "Para una firma que sobreviva a ambos builds, ¿qué parte debe tratarse como variable?",
+          "points": 1,
+          "options": {
+            "A": "El opcode 48 8B 05",
+            "B": "Los cuatro bytes disp32 tras 48 8B 05",
+            "C": "Los bytes 48 85 C0",
+            "D": "El prefijo REX siempre debe omitirse"
+          }
+        }
+      ]
+    },
+    {
+      "id": "xor_config",
+      "title": "Configuración codificada en un recurso",
+      "category": "Data RE",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Un programa interno guarda un bloque de configuración de prueba en un recurso. El encabezado indica longitud y XOR de un byte; la muestra no se ejecuta. Recupera el contenido a partir del archivo binario.",
+      "artifacts": [
+        "artifacts/xor_config/format.txt",
+        "artifacts/xor_config/config.dat"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Cuál es el texto decodificado?",
+          "points": 2,
+          "options": {
+            "A": "MODE=SAFE;PORT=8443",
+            "B": "MODE=FAST;PORT=443",
+            "C": "MODE=SAFE;PORT=443",
+            "D": "MODE=TEST;PORT=8443"
+          }
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "¿Cuál es la clave XOR?",
+          "points": 2
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Por qué no debe tratarse el payload codificado como string C sin decodificar?",
+          "points": 2,
+          "options": {
+            "A": "El formato define una longitud explícita y no garantiza NUL",
+            "B": "Los recursos PE siempre usan UTF-16",
+            "C": "XOR cambia el tamaño de cada byte",
+            "D": "ASCII no admite signos igual"
+          }
+        }
+      ]
+    },
+    {
+      "id": "com_activation",
+      "title": "Dos fallos distintos al activar COM",
+      "category": "COM",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Una aplicación x86 intenta activar un componente de informes y el equipo mezcla dos errores en una sola hipótesis. Separa el cambio de apartamento de la incompatibilidad de arquitectura.",
+      "artifacts": [
+        "artifacts/com_activation/com_trace.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Qué significa 0x80010106 en este hilo?",
+          "points": 2,
+          "options": {
+            "A": "Falta un DLL en System32",
+            "B": "Se intentó cambiar el modelo de apartamento ya fijado",
+            "C": "El servidor COM se registró dos veces",
+            "D": "El objeto agotó memoria"
+          }
+        },
+        {
+          "id": "q2",
+          "type": "single",
+          "prompt": "¿Resolverá copiar el DLL x64 a SysWOW64 la activación in-process desde x86?",
+          "points": 2,
+          "options": {
+            "A": "Sí, SysWOW64 convierte arquitectura",
+            "B": "Sí, si se cambia la extensión a .ocx",
+            "C": "No, un proceso x86 no puede cargar un DLL x64",
+            "D": "No, porque COM no admite servidores in-process"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "multi",
+          "prompt": "Selecciona reparaciones técnicamente válidas para los problemas independientes.",
+          "points": 2,
+          "options": {
+            "A": "Inicializar el hilo con un único modelo COM coherente",
+            "B": "Proporcionar un servidor in-process x86 compatible",
+            "C": "Usar un servidor COM out-of-process x64 con marshaling adecuado",
+            "D": "Copiar el DLL x64 a SysWOW64"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aob_versions",
+      "title": "Firma que falla tras actualizar",
+      "category": "Patrones",
+      "difficulty": "difícil",
+      "track": "foundations",
+      "scenario": "Una firma AOB se construyó con bytes de una instrucción RIP-relative. En la siguiente versión cambia el layout; además aparece un segundo bloque con el mismo prefijo. Diseña una firma estable y justifica cómo discriminar el match.",
+      "artifacts": [
+        "artifacts/aob_versions/versions.txt"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "single",
+          "prompt": "¿Qué patrón conserva bytes estables y distingue el bloque objetivo de ambos builds?",
+          "points": 2,
+          "options": {
+            "A": "48 8B 05 ?? ?? ?? ?? 48 85 C0 74 ?? 8B 48 08 85 C9",
+            "B": "48 8B 05 72 13 00 00 48 85 C0 74 09",
+            "C": "48 8B 05 ?? ?? ?? ?? 48 85 C0",
+            "D": "?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ??"
+          }
+        },
+        {
+          "id": "q2",
+          "type": "multi",
+          "prompt": "¿Qué partes cambian explícitamente entre las dos versiones objetivo?",
+          "points": 2,
+          "options": {
+            "A": "El disp32 de mov",
+            "B": "El desplazamiento del jz corto",
+            "C": "La secuencia 8B 48 08 85 C9",
+            "D": "El opcode 48 85 C0"
+          }
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Qué comprobación adicional es prudente antes de usar el resultado de un sigscan en otra actualización?",
+          "points": 2,
+          "options": {
+            "A": "Aceptar siempre el primer match",
+            "B": "Verificar unicidad, límites de instrucción y semántica del destino RIP-relative",
+            "C": "Eliminar todos los wildcards",
+            "D": "Interpretar el disp32 como VA absoluta"
+          }
+        }
+      ]
+    },
+    {
+      "id": "hard_license",
+      "title": "Licencia cifrada con ruta retirada",
+      "category": "PE práctico",
+      "difficulty": "extremo",
+      "track": "expert",
+      "scenario": "Tienes un PE64 de consola sin PDB. La aplicación acepta un código actual de 20 caracteres al llamarla con un único argumento; existe una ruta histórica `--retired` que no sirve para la activación normal. Recupera ambos códigos y los valores internos pedidos mediante análisis del binario. No hay código fuente público.",
+      "artifacts": [
+        "artifacts/hard_license/brief.txt",
+        "artifacts/hard_license/license_probe.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "literal",
+          "prompt": "¿Cuál es el código ACTUAL exacto de 20 caracteres? Respeta mayúsculas.",
+          "points": 20
+        },
+        {
+          "id": "q2",
+          "type": "literal",
+          "prompt": "¿Cuál es el código RETIRADO exacto aceptado solo con --retired?",
+          "points": 5
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "¿Cuál es el estado uint32 del generador actual tras producir las primeras 10 máscaras (índices 0..9)?",
+          "points": 6
+        },
+        {
+          "id": "q4",
+          "type": "hex",
+          "prompt": "¿Cuál es el RVA de inicio de la rutina que descifra el código actual?",
+          "points": 5
+        }
+      ]
+    },
+    {
+      "id": "hard_vm",
+      "title": "Bytecode cifrado y validación permutada",
+      "category": "VM práctico",
+      "difficulty": "extremo",
+      "track": "expert",
+      "scenario": "Un segundo PE64 valida un código de 16 caracteres mediante bytecode propio guardado en una sección PE adicional. El binario solo informa ACCEPT o REJECT; identifica la transformación de la sección, interpreta el programa y reconstruye el código. El orden de lectura de caracteres no coincide con su posición en el texto.",
+      "artifacts": [
+        "artifacts/hard_vm/brief.txt",
+        "artifacts/hard_vm/vm_guard.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "literal",
+          "prompt": "¿Cuál es el código exacto de 16 caracteres aceptado por el VM?",
+          "points": 25
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "¿Qué valor inicial de 8 bits usa la máscara con que se descifra el bytecode?",
+          "points": 4
+        },
+        {
+          "id": "q3",
+          "type": "single",
+          "prompt": "¿Qué hace el opcode 0x5B al registro de 8 bits?",
+          "points": 4,
+          "options": {
+            "A": "Rotación izquierda por arg bits",
+            "B": "Rotación derecha por arg bits",
+            "C": "XOR con arg",
+            "D": "Lectura de input[arg]"
+          }
+        },
+        {
+          "id": "q4",
+          "type": "literal",
+          "prompt": "¿En qué orden se validan los primeros cuatro índices de input? Responde exactamente `i,j,k,l` sin espacios.",
+          "points": 6
+        },
+        {
+          "id": "q5",
+          "type": "literal",
+          "prompt": "SHA-256 hexadecimal (minúsculas) de los 243 bytes de bytecode DESCIFRADO.",
+          "points": 8
+        }
+      ]
+    },
+    {
+      "id": "hard_pattern",
+      "title": "Firma robusta entre tres builds PE64",
+      "category": "Patrones PE",
+      "difficulty": "extremo",
+      "track": "expert",
+      "scenario": "Dispones de tres versiones de la misma utilidad PE64 sin símbolos. El objetivo es la rutina viva que lee el campo de modo en desplazamiento 0x2A8 de una estructura; hay otra rutina de auditoría que lee el mismo campo. Encuentra la rutina viva en cada build, construye una firma AOB que la identifique una sola vez en `.text` de las tres y calcula un resultado de la versión más nueva.",
+      "artifacts": [
+        "artifacts/hard_pattern/brief.txt",
+        "artifacts/hard_pattern/layout_v1.exe",
+        "artifacts/hard_pattern/layout_v2.exe",
+        "artifacts/hard_pattern/layout_v3.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "RVA inicial de la rutina viva en layout_v1.exe.",
+          "points": 5
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "RVA inicial de la rutina viva en layout_v2.exe.",
+          "points": 5
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "RVA inicial de la rutina viva en layout_v3.exe.",
+          "points": 5
+        },
+        {
+          "id": "q4",
+          "type": "single",
+          "prompt": "¿Qué patrón AOB encuentra exactamente una vez la rutina viva en los tres `.text`?",
+          "points": 8,
+          "options": {
+            "A": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+            "B": "8B 81 A8 02 00 00",
+            "C": "8B 81 A8 02 00 00 35 19 7E 5C A3 05 03 2A 4F 17 C1 C8 1D C3",
+            "D": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? 05 ?? ?? ?? ?? C1 C8 1D C3"
+          }
+        },
+        {
+          "id": "q5",
+          "type": "hex",
+          "prompt": "Resultado de la rutina viva de layout_v3 para modo de entrada 0x12345678 (sin XOR con auditoría ni helpers).",
+          "points": 6
+        }
+      ]
+    },
+    {
+      "id": "hard_tls_state",
+      "title": "Estado cifrado inicializado por TLS antes de main",
+      "category": "TLS PE y RE funcional",
+      "difficulty": "extremo++",
+      "track": "research",
+      "scenario": "Este PE64 sin PDB calcula una transformación de dos enteros uint64. El contenido inicial de ciertas variables globales en disco no coincide con el estado que usa la función viva. Reconstruye el proceso de inicialización y la transformación completa. El programa de q1 se probará con 256 pares ocultos que recorren todas las ramas del bucle. No se entrega código fuente.",
+      "artifacts": [
+        "artifacts/hard_tls_state/brief.txt",
+        "artifacts/hard_tls_state/dsl_tls.txt",
+        "artifacts/hard_tls/tls_oracle.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "pipeline64",
+          "prompt": "Recupera la transformación completa como programa DSL para cualquier x,y uint64.",
+          "points": 100
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "RVA del callback que inicializa el estado usado por la función viva.",
+          "points": 8
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "RVA inicial de la función que transforma x,y después de la inicialización.",
+          "points": 8
+        },
+        {
+          "id": "q4",
+          "type": "hex",
+          "prompt": "Valor uint64 real de la primera entrada de la tabla de claves tras la inicialización.",
+          "points": 6
+        },
+        {
+          "id": "q5",
+          "type": "hex",
+          "prompt": "Salida para x=0x0123456789ABCDEF, y=0xFEDCBA9876543210.",
+          "points": 4
+        },
+        {
+          "id": "q6",
+          "type": "single",
+          "prompt": "¿Qué explica que los QWORD iniciales de la tabla en disco sean señuelos?",
+          "points": 4,
+          "options": {
+            "A": "El loader convierte automáticamente cada QWORD de .data de big endian a little endian.",
+            "B": "Un callback en el directorio TLS reescribe la tabla antes de main.",
+            "C": "La resolución de imports diferidos aplica XOR a toda la sección .data.",
+            "D": "El prologo de mix_tls restaura las claves desde la shadow space de su llamador."
+          }
+        }
+      ]
+    },
+    {
+      "id": "hard_delay_import",
+      "title": "Reconstrucción de un delay import y su descarga",
+      "category": "PE loader",
+      "difficulty": "extremo++",
+      "track": "research",
+      "scenario": "Analiza un PE64 enlazado con /DELAYLOAD:USER32.dll y /DELAY:UNLOAD. El programa llama dos veces a la misma API y descarga el módulo entre ambas. Extrae el descriptor de importación retardada del ejecutable, traduce RVAs a offsets y razona sobre el estado del IAT. No se entrega fuente.",
+      "artifacts": [
+        "artifacts/hard_delay_import/brief.txt",
+        "artifacts/hard_delay/delay_probe.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "RVA del descriptor de delay import de USER32.dll.",
+          "points": 6
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "RVA de la Unload IAT (UIAT) que permite restaurar el estado de los thunks.",
+          "points": 7
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "Offset de archivo del primer QWORD de esa UIAT; no respondas con un RVA.",
+          "points": 7
+        },
+        {
+          "id": "q4",
+          "type": "hex",
+          "prompt": "Valor VA de 64 bits del primer thunk del delay IAT en la imagen en disco.",
+          "points": 7
+        },
+        {
+          "id": "q5",
+          "type": "hex",
+          "prompt": "RVA de la variable donde el helper almacena el HMODULE de USER32.dll.",
+          "points": 5
+        },
+        {
+          "id": "q6",
+          "type": "multi",
+          "prompt": "Selecciona todas las afirmaciones correctas para ESTE descriptor.",
+          "points": 10,
+          "options": {
+            "A": "El bit RvaBased de grAttrs está activado; los campos de dirección del descriptor se interpretan como RVAs.",
+            "B": "pIAT apunta a una tabla de QWORDs que guarda el HMODULE, no direcciones de función.",
+            "C": "pUnloadIAT conserva una copia de los thunks iniciales para restaurar el delay IAT al descargar.",
+            "D": "pBoundIAT y pUnloadIAT son el mismo campo del descriptor.",
+            "E": "El RVA de pUnloadIAT debe sumarse a ImageBase para obtener su VA preferida."
+          }
+        },
+        {
+          "id": "q7",
+          "type": "single",
+          "prompt": "Si la descarga tiene éxito y se vuelve a llamar a GetForegroundWindow, ¿qué secuencia concuerda con el helper de delay load?",
+          "points": 6,
+          "options": {
+            "A": "La UIAT se borra y el IAT queda permanentemente con la dirección antigua de USER32.dll.",
+            "B": "El IAT recupera los thunks iniciales desde la UIAT y la nueva llamada vuelve a resolver la DLL.",
+            "C": "El loader ejecuta el callback TLS de USER32.dll para restaurar los thunks en el archivo.",
+            "D": "El valor de pBoundIAT se ejecuta directamente como una función."
+          }
+        }
+      ]
+    },
+    {
+      "id": "hard_unwind_frame",
+      "title": "Virtual unwind de una rutina MASM x64",
+      "category": "Unwind x64",
+      "difficulty": "extremo++",
+      "track": "research",
+      "scenario": "Un PE64 contiene una rutina con prólogo y epílogo escritos en ensamblador MASM y metadatos reales en .pdata/.xdata. Reconstruye el marco al detenerla dentro del cuerpo. El volcado de pila es sintético, pero corresponde exactamente al prólogo del ejecutable. No se entrega fuente.",
+      "artifacts": [
+        "artifacts/hard_unwind_frame/context.txt",
+        "artifacts/hard_unwind/unwind_probe.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "hex",
+          "prompt": "RVA de comienzo de la rutina MASM cubierta por el RUNTIME_FUNCTION pertinente.",
+          "points": 6
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "RVA del UNWIND_INFO al que apunta ese RUNTIME_FUNCTION.",
+          "points": 7
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "Bytes realmente reservados por UWOP_ALLOC_LARGE; interpreta también su slot adicional.",
+          "points": 7
+        },
+        {
+          "id": "q4",
+          "type": "hex",
+          "prompt": "Offset efectivo en bytes entre RBP y RSP fijado por UWOP_SET_FPREG.",
+          "points": 7
+        },
+        {
+          "id": "q5",
+          "type": "hex",
+          "prompt": "RSP reconstruido del llamador después de retirar el return address.",
+          "points": 8
+        },
+        {
+          "id": "q6",
+          "type": "hex",
+          "prompt": "RBX no volátil restaurado en el contexto del llamador.",
+          "points": 7
+        },
+        {
+          "id": "q7",
+          "type": "hex",
+          "prompt": "RIP de retorno reconstruido del llamador.",
+          "points": 7
+        },
+        {
+          "id": "q8",
+          "type": "single",
+          "prompt": "Si RIP estuviera justo después de los dos PUSH iniciales y antes de SUB RSP, ¿qué parte del prólogo desharía el unwind en ese punto?",
+          "points": 6,
+          "options": {
+            "A": "Los dos PUSH; todavía no la reserva de 0x88 ni el establecimiento de RBP.",
+            "B": "La reserva de 0x88 y SET_FPREG; todavía no los PUSH.",
+            "C": "Todo el prólogo, porque .pdata no guarda desplazamientos de instrucciones.",
+            "D": "Ningún paso: en x64 solo se desenrolla el epílogo."
+          }
+        }
+      ]
+    },
+    {
+      "id": "hard_resource_stream",
+      "title": "Reconstruir una función de longitud variable desde un recurso PE",
+      "category": "Recursos PE y RE funcional",
+      "difficulty": "extremo+++",
+      "track": "research",
+      "scenario": "Este PE64 de consola acepta de 0 a 96 bytes en hexadecimal y devuelve una etiqueta de 64 bits. El estado real no está en los QWORD iniciales de .data: se deriva de un recurso RCDATA de Windows. Existe otro recurso de tamaño similar y una rutina de diagnóstico que calcula otro valor. Reconstruye la función que produce la salida del programa para cualquier entrada permitida. El corrector ejecutará tu programa declarativo con 384 mensajes ocultos de longitud y contenido variados. No se entrega código fuente ni PDB.",
+      "artifacts": [
+        "artifacts/hard_resource_stream/brief.txt",
+        "artifacts/hard_resource_stream/dsl_stream.txt",
+        "artifacts/hard_stream/stream_oracle.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "stream64",
+          "prompt": "Recupera la función completa de longitud variable como programa DSL.",
+          "points": 160
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "RVA inicial de la función que produce el valor impreso (sin incluir el diagnóstico).",
+          "points": 8
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "Identificador numérico del recurso RCDATA que aporta el estado real.",
+          "points": 8
+        },
+        {
+          "id": "q4",
+          "type": "hex",
+          "prompt": "Primer uint64 efectivo de la tabla de claves, después de descifrar el recurso.",
+          "points": 10
+        },
+        {
+          "id": "q5",
+          "type": "hex",
+          "prompt": "Salida de la función para el mensaje vacío (`-`).",
+          "points": 6
+        },
+        {
+          "id": "q6",
+          "type": "hex",
+          "prompt": "Salida para el mensaje de 16 bytes 00112233445566778899AABBCCDDEEFF.",
+          "points": 6
+        },
+        {
+          "id": "q7",
+          "type": "multi",
+          "prompt": "Selecciona todas las afirmaciones que describen el camino que produce la salida.",
+          "points": 8,
+          "options": {
+            "A": "Se carga un recurso RCDATA del PE y se descifra antes de calcular la etiqueta.",
+            "B": "Los QWORD iniciales de keybank en disco son el estado final usado por stream_tag.",
+            "C": "El valor de decoy_checksum es el que se imprime como resultado principal.",
+            "D": "La longitud, la posición y el valor de cada byte influyen en el cálculo.",
+            "E": "El recurso RCDATA 702 reemplaza obligatoriamente la tabla antes de printf."
+          }
+        }
+      ]
+    },
+    {
+      "id": "hard_repair_aob",
+      "title": "Reparar dos saltos de control en cuatro builds PE64",
+      "category": "Parche binario y patrones PE",
+      "difficulty": "extremo+++",
+      "track": "research",
+      "scenario": "Tres versiones sin símbolos de la misma utilidad aceptan o rechazan pares uint64. Cada versión contiene exactamente dos defectos de un byte en saltos condicionales cortos. Debes derivar una firma de localización para cada salto y el byte de reemplazo; el corrector aplicará ambas reparaciones a las tres versiones visibles y a una cuarta compilación oculta con otra disposición de código. Los pares de entrada ocultos comprueban que se aceptan los válidos y se rechazan los inválidos. No se entrega fuente ni PDB.",
+      "artifacts": [
+        "artifacts/hard_repair_aob/brief.txt",
+        "artifacts/hard_repair_aob/expected_samples.txt",
+        "artifacts/hard_repair/repair_v1.exe",
+        "artifacts/hard_repair/repair_v2.exe",
+        "artifacts/hard_repair/repair_v3.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "patch_aob",
+          "prompt": "Devuelve las dos firmas y bytes de reparación que funcionan en las cuatro builds.",
+          "points": 120
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "RVA de comienzo de la rutina que decide ACCEPT/REJECT en repair_v1.exe.",
+          "points": 8
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "RVA del opcode defectuoso que controla el límite de x en repair_v2.exe.",
+          "points": 8
+        },
+        {
+          "id": "q4",
+          "type": "hex",
+          "prompt": "RVA del opcode defectuoso que controla el bit de y en repair_v3.exe.",
+          "points": 8
+        },
+        {
+          "id": "q5",
+          "type": "single",
+          "prompt": "Tras reparar, ¿qué debe imprimir x=0x100, y=0x20?",
+          "points": 4,
+          "options": {
+            "A": "ACCEPT",
+            "B": "REJECT",
+            "C": "ERROR",
+            "D": "La salida depende de la build."
+          }
+        },
+        {
+          "id": "q6",
+          "type": "single",
+          "prompt": "Tras reparar, ¿qué debe imprimir x=0, y=0?",
+          "points": 4,
+          "options": {
+            "A": "ACCEPT",
+            "B": "REJECT",
+            "C": "ERROR",
+            "D": "La salida depende de la build."
+          }
+        },
+        {
+          "id": "q7",
+          "type": "multi",
+          "prompt": "Selecciona las propiedades que exige una reparación válida.",
+          "points": 8,
+          "options": {
+            "A": "El patrón de cada sitio tiene una coincidencia única en .text de cada build.",
+            "B": "Se puede cambiar el desplazamiento relativo de ambos saltos para llamar a la auditoría.",
+            "C": "La reparación debe conservar tanto aceptaciones correctas como rechazos correctos.",
+            "D": "Basta con acertar el RVA absoluto de repair_v1 para localizar la cuarta build.",
+            "E": "Cada `offset` señala el byte del opcode que cambia, no la instrucción siguiente."
+          }
+        }
+      ]
+    },
+    {
+      "id": "hard_pipeline",
+      "title": "Recuperar función x64 para entradas ocultas",
+      "category": "RE funcional",
+      "difficulty": "extremo+",
+      "track": "research",
+      "scenario": "Un PE64 de consola implementa una transformación uint64_t mix_payload(uint64_t x, uint64_t y). Puedes consultarlo con dos argumentos hexadecimales, pero el test principal se evalúa en 256 pares de entrada que no se entregan. Recupera la función de su código máquina y exprésala con el DSL restringido del artefacto. Las operaciones usan aritmética modular de 64 bits.",
+      "artifacts": [
+        "artifacts/hard_pipeline/brief.txt",
+        "artifacts/hard_pipeline/dsl.txt",
+        "artifacts/hard_pipeline/mix_oracle.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "pipeline64",
+          "prompt": "Recupera mix_payload como programa DSL que funcione para cualquier x,y uint64.",
+          "points": 50
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "¿Cuál es el RVA inicial de mix_payload dentro del PE?",
+          "points": 5
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "¿Qué devuelve mix_payload para x=0x0123456789ABCDEF, y=0xFEDCBA9876543210?",
+          "points": 4
+        },
+        {
+          "id": "q4",
+          "type": "hex",
+          "prompt": "¿Cuál es la máscara de bits usada para elegir entre las dos ramas?",
+          "points": 5
+        },
+        {
+          "id": "q5",
+          "type": "hex",
+          "prompt": "¿Cuál es la constante uint64 multiplicada por (x+y) en la combinación final?",
+          "points": 5
+        }
+      ]
+    },
+    {
+      "id": "hard_pattern_open",
+      "title": "Firma AOB abierta con build oculto",
+      "category": "Patrones PE",
+      "difficulty": "extremo+",
+      "track": "research",
+      "scenario": "Recupera una firma de bytes para la rutina viva que lee un DWORD de la estructura en +0x2A8. Hay una rutina de auditoría que lee el mismo campo. Dispones de tres PE64 sin símbolos y el patrón se probará también en una cuarta build no entregada. La firma debe empezar en el primer byte de la rutina viva y coincidir exactamente una vez en `.text` de cada versión.",
+      "artifacts": [
+        "artifacts/hard_pattern_open/brief.txt",
+        "artifacts/hard_pattern/layout_v1.exe",
+        "artifacts/hard_pattern/layout_v2.exe",
+        "artifacts/hard_pattern/layout_v3.exe"
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "type": "aob",
+          "prompt": "Devuelve una firma AOB válida para las tres builds visibles y la cuarta oculta. Responde con la cadena de tokens.",
+          "points": 40
+        },
+        {
+          "id": "q2",
+          "type": "hex",
+          "prompt": "RVA del primer byte de la rutina viva en layout_v1.exe.",
+          "points": 5
+        },
+        {
+          "id": "q3",
+          "type": "hex",
+          "prompt": "RVA del primer byte de la rutina viva en layout_v3.exe.",
+          "points": 5
+        },
+        {
+          "id": "q4",
+          "type": "single",
+          "prompt": "En v3, una instrucción usa `sub eax, inm` donde v1 usa `add eax, inm`. ¿Qué explica que ambas implementen la misma operación fuente con constantes distintas?",
+          "points": 6,
+          "options": {
+            "A": "La sección .text fue cifrada y el opcode cambia al cargarla.",
+            "B": "El compilador representó una suma módulo 2^32 de constante grande como resta de su complemento a dos.",
+            "C": "El campo de la estructura cambió de DWORD a QWORD.",
+            "D": "El decoy parchea la instrucción de la rutina viva en ejecución."
+          }
+        }
+      ]
+    }
+  ]
+}

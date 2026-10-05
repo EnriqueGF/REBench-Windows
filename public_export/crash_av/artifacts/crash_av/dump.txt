@@ -1,0 +1,16 @@
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 00007ff6`51001a42 (sample!ParseNode+0x32)
+ExceptionCode: c0000005 (Access violation)
+NumberParameters: 2
+Parameter[0]: 0000000000000000
+Parameter[1]: 0000000000000018
+
+CONTEXT:  (.ecxr)
+rax=0000000000000000 rcx=000001df3b202100
+rip=00007ff651001a42 rsp=000000d200b0f870
+sample!ParseNode+0x32:
+00007ff6`51001a42 488b4818 mov rcx,qword ptr [rax+18h]
+00007ff6`51001a46 4885c9   test rcx,rcx
+
+Pseudo source reconstruido: ctx = get_optional_context(node);
+                          use(ctx->next);

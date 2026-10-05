@@ -1,0 +1,7 @@
+Uso: tls_oracle.exe 0xX 0xY
+Salida: 16 dígitos hexadecimales; código de salida 2 si los argumentos son inválidos.
+
+El PE64 incluye CRT estático y relocaciones. El oráculo puede ejecutarse con
+cuantas entradas de prueba necesites. El corrector compara el programa DSL de q1
+con el ejecutable en 256 pares ocultos, incluidos valores frontera. Se concede
+crédito parcial según la proporción de resultados correctos.

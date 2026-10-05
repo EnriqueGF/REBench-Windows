@@ -1,0 +1,12 @@
+Thread 12:
+  ntdll!LdrLoadDll
+  sample!DllMain(DLL_PROCESS_ATTACH)
+  sample!StartWorker
+  kernelbase!WaitForSingleObject(worker_ready, INFINITE)
+
+Thread 18 (worker creado por Thread 12):
+  ntdll!LdrpCallInitRoutine
+  [pendiente de notificación DLL_THREAD_ATTACH]
+  sample!WorkerMain -> SetEvent(worker_ready)  [todavía no ejecutado]
+
+El callback DllMain no ha retornado. El worker se creó correctamente.

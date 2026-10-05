@@ -1,0 +1,69 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_crash_dump: Diagnosticar un acceso inválido desde un minidump x64 real
+Un proceso PE64 falló al consumir un búfer. Se entrega el ejecutable sin PDB y un minidump capturado durante la excepción, con contexto de hilo, módulos y memoria privada. Determina el acceso que falló, recupera el puntero que se pretendía usar y explica la pérdida de bits. Para el resultado contrafáctico, conserva el resto del programa y corrige únicamente esa pérdida de bits. Usa el volcado entregado como evidencia autoritativa; una nueva ejecución puede tener distinta base de imagen por ASLR.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_crash_dump/brief.txt ---
+Artefactos: dump_probe.exe y fault.dmp. El segundo es un minidump genuino
+escrito por MiniDumpWriteDump durante la excepción del ejecutable adjunto.
+No se entrega PDB ni código fuente. No necesitas ejecutar de nuevo el PE.
+
+Las preguntas sobre direcciones VA se refieren al proceso capturado en fault.dmp.
+Las RVA son relativas a la base del módulo dump_probe.exe dentro de ese dump.
+`encoded_payload` guarda un puntero de 64 bits ofuscado por XOR; una función de
+auditoría accede correctamente al mismo búfer antes del fallo. El camino que
+falla pasa por dispatch_job, resolve_payload y consume_payload.
+
+Puedes parsear los streams MINIDUMP_EXCEPTION_STREAM, MINIDUMP_MODULE_LIST y
+MINIDUMP_MEMORY_LIST con Python, o usar herramientas de depuración locales.
+Para el resultado tras la corrección, usa el contenido del búfer capturado.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_dump/dump_probe.exe ---
+SHA256: b9e1ff9342ad4b755fd285b5340cdb38318100772a3475b04f13ab0a1bba852b
+Bytes: 141824. Archivo disponible en el directorio del caso.
+
+--- ARTEFACTO BINARIO artifacts/hard_dump/fault.dmp ---
+SHA256: 7376a4435324f82a9a1d440b8135d9a1946b2c3bf30a3e5ee5659f7e7abea2b1
+Bytes: 997176. Archivo disponible en el directorio del caso.
+
+q1 [hex]: Código NTSTATUS de la excepción registrada en el minidump.
+
+q2 [hex]: RVA exacta de la instrucción que causó la excepción.
+
+q3 [hex]: VA exacta que intentó leer esa instrucción.
+
+q4 [single]: ¿Qué clase de acceso indica ExceptionInformation[0]?
+  A. Lectura
+  B. Escritura
+  C. Ejecución
+  D. Violación de pila
+
+q5 [hex]: VA completa del inicio del búfer que debería haber recibido consume_payload.
+
+q6 [hex]: Valor de encoded_payload guardado en JOB en el proceso capturado.
+
+q7 [hex]: Constante XOR usada para descodificar encoded_payload.
+
+q8 [hex]: RVA de comienzo de resolve_payload.
+
+q9 [hex]: RVA de comienzo de consume_payload.
+
+q10 [hex]: Valor uint64 que devolvería dispatch_job con el mismo búfer tras conservar los 64 bits del puntero.
+
+q11 [single]: ¿Qué causa raíz explica la dirección inválida de q3?
+  A. El búfer fue liberado antes de la lectura.
+  B. La dirección descodificada se reduce a 32 bits antes de convertirse de nuevo en puntero.
+  C. El callback TLS cifró los bytes del búfer.
+  D. La página de destino tiene PAGE_NOACCESS aunque el puntero es correcto.
+
+q12 [multi]: Selecciona los cambios que corrigen la causa sin cambiar el formato de JOB.
+  A. Conservar la dirección descodificada en uintptr_t hasta convertirla en puntero.
+  B. Quitar la conversión intermedia a uint32_t.
+  C. Aplicar una segunda conversión a uint32_t antes de leer el búfer.
+  D. Usar encoded_payload directamente como VA sin descifrarlo.
+  E. Cambiar solo el byte fault.dmp de la dirección inválida.

@@ -1,0 +1,12 @@
+Imagen cargada en VA preferida 0x140000000. RIP = 0x00000001400010B0
+La detención ocurre en el cuerpo de la rutina, después de su prólogo y antes del epílogo.
+RSP = 0x000000C00100FE70    RBP = 0x000000C00100FE90
+RBX = 0x0123456789ABCDEF
+
+Memoria QWORD del hilo:
+[RSP+0x88] = 0x1122334455667788
+[RSP+0x90] = 0x000000C00100FFA0
+[RSP+0x98] = 0x00007FF612345678
+
+Se pide el contexto DEL LLAMADOR después de aplicar VirtualUnwind desde este RIP.
+Para las preguntas de metadatos, lee las estructuras reales del PE en disco.

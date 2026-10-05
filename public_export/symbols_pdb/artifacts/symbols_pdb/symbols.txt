@@ -1,0 +1,6 @@
+Módulo cargado: appcore.dll, base 00007ffb`40000000, tamaño 0x40000
+CodeView RSDS del módulo: GUID {5AAE44F6-831D-4B2E-BE20-97B6EB7720D2}, Age 3
+PDB encontrado en caché: appcore.pdb, GUID {5AAE44F6-831D-4B2E-BE20-97B6EB7720D2}, Age 2
+RIP del crash: 00007ffb`400071A0
+!lmi appcore: symbols deferred / mismatched
+Desensamblado del binario cargado en RVA 0x71A0: mov rax,qword ptr [rcx+20h]

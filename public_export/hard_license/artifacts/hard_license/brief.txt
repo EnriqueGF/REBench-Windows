@@ -1,0 +1,7 @@
+Muestra obtenida de una build Windows x64. Comportamiento observable:
+  license_probe.exe <candidato>             -> ACCEPT o REJECT
+  license_probe.exe --retired <candidato>   -> RETIRED ACCEPT o REJECT
+
+El código actual tiene 20 caracteres ASCII. No se conoce ningún candidato válido.
+El ejecutable contiene CRT estático y dos recorridos de verificación.
+SHA256 y tamaño del PE pueden verificarse localmente; la fuente/PDB no se entrega.

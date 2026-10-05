@@ -1,0 +1,158 @@
+{
+  "benchmark_version": "7.0",
+  "models": {
+    "codex": {
+      "model": "gpt-6-sol",
+      "earned": 748,
+      "evaluated_points": 748,
+      "total_points": 748,
+      "completed_cases": 24,
+      "total_cases": 24,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 564,
+          "total": 564
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 564
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_resource_stream",
+          "seconds": 136.88,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v7\\codex_stream.json"
+        }
+      ],
+      "source_files": [
+        "results\\v6\\codex_combined.json",
+        "results\\v7\\codex_stream.json"
+      ]
+    },
+    "claude": {
+      "model": "claude-opus-4-7",
+      "earned": 736,
+      "evaluated_points": 748,
+      "total_points": 748,
+      "completed_cases": 24,
+      "total_cases": 24,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 70,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 554,
+          "total": 564
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 564
+      },
+      "lost_points": [
+        {
+          "case_id": "pe_reloc",
+          "question_id": "q1",
+          "earned": 0,
+          "points": 2,
+          "submitted": "0x0000000040000000",
+          "expected": "0x180001234"
+        },
+        {
+          "case_id": "hard_delay_import",
+          "question_id": "q6",
+          "earned": 0,
+          "points": 10,
+          "submitted": [
+            "A",
+            "C"
+          ],
+          "expected": [
+            "A",
+            "C",
+            "E"
+          ]
+        }
+      ],
+      "attempts": [
+        {
+          "case_id": "hard_resource_stream",
+          "seconds": 230.03,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v7\\claude_stream.json"
+        }
+      ],
+      "source_files": [
+        "results\\v6\\claude_combined.json",
+        "results\\v7\\claude_stream.json"
+      ]
+    },
+    "opencode": {
+      "model": "explabs/glm-5.3-flash-abliterated",
+      "earned": 412,
+      "evaluated_points": 412,
+      "total_points": 748,
+      "completed_cases": 22,
+      "total_cases": 24,
+      "missing_cases": [
+        "hard_resource_stream",
+        "hard_tls_state"
+      ],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 228,
+          "total": 564
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 228
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_resource_stream",
+          "seconds": 3600.06,
+          "exit_code": null,
+          "parse_error": "timeout",
+          "file": "results\\v7\\opencode_stream.json"
+        }
+      ],
+      "source_files": [
+        "results\\v6\\opencode_combined.json",
+        "results\\v7\\opencode_stream.json"
+      ]
+    }
+  }
+}

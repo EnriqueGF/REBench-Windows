@@ -1,0 +1,14 @@
+{
+  "benchmark_version": "1.0",
+  "started_at": "2026-10-04T12:38:40.550985+00:00",
+  "profile": "opencode",
+  "results": [
+    {
+      "case_id": "pe_rva",
+      "profile": "opencode",
+      "seconds": 410.28,
+      "parse_error": "timeout"
+    }
+  ],
+  "submissions": []
+}

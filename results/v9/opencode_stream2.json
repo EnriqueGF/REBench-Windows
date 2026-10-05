@@ -1,0 +1,18 @@
+{
+  "benchmark_version": "9.0",
+  "profile": "opencode",
+  "recovered_from": "The CLI reached the configured 3600-second limit. TemporaryDirectory cleanup then raised WinError 5 on a Windows-reserved nul entry, preventing benchmark.py from writing its result JSON. The partial stdout/stderr was lost; no final submission was captured.",
+  "results": [
+    {
+      "case_id": "hard_tls_stream2",
+      "profile": "opencode",
+      "seconds": 3600.0,
+      "seconds_source": "configured timeout, not a measured elapsed time",
+      "parse_error": "timeout; runner cleanup failed",
+      "raw_output": "",
+      "raw_output_unavailable": true,
+      "stderr": "WinError 5 while removing a Windows-reserved nul entry after timeout"
+    }
+  ],
+  "submissions": []
+}

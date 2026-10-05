@@ -1,0 +1,6 @@
+Proceso de diagnóstico: x86 bajo WOW64; Windows: x64.
+CreateFileW(L"C:\Windows\System32\nativeprobe.dll") -> ERROR_FILE_NOT_FOUND.
+Un proceso x64 abre C:\Windows\System32\nativeprobe.dll con éxito.
+El proceso x86 también enumera HKLM\Software\Contoso\Agent y no ve Version.
+Un proceso x64 lee Version=7 bajo HKLM\Software\Contoso\Agent.
+El DLL solo existe en el directorio nativo x64. No hay solicitud UAC.

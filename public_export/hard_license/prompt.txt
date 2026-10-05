@@ -1,0 +1,30 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_license: Licencia cifrada con ruta retirada
+Tienes un PE64 de consola sin PDB. La aplicación acepta un código actual de 20 caracteres al llamarla con un único argumento; existe una ruta histórica `--retired` que no sirve para la activación normal. Recupera ambos códigos y los valores internos pedidos mediante análisis del binario. No hay código fuente público.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_license/brief.txt ---
+Muestra obtenida de una build Windows x64. Comportamiento observable:
+  license_probe.exe <candidato>             -> ACCEPT o REJECT
+  license_probe.exe --retired <candidato>   -> RETIRED ACCEPT o REJECT
+
+El código actual tiene 20 caracteres ASCII. No se conoce ningún candidato válido.
+El ejecutable contiene CRT estático y dos recorridos de verificación.
+SHA256 y tamaño del PE pueden verificarse localmente; la fuente/PDB no se entrega.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_license/license_probe.exe ---
+SHA256: 9fef03b6e987bf35de14a452e466ccb1e3257e14c3442166999301ff59704cf1
+Bytes: 111616. Archivo disponible en el directorio del caso.
+
+q1 [literal]: ¿Cuál es el código ACTUAL exacto de 20 caracteres? Respeta mayúsculas.
+
+q2 [literal]: ¿Cuál es el código RETIRADO exacto aceptado solo con --retired?
+
+q3 [hex]: ¿Cuál es el estado uint32 del generador actual tras producir las primeras 10 máscaras (índices 0..9)?
+
+q4 [hex]: ¿Cuál es el RVA de inicio de la rutina que descifra el código actual?

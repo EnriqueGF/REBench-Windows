@@ -1,0 +1,37 @@
+{
+  "benchmark_version": "4.0",
+  "started_at": "2026-10-04T14:08:12.397295+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "hard_pattern_open",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 75.12,
+      "raw_output": "Unique match in each binary, pointing to the first byte of the live routine. The audit routine at 0xdcd8 is much larger (test rcx/jcc prolog) and doesn't match.\n\n{\"case_id\":\"hard_pattern_open\",\"answers\":{\"q1\":\"8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3\",\"q2\":\"0x1070\",\"q3\":\"0x1090\",\"q4\":\"B\"},\"reasoning\":\"Three candidatos leen [rcx+0x2A8] en cada PE. La rutina viva es un pequeño leaf: mov eax,[rcx+0x2A8]; xor eax,K1; add/sub eax,K2; ror eax,0x1D; ret (20 bytes). En v1 empieza en RVA 0x1070, v2 0x1080, v3 0x1090. La rutina de auditoría comienza en 0xdcd8 con 'test rcx,rcx; je ...; mov [rsp+8],rbx;...' — prólogo distinto, por eso la firma no la toca. La firma literaliza mov/ror/ret y comodines sobre los dos inmediatos y el opcode add/sub (05/2D): 8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3 — 20 bytes, 11 literales (>=8), coincide exactamente una vez en .text de v1, v2 y v3 y es robusta ante cambio de constantes/op en la 4ª build. q4: en v3 'sub eax,0x1EC498F7' equivale a 'add eax,0xE13B6709' mod 2^32; el compilador prefiere la codificación con la constante de menor magnitud (complemento a dos) — opción B.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_pattern_open",
+        "answers": {
+          "q1": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+          "q2": "0x1070",
+          "q3": "0x1090",
+          "q4": "B"
+        },
+        "reasoning": "Three candidatos leen [rcx+0x2A8] en cada PE. La rutina viva es un pequeño leaf: mov eax,[rcx+0x2A8]; xor eax,K1; add/sub eax,K2; ror eax,0x1D; ret (20 bytes). En v1 empieza en RVA 0x1070, v2 0x1080, v3 0x1090. La rutina de auditoría comienza en 0xdcd8 con 'test rcx,rcx; je ...; mov [rsp+8],rbx;...' — prólogo distinto, por eso la firma no la toca. La firma literaliza mov/ror/ret y comodines sobre los dos inmediatos y el opcode add/sub (05/2D): 8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3 — 20 bytes, 11 literales (>=8), coincide exactamente una vez en .text de v1, v2 y v3 y es robusta ante cambio de constantes/op en la 4ª build. q4: en v3 'sub eax,0x1EC498F7' equivale a 'add eax,0xE13B6709' mod 2^32; el compilador prefiere la codificación con la constante de menor magnitud (complemento a dos) — opción B."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_pattern_open",
+      "answers": {
+        "q1": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+        "q2": "0x1070",
+        "q3": "0x1090",
+        "q4": "B"
+      },
+      "reasoning": "Three candidatos leen [rcx+0x2A8] en cada PE. La rutina viva es un pequeño leaf: mov eax,[rcx+0x2A8]; xor eax,K1; add/sub eax,K2; ror eax,0x1D; ret (20 bytes). En v1 empieza en RVA 0x1070, v2 0x1080, v3 0x1090. La rutina de auditoría comienza en 0xdcd8 con 'test rcx,rcx; je ...; mov [rsp+8],rbx;...' — prólogo distinto, por eso la firma no la toca. La firma literaliza mov/ror/ret y comodines sobre los dos inmediatos y el opcode add/sub (05/2D): 8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3 — 20 bytes, 11 literales (>=8), coincide exactamente una vez en .text de v1, v2 y v3 y es robusta ante cambio de constantes/op en la 4ª build. q4: en v3 'sub eax,0x1EC498F7' equivale a 'add eax,0xE13B6709' mod 2^32; el compilador prefiere la codificación con la constante de menor magnitud (complemento a dos) — opción B."
+    }
+  ]
+}

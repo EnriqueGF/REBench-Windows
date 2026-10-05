@@ -1,0 +1,65 @@
+{
+  "earned": 47,
+  "total": 47,
+  "percent": 100.0,
+  "by_category": {
+    "VM práctico": {
+      "earned": 47,
+      "total": 47
+    }
+  },
+  "by_track": {
+    "expert": {
+      "earned": 47,
+      "total": 47
+    }
+  },
+  "rows": [
+    {
+      "case_id": "hard_vm",
+      "question_id": "q1",
+      "category": "VM práctico",
+      "type": "literal",
+      "points": 25,
+      "earned": 25,
+      "submitted": "Q8M4Z2N7R5T9V3X6"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q2",
+      "category": "VM práctico",
+      "type": "hex",
+      "points": 4,
+      "earned": 4,
+      "submitted": "0x6d"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q3",
+      "category": "VM práctico",
+      "type": "single",
+      "points": 4,
+      "earned": 4,
+      "submitted": "A"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q4",
+      "category": "VM práctico",
+      "type": "literal",
+      "points": 6,
+      "earned": 6,
+      "submitted": "7,0,12,3"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q5",
+      "category": "VM práctico",
+      "type": "literal",
+      "points": 8,
+      "earned": 8,
+      "submitted": "af1ccf55231d74341be7b089261c10f6f1dd5331c73b7b14b596422f29152de8"
+    }
+  ],
+  "missing_cases": []
+}

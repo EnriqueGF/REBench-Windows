@@ -1,0 +1,45 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "model": "openrouter/deepseek/deepseek-v4-pro-0813",
+  "timeout_seconds": 300,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 92.03,
+      "exit_code": 0,
+      "stdout": "```json\n{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":true,\"techniques\":[\"T1486 Data Encrypted for Impact (ransomware; custom block cipher, .WNCRY extension, @Please_Read_Me@.txt ransom note)\",\"T1497 Virtualization/Sandbox Evasion (VMware vmmouse.sys/vmhgfs.sys, Sandboxie sbiedll.dll, CPUID hypervisor bit)\",\"T1622 Debugger Evasion (IsDebuggerPresent, PEB BeingDebugged via gs:[0x60]+2, NtQueryInformationProcess ProcessDebugPort)\",\"T1027 Obfuscated Files or Information (XOR-encoded C2 address decoded at runtime)\",\"T1210 Exploitation of Remote Services (SMB/TCP connect to port 445, 192.0.2.%d scan loop)\",\"T1543.003 Create or Modify System Process (Windows service via OpenSCManagerA/CreateServiceA/StartServiceA, mssecsvc2.0)\",\"T1082 System Information Discovery (GetComputerNameA, GetEnvironmentVariableA USERPROFILE/PUBLIC)\",\"T1083 File and Directory Discovery (FindFirstFileA/FindNextFileA over target extension list)\"],\"injection_details\":{},\"encryption_details\":{\"algorithm\":\"custom substitution-XOR block cipher (16-byte blocks, 10 rounds with S-box lookup and round-constant XOR); plus XOR stream cipher for C2 address\",\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\"embedded plaintext string in .rdata (file offset 0x8500)\"},\"decoded_strings\":{},\"anti_analysis\":[\"IsDebuggerPresent (imported)\",\"PEB BeingDebugged check (gs:[0x60]+2)\",\"NtQueryInformationProcess ProcessDebugPort via dynamic GetProcAddress from ntdll.dll\",\"Virtualization detection: C:\\\\Windows\\\\System32\\\\drivers\\\\vmmouse.sys, vmhgfs.sys (VMware), sbiedll.dll (Sandboxie), CPUID hypervisor-present bit\",\"SetUnhandledExceptionFilter (imported)\"],\"decoded_c2\":null,\"c2_protocol\":\"TCP (raw socket; connect/send on port 8443, exfiltrates 'SYSTEM:%s:WIN:%ld' victim identifier; kill-switch HTTP GET via InternetOpenUrlA to http://example.com)\"}}\n```\n",
+      "stderr": "\u001b[0m\n> build · deepseek/deepseek-v4-pro-0813\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1073, limit=800]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1835]\u001b[0m\n",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "T1486 Data Encrypted for Impact (ransomware; custom block cipher, .WNCRY extension, @Please_Read_Me@.txt ransom note)",
+          "T1497 Virtualization/Sandbox Evasion (VMware vmmouse.sys/vmhgfs.sys, Sandboxie sbiedll.dll, CPUID hypervisor bit)",
+          "T1622 Debugger Evasion (IsDebuggerPresent, PEB BeingDebugged via gs:[0x60]+2, NtQueryInformationProcess ProcessDebugPort)",
+          "T1027 Obfuscated Files or Information (XOR-encoded C2 address decoded at runtime)",
+          "T1210 Exploitation of Remote Services (SMB/TCP connect to port 445, 192.0.2.%d scan loop)",
+          "T1543.003 Create or Modify System Process (Windows service via OpenSCManagerA/CreateServiceA/StartServiceA, mssecsvc2.0)",
+          "T1082 System Information Discovery (GetComputerNameA, GetEnvironmentVariableA USERPROFILE/PUBLIC)",
+          "T1083 File and Directory Discovery (FindFirstFileA/FindNextFileA over target extension list)"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": "custom substitution-XOR block cipher (16-byte blocks, 10 rounds with S-box lookup and round-constant XOR); plus XOR stream cipher for C2 address",
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": "embedded plaintext string in .rdata (file offset 0x8500)"
+        },
+        "decoded_strings": {},
+        "anti_analysis": [
+          "IsDebuggerPresent (imported)",
+          "PEB BeingDebugged check (gs:[0x60]+2)",
+          "NtQueryInformationProcess ProcessDebugPort via dynamic GetProcAddress from ntdll.dll",
+          "Virtualization detection: C:\\Windows\\System32\\drivers\\vmmouse.sys, vmhgfs.sys (VMware), sbiedll.dll (Sandboxie), CPUID hypervisor-present bit",
+          "SetUnhandledExceptionFilter (imported)"
+        ],
+        "decoded_c2": null,
+        "c2_protocol": "TCP (raw socket; connect/send on port 8443, exfiltrates 'SYSTEM:%s:WIN:%ld' victim identifier; kill-switch HTTP GET via InternetOpenUrlA to http://example.com)"
+      }
+    }
+  ]
+}

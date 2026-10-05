@@ -1,0 +1,56 @@
+{
+  "track": "static-evidence",
+  "profile": "claude",
+  "model": "claude-opus-5-5",
+  "timeout_seconds": 300,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 130.81,
+      "exit_code": 0,
+      "stdout": "{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":true,\"techniques\":[\"File-encrypting ransomware (WannaCry-like): encrypts files in place, renames them with a .WNCRY extension (MoveFileA) and sets them hidden (SetFileAttributesA with 2)\",\"Recursive directory walk (FindFirstFileA/FindNextFileA with '%s\\\\*', skipping '.' and '..') starting at %PUBLIC%\\\\Documents\\\\synthetic_target, a path built as a stack string\",\"Encrypts only files whose extension is in a list (.doc .docx .xls .xlsx .ppt .pptx .pdf .txt .jpg .png .bmp .zip .rar .sql .mdb .cpp .html .css .xml .json .csv .mp3 .mp4 .avi .wav ...), matched with strrchr('.') and _stricmp against a pointer table in .data\",\"Writes the ransom note '@Please_Read_Me@.txt' to %USERPROFILE%\\\\Desktop and %USERPROFILE%\\\\Documents, asking for $300 in Bitcoin to 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa\",\"Kill switch: InternetOpenA('Microsoft Internet Explorer') then InternetOpenUrlA('http://example.com', 0x84000000); exits if the URL opens\",\"Single-instance mutex 'Global\\\\MsWinZonesCacheCounterMutexA'; exits if GetLastError returns 0xB7 (ERROR_ALREADY_EXISTS)\",\"Service persistence: OpenSCManagerA, then CreateServiceA 'mssecsvc2.0' / 'Microsoft Security Center (2.0)' (SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, binary path = own file from GetModuleFileNameA); falls back to OpenServiceA; then StartServiceA\",\"SMB port scan: TCP connect to 192.0.2.1 through 192.0.2.4 on port 445, 2000 ms receive timeout, Sleep(100) between hosts; connect and close only, no exploit payload\",\"C2 beacon: XOR-decodes a 13-byte C2 address, connects over TCP port 8443 and sends 'SYSTEM:<ComputerName>:WIN:<GetVersion>'\",\"The C2 address is XOR-encoded with a repeating key (decode routine 0x14000156b, key length 8); other strings are built on the stack\",\"Anti-debug, anti-VM and anti-sandbox checks run first; the program exits if any check fires\",\"Sleep(60000) at the end of the main routine\"],\"injection_details\":{},\"encryption_details\":{\"algorithm\":\"Custom AES-like block cipher (simplified AES-128): on each 16-byte block, 10 rounds of out[i] = AES_SBOX[b[i]] ^ key[i] ^ (round*0x1B); no ShiftRows or MixColumns; each block encrypted independently (ECB-style). Covers only the first 1 MB (0x100000) of a file and only whole 16-byte blocks; the file is truncated (SetFilePointer 0 + SetEndOfFile) and rewritten in place\",\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\"Hardcoded 16-byte plaintext ASCII string in .rdata at VA 0x14000A100 (file offset 0x8500); the standard AES S-box follows it at VA 0x14000A120 (file offset 0x8520)\"},\"decoded_strings\":{\"stack_string_0x140001a0a\":\".WNCRY\",\"stack_string_0x140002400\":\"\\\\Documents\\\\synthetic_target\",\"xor_encoded_c2_blob\":\"13 bytes at .data VA 0x140009128, XOR key of 8 bytes at .rdata VA 0x14000A220; these bytes are not in the evidence, so the plaintext cannot be recovered\"},\"anti_analysis\":[\"IsDebuggerPresent\",\"PEB->BeingDebugged check (gs:[0x60], byte at offset +2)\",\"NtQueryInformationProcess(ProcessDebugPort = 7), resolved at runtime with GetModuleHandleA('ntdll.dll') and GetProcAddress; debugger assumed if the port is -1\",\"VMware driver file checks with GetFileAttributesA: C:\\\\Windows\\\\System32\\\\drivers\\\\vmmouse.sys and C:\\\\Windows\\\\System32\\\\drivers\\\\vmhgfs.sys\",\"Sandboxie check: GetModuleHandleA('sbiedll.dll')\",\"CPUID leaf 1, ECX bit 31 (hypervisor-present bit)\",\"GetModuleHandleA('dbghelp.dll') is called but its result is never checked\",\"Kill-switch URL check (http://example.com) that stops execution if the URL is reachable\"],\"decoded_c2\":null,\"c2_protocol\":\"TCP\"}}\n",
+      "stderr": "",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "File-encrypting ransomware (WannaCry-like): encrypts files in place, renames them with a .WNCRY extension (MoveFileA) and sets them hidden (SetFileAttributesA with 2)",
+          "Recursive directory walk (FindFirstFileA/FindNextFileA with '%s\\*', skipping '.' and '..') starting at %PUBLIC%\\Documents\\synthetic_target, a path built as a stack string",
+          "Encrypts only files whose extension is in a list (.doc .docx .xls .xlsx .ppt .pptx .pdf .txt .jpg .png .bmp .zip .rar .sql .mdb .cpp .html .css .xml .json .csv .mp3 .mp4 .avi .wav ...), matched with strrchr('.') and _stricmp against a pointer table in .data",
+          "Writes the ransom note '@Please_Read_Me@.txt' to %USERPROFILE%\\Desktop and %USERPROFILE%\\Documents, asking for $300 in Bitcoin to 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+          "Kill switch: InternetOpenA('Microsoft Internet Explorer') then InternetOpenUrlA('http://example.com', 0x84000000); exits if the URL opens",
+          "Single-instance mutex 'Global\\MsWinZonesCacheCounterMutexA'; exits if GetLastError returns 0xB7 (ERROR_ALREADY_EXISTS)",
+          "Service persistence: OpenSCManagerA, then CreateServiceA 'mssecsvc2.0' / 'Microsoft Security Center (2.0)' (SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, binary path = own file from GetModuleFileNameA); falls back to OpenServiceA; then StartServiceA",
+          "SMB port scan: TCP connect to 192.0.2.1 through 192.0.2.4 on port 445, 2000 ms receive timeout, Sleep(100) between hosts; connect and close only, no exploit payload",
+          "C2 beacon: XOR-decodes a 13-byte C2 address, connects over TCP port 8443 and sends 'SYSTEM:<ComputerName>:WIN:<GetVersion>'",
+          "The C2 address is XOR-encoded with a repeating key (decode routine 0x14000156b, key length 8); other strings are built on the stack",
+          "Anti-debug, anti-VM and anti-sandbox checks run first; the program exits if any check fires",
+          "Sleep(60000) at the end of the main routine"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": "Custom AES-like block cipher (simplified AES-128): on each 16-byte block, 10 rounds of out[i] = AES_SBOX[b[i]] ^ key[i] ^ (round*0x1B); no ShiftRows or MixColumns; each block encrypted independently (ECB-style). Covers only the first 1 MB (0x100000) of a file and only whole 16-byte blocks; the file is truncated (SetFilePointer 0 + SetEndOfFile) and rewritten in place",
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": "Hardcoded 16-byte plaintext ASCII string in .rdata at VA 0x14000A100 (file offset 0x8500); the standard AES S-box follows it at VA 0x14000A120 (file offset 0x8520)"
+        },
+        "decoded_strings": {
+          "stack_string_0x140001a0a": ".WNCRY",
+          "stack_string_0x140002400": "\\Documents\\synthetic_target",
+          "xor_encoded_c2_blob": "13 bytes at .data VA 0x140009128, XOR key of 8 bytes at .rdata VA 0x14000A220; these bytes are not in the evidence, so the plaintext cannot be recovered"
+        },
+        "anti_analysis": [
+          "IsDebuggerPresent",
+          "PEB->BeingDebugged check (gs:[0x60], byte at offset +2)",
+          "NtQueryInformationProcess(ProcessDebugPort = 7), resolved at runtime with GetModuleHandleA('ntdll.dll') and GetProcAddress; debugger assumed if the port is -1",
+          "VMware driver file checks with GetFileAttributesA: C:\\Windows\\System32\\drivers\\vmmouse.sys and C:\\Windows\\System32\\drivers\\vmhgfs.sys",
+          "Sandboxie check: GetModuleHandleA('sbiedll.dll')",
+          "CPUID leaf 1, ECX bit 31 (hypervisor-present bit)",
+          "GetModuleHandleA('dbghelp.dll') is called but its result is never checked",
+          "Kill-switch URL check (http://example.com) that stops execution if the URL is reachable"
+        ],
+        "decoded_c2": null,
+        "c2_protocol": "TCP"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1832 @@
+{
+  "pe_rva": {
+    "q1": {
+      "answer": "0x680",
+      "resolution": "RVA 0x2080 pertenece a .rdata: raw 0x600 + 0x80."
+    },
+    "q2": {
+      "answer": "B",
+      "resolution": ".rdata tiene tamaño virtual 0x300 y raw 0x200; 0x2250 cae en la parte no respaldada por archivo."
+    },
+    "q3": {
+      "answer": "B",
+      "resolution": "ImageBase 0x140000000 + AddressOfEntryPoint 0x1000."
+    }
+  },
+  "pe_reloc": {
+    "q1": {
+      "answer": "0x180001234",
+      "resolution": "QWORD original 0x140001234 + delta 0x40000000."
+    },
+    "q2": {
+      "answer": "B",
+      "resolution": "El nibble alto A es IMAGE_REL_BASED_DIR64; offset 0x028 en página RVA 0x2000."
+    },
+    "q3": {
+      "answer": "0x40000000",
+      "resolution": "0x180000000 - 0x140000000."
+    }
+  },
+  "abi_x64": {
+    "q1": {
+      "answer": "0x55",
+      "resolution": "En entrada de callee, retorno en [rsp], shadow space [rsp+8..+27], quinto argumento en [rsp+28]."
+    },
+    "q2": {
+      "answer": "B",
+      "resolution": "[rsp+20] es el cuarto QWORD del espacio reservado, no un argumento de pila."
+    },
+    "q3": {
+      "answer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "resolution": "Los registros transportan los cuatro primeros enteros y los siguientes están tras el shadow space; los home slots no tienen por qué estar rellenados."
+    }
+  },
+  "crash_av": {
+    "q1": {
+      "answer": "A",
+      "resolution": "Parameter[0]=0 indica lectura; Parameter[1]=0x18 indica la dirección."
+    },
+    "q2": {
+      "answer": "B",
+      "resolution": "RAX=0 y la instrucción desreferencia [RAX+0x18]."
+    },
+    "q3": {
+      "answer": "B",
+      "resolution": "La función devuelve un contexto opcional; hay que manejar el caso nulo en el flujo, no ocultar la instrucción."
+    }
+  },
+  "wow64_view": {
+    "q1": {
+      "answer": "B",
+      "resolution": "Sysnative es el alias virtual de WOW64 hacia System32 nativo."
+    },
+    "q2": {
+      "answer": "C",
+      "resolution": "KEY_WOW64_64KEY selecciona la vista de 64 bits."
+    },
+    "q3": {
+      "answer": [
+        "A",
+        "B"
+      ],
+      "resolution": "Las dos redirecciones explican los resultados; abrir un archivo x64 no lo hace cargable en proceso x86."
+    }
+  },
+  "unwind_x64": {
+    "q1": {
+      "answer": "B",
+      "resolution": "El walker presupone leaf al no hallar RUNTIME_FUNCTION, pero RSP y RBX fueron modificados."
+    },
+    "q2": {
+      "answer": "A",
+      "resolution": "RtlAddFunctionTable registra entradas RUNTIME_FUNCTION para código generado dinámicamente."
+    },
+    "q3": {
+      "answer": [
+        "A",
+        "B"
+      ],
+      "resolution": "UNWIND_INFO describe los efectos del prólogo sobre pila y registros no volátiles."
+    }
+  },
+  "symbols_pdb": {
+    "q1": {
+      "answer": "0x71A0",
+      "resolution": "RIP menos base = 0x71A0."
+    },
+    "q2": {
+      "answer": "B",
+      "resolution": "CodeView RSDS identifica PDB por GUID y Age; aquí Age difiere."
+    },
+    "q3": {
+      "answer": "B",
+      "resolution": "El código y la dirección del módulo cargado son evidencia directa; el nombre de un PDB ajeno no lo es."
+    }
+  },
+  "loader_lock": {
+    "q1": {
+      "answer": "B",
+      "resolution": "El loader serializa las notificaciones; DllMain aún retiene la secuencia que el worker necesita cruzar."
+    },
+    "q2": {
+      "answer": "B",
+      "resolution": "La inicialización bloqueante debe realizarse fuera de DllMain."
+    },
+    "q3": {
+      "answer": "A",
+      "resolution": "La traza muestra que el hilo fue creado."
+    }
+  },
+  "etw_pid": {
+    "q1": {
+      "answer": "B",
+      "resolution": "El evento lleva clave B92 y ocurre después del nuevo ProcessStart."
+    },
+    "q2": {
+      "answer": "C",
+      "resolution": "La clave de inicio distingue instancias que comparten PID en momentos diferentes."
+    },
+    "q3": {
+      "answer": "B",
+      "resolution": "El mismo PID 4380 identifica dos procesos consecutivos."
+    }
+  },
+  "plugin_lifetime": {
+    "q1": {
+      "answer": "B",
+      "resolution": "FreeLibrary libera la última referencia y desmapea la imagen; el puntero persistente queda colgando."
+    },
+    "q2": {
+      "answer": "A",
+      "resolution": "Debe existir una garantía de vida útil del módulo hasta que terminen todos los usos del callback."
+    },
+    "q3": {
+      "answer": "A",
+      "resolution": "La reutilización del rango puede convertir el puntero colgante en una dirección ejecutable de otro código."
+    }
+  },
+  "x86_stack": {
+    "q1": {
+      "answer": "0x10",
+      "resolution": "ret 10h retira 0x10 bytes de argumentos después de consumir la dirección de retorno."
+    },
+    "q2": {
+      "answer": "B",
+      "resolution": "El ret inmediato prueba limpieza de cuatro DWORD por el callee."
+    },
+    "q3": {
+      "answer": "B",
+      "resolution": "La secuencia no identifica por sí sola el atributo de lenguaje fuente."
+    }
+  },
+  "rip_relative": {
+    "q1": {
+      "answer": "0x180004B00",
+      "resolution": "RIP apunta a la siguiente instrucción 0x180005127; -0x627 = 0x180004B00."
+    },
+    "q2": {
+      "answer": "0x6B00",
+      "resolution": "0x6317 + 0x7E9 = 0x6B00."
+    },
+    "q3": {
+      "answer": "B",
+      "resolution": "El disp32 cambia aunque la forma de la instrucción se conserva."
+    }
+  },
+  "xor_config": {
+    "q1": {
+      "answer": "A",
+      "resolution": "XOR con 0x5A de los bytes tras la cabecera da MODE=SAFE;PORT=8443."
+    },
+    "q2": {
+      "answer": "0x5A",
+      "resolution": "La clave está en offset 4."
+    },
+    "q3": {
+      "answer": "A",
+      "resolution": "La longitud en offset 5 delimita el payload."
+    }
+  },
+  "com_activation": {
+    "q1": {
+      "answer": "B",
+      "resolution": "RPC_E_CHANGED_MODE indica un segundo CoInitializeEx incompatible con el STA ya establecido."
+    },
+    "q2": {
+      "answer": "C",
+      "resolution": "La ruta del archivo no altera la arquitectura del código."
+    },
+    "q3": {
+      "answer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "resolution": "Hay que corregir el apartamento del hilo y elegir arquitectura compatible o frontera entre procesos."
+    }
+  },
+  "aob_versions": {
+    "q1": {
+      "answer": "A",
+      "resolution": "Enmascara desplazamientos variables y conserva el sufijo que diferencia el no objetivo."
+    },
+    "q2": {
+      "answer": [
+        "A",
+        "B"
+      ],
+      "resolution": "Cambian los cuatro bytes de RIP-relative y el salto corto; el resto objetivo permanece."
+    },
+    "q3": {
+      "answer": "B",
+      "resolution": "Una firma necesita validación del match y de la referencia calculada, no solo una coincidencia de bytes."
+    }
+  },
+  "hard_license": {
+    "q1": {
+      "answer": "N7K4C2R9Q5M8V3X6T1P0",
+      "resolution": "El programa descifra current_cipher con el generador y compara los 20 bytes del candidato."
+    },
+    "q2": {
+      "answer": "A1B2C3D4E5F6G7H8J9K0",
+      "resolution": "La ruta --retired usa un seed y array distintos; no participa en la activación normal."
+    },
+    "q3": {
+      "answer": "0x3212cf66",
+      "resolution": "Aplicar diez iteraciones de la recurrencia de 32 bits con wraparound."
+    },
+    "q4": {
+      "answer": "0x1180",
+      "resolution": "Seguir la llamada desde check_candidate a la rama que usa current_cipher."
+    }
+  },
+  "hard_vm": {
+    "q1": {
+      "answer": "Q8M4Z2N7R5T9V3X6",
+      "resolution": "Invertir LOAD/XOR/ROL/ADD/CMP para cada índice en el orden del programa."
+    },
+    "q2": {
+      "answer": "0x6d",
+      "resolution": "Seed de la recurrencia byte = byte*73+41 antes de cada XOR."
+    },
+    "q3": {
+      "answer": "A",
+      "resolution": "El intérprete rota el acumulador de 8 bits a la izquierda."
+    },
+    "q4": {
+      "answer": "7,0,12,3",
+      "resolution": "Las primeras cuatro instrucciones LOAD apuntan a esos índices."
+    },
+    "q5": {
+      "answer": "af1ccf55231d74341be7b089261c10f6f1dd5331c73b7b14b596422f29152de8",
+      "resolution": "Hash del programa tras deshacer el stream XOR, antes de interpretarlo."
+    }
+  },
+  "hard_pattern": {
+    "q1": {
+      "answer": "0x1070",
+      "resolution": "Identificar el lector seguido de XOR, aritmética y rotación; el otro lector es auditoría."
+    },
+    "q2": {
+      "answer": "0x1080",
+      "resolution": "El desplazamiento de código cambió tras compilar la segunda versión."
+    },
+    "q3": {
+      "answer": "0x1090",
+      "resolution": "La tercera versión añade más instrucciones antes de la rutina objetivo."
+    },
+    "q4": {
+      "answer": "A",
+      "resolution": "Se enmascaran inmediatos variables y el opcode add/sub; el sufijo ROR3 y la carga +0x2A8 fijan la semántica. Validado único en las tres .text."
+    },
+    "q5": {
+      "answer": "0x3091c972",
+      "resolution": "En v3: XOR 0x76E2845D, suma modular 0xE13B6709 (compilada como SUB negativo), rotación izquierda 3."
+    }
+  },
+  "hard_tls_state": {
+    "q1": {
+      "answer": {
+        "tables": {
+          "keys": [
+            "0x4cf5ad432745937f",
+            "0xe97b1d0f83ac6b29",
+            "0xc13fa9a902a6328f",
+            "0x7b4d3be2a5ed7d63",
+            "0xd0ed6f7758fb31a9",
+            "0x2b6d85fe993ce12d",
+            "0x8a6e52342d9afc71",
+            "0xf963b3d5c6a98e4b"
+          ],
+          "muls": [
+            "0x9e3779b185ebca87",
+            "0xc2b2ae3d27d4eb4f",
+            "0xd6e8feb86659fd93",
+            "0xa24baed4963ee407"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "lookup",
+            "table": "keys",
+            "index": "0x0"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "x",
+            "b": "r0"
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "keys",
+            "index": "0x1"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "y",
+            "b": "r1"
+          },
+          {
+            "op": "loop",
+            "count": 8,
+            "body": [
+              {
+                "dst": "r2",
+                "op": "rol",
+                "a": "r1",
+                "bits": 11
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r0",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "keys",
+                "index": "i"
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r2",
+                "b": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "xor",
+                "a": "r2",
+                "b": "x"
+              },
+              {
+                "dst": "r4",
+                "op": "and",
+                "a": "r4",
+                "b": "0x200"
+              },
+              {
+                "dst": "r5",
+                "op": "rol",
+                "a": "r2",
+                "bits": 13
+              },
+              {
+                "dst": "r6",
+                "op": "add",
+                "a": "i",
+                "b": "0x3"
+              },
+              {
+                "dst": "r6",
+                "op": "lookup",
+                "table": "keys",
+                "index": "r6"
+              },
+              {
+                "dst": "r6",
+                "op": "xor",
+                "a": "r2",
+                "b": "r6"
+              },
+              {
+                "dst": "r6",
+                "op": "ror",
+                "a": "r6",
+                "bits": 17
+              },
+              {
+                "dst": "r0",
+                "op": "sel",
+                "cond": "r4",
+                "a": "r5",
+                "b": "r6"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              },
+              {
+                "dst": "r7",
+                "op": "lookup",
+                "table": "muls",
+                "index": "i"
+              },
+              {
+                "dst": "r1",
+                "op": "mul",
+                "a": "r1",
+                "b": "r7"
+              },
+              {
+                "dst": "r8",
+                "op": "add",
+                "a": "i",
+                "b": "0x5"
+              },
+              {
+                "dst": "r8",
+                "op": "lookup",
+                "table": "keys",
+                "index": "r8"
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r1",
+                "b": "r8"
+              }
+            ]
+          },
+          {
+            "dst": "r2",
+            "op": "rol",
+            "a": "r1",
+            "bits": 23
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r3",
+            "op": "mul",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r3",
+            "op": "mul",
+            "a": "r3",
+            "b": "0x8cb92ba72f3d8dd7"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r3"
+          }
+        ],
+        "return": "r0"
+      },
+      "resolution": "Seguir el callback TLS, descifrar las ocho claves y modelar las ocho iteraciones con lookup y loop; validar contra el oráculo."
+    },
+    "q2": {
+      "answer": "0x1000",
+      "resolution": "La dirección figura en la lista de callbacks del directorio TLS del PE."
+    },
+    "q3": {
+      "answer": "0x11d0",
+      "resolution": "Seguir la llamada desde main después de la comprobación del estado inicializado."
+    },
+    "q4": {
+      "answer": "0x4cf5ad432745937f",
+      "resolution": "El callback descifra la primera entrada, que reemplaza el valor señuelo en .data."
+    },
+    "q5": {
+      "answer": "0x5685dd8b1b0483f1",
+      "resolution": "Consultar el oráculo o ejecutar el programa reconstruido con esos parámetros."
+    },
+    "q6": {
+      "answer": "B",
+      "resolution": "Los callbacks TLS del loader se ejecutan antes de la entrada normal del programa y actualizan la tabla."
+    }
+  },
+  "hard_delay_import": {
+    "q1": {
+      "answer": "0x211e4",
+      "resolution": "Localizar el descriptor de USER32.dll a partir del directorio 13."
+    },
+    "q2": {
+      "answer": "0x21368",
+      "resolution": "Leer pUnloadIAT, el séptimo DWORD del descriptor RVA-based."
+    },
+    "q3": {
+      "answer": "0x20168",
+      "resolution": "Convertir el RVA de la UIAT mediante la sección que lo respalda en disco."
+    },
+    "q4": {
+      "answer": "0x140001bb3",
+      "resolution": "Leer el primer QWORD del delay IAT antes de la resolución dinámica."
+    },
+    "q5": {
+      "answer": "0x22b80",
+      "resolution": "pHmod señala la celda que recibe el handle del módulo."
+    },
+    "q6": {
+      "answer": [
+        "A",
+        "C",
+        "E"
+      ],
+      "resolution": "RvaBased=1; pUnloadIAT guarda copia del IAT original y RVA+ImageBase da la VA preferida."
+    },
+    "q7": {
+      "answer": "B",
+      "resolution": "La descarga restaura el IAT desde la UIAT; la siguiente llamada pasa de nuevo por el helper."
+    }
+  },
+  "hard_unwind_frame": {
+    "q1": {
+      "answer": "0x10a0",
+      "resolution": "Buscar la entrada de .pdata cuyo BeginAddress cubre el RIP del cuerpo."
+    },
+    "q2": {
+      "answer": "0x1edf0",
+      "resolution": "La tercera DWORD de RUNTIME_FUNCTION es el RVA del UNWIND_INFO."
+    },
+    "q3": {
+      "answer": "0x88",
+      "resolution": "UWOP_ALLOC_LARGE con OpInfo=0 usa el siguiente slot multiplicado por 8."
+    },
+    "q4": {
+      "answer": "0x20",
+      "resolution": "FrameOffset en el header de UNWIND_INFO se expresa en unidades de 16 bytes."
+    },
+    "q5": {
+      "answer": "0xc00100ff10",
+      "resolution": "RSP actual +0x88 de reserva +0x10 de PUSHs +0x8 de dirección de retorno."
+    },
+    "q6": {
+      "answer": "0x1122334455667788",
+      "resolution": "El PUSH RBX guardó su valor del llamador en [RSP+0x88]."
+    },
+    "q7": {
+      "answer": "0x7ff612345678",
+      "resolution": "El return address está tras la reserva y los dos registros guardados."
+    },
+    "q8": {
+      "answer": "A",
+      "resolution": "Los CodeOffset permiten aplicar solo operaciones del prólogo ya ejecutadas."
+    }
+  },
+  "hard_resource_stream": {
+    "q1": {
+      "answer": {
+        "tables": {
+          "k": [
+            "0x36e5e109598cd19f",
+            "0xfbbb755537f649cf",
+            "0xb7255472a85b40dd",
+            "0x5ccca9a0a23757bb",
+            "0x59b23fdbb5fde67f",
+            "0x5747392fd70fa131",
+            "0xd35225abb3bbc851",
+            "0x22bcc7e6ea0579f",
+            "0xce2dda66a102ca3d",
+            "0x37fa26ad1b795e15",
+            "0x4985cffaeb5613ad",
+            "0xdf623939589c78f9",
+            "0x45382f6fb73f2a97",
+            "0x1d7c168aeae95889",
+            "0xeb4948048a4b433b",
+            "0x2da0e35ad183fd1f"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "lookup",
+            "table": "k",
+            "index": 0
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "k",
+            "index": 1
+          },
+          {
+            "dst": "r1",
+            "op": "mul",
+            "a": "n",
+            "b": "r1"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r1"
+          },
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": 2
+          },
+          {
+            "dst": "r3",
+            "op": "lookup",
+            "table": "k",
+            "index": 3
+          },
+          {
+            "dst": "r3",
+            "op": "xor",
+            "a": "n",
+            "b": "r3"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "r2",
+            "b": "r3"
+          },
+          {
+            "op": "each",
+            "body": [
+              {
+                "dst": "r2",
+                "op": "rol",
+                "a": "r1",
+                "bits": 11
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r0",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "add",
+                "a": "byte",
+                "b": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r2",
+                "b": "r4"
+              },
+              {
+                "dst": "r5",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "r6",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r2",
+                "op": "mul",
+                "a": "r2",
+                "b": "r6"
+              },
+              {
+                "dst": "r7",
+                "op": "and",
+                "a": "r5",
+                "b": 4
+              },
+              {
+                "dst": "r8",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "r8",
+                "op": "lookup",
+                "table": "k",
+                "index": "r8"
+              },
+              {
+                "dst": "r9",
+                "op": "xor",
+                "a": "r2",
+                "b": "r8"
+              },
+              {
+                "dst": "r9",
+                "op": "rol",
+                "a": "r9",
+                "bits": 17
+              },
+              {
+                "dst": "r10",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "r10",
+                "op": "lookup",
+                "table": "k",
+                "index": "r10"
+              },
+              {
+                "dst": "r11",
+                "op": "add",
+                "a": "r2",
+                "b": "r10"
+              },
+              {
+                "dst": "r11",
+                "op": "ror",
+                "a": "r11",
+                "bits": 13
+              },
+              {
+                "dst": "r0",
+                "op": "sel",
+                "cond": "r7",
+                "a": "r9",
+                "b": "r11"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              },
+              {
+                "dst": "r12",
+                "op": "add",
+                "a": "i",
+                "b": 7
+              },
+              {
+                "dst": "r12",
+                "op": "lookup",
+                "table": "k",
+                "index": "r12"
+              },
+              {
+                "dst": "r1",
+                "op": "mul",
+                "a": "r1",
+                "b": "r12"
+              },
+              {
+                "dst": "r13",
+                "op": "add",
+                "a": "i",
+                "b": 1
+              },
+              {
+                "dst": "r13",
+                "op": "lookup",
+                "table": "k",
+                "index": "r13"
+              },
+              {
+                "dst": "r14",
+                "op": "xor",
+                "a": "byte",
+                "b": "r13"
+              },
+              {
+                "dst": "r14",
+                "op": "rol",
+                "a": "r14",
+                "bits": 5
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r1",
+                "b": "r14"
+              }
+            ]
+          },
+          {
+            "dst": "r2",
+            "op": "rol",
+            "a": "r1",
+            "bits": 29
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r3",
+            "op": "lookup",
+            "table": "k",
+            "index": "n"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r3"
+          },
+          {
+            "dst": "r4",
+            "op": "mul",
+            "a": "n",
+            "b": "0xd6e8feb86659fd93"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r4"
+          }
+        ],
+        "return": "r0"
+      },
+      "resolution": "Seguir la carga de RCDATA, descifrar 16 claves y reconstruir las actualizaciones dependientes de byte e índice; comparar con 384 entradas ocultas."
+    },
+    "q2": {
+      "answer": "0x1390",
+      "resolution": "Seguir el valor que llega a printf; decoy_checksum solo actualiza un sink diagnóstico."
+    },
+    "q3": {
+      "answer": "0x2bd",
+      "resolution": "FindResourceA selecciona el identificador 701; el 702 es un recurso señuelo."
+    },
+    "q4": {
+      "answer": "0x36e5e109598cd19f",
+      "resolution": "Descifrar la primera entrada del recurso RCDATA mediante el estado inicial de load_keys."
+    },
+    "q5": {
+      "answer": "0x69525313027e3fc2",
+      "resolution": "Con n=0 no se ejecuta el bucle; se combinan los estados iniciales y k[0]."
+    },
+    "q6": {
+      "answer": "0x2a47a248c39bf88c",
+      "resolution": "Evaluar la transformación real o consultar el oráculo con los 16 bytes."
+    },
+    "q7": {
+      "answer": [
+        "A",
+        "D"
+      ],
+      "resolution": "El recurso 701 aporta las claves y la iteración depende de n, i y byte; los señuelos no determinan el valor impreso."
+    }
+  },
+  "hard_repair_aob": {
+    "q1": {
+      "answer": {
+        "sites": {
+          "length": {
+            "pattern": "81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8",
+            "offset": 6,
+            "byte": "77"
+          },
+          "flag": {
+            "pattern": "00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01",
+            "offset": 6,
+            "byte": "74"
+          }
+        },
+        "versions": [
+          {
+            "path": "public/artifacts/hard_repair/repair_v1.exe",
+            "length_rva": "0x1177",
+            "flag_rva": "0x117c"
+          },
+          {
+            "path": "public/artifacts/hard_repair/repair_v2.exe",
+            "length_rva": "0x1207",
+            "flag_rva": "0x120c"
+          },
+          {
+            "path": "public/artifacts/hard_repair/repair_v3.exe",
+            "length_rva": "0x1187",
+            "flag_rva": "0x118c"
+          },
+          {
+            "path": "private/hard/hidden/repair_v4.exe",
+            "length_rva": "0x11c7",
+            "flag_rva": "0x11cc"
+          }
+        ],
+        "tests": [
+          {
+            "x": "0x0",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x0",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x0",
+            "y": "0x20",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x0",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x20",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x21",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x20",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x21",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x20",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x20",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x110",
+            "y": "0x31",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xba",
+            "y": "0x2c",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x4f",
+            "y": "0xc",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xee",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xc4",
+            "y": "0x24",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x83",
+            "y": "0x15",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x24",
+            "y": "0x8",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x85",
+            "y": "0x3e",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x88",
+            "y": "0x39",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x74",
+            "y": "0xd",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xa",
+            "y": "0x1e",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x113",
+            "y": "0xd",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xfe",
+            "y": "0x3c",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0xf5",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x5c",
+            "y": "0x25",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xe8",
+            "y": "0x29",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x82",
+            "y": "0x34",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0xc8",
+            "y": "0x1b",
+            "output": "REJECT"
+          }
+        ]
+      },
+      "resolution": "Localizar los dos JCC defectuosos, crear firmas únicas entre builds, reemplazar solo sus opcodes y validar la función reparada con entradas ocultas.",
+      "canonical_patch": {
+        "sites": {
+          "length": {
+            "pattern": "81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8",
+            "offset": 6,
+            "byte": "77"
+          },
+          "flag": {
+            "pattern": "00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01",
+            "offset": 6,
+            "byte": "74"
+          }
+        }
+      }
+    },
+    "q2": {
+      "answer": "0x1170",
+      "resolution": "Seguir la llamada desde main hasta la rutina que decide el texto impreso."
+    },
+    "q3": {
+      "answer": "0x1207",
+      "resolution": "El primer salto corto tras comparar x con 0x100 es inclusivo por error."
+    },
+    "q4": {
+      "answer": "0x118c",
+      "resolution": "El salto que sigue a TEST del bit 0x20 tiene la polaridad equivocada."
+    },
+    "q5": {
+      "answer": "A",
+      "resolution": "El límite x=0x100 es válido y el bit requerido de y está presente."
+    },
+    "q6": {
+      "answer": "B",
+      "resolution": "Sin el bit requerido de y debe rechazarse."
+    },
+    "q7": {
+      "answer": [
+        "A",
+        "C",
+        "E"
+      ],
+      "resolution": "Las firmas deben ser únicas, señalar el opcode y conservar las decisiones positivas y negativas correctas."
+    }
+  },
+  "hard_tls_stream2": {
+    "q1": {
+      "answer": {
+        "tables": {
+          "k": [
+            "0x9631d3fca527cc7d",
+            "0xb2f05aa3bebf5615",
+            "0xf5a56ee0b019f42f",
+            "0xc6d53be849f074d7",
+            "0x391ac53cee7726f1",
+            "0x25c69dad62a3857",
+            "0x3f475c4dd0b3c81",
+            "0xb3f0dfecb605870f",
+            "0xbdccf37a21b32819",
+            "0x82ec2e9fe64913f1",
+            "0x1ce9936e54d03247",
+            "0x4b4417846c599dd",
+            "0xb55954c12e91be97",
+            "0x23985cc0f44d934b",
+            "0x44f2899235d13b47",
+            "0xa4f52a10900e4cc7"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "lookup",
+            "table": "k",
+            "index": 0
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "k",
+            "index": 1
+          },
+          {
+            "dst": "r1",
+            "op": "mul",
+            "a": "n",
+            "b": "r1"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r1"
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "k",
+            "index": 2
+          },
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": 3
+          },
+          {
+            "dst": "r2",
+            "op": "xor",
+            "a": "n",
+            "b": "r2"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "r1",
+            "b": "r2"
+          },
+          {
+            "op": "each",
+            "body": [
+              {
+                "dst": "r2",
+                "op": "rol",
+                "a": "r1",
+                "bits": 7
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r0",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": 5
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "add",
+                "a": "byte",
+                "b": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r2",
+                "b": "r4"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "mul",
+                "a": "r2",
+                "b": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "r4",
+                "op": "and",
+                "a": "r4",
+                "b": 1
+              },
+              {
+                "dst": "r5",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "xor",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "rol",
+                "a": "r6",
+                "bits": 13
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "add",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "ror",
+                "a": "r7",
+                "bits": 11
+              },
+              {
+                "dst": "r0",
+                "op": "sel",
+                "cond": "r4",
+                "a": "r6",
+                "b": "r7"
+              },
+              {
+                "dst": "r3",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 11
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r1",
+                "op": "mul",
+                "a": "r3",
+                "b": "r5"
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r1",
+                "b": "byte"
+              }
+            ]
+          },
+          {
+            "op": "each_reverse",
+            "body": [
+              {
+                "dst": "r2",
+                "op": "ror",
+                "a": "r0",
+                "bits": 9
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r1",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r2",
+                "b": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "r4",
+                "op": "and",
+                "a": "r4",
+                "b": 32
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 7
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "xor",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "rol",
+                "a": "r6",
+                "bits": 17
+              },
+              {
+                "dst": "r5",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "add",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "ror",
+                "a": "r7",
+                "bits": 19
+              },
+              {
+                "dst": "r1",
+                "op": "sel",
+                "cond": "r4",
+                "a": "r6",
+                "b": "r7"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "r0",
+                "b": "r1"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 1
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r3",
+                "op": "mul",
+                "a": "r3",
+                "b": "r5"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 2
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "byte",
+                "b": "r5"
+              },
+              {
+                "dst": "r5",
+                "op": "rol",
+                "a": "r5",
+                "bits": 5
+              },
+              {
+                "dst": "r0",
+                "op": "xor",
+                "a": "r3",
+                "b": "r5"
+              }
+            ]
+          },
+          {
+            "dst": "r2",
+            "op": "rol",
+            "a": "r1",
+            "bits": 29
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": "n"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r2",
+            "op": "mul",
+            "a": "n",
+            "b": "0x8cb92ba72f3d8dd7"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          }
+        ],
+        "return": "r0"
+      },
+      "resolution": "Descifrar el RCDATA 803 desde el callback TLS, reconstruir ambos recorridos y contrastar la etiqueta en 384 mensajes ocultos."
+    },
+    "q2": {
+      "answer": "0x1380",
+      "resolution": "Seguir el valor entregado al printf hasta two_pass_tag."
+    },
+    "q3": {
+      "answer": "0x1000",
+      "resolution": "Leer el directorio TLS del PE y resolver el VA del callback."
+    },
+    "q4": {
+      "answer": "0x323",
+      "resolution": "FindResourceA selecciona 803; 804 es un señuelo."
+    },
+    "q5": {
+      "answer": "0x9631d3fca527cc7d",
+      "resolution": "Aplicar el descifrado del callback a la primera entrada RCDATA."
+    },
+    "q6": {
+      "answer": "0x1f414d20d78f5559",
+      "resolution": "Los dos recorridos omiten su cuerpo si n=0."
+    },
+    "q7": {
+      "answer": "0xe4c071b4b88381e5",
+      "resolution": "Ejecutar el oráculo o evaluar ambos recorridos con las claves efectivas."
+    },
+    "q8": {
+      "answer": [
+        "A",
+        "C"
+      ],
+      "resolution": "TLS inicializa las claves y el segundo bucle recorre índices decrecientes."
+    }
+  },
+  "hard_crash_dump": {
+    "q1": {
+      "answer": "0xc0000005",
+      "resolution": "MINIDUMP_EXCEPTION_STREAM contiene el código 0xC0000005."
+    },
+    "q2": {
+      "answer": "0x10ae",
+      "resolution": "Restar la base del módulo al ExceptionAddress del minidump."
+    },
+    "q3": {
+      "answer": "0x7a200003",
+      "resolution": "ExceptionInformation[1] es la VA leída, correspondiente al puntero truncado más 3."
+    },
+    "q4": {
+      "answer": "A",
+      "resolution": "ExceptionInformation[0]=0 indica lectura en una excepción de acceso."
+    },
+    "q5": {
+      "answer": "0x1d47a200000",
+      "resolution": "El JOB conserva expected_payload y la auditoría desofusca el puntero completo."
+    },
+    "q6": {
+      "answer": "0xa5c39fa92b920f46",
+      "resolution": "El JOB de la región de datos contiene allocation XOR COOKIE."
+    },
+    "q7": {
+      "answer": "0xa5c39e7d51b20f46",
+      "resolution": "La constante inmediata de la rutina que descodifica el puntero."
+    },
+    "q8": {
+      "answer": "0x13e0",
+      "resolution": "Seguir la llamada desde dispatch_job a resolve_payload."
+    },
+    "q9": {
+      "answer": "0x10a0",
+      "resolution": "Seguir la llamada desde resolve_payload a la lectura que falla."
+    },
+    "q10": {
+      "answer": "0x1b5",
+      "resolution": "Leer payload[3] y payload[7] del dump y propagar consume_payload, resolve_payload y dispatch_job."
+    },
+    "q11": {
+      "answer": "B",
+      "resolution": "Un uint32_t intermedio descarta la mitad alta de la dirección válida."
+    },
+    "q12": {
+      "answer": [
+        "A",
+        "B"
+      ],
+      "resolution": "Conservar los 64 bits o eliminar el estrechamiento evita usar una VA truncada."
+    }
+  },
+  "hard_pipeline": {
+    "q1": {
+      "answer": {
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "x",
+            "b": "0xd6e8feb86659fd93"
+          },
+          {
+            "dst": "r0",
+            "op": "rol",
+            "a": "r0",
+            "bits": 13
+          },
+          {
+            "dst": "r1",
+            "op": "mul",
+            "a": "y",
+            "b": "0x9e3779b185ebca87"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "r1",
+            "b": "0xa0761d6478bd642f"
+          },
+          {
+            "dst": "r2",
+            "op": "add",
+            "a": "r0",
+            "b": "r1"
+          },
+          {
+            "dst": "r3",
+            "op": "xor",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r3",
+            "op": "and",
+            "a": "r3",
+            "b": "0x20"
+          },
+          {
+            "dst": "r4",
+            "op": "xor",
+            "a": "r2",
+            "b": "0xe7037ed1a0b428db"
+          },
+          {
+            "dst": "r4",
+            "op": "rol",
+            "a": "r4",
+            "bits": 17
+          },
+          {
+            "dst": "r5",
+            "op": "add",
+            "a": "r2",
+            "b": "0x8ebc6af09c88c6e3"
+          },
+          {
+            "dst": "r5",
+            "op": "ror",
+            "a": "r5",
+            "bits": 9
+          },
+          {
+            "dst": "r6",
+            "op": "sel",
+            "cond": "r3",
+            "a": "r4",
+            "b": "r5"
+          },
+          {
+            "dst": "r7",
+            "op": "add",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r7",
+            "op": "mul",
+            "a": "r7",
+            "b": "0xc2b2ae3d27d4eb4f"
+          },
+          {
+            "dst": "r8",
+            "op": "xor",
+            "a": "r6",
+            "b": "r7"
+          }
+        ],
+        "return": "r8"
+      },
+      "resolution": "Reconstruir la secuencia de operaciones y la selección condicional del código x64; se valida funcionalmente en 256 pares."
+    },
+    "q2": {
+      "answer": "0x1100",
+      "resolution": "Seguir la llamada de main a la rutina que mezcla x e y."
+    },
+    "q3": {
+      "answer": "0x73e9a26282ac1611",
+      "resolution": "Aplicar la función recuperada; también se puede contrastar con el oráculo."
+    },
+    "q4": {
+      "answer": "0x20",
+      "resolution": "La condición prueba el bit 0x20 de x XOR y."
+    },
+    "q5": {
+      "answer": "0xc2b2ae3d27d4eb4f",
+      "resolution": "Constante de la multiplicación final que se combina por XOR con la rama."
+    }
+  },
+  "hard_pattern_open": {
+    "q1": {
+      "answer": {
+        "pattern": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+        "targets": [
+          {
+            "path": "public/artifacts/hard_pattern/layout_v1.exe",
+            "rva": "0x1070"
+          },
+          {
+            "path": "public/artifacts/hard_pattern/layout_v2.exe",
+            "rva": "0x1080"
+          },
+          {
+            "path": "public/artifacts/hard_pattern/layout_v3.exe",
+            "rva": "0x1090"
+          },
+          {
+            "path": "private/hard/hidden/layout_v4.exe",
+            "rva": "0x1090"
+          }
+        ]
+      },
+      "resolution": "El patrón se escanea en .text de cada build y debe coincidir una sola vez exactamente en la rutina viva.",
+      "canonical_pattern": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3"
+    },
+    "q2": {
+      "answer": "0x1070",
+      "resolution": "Identificar la función con XOR, aritmética y rotación, no la de auditoría."
+    },
+    "q3": {
+      "answer": "0x1090",
+      "resolution": "La función viva se desplaza al crecer el decoy."
+    },
+    "q4": {
+      "answer": "B",
+      "resolution": "SUB de un complemento a dos equivale a ADD módulo 2^32."
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "track": "static-evidence",
+  "profile": "claude",
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 1.56,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Error: Input must be provided either through stdin or as a prompt argument when using --print\n",
+      "parse_error": "No valid JSON answer with matching case_id"
+    }
+  ]
+}

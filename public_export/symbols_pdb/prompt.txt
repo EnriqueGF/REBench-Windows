@@ -1,0 +1,30 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO symbols_pdb: Nombre de función falso por PDB ajeno
+Dos builds de una DLL comparten nombre de archivo y una función se desplazó. Un informe usa símbolos de una build anterior y atribuye el fallo a una función que no está en el binario cargado.
+
+--- ARTEFACTO artifacts/symbols_pdb/symbols.txt ---
+Módulo cargado: appcore.dll, base 00007ffb`40000000, tamaño 0x40000
+CodeView RSDS del módulo: GUID {5AAE44F6-831D-4B2E-BE20-97B6EB7720D2}, Age 3
+PDB encontrado en caché: appcore.pdb, GUID {5AAE44F6-831D-4B2E-BE20-97B6EB7720D2}, Age 2
+RIP del crash: 00007ffb`400071A0
+!lmi appcore: symbols deferred / mismatched
+Desensamblado del binario cargado en RVA 0x71A0: mov rax,qword ptr [rcx+20h]
+
+
+q1 [hex]: ¿Cuál es el RVA del RIP?
+
+q2 [single]: ¿Puede considerarse coincidente ese PDB solo porque coincide el GUID?
+  A. Sí, Age no forma parte de la identidad.
+  B. No; GUID y Age deben coincidir.
+  C. Sí, si el nombre appcore.pdb coincide.
+  D. No; los PDB nunca sirven con ASLR.
+
+q3 [single]: ¿Qué dato debe guiar la atribución hasta obtener símbolos correctos?
+  A. El nombre de función del PDB Age 2
+  B. El RVA y desensamblado del binario cargado
+  C. Solo el timestamp del crash
+  D. La ruta de la caché de PDB

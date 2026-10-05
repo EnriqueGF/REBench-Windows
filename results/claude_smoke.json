@@ -1,0 +1,35 @@
+{
+  "benchmark_version": "1.0",
+  "started_at": "2026-10-04T12:36:54.289272+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "pe_rva",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 41.7,
+      "raw_output": "Parsing:\n- PE at 0x80. ImageBase = 0x140000000 (from `00 00 00 40 01 00 00 00`). AEP RVA = 0x1000. SizeOfImage = 0x4000.\n- Sections:\n  - .text: VS=0x200, VA=0x1000, RS=0x200, RO=0x400\n  - .rdata: VS=0x300, VA=0x2000, RS=0x200, RO=0x600\n  - .reloc: VS=0x200, VA=0x3000, RS=0x200, RO=0x800\n\nq1: RVA 0x2080 → in .rdata (VA 0x2000, RO 0x600) → offset = 0x600 + 0x80 = 0x680.\n\nq2: RVA 0x2250 → within .rdata virtual (VS=0x300, so 0x2000..0x2300), but RawSize=0x200, so 0x2250 is beyond raw data (past 0x2200) → virtual tail, zero-filled. Answer B.\n\nq3: AEP RVA 0x1000 + ImageBase 0x140000000 = 0x140001000. Answer B.\n\n{\"case_id\":\"pe_rva\",\"answers\":{\"q1\":\"0x680\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"PE64 at 0x80. ImageBase=0x140000000, AEP RVA=0x1000. Sections: .text VA=0x1000/RS=0x200/RO=0x400; .rdata VA=0x2000/VS=0x300/RS=0x200/RO=0x600; .reloc VA=0x3000/RO=0x800. q1: 0x2080 in .rdata => 0x600+(0x2080-0x2000)=0x680. q2: 0x2250 within .rdata virtual (ends 0x2300) but beyond raw (0x2000+0x200=0x2200) => zero-filled virtual tail. q3: VA=ImageBase+AEP=0x140001000.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "pe_rva",
+        "answers": {
+          "q1": "0x680",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "PE64 at 0x80. ImageBase=0x140000000, AEP RVA=0x1000. Sections: .text VA=0x1000/RS=0x200/RO=0x400; .rdata VA=0x2000/VS=0x300/RS=0x200/RO=0x600; .reloc VA=0x3000/RO=0x800. q1: 0x2080 in .rdata => 0x600+(0x2080-0x2000)=0x680. q2: 0x2250 within .rdata virtual (ends 0x2300) but beyond raw (0x2000+0x200=0x2200) => zero-filled virtual tail. q3: VA=ImageBase+AEP=0x140001000."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "pe_rva",
+      "answers": {
+        "q1": "0x680",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "PE64 at 0x80. ImageBase=0x140000000, AEP RVA=0x1000. Sections: .text VA=0x1000/RS=0x200/RO=0x400; .rdata VA=0x2000/VS=0x300/RS=0x200/RO=0x600; .reloc VA=0x3000/RO=0x800. q1: 0x2080 in .rdata => 0x600+(0x2080-0x2000)=0x680. q2: 0x2250 within .rdata virtual (ends 0x2300) but beyond raw (0x2000+0x200=0x2200) => zero-filled virtual tail. q3: VA=ImageBase+AEP=0x140001000."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_tls_state: Estado cifrado inicializado por TLS antes de main
+Este PE64 sin PDB calcula una transformación de dos enteros uint64. El contenido inicial de ciertas variables globales en disco no coincide con el estado que usa la función viva. Reconstruye el proceso de inicialización y la transformación completa. El programa de q1 se probará con 256 pares ocultos que recorren todas las ramas del bucle. No se entrega código fuente.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_tls_state/brief.txt ---
+Uso: tls_oracle.exe 0xX 0xY
+Salida: 16 dígitos hexadecimales; código de salida 2 si los argumentos son inválidos.
+
+El PE64 incluye CRT estático y relocaciones. El oráculo puede ejecutarse con
+cuantas entradas de prueba necesites. El corrector compara el programa DSL de q1
+con el ejecutable en 256 pares ocultos, incluidos valores frontera. Se concede
+crédito parcial según la proporción de resultados correctos.
+
+
+--- ARTEFACTO artifacts/hard_tls_state/dsl_tls.txt ---
+Formato de answers.q1: objeto JSON con `steps` (1..64 pasos de nivel superior),
+`return` y, opcionalmente, `tables`. Registro inicial: x, y (uint64).
+Destinos: r0..r31. Operando: registro ya definido, i dentro de un bucle,
+constante entera JSON o cadena hexadecimal `0x...`. Aritmética módulo 2^64.
+
+Operaciones add, sub, xor, and, or, mul: dst, a, b.
+Operaciones rol, ror, shl, shr: dst, a, bits (entero 0..63).
+Operación not: dst, a. Operación sel: dst, cond, a, b;
+elige a si cond != 0, y b en caso contrario.
+
+`tables` es un objeto de hasta cuatro tablas. Cada tabla contiene 1..16
+constantes uint64, por ejemplo `"keys":["0xA1","0xB2"]`.
+`lookup`: dst, table, index. Usa `index % longitud(tabla)`.
+`loop`: count (1..16), body (1..32 pasos); ejecuta body count veces.
+Dentro del cuerpo, i vale 0,1,...,count-1. No se admiten bucles anidados.
+El límite total de pasos ejecutados por evaluación es 256.
+
+Ejemplo de sintaxis, NO es la solución:
+{"tables":{"k":["0x5","0x7"]},"steps":[
+ {"dst":"r0","op":"xor","a":"x","b":"0x1"},
+ {"op":"loop","count":2,"body":[
+   {"dst":"r1","op":"lookup","table":"k","index":"i"},
+   {"dst":"r0","op":"add","a":"r0","b":"r1"}]}
+],"return":"r0"}
+
+Devuelve el objeto como answers.q1, sin escapar el JSON como texto.
+El corrector interpreta este DSL; no ejecuta código fuente del agente.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_tls/tls_oracle.exe ---
+SHA256: a4876af70a7d4b2f9671c39356ec63b7791aed09107d7150e2e3098bcc3eeccf
+Bytes: 142848. Archivo disponible en el directorio del caso.
+
+q1 [pipeline64]: Recupera la transformación completa como programa DSL para cualquier x,y uint64.
+
+q2 [hex]: RVA del callback que inicializa el estado usado por la función viva.
+
+q3 [hex]: RVA inicial de la función que transforma x,y después de la inicialización.
+
+q4 [hex]: Valor uint64 real de la primera entrada de la tabla de claves tras la inicialización.
+
+q5 [hex]: Salida para x=0x0123456789ABCDEF, y=0xFEDCBA9876543210.
+
+q6 [single]: ¿Qué explica que los QWORD iniciales de la tabla en disco sean señuelos?
+  A. El loader convierte automáticamente cada QWORD de .data de big endian a little endian.
+  B. Un callback en el directorio TLS reescribe la tabla antes de main.
+  C. La resolución de imports diferidos aplica XOR a toda la sección .data.
+  D. El prologo de mix_tls restaura las claves desde la shadow space de su llamador.

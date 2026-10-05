@@ -1,0 +1,148 @@
+{
+  "benchmark_version": "9.0",
+  "models": {
+    "codex": {
+      "model": "gpt-6-sol",
+      "earned": 1258,
+      "evaluated_points": 1258,
+      "total_points": 1258,
+      "completed_cases": 26,
+      "total_cases": 26,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 1074,
+          "total": 1074
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 1074
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_tls_stream2",
+          "seconds": 305.97,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v9\\codex_stream2.json"
+        }
+      ],
+      "source_files": [
+        "results\\v8\\codex_combined.json",
+        "results\\v9\\codex_stream2.json"
+      ]
+    },
+    "claude": {
+      "model": "claude-opus-4-7",
+      "earned": 1246,
+      "evaluated_points": 1258,
+      "total_points": 1258,
+      "completed_cases": 26,
+      "total_cases": 26,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 70,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 1064,
+          "total": 1074
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 1074
+      },
+      "lost_points": [
+        {
+          "case_id": "pe_reloc",
+          "question_id": "q1",
+          "earned": 0,
+          "points": 2
+        },
+        {
+          "case_id": "hard_delay_import",
+          "question_id": "q6",
+          "earned": 0,
+          "points": 10
+        }
+      ],
+      "attempts": [
+        {
+          "case_id": "hard_tls_stream2",
+          "seconds": 784.83,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v9\\claude_stream2.json"
+        }
+      ],
+      "source_files": [
+        "results\\v8\\claude_combined.json",
+        "results\\v9\\claude_stream2.json"
+      ]
+    },
+    "opencode": {
+      "model": "explabs/glm-5.3-flash-abliterated",
+      "earned": 572,
+      "evaluated_points": 572,
+      "total_points": 1258,
+      "completed_cases": 23,
+      "total_cases": 26,
+      "missing_cases": [
+        "hard_resource_stream",
+        "hard_tls_state",
+        "hard_tls_stream2"
+      ],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 388,
+          "total": 1074
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 388
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_tls_stream2",
+          "seconds": 3600.0,
+          "exit_code": null,
+          "parse_error": "timeout; runner cleanup failed",
+          "file": "results\\v9\\opencode_stream2.json"
+        }
+      ],
+      "source_files": [
+        "results\\v8\\opencode_combined.json",
+        "results\\v9\\opencode_stream2.json"
+      ]
+    }
+  }
+}

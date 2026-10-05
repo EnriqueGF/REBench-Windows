@@ -1,0 +1,87 @@
+{
+  "earned": 48,
+  "total": 48,
+  "percent": 100.0,
+  "by_category": {
+    "PE loader": {
+      "earned": 48,
+      "total": 48
+    }
+  },
+  "by_track": {
+    "research": {
+      "earned": 48,
+      "total": 48
+    }
+  },
+  "rows": [
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q1",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x211e4"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q2",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x21368"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q3",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x20168"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q4",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x140001bb3"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q5",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x22b80"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q6",
+      "category": "PE loader",
+      "type": "multi",
+      "points": 10,
+      "earned": 10,
+      "submitted": [
+        "A",
+        "C",
+        "E"
+      ]
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q7",
+      "category": "PE loader",
+      "type": "single",
+      "points": 6,
+      "earned": 6,
+      "submitted": "B"
+    }
+  ],
+  "missing_cases": []
+}

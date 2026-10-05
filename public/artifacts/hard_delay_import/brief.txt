@@ -1,0 +1,6 @@
+El ejecutable es un PE64 de consola compilado con MSVC, sin PDB.
+Su primera llamada a GetForegroundWindow carga USER32.dll si hace falta.
+Después invoca __FUnloadDelayLoadedDLL2("USER32.dll") y vuelve a llamar a la API.
+Usa el DataDirectory[13] del Optional Header y el descriptor IMAGE_DELAYLOAD_DESCRIPTOR.
+Todas las cifras solicitadas son de la imagen en disco, antes de la primera llamada,
+salvo donde la pregunta indique expresamente otro estado.

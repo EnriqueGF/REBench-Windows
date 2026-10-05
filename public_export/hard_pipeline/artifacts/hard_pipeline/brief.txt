@@ -1,0 +1,7 @@
+Uso del oráculo: mix_oracle.exe 0xX 0xY
+Salida: 16 dígitos hexadecimales, o error si los argumentos no son válidos.
+
+El ejecutable es un PE64 sin PDB y contiene CRT estático. La función propia
+mix_payload recibe los dos parámetros en los registros Windows x64 estándar.
+No se entrega fuente. El objeto JSON de q1 se ejecutará en un intérprete seguro
+sobre 256 pares ocultos, incluidos valores frontera y ambas ramas de control.

@@ -1,0 +1,34 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO xor_config: Configuración codificada en un recurso
+Un programa interno guarda un bloque de configuración de prueba en un recurso. El encabezado indica longitud y XOR de un byte; la muestra no se ejecuta. Recupera el contenido a partir del archivo binario.
+
+--- ARTEFACTO artifacts/xor_config/format.txt ---
+Formato del recurso config.dat:
+offset 0..3 : ASCII 'XCFG'
+offset 4    : clave XOR (un byte)
+offset 5    : longitud de payload (un byte)
+offset 6..  : payload con cada byte XOR clave
+El payload es texto ASCII terminado exactamente por la longitud; no hay NUL implícito.
+
+
+--- ARTEFACTO artifacts/xor_config/config.dat ---
+XCFGZg	a
+gbnni
+
+q1 [single]: ¿Cuál es el texto decodificado?
+  A. MODE=SAFE;PORT=8443
+  B. MODE=FAST;PORT=443
+  C. MODE=SAFE;PORT=443
+  D. MODE=TEST;PORT=8443
+
+q2 [hex]: ¿Cuál es la clave XOR?
+
+q3 [single]: ¿Por qué no debe tratarse el payload codificado como string C sin decodificar?
+  A. El formato define una longitud explícita y no garantiza NUL
+  B. Los recursos PE siempre usan UTF-16
+  C. XOR cambia el tamaño de cada byte
+  D. ASCII no admite signos igual

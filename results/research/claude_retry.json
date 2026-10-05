@@ -1,0 +1,42 @@
+{
+  "track": "static-evidence",
+  "profile": "claude",
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 75.55,
+      "exit_code": 0,
+      "stdout": "I have enough to produce a careful answer. Supported findings:\n\n- **File type**: PE64 (confirmed)\n- **Encrypted/encoded strings**: Ransom note is in plaintext, key is plaintext. No clear evidence of encoded strings. I'll say false unless there's indication. Looking at section .data entropy 3.087 (low), .text 6.224 — no high-entropy blob. Set `encoded_strings: false`.\n- **Techniques**: ransomware file encryption (file enumeration/encryption), service installation (OpenSCManager/CreateService/StartService → mssecsvc2.0 service name), killswitch URL check (InternetOpenUrlA + example.com), anti-analysis checks (IsDebuggerPresent + driver file checks for VM + sbiedll.dll), network beacon via raw socket to 192.0.2.%d\n- **Injection**: No evidence of process injection (no OpenProcess/WriteProcessMemory/CreateRemoteThread/VirtualAllocEx/NtMapViewOfSection). Omit.\n- **Encryption**: Key string \"W@nCryPt0K3y2024\" is present but no explicit crypto algorithm imports (no CryptAcquireContext, no AES tables found). Can't confirm algorithm. Report key only.\n- **Decoded strings**: no decoding evidence\n- **Anti-analysis**: IsDebuggerPresent, VM driver file checks (vmmouse.sys, vmhgfs.sys), Sandboxie check (sbiedll.dll), NtQueryInformationProcess (likely for ProcessDebugPort), dbghelp.dll\n- **C2**: http://example.com (killswitch domain, synthetic), 192.0.2.%d (synthetic beacon range)\n- **C2 protocol**: HTTP via WININET + raw TCP via WS2_32\n\nThe task asks for `decoded_c2` — the C2 is in plaintext, so decoding wasn't needed; but it still is a C2. \"example.com\" via HTTP is a WannaCry-style killswitch, not C2. The actual C2 pattern is 192.0.2.%d over raw sockets.\n\n```json\n{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":false,\"techniques\":[\"file_encryption_ransomware\",\"service_persistence\",\"killswitch_domain_check\",\"anti_debug\",\"anti_vm\",\"anti_sandbox\",\"network_beacon\"],\"injection_details\":{},\"encryption_details\":{\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\".data section at file offset 0x8500\"},\"decoded_strings\":{},\"anti_analysis\":[\"IsDebuggerPresent\",\"NtQueryInformationProcess\",\"check_file_C:\\\\Windows\\\\System32\\\\drivers\\\\vmmouse.sys\",\"check_file_C:\\\\Windows\\\\System32\\\\drivers\\\\vmhgfs.sys\",\"check_module_sbiedll.dll\",\"check_module_dbghelp.dll\"],\"decoded_c2\":\"192.0.2.%d\",\"c2_protocol\":\"tcp\"}}\n```\n",
+      "stderr": "",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": false,
+        "techniques": [
+          "file_encryption_ransomware",
+          "service_persistence",
+          "killswitch_domain_check",
+          "anti_debug",
+          "anti_vm",
+          "anti_sandbox",
+          "network_beacon"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": ".data section at file offset 0x8500"
+        },
+        "decoded_strings": {},
+        "anti_analysis": [
+          "IsDebuggerPresent",
+          "NtQueryInformationProcess",
+          "check_file_C:\\Windows\\System32\\drivers\\vmmouse.sys",
+          "check_file_C:\\Windows\\System32\\drivers\\vmhgfs.sys",
+          "check_module_sbiedll.dll",
+          "check_module_dbghelp.dll"
+        ],
+        "decoded_c2": "192.0.2.%d",
+        "c2_protocol": "tcp"
+      }
+    }
+  ]
+}

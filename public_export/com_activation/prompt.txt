@@ -1,0 +1,38 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO com_activation: Dos fallos distintos al activar COM
+Una aplicación x86 intenta activar un componente de informes y el equipo mezcla dos errores en una sola hipótesis. Separa el cambio de apartamento de la incompatibilidad de arquitectura.
+
+--- ARTEFACTO artifacts/com_activation/com_trace.txt ---
+Proceso: reporthost.exe (x86), Windows x64
+Hilo UI: CoInitializeEx(NULL, COINIT_APARTMENTTHREADED) -> S_OK
+Hilo UI: CoInitializeEx(NULL, COINIT_MULTITHREADED) -> 0x80010106
+
+Registro comprobado en vista x64:
+HKCR\CLSID\{02C92310-8408-4B39-9C1B-11C822982501}\InprocServer32
+  (Default) = C:\Program Files\Contoso\ReportCom64.dll (PE32+, AMD64)
+
+El cliente solicita CLSCTX_INPROC_SERVER. No existe build x86 del DLL.
+El equipo propone copiar ReportCom64.dll a SysWOW64 y reintentar.
+
+
+q1 [single]: ¿Qué significa 0x80010106 en este hilo?
+  A. Falta un DLL en System32
+  B. Se intentó cambiar el modelo de apartamento ya fijado
+  C. El servidor COM se registró dos veces
+  D. El objeto agotó memoria
+
+q2 [single]: ¿Resolverá copiar el DLL x64 a SysWOW64 la activación in-process desde x86?
+  A. Sí, SysWOW64 convierte arquitectura
+  B. Sí, si se cambia la extensión a .ocx
+  C. No, un proceso x86 no puede cargar un DLL x64
+  D. No, porque COM no admite servidores in-process
+
+q3 [multi]: Selecciona reparaciones técnicamente válidas para los problemas independientes.
+  A. Inicializar el hilo con un único modelo COM coherente
+  B. Proporcionar un servidor in-process x86 compatible
+  C. Usar un servidor COM out-of-process x64 con marshaling adecuado
+  D. Copiar el DLL x64 a SysWOW64

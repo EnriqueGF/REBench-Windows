@@ -1,0 +1,6 @@
+t0 LoadLibraryW(plugin.dll) -> HMODULE 00007ff9`a1000000
+t1 GetProcAddress(h, "Process") -> 00007ff9`a1001430
+t2 registry.callback = 00007ff9`a1001430
+t3 FreeLibrary(h) -> TRUE; reference count reaches 0; image unmapped
+t4 another.dll loads; address range may be reused
+t5 registry.callback() -> AV or unexpected code

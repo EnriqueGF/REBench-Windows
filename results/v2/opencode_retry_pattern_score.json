@@ -1,0 +1,65 @@
+{
+  "earned": 29,
+  "total": 29,
+  "percent": 100.0,
+  "by_category": {
+    "Patrones PE": {
+      "earned": 29,
+      "total": 29
+    }
+  },
+  "by_track": {
+    "expert": {
+      "earned": 29,
+      "total": 29
+    }
+  },
+  "rows": [
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q1",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1070"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q2",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1080"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q3",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1090"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q4",
+      "category": "Patrones PE",
+      "type": "single",
+      "points": 8,
+      "earned": 8,
+      "submitted": "A"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q5",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x3091c972"
+    }
+  ],
+  "missing_cases": []
+}

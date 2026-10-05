@@ -1,0 +1,163 @@
+{
+  "earned": 103,
+  "total": 103,
+  "percent": 100.0,
+  "by_category": {
+    "PE loader": {
+      "earned": 48,
+      "total": 48
+    },
+    "Unwind x64": {
+      "earned": 55,
+      "total": 55
+    }
+  },
+  "by_track": {
+    "research": {
+      "earned": 103,
+      "total": 103
+    }
+  },
+  "rows": [
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q1",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x211e4"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q2",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x21368"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q3",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x20168"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q4",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x140001bb3"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q5",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x22b80"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q6",
+      "category": "PE loader",
+      "type": "multi",
+      "points": 10,
+      "earned": 10,
+      "submitted": [
+        "A",
+        "C",
+        "E"
+      ]
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q7",
+      "category": "PE loader",
+      "type": "single",
+      "points": 6,
+      "earned": 6,
+      "submitted": "B"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q1",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x10a0"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q2",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x1edf0"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q3",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x88"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q4",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x20"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q5",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0xc00100ff10"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q6",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x1122334455667788"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q7",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x7ff612345678"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q8",
+      "category": "Unwind x64",
+      "type": "single",
+      "points": 6,
+      "earned": 6,
+      "submitted": "A"
+    }
+  ],
+  "missing_cases": []
+}

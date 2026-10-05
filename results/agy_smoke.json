@@ -1,0 +1,35 @@
+{
+  "benchmark_version": "4.0",
+  "started_at": "2026-10-04T14:37:31.534182+00:00",
+  "profile": "agy",
+  "results": [
+    {
+      "case_id": "pe_rva",
+      "profile": "agy",
+      "exit_code": 0,
+      "seconds": 24.51,
+      "raw_output": "{\"case_id\":\"pe_rva\",\"answers\":{\"q1\":\"0x680\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"RVA 0x2080 se ubica en la sección .rdata (VirtualAddress=0x2000, PointerToRawData=0x600, SizeOfRawData=0x200), resultando en offset de archivo 0x600 + (0x2080 - 0x2000) = 0x680. RVA 0x2250 excede SizeOfRawData (0x200) pero está dentro de VirtualSize (0x300), por lo que cae en la cola virtual no respaldada por bytes en disco. El punto de entrada como VA preferida es ImageBase (0x140000000) + AddressOfEntryPoint (0x1000) = 0x140001000.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "pe_rva",
+        "answers": {
+          "q1": "0x680",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "RVA 0x2080 se ubica en la sección .rdata (VirtualAddress=0x2000, PointerToRawData=0x600, SizeOfRawData=0x200), resultando en offset de archivo 0x600 + (0x2080 - 0x2000) = 0x680. RVA 0x2250 excede SizeOfRawData (0x200) pero está dentro de VirtualSize (0x300), por lo que cae en la cola virtual no respaldada por bytes en disco. El punto de entrada como VA preferida es ImageBase (0x140000000) + AddressOfEntryPoint (0x1000) = 0x140001000."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "pe_rva",
+      "answers": {
+        "q1": "0x680",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "RVA 0x2080 se ubica en la sección .rdata (VirtualAddress=0x2000, PointerToRawData=0x600, SizeOfRawData=0x200), resultando en offset de archivo 0x600 + (0x2080 - 0x2000) = 0x680. RVA 0x2250 excede SizeOfRawData (0x200) pero está dentro de VirtualSize (0x300), por lo que cae en la cola virtual no respaldada por bytes en disco. El punto de entrada como VA preferida es ImageBase (0x140000000) + AddressOfEntryPoint (0x1000) = 0x140001000."
+    }
+  ]
+}

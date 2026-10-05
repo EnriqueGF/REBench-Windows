@@ -1,0 +1,47 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_unwind_frame: Virtual unwind de una rutina MASM x64
+Un PE64 contiene una rutina con prólogo y epílogo escritos en ensamblador MASM y metadatos reales en .pdata/.xdata. Reconstruye el marco al detenerla dentro del cuerpo. El volcado de pila es sintético, pero corresponde exactamente al prólogo del ejecutable. No se entrega fuente.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_unwind_frame/context.txt ---
+Imagen cargada en VA preferida 0x140000000. RIP = 0x00000001400010B0
+La detención ocurre en el cuerpo de la rutina, después de su prólogo y antes del epílogo.
+RSP = 0x000000C00100FE70    RBP = 0x000000C00100FE90
+RBX = 0x0123456789ABCDEF
+
+Memoria QWORD del hilo:
+[RSP+0x88] = 0x1122334455667788
+[RSP+0x90] = 0x000000C00100FFA0
+[RSP+0x98] = 0x00007FF612345678
+
+Se pide el contexto DEL LLAMADOR después de aplicar VirtualUnwind desde este RIP.
+Para las preguntas de metadatos, lee las estructuras reales del PE en disco.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_unwind/unwind_probe.exe ---
+SHA256: c61e9e1536c250212ddbd1de0bf5d925b556523b4dae0375061cde4b6bb81729
+Bytes: 140288. Archivo disponible en el directorio del caso.
+
+q1 [hex]: RVA de comienzo de la rutina MASM cubierta por el RUNTIME_FUNCTION pertinente.
+
+q2 [hex]: RVA del UNWIND_INFO al que apunta ese RUNTIME_FUNCTION.
+
+q3 [hex]: Bytes realmente reservados por UWOP_ALLOC_LARGE; interpreta también su slot adicional.
+
+q4 [hex]: Offset efectivo en bytes entre RBP y RSP fijado por UWOP_SET_FPREG.
+
+q5 [hex]: RSP reconstruido del llamador después de retirar el return address.
+
+q6 [hex]: RBX no volátil restaurado en el contexto del llamador.
+
+q7 [hex]: RIP de retorno reconstruido del llamador.
+
+q8 [single]: Si RIP estuviera justo después de los dos PUSH iniciales y antes de SUB RSP, ¿qué parte del prólogo desharía el unwind en ese punto?
+  A. Los dos PUSH; todavía no la reserva de 0x88 ni el establecimiento de RBP.
+  B. La reserva de 0x88 y SET_FPREG; todavía no los PUSH.
+  C. Todo el prólogo, porque .pdata no guarda desplazamientos de instrucciones.
+  D. Ningún paso: en x64 solo se desenrolla el epílogo.

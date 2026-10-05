@@ -1,0 +1,433 @@
+{
+  "benchmark_version": "1.0",
+  "started_at": "2026-10-04T12:37:56.070278+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "pe_rva",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 22.06,
+      "raw_output": "{\"case_id\":\"pe_rva\",\"answers\":{\"q1\":\"0x680\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\".rdata comienza en RVA 0x2000 y offset 0x600; por tanto, RVA 0x2080 corresponde al offset 0x680. Su tamaño en archivo es 0x200, así que RVA 0x2250 cae en la cola virtual sin bytes propios en disco. La VA preferida del punto de entrada es ImageBase 0x140000000 + RVA 0x1000 = 0x140001000.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-b5szj2fe\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106eb-c13a-78a1-a030-5324a82c314a\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO pe_rva: RVA frente a offset de archivo\nUn analista recibe un PE64 mínimo y debe extraer una cadena y distinguir bytes presentes en disco de memoria inicializada por el loader. Examina las cabeceras y secciones del binario.\n\n--- ARTEFACTO BINARIO artifacts/pe64/sample_pe.bin ---\nSHA256: 98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65\nBytes: 2560. Archivo disponible en el directorio del caso.\n\nq1 [hex]: ¿Cuál es el offset de archivo para RVA 0x2080? Responde en hexadecimal.\n\nq2 [single]: ¿Qué ocurre con RVA 0x2250 al mapear esta imagen?\n  A. Está dentro del archivo en offset 0x850.\n  B. Cae en la cola virtual de .rdata y no tiene bytes propios en el archivo.\n  C. Es un RVA de .reloc.\n  D. Está fuera de SizeOfImage.\n\nq3 [single]: ¿Cuál es el punto de entrada expresado como VA preferida?\n  A. 0x140000400\n  B. 0x140001000\n  C. 0x140002000\n  D. 0x1000\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-b5szj2fe\nhook: SessionStart\nhook: SessionStart Completed\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command 'rg --files' in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-b5szj2fe\n succeeded in 81ms:\nartifacts\\pe64\\sample_pe.bin\n\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"python -c \\\"import struct,hashlib; d=open('artifacts/pe64/sample_pe.bin','rb').read(); pe=struct.unpack_from('<I',d,0x3c)[0]; print('sha256',hashlib.sha256(d).hexdigest(),'len',len(d),'pe',hex(pe)); print('sig',d[pe:pe+4]); print('coff',struct.unpack_from('<HHIIIHH',d,pe+4)); op=pe+24; print('entry',hex(struct.unpack_from('<I',d,op+16)[0]),'imagebase',hex(struct.unpack_from('<Q',d,op+24)[0]),'sizeofimage',hex(struct.unpack_from('<I',d,op+56)[0])); n=struct.unpack_from('<H',d,pe+6)[0]; sz=struct.unpack_from('<H',d,pe+20)[0]; sh=op+sz; print('sections',[(d[sh+i*40:sh+i*40+8].rstrip(b'\\\\\\\\0'),*[hex(x) for x in struct.unpack_from('<IIII',d,sh+i*40+8)]) for i in range(n)])\\\"\" in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-b5szj2fe\n succeeded in 91ms:\nsha256 98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65 len 2560 pe 0x80\nsig b'PE\\x00\\x00'\ncoff (34404, 3, 0, 0, 0, 240, 34)\nentry 0x1000 imagebase 0x140000000 sizeofimage 0x4000\nsections [(b'.text\\x00\\x00\\x00', '0x200', '0x1000', '0x200', '0x400'), (b'.rdata\\x00\\x00', '0x300', '0x2000', '0x200', '0x600'), (b'.reloc\\x00\\x00', '0x200', '0x3000', '0x200', '0x800')]\n\ncodex\n{\"case_id\":\"pe_rva\",\"answers\":{\"q1\":\"0x680\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\".rdata comienza en RVA 0x2000 y offset 0x600; por tanto, RVA 0x2080 corresponde al offset 0x680. Su tamaño en archivo es 0x200, así que RVA 0x2250 cae en la cola virtual sin bytes propios en disco. La VA preferida del punto de entrada es ImageBase 0x140000000 + RVA 0x1000 = 0x140001000.\"}\n2026-10-04T12:38:17.700429Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"3f69d7d9-d892-4888-b362-08b8a3c1fbed\"\ntokens used\n8618\n",
+      "submission": {
+        "case_id": "pe_rva",
+        "answers": {
+          "q1": "0x680",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": ".rdata comienza en RVA 0x2000 y offset 0x600; por tanto, RVA 0x2080 corresponde al offset 0x680. Su tamaño en archivo es 0x200, así que RVA 0x2250 cae en la cola virtual sin bytes propios en disco. La VA preferida del punto de entrada es ImageBase 0x140000000 + RVA 0x1000 = 0x140001000."
+      }
+    },
+    {
+      "case_id": "pe_reloc",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 30.97,
+      "raw_output": "{\"case_id\":\"pe_reloc\",\"answers\":{\"q1\":\"0x180001234\",\"q2\":\"B\",\"q3\":\"0x40000000\"},\"reasoning\":\"La base preferida es 0x140000000 y la imagen se carga en 0x180000000: el delta es 0x40000000. El bloque de relocaciones tiene RVA de página 0x2000; la entrada 0xA028 indica DIR64 (tipo 0xA) en RVA 0x2028. El QWORD original, 0x140001234, queda en 0x180001234.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-fshysq4s\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ec-1775-79a2-b4aa-668dabf2ba1b\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO pe_reloc: Relocación DIR64 bajo ASLR\nLa misma imagen se carga en 0x180000000. Reconstruye el parche que aplica el loader en la dirección cubierta por la tabla de relocaciones.\n\n--- ARTEFACTO BINARIO artifacts/pe64/sample_pe.bin ---\nSHA256: 98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65\nBytes: 2560. Archivo disponible en el directorio del caso.\n\nq1 [hex]: ¿Qué valor QWORD queda en RVA 0x2028 tras aplicar la relocación?\n\nq2 [single]: ¿Qué significa la entrada de relocación 0xA028?\n  A. HIGHLOW en RVA 0xA028\n  B. DIR64 en RVA 0x2028\n  C. DIR64 en offset de archivo 0x28\n  D. ABSOLUTE en RVA 0x2028\n\nq3 [hex]: ¿Cuál es el delta de carga aplicado?\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-fshysq4s\nhook: SessionStart\nhook: SessionStart Completed\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command 'Get-ChildItem -Recurse -File | Select-Object FullName,Length; Get-FileHash artifacts/pe64/sample_pe.bin -Algorithm SHA256 | Select-Object Hash' in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-fshysq4s\n succeeded in 136ms:\n\nFullName                                                                        Length\n--------                                                                        ------\nC:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-fshysq4s\\artifacts\\pe64\\sample_pe.bin   2560\n                                                                                     1\n\n\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"python -c 'import struct,hashlib; b=open(\\\"artifacts/pe64/sample_pe.bin\\\",\\\"rb\\\").read(); u16=lambda o:struct.unpack_from(\\\"<H\\\",b,o)[0]; u32=lambda o:struct.unpack_from(\\\"<I\\\",b,o)[0]; u64=lambda o:struct.unpack_from(\\\"<Q\\\",b,o)[0]; p=u32(0x3c); o=p+24; n=u16(p+6); s=o+u16(p+20); print(\\\"sha256\\\",hashlib.sha256(b).hexdigest()); print(\\\"pe\\\",hex(p),\\\"magic\\\",hex(u16(o)),\\\"imagebase\\\",hex(u64(o+24)),\\\"sections\\\",n,\\\"relocdir\\\",hex(u32(o+112+5*8)),hex(u32(o+112+5*8+4))); [(print(\\\"section\\\",b[s+i*40:s+i*40+8],\\\"va\\\",hex(u32(s+i*40+12)),\\\"vsize\\\",hex(u32(s+i*40+8)),\\\"raw\\\",hex(u32(s+i*40+20)),\\\"rawsize\\\",hex(u32(s+i*40+16)))) for i in range(n)]; print(\\\"qword raw candidates\\\",[(hex(x),hex(u64(x))) for x in [0x428,0x628,0x828] if x+8<=len(b)])'\" in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-fshysq4s\n succeeded in 116ms:\nsha256 98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65\npe 0x80 magic 0x20b imagebase 0x140000000 sections 3 relocdir 0x3000 0xc\nsection b'.text\\x00\\x00\\x00' va 0x1000 vsize 0x200 raw 0x400 rawsize 0x200\nsection b'.rdata\\x00\\x00' va 0x2000 vsize 0x300 raw 0x600 rawsize 0x200\nsection b'.reloc\\x00\\x00' va 0x3000 vsize 0x200 raw 0x800 rawsize 0x200\nqword raw candidates [('0x428', '0x0'), ('0x628', '0x140001234'), ('0x828', '0x0')]\n\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"python -c 'import struct; b=open(\\\"artifacts/pe64/sample_pe.bin\\\",\\\"rb\\\").read(); print(\\\"reloc block\\\",hex(struct.unpack_from(\\\"<I\\\",b,0x800)[0]),hex(struct.unpack_from(\\\"<I\\\",b,0x804)[0]),hex(struct.unpack_from(\\\"<H\\\",b,0x808)[0]),hex(struct.unpack_from(\\\"<H\\\",b,0x80a)[0])); print(\\\"patched\\\",hex(struct.unpack_from(\\\"<Q\\\",b,0x628)[0]+0x180000000-0x140000000))'\" in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-fshysq4s\n succeeded in 87ms:\nreloc block 0x2000 0xc 0xa028 0x0\npatched 0x180001234\n\ncodex\n{\"case_id\":\"pe_reloc\",\"answers\":{\"q1\":\"0x180001234\",\"q2\":\"B\",\"q3\":\"0x40000000\"},\"reasoning\":\"La base preferida es 0x140000000 y la imagen se carga en 0x180000000: el delta es 0x40000000. El bloque de relocaciones tiene RVA de página 0x2000; la entrada 0xA028 indica DIR64 (tipo 0xA) en RVA 0x2028. El QWORD original, 0x140001234, queda en 0x180001234.\"}\ntokens used\n3474\n",
+      "submission": {
+        "case_id": "pe_reloc",
+        "answers": {
+          "q1": "0x180001234",
+          "q2": "B",
+          "q3": "0x40000000"
+        },
+        "reasoning": "La base preferida es 0x140000000 y la imagen se carga en 0x180000000: el delta es 0x40000000. El bloque de relocaciones tiene RVA de página 0x2000; la entrada 0xA028 indica DIR64 (tipo 0xA) en RVA 0x2028. El QWORD original, 0x140001234, queda en 0x180001234."
+      }
+    },
+    {
+      "case_id": "abi_x64",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 8.33,
+      "raw_output": "{\"case_id\":\"abi_x64\",\"answers\":{\"q1\":\"0x55\",\"q2\":\"B\",\"q3\":[\"A\",\"B\",\"C\"]},\"reasoning\":\"Al entrar, RCX contiene a. [rsp] guarda la dirección de retorno; [rsp+0x08] a [rsp+0x20] son shadow space y no garantizan copias de los registros. El quinto y sexto argumentos están en [rsp+0x28]=0x55 y [rsp+0x30]=0x66.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-4txgr5_0\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ec-9080-7ed1-9671-d7af4c565e63\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO abi_x64: Argumentos y shadow space\nHas pausado una función Windows x64 justo al entrar, antes de su prólogo. Identifica los argumentos de una llamada mixta sin confundir shadow space y pila del llamador.\n\n--- ARTEFACTO artifacts/abi_x64/registers.txt ---\nRIP = 00007ff6`21301000  RSP = 000000d2`00b0ff58\nRCX = 00000000`00000011  RDX = 00000000`00000022\nR8  = 00000000`00000033  R9  = 00000000`00000044\nXMM0 = 0.0  XMM1 = 0.0  XMM2 = 0.0  XMM3 = 0.0\n\ndq rsp L8\n000000d2`00b0ff58  00007ff6`21302234  11111111`11111111\n000000d2`00b0ff68  22222222`22222222  33333333`33333333\n000000d2`00b0ff78  44444444`44444444  00000000`00000055\n000000d2`00b0ff88  00000000`00000066  00000000`00000000\n\nFirma conocida: uint64_t f(uint64_t a, uint64_t b, uint64_t c,\n                             uint64_t d, uint64_t e, uint64_t f);\n\n\nq1 [hex]: ¿Cuál es el quinto argumento, e?\n\nq2 [single]: ¿Qué representa [rsp+0x20] en este instante?\n  A. Quinto argumento\n  B. Cuarto slot de shadow space\n  C. Dirección de retorno\n  D. Sexto argumento\n\nq3 [multi]: Selecciona las afirmaciones seguras.\n  A. RCX contiene a.\n  B. [rsp+0x28] contiene e.\n  C. [rsp+0x30] contiene f.\n  D. [rsp+0x08] está garantizado que contiene a.\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-4txgr5_0\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"abi_x64\",\"answers\":{\"q1\":\"0x55\",\"q2\":\"B\",\"q3\":[\"A\",\"B\",\"C\"]},\"reasoning\":\"Al entrar, RCX contiene a. [rsp] guarda la dirección de retorno; [rsp+0x08] a [rsp+0x20] son shadow space y no garantizan copias de los registros. El quinto y sexto argumentos están en [rsp+0x28]=0x55 y [rsp+0x30]=0x66.\"}\n2026-10-04T12:38:57.196832Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"8b4a502e-047d-4518-ba02-c6481ed945e0\"\ntokens used\n3468\n",
+      "submission": {
+        "case_id": "abi_x64",
+        "answers": {
+          "q1": "0x55",
+          "q2": "B",
+          "q3": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "reasoning": "Al entrar, RCX contiene a. [rsp] guarda la dirección de retorno; [rsp+0x08] a [rsp+0x20] son shadow space y no garantizan copias de los registros. El quinto y sexto argumentos están en [rsp+0x28]=0x55 y [rsp+0x30]=0x66."
+      }
+    },
+    {
+      "case_id": "crash_av",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 8.5,
+      "raw_output": "{\"case_id\":\"crash_av\",\"answers\":{\"q1\":\"A\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"Parameter[0]=0 indica lectura y Parameter[1]=0x18 indica la dirección accedida. La instrucción lee [RAX+18h] con RAX=0, por lo que primero hay que comprobar el retorno de get_optional_context. Como el contexto es opcional, la corrección es comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-320rg6hj\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ec-b114-7a61-b6a6-848eff262251\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO crash_av: Access violation de lectura\nUna DLL falla tras recibir un contexto opcional. Distingue el tipo de acceso y el dato que falta antes de proponer una reparación.\n\n--- ARTEFACTO artifacts/crash_av/dump.txt ---\nEXCEPTION_RECORD:  (.exr -1)\nExceptionAddress: 00007ff6`51001a42 (sample!ParseNode+0x32)\nExceptionCode: c0000005 (Access violation)\nNumberParameters: 2\nParameter[0]: 0000000000000000\nParameter[1]: 0000000000000018\n\nCONTEXT:  (.ecxr)\nrax=0000000000000000 rcx=000001df3b202100\nrip=00007ff651001a42 rsp=000000d200b0f870\nsample!ParseNode+0x32:\n00007ff6`51001a42 488b4818 mov rcx,qword ptr [rax+18h]\n00007ff6`51001a46 4885c9   test rcx,rcx\n\nPseudo source reconstruido: ctx = get_optional_context(node);\n                          use(ctx->next);\n\n\nq1 [single]: ¿Qué operación produjo la excepción?\n  A. Lectura de 0x18\n  B. Escritura en 0x18\n  C. Ejecución en 0x18\n  D. Lectura de 0x0\n\nq2 [single]: ¿Qué valor debe comprobarse primero al investigar la causa?\n  A. RCX tras la instrucción\n  B. RAX y el retorno de get_optional_context\n  C. El byte en RIP+4\n  D. El tamaño de la shadow space\n\nq3 [single]: ¿Qué corrección preserva mejor la semántica descrita?\n  A. Sustituir la instrucción por NOP siempre\n  B. Comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto\n  C. Cambiar la base preferida de la imagen\n  D. Ignorar todas las excepciones c0000005\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-320rg6hj\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"crash_av\",\"answers\":{\"q1\":\"A\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"Parameter[0]=0 indica lectura y Parameter[1]=0x18 indica la dirección accedida. La instrucción lee [RAX+18h] con RAX=0, por lo que primero hay que comprobar el retorno de get_optional_context. Como el contexto es opcional, la corrección es comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto.\"}\n2026-10-04T12:39:05.682967Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"719af142-2bc5-4309-93a2-52767102d10e\"\ntokens used\n1124\n",
+      "submission": {
+        "case_id": "crash_av",
+        "answers": {
+          "q1": "A",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "Parameter[0]=0 indica lectura y Parameter[1]=0x18 indica la dirección accedida. La instrucción lee [RAX+18h] con RAX=0, por lo que primero hay que comprobar el retorno de get_optional_context. Como el contexto es opcional, la corrección es comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto."
+      }
+    },
+    {
+      "case_id": "wow64_view",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 8.14,
+      "raw_output": "{\"case_id\":\"wow64_view\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":[\"A\",\"B\"]},\"reasoning\":\"El proceso x86 bajo WOW64 puede ver una ruta de archivos y una vista del registro distintas de las del proceso x64. Sysnative da acceso al System32 nativo y KEY_WOW64_64KEY selecciona la vista x64 del registro. El acceso al DLL no implica que un proceso x86 pueda cargarlo.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-cz98dkhi\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ec-d254-7243-91fa-664b18fa848f\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO wow64_view: DLL aparentemente ausente\nUna herramienta x86 falla al comprobar un DLL nativo y una clave de configuración en Windows x64. El informe de soporte compara resultados de procesos de distinta arquitectura.\n\n--- ARTEFACTO artifacts/wow64_view/support.txt ---\nProceso de diagnóstico: x86 bajo WOW64; Windows: x64.\nCreateFileW(L\"C:\\Windows\\System32\\nativeprobe.dll\") -> ERROR_FILE_NOT_FOUND.\nUn proceso x64 abre C:\\Windows\\System32\\nativeprobe.dll con éxito.\nEl proceso x86 también enumera HKLM\\Software\\Contoso\\Agent y no ve Version.\nUn proceso x64 lee Version=7 bajo HKLM\\Software\\Contoso\\Agent.\nEl DLL solo existe en el directorio nativo x64. No hay solicitud UAC.\n\n\nq1 [single]: ¿Qué ruta permite al proceso x86 acceder al directorio System32 nativo?\n  A. C:\\Windows\\SysWOW64\n  B. C:\\Windows\\Sysnative\n  C. C:\\Windows\\System32\\SysWOW64\n  D. C:\\Windows\\WinSxS\n\nq2 [single]: ¿Qué bandera permite abrir explícitamente la vista de registro x64 desde x86?\n  A. KEY_WOW64_32KEY\n  B. KEY_READ\n  C. KEY_WOW64_64KEY\n  D. REG_OPTION_VOLATILE\n\nq3 [multi]: ¿Qué conclusiones están sustentadas?\n  A. La redirección de archivos puede explicar el ERROR_FILE_NOT_FOUND.\n  B. Las vistas de registro separadas pueden explicar la diferencia de Version.\n  C. El DLL nativo x64 podrá cargarse dentro del proceso x86 si se usa Sysnative.\n  D. La ausencia observada desde x86 prueba que el DLL no existe en disco.\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-cz98dkhi\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"wow64_view\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":[\"A\",\"B\"]},\"reasoning\":\"El proceso x86 bajo WOW64 puede ver una ruta de archivos y una vista del registro distintas de las del proceso x64. Sysnative da acceso al System32 nativo y KEY_WOW64_64KEY selecciona la vista x64 del registro. El acceso al DLL no implica que un proceso x86 pueda cargarlo.\"}\n2026-10-04T12:39:13.823219Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"4dad5aa6-de26-4ad1-ad0b-a83ff66d9f77\"\ntokens used\n3342\n",
+      "submission": {
+        "case_id": "wow64_view",
+        "answers": {
+          "q1": "B",
+          "q2": "C",
+          "q3": [
+            "A",
+            "B"
+          ]
+        },
+        "reasoning": "El proceso x86 bajo WOW64 puede ver una ruta de archivos y una vista del registro distintas de las del proceso x64. Sysnative da acceso al System32 nativo y KEY_WOW64_64KEY selecciona la vista x64 del registro. El acceso al DLL no implica que un proceso x86 pueda cargarlo."
+      }
+    },
+    {
+      "case_id": "unwind_x64",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 8.48,
+      "raw_output": "{\"case_id\":\"unwind_x64\",\"answers\":{\"q1\":\"B\",\"q2\":\"A\",\"q3\":[\"A\",\"B\"]},\"reasoning\":\"RtlLookupFunctionEntry devuelve NULL en +0x18, por lo que el stack walker trata el trampolín como leaf y lee [rsp] como retorno. El prólogo hizo push rbx y sub rsp,30h; sus metadatos de unwind deben describir el guardado de RBX y la asignación de 0x30 bytes. RtlAddFunctionTable registra una tabla de funciones dinámica para ese código.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-cwif6m_g\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ec-f237-75b0-9b40-7f905e92412f\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO unwind_x64: Pila rota tras un hook\nUn plugin inserta un trampolín x64 en memoria ejecutable. Funciona en llamadas normales, pero un volcado tomado dentro del trampolín pierde frames al caminar la pila.\n\n--- ARTEFACTO artifacts/unwind_x64/hook.txt ---\nRango del trampolín: 000001e7`10000000 .. 000001e7`10000030 (MEM_PRIVATE, RX)\nPrólogo en +0: push rbx; sub rsp, 30h\nEn +0x18: call plugin!LogEvent\nEpílogo: add rsp,30h; pop rbx; ret\n\nRtlLookupFunctionEntry(000001e7`10000018) -> NULL\nLa región no aparece en la tabla de funciones de ninguna imagen PE.\nEl stack walker trata el PC como función leaf y lee [rsp] como retorno.\n\n\nq1 [single]: ¿Por qué falla el unwind en +0x18?\n  A. Una leaf function necesita siempre .pdata.\n  B. No hay metadatos de unwind para deshacer push rbx y sub rsp,30h.\n  C. RBX es volátil en Windows x64.\n  D. Todo MEM_PRIVATE es ilegible para un depurador.\n\nq2 [single]: ¿Qué API corresponde a registrar dinámicamente una tabla de funciones para ese código?\n  A. RtlAddFunctionTable\n  B. VirtualProtect\n  C. SetUnhandledExceptionFilter\n  D. SymInitialize\n\nq3 [multi]: ¿Qué campos debe describir el unwind de ese prólogo?\n  A. El guardado de RBX\n  B. La asignación de 0x30 bytes de pila\n  C. Cada instrucción NOP del cuerpo\n  D. El GUID del PDB\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-cwif6m_g\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"unwind_x64\",\"answers\":{\"q1\":\"B\",\"q2\":\"A\",\"q3\":[\"A\",\"B\"]},\"reasoning\":\"RtlLookupFunctionEntry devuelve NULL en +0x18, por lo que el stack walker trata el trampolín como leaf y lee [rsp] como retorno. El prólogo hizo push rbx y sub rsp,30h; sus metadatos de unwind deben describir el guardado de RBX y la asignación de 0x30 bytes. RtlAddFunctionTable registra una tabla de funciones dinámica para ese código.\"}\n2026-10-04T12:39:22.278124Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"91246b4c-412c-44eb-839a-64ed97af3d22\"\ntokens used\n1060\n",
+      "submission": {
+        "case_id": "unwind_x64",
+        "answers": {
+          "q1": "B",
+          "q2": "A",
+          "q3": [
+            "A",
+            "B"
+          ]
+        },
+        "reasoning": "RtlLookupFunctionEntry devuelve NULL en +0x18, por lo que el stack walker trata el trampolín como leaf y lee [rsp] como retorno. El prólogo hizo push rbx y sub rsp,30h; sus metadatos de unwind deben describir el guardado de RBX y la asignación de 0x30 bytes. RtlAddFunctionTable registra una tabla de funciones dinámica para ese código."
+      }
+    },
+    {
+      "case_id": "symbols_pdb",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 7.58,
+      "raw_output": "{\"case_id\":\"symbols_pdb\",\"answers\":{\"q1\":\"0x71A0\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"El RIP 0x400071A0 menos la base 0x40000000 da el RVA 0x71A0. El GUID coincide, pero el módulo tiene Age 3 y el PDB Age 2. Hasta obtener símbolos correctos, la atribución debe basarse en el RVA y el desensamblado del binario cargado.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-e3grsb82\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ed-1362-7af1-a9b4-929765c1cde2\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO symbols_pdb: Nombre de función falso por PDB ajeno\nDos builds de una DLL comparten nombre de archivo y una función se desplazó. Un informe usa símbolos de una build anterior y atribuye el fallo a una función que no está en el binario cargado.\n\n--- ARTEFACTO artifacts/symbols_pdb/symbols.txt ---\nMódulo cargado: appcore.dll, base 00007ffb`40000000, tamaño 0x40000\nCodeView RSDS del módulo: GUID {5AAE44F6-831D-4B2E-BE20-97B6EB7720D2}, Age 3\nPDB encontrado en caché: appcore.pdb, GUID {5AAE44F6-831D-4B2E-BE20-97B6EB7720D2}, Age 2\nRIP del crash: 00007ffb`400071A0\n!lmi appcore: symbols deferred / mismatched\nDesensamblado del binario cargado en RVA 0x71A0: mov rax,qword ptr [rcx+20h]\n\n\nq1 [hex]: ¿Cuál es el RVA del RIP?\n\nq2 [single]: ¿Puede considerarse coincidente ese PDB solo porque coincide el GUID?\n  A. Sí, Age no forma parte de la identidad.\n  B. No; GUID y Age deben coincidir.\n  C. Sí, si el nombre appcore.pdb coincide.\n  D. No; los PDB nunca sirven con ASLR.\n\nq3 [single]: ¿Qué dato debe guiar la atribución hasta obtener símbolos correctos?\n  A. El nombre de función del PDB Age 2\n  B. El RVA y desensamblado del binario cargado\n  C. Solo el timestamp del crash\n  D. La ruta de la caché de PDB\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-e3grsb82\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"symbols_pdb\",\"answers\":{\"q1\":\"0x71A0\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"El RIP 0x400071A0 menos la base 0x40000000 da el RVA 0x71A0. El GUID coincide, pero el módulo tiene Age 3 y el PDB Age 2. Hasta obtener símbolos correctos, la atribución debe basarse en el RVA y el desensamblado del binario cargado.\"}\n2026-10-04T12:39:29.909443Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"c5810ce6-a752-4d6a-bc9f-59c98a1f10f1\"\ntokens used\n3375\n",
+      "submission": {
+        "case_id": "symbols_pdb",
+        "answers": {
+          "q1": "0x71A0",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "El RIP 0x400071A0 menos la base 0x40000000 da el RVA 0x71A0. El GUID coincide, pero el módulo tiene Age 3 y el PDB Age 2. Hasta obtener símbolos correctos, la atribución debe basarse en el RVA y el desensamblado del binario cargado."
+      }
+    },
+    {
+      "case_id": "loader_lock",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 7.66,
+      "raw_output": "{\"case_id\":\"loader_lock\",\"answers\":{\"q1\":\"B\",\"q2\":\"B\",\"q3\":\"A\"},\"reasoning\":\"DllMain espera el evento del worker mientras el worker sigue pendiente de la notificación DLL_THREAD_ATTACH del loader; DllMain aún no ha retornado. Mover el inicio y la sincronización a Init, llamada tras LoadLibraryW, elimina esa espera dentro de DllMain. La existencia de Thread 18 confirma que el worker se creó.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-r7kvbyx8\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ed-3110-7ac1-8924-3b0288e5376e\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO loader_lock: Bloqueo durante DllMain\nUn DLL de telemetría deja colgada la aplicación durante LoadLibraryW. Hay dos hilos vivos y ninguno consume CPU.\n\n--- ARTEFACTO artifacts/loader_lock/threads.txt ---\nThread 12:\n  ntdll!LdrLoadDll\n  sample!DllMain(DLL_PROCESS_ATTACH)\n  sample!StartWorker\n  kernelbase!WaitForSingleObject(worker_ready, INFINITE)\n\nThread 18 (worker creado por Thread 12):\n  ntdll!LdrpCallInitRoutine\n  [pendiente de notificación DLL_THREAD_ATTACH]\n  sample!WorkerMain -> SetEvent(worker_ready)  [todavía no ejecutado]\n\nEl callback DllMain no ha retornado. El worker se creó correctamente.\n\n\nq1 [single]: ¿Cuál es la dependencia circular?\n  A. WaitForSingleObject necesita un handle x86.\n  B. DllMain espera al worker, cuyo arranque requiere que terminen las notificaciones serializadas del loader.\n  C. CreateThread falla siempre desde DllMain.\n  D. El evento worker_ready se resetea automáticamente antes de esperar.\n\nq2 [single]: ¿Qué cambio evita esta espera en el loader?\n  A. Esperar menos tiempo dentro de DllMain.\n  B. Mover inicio y sincronización del worker a una función Init explícita llamada tras LoadLibrary.\n  C. Llamar LoadLibrary otra vez desde DllMain.\n  D. Marcar worker_ready antes de crearlo y seguir asumiendo que inicializó.\n\nq3 [single]: ¿Qué observación descarta que CreateThread haya fallado?\n  A. Thread 18 existe y espera el paso de inicialización del loader.\n  B. Thread 12 está en LdrLoadDll.\n  C. El evento es auto reset.\n  D. La DLL tiene exports.\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-r7kvbyx8\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"loader_lock\",\"answers\":{\"q1\":\"B\",\"q2\":\"B\",\"q3\":\"A\"},\"reasoning\":\"DllMain espera el evento del worker mientras el worker sigue pendiente de la notificación DLL_THREAD_ATTACH del loader; DllMain aún no ha retornado. Mover el inicio y la sincronización a Init, llamada tras LoadLibraryW, elimina esa espera dentro de DllMain. La existencia de Thread 18 confirma que el worker se creó.\"}\n2026-10-04T12:39:37.626850Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"943a03f3-29df-4b0f-a137-015984203459\"\ntokens used\n1043\n",
+      "submission": {
+        "case_id": "loader_lock",
+        "answers": {
+          "q1": "B",
+          "q2": "B",
+          "q3": "A"
+        },
+        "reasoning": "DllMain espera el evento del worker mientras el worker sigue pendiente de la notificación DLL_THREAD_ATTACH del loader; DllMain aún no ha retornado. Mover el inicio y la sincronización a Init, llamada tras LoadLibraryW, elimina esa espera dentro de DllMain. La existencia de Thread 18 confirma que el worker se creó."
+      }
+    },
+    {
+      "case_id": "etw_pid",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 8.44,
+      "raw_output": "{\"case_id\":\"etw_pid\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":\"B\"},\"reasoning\":\"new.bin aparece en un FileWrite del PID 4380 con process_start_key B92 e imagen updater.exe. El PID 4380 perteneció antes a worker.exe/A17, pero esa instancia terminó; correlacionar PID y process_start_key distingue ambas instancias.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-divfufow\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ed-4f02-7423-8480-c6b668a6ba20\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO etw_pid: PID reciclado en telemetría\nUn detector correlaciona una operación de archivo con un proceso usando solo PID. Un reinicio rápido hace que se atribuya la operación al proceso incorrecto.\n\n--- ARTEFACTO artifacts/etw_pid/events.csv ---\ntime_utc,event,pid,process_start_key,image,path\n12:00:01.000,ProcessStart,4380,A17,worker.exe,\n12:00:03.100,FileWrite,4380,A17,worker.exe,C:\\Temp\\old.bin\n12:00:04.000,ProcessStop,4380,A17,worker.exe,\n12:00:04.230,ProcessStart,4380,B92,updater.exe,\n12:00:04.310,FileWrite,4380,B92,updater.exe,C:\\Temp\\new.bin\n12:00:05.000,ProcessStop,4380,B92,updater.exe,\n\n\nq1 [single]: ¿A qué instancia pertenece new.bin?\n  A. worker.exe/A17\n  B. updater.exe/B92\n  C. A ambas\n  D. No se puede distinguir con los datos\n\nq2 [single]: ¿Qué clave de correlación evita la confusión mostrada?\n  A. PID solamente\n  B. Nombre de imagen solamente\n  C. PID más process_start_key\n  D. Ruta de archivo solamente\n\nq3 [single]: ¿Cuál es el fallo del algoritmo que usa PID como identidad permanente?\n  A. La hora UTC está redondeada\n  B. Los PID se pueden reutilizar tras terminar un proceso\n  C. ETW convierte rutas a UTF-8\n  D. Los eventos FileWrite siempre carecen de PID\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-divfufow\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"etw_pid\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":\"B\"},\"reasoning\":\"new.bin aparece en un FileWrite del PID 4380 con process_start_key B92 e imagen updater.exe. El PID 4380 perteneció antes a worker.exe/A17, pero esa instancia terminó; correlacionar PID y process_start_key distingue ambas instancias.\"}\n2026-10-04T12:39:46.015154Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"17503a58-f962-4f02-80ff-e62fca18f61e\"\ntokens used\n987\n",
+      "submission": {
+        "case_id": "etw_pid",
+        "answers": {
+          "q1": "B",
+          "q2": "C",
+          "q3": "B"
+        },
+        "reasoning": "new.bin aparece en un FileWrite del PID 4380 con process_start_key B92 e imagen updater.exe. El PID 4380 perteneció antes a worker.exe/A17, pero esa instancia terminó; correlacionar PID y process_start_key distingue ambas instancias."
+      }
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 7.36,
+      "raw_output": "{\"case_id\":\"plugin_lifetime\",\"answers\":{\"q1\":\"B\",\"q2\":\"A\",\"q3\":\"A\"},\"reasoning\":\"En t3, FreeLibrary reduce el contador de referencias a cero y desasigna la imagen, pero registry.callback conserva la dirección obtenida en t1. En t4, otro DLL puede reutilizar ese rango: la llamada de t5 puede causar una AV o ejecutar código inesperado.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-xbl92lgm\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ed-6fff-7761-92ef-c67c857d7bd4\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO plugin_lifetime: Puntero tras descargar un DLL\nLa aplicación almacena un callback exportado por un plugin y lo llama tras una recarga. El fallo solo aparece en algunas ejecuciones.\n\n--- ARTEFACTO artifacts/plugin_lifetime/timeline.txt ---\nt0 LoadLibraryW(plugin.dll) -> HMODULE 00007ff9`a1000000\nt1 GetProcAddress(h, \"Process\") -> 00007ff9`a1001430\nt2 registry.callback = 00007ff9`a1001430\nt3 FreeLibrary(h) -> TRUE; reference count reaches 0; image unmapped\nt4 another.dll loads; address range may be reused\nt5 registry.callback() -> AV or unexpected code\n\n\nq1 [single]: ¿Qué causa explica el comportamiento intermitente?\n  A. El export cambia de nombre en cada llamada\n  B. El callback queda apuntando a memoria de un módulo descargado\n  C. GetProcAddress devuelve siempre una dirección relativa\n  D. FreeLibrary invalida todos los hilos del proceso\n\nq2 [single]: ¿Qué reparación conserva la validez del callback?\n  A. Retener una referencia al módulo mientras cualquier callback pueda ejecutarse y retirarlo antes de descargar\n  B. Guardar solo los 32 bits bajos del puntero\n  C. Volver a llamar el puntero hasta que funcione\n  D. Desactivar ASLR\n\nq3 [single]: ¿Por qué a veces se ejecuta código inesperado en vez de una AV?\n  A. La dirección antigua puede quedar asignada a otro módulo\n  B. El export es forwarder\n  C. El retorno de GetProcAddress es ASCII\n  D. El loader reescribe el registro\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-xbl92lgm\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"plugin_lifetime\",\"answers\":{\"q1\":\"B\",\"q2\":\"A\",\"q3\":\"A\"},\"reasoning\":\"En t3, FreeLibrary reduce el contador de referencias a cero y desasigna la imagen, pero registry.callback conserva la dirección obtenida en t1. En t4, otro DLL puede reutilizar ese rango: la llamada de t5 puede causar una AV o ejecutar código inesperado.\"}\n2026-10-04T12:39:53.432632Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"9218f4c1-4983-4933-97b3-77855eb3b6b6\"\ntokens used\n995\n",
+      "submission": {
+        "case_id": "plugin_lifetime",
+        "answers": {
+          "q1": "B",
+          "q2": "A",
+          "q3": "A"
+        },
+        "reasoning": "En t3, FreeLibrary reduce el contador de referencias a cero y desasigna la imagen, pero registry.callback conserva la dirección obtenida en t1. En t4, otro DLL puede reutilizar ese rango: la llamada de t5 puede causar una AV o ejecutar código inesperado."
+      }
+    },
+    {
+      "case_id": "x86_stack",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 8.92,
+      "raw_output": "{\"case_id\":\"x86_stack\",\"answers\":{\"q1\":\"0x10\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"El llamador apila cuatro argumentos de 4 bytes y no ajusta ESP tras la llamada. La instrucción ret 10h del callee retira 16 bytes de argumentos, además de la dirección de retorno. Ese patrón también puede proceder de ensamblador o de una convención personalizada, por lo que no identifica una convención de fuente exacta.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-pqenwpic\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ed-8ccf-7582-b8ea-b8db694afa5b\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO x86_stack: Inferencia de convención x86\nUna función x86 sin símbolos se invoca desde dos sitios. Hay que inferir quién limpia la pila, sin atribuir más semántica de la que permite el desensamblado.\n\n--- ARTEFACTO artifacts/x86_stack/disasm.txt ---\nCaller:\n  push 4\n  push esi\n  push 0\n  push edi\n  call 00402700\n  mov  ebx,eax\n  ; no add esp,10h here\n\n00402700:\n  push ebp\n  mov  ebp,esp\n  mov  eax,[ebp+08h]\n  ; ...\n  mov  esp,ebp\n  pop  ebp\n  ret  10h\n\n\nq1 [hex]: ¿Cuántos bytes de argumentos retira el callee además de la dirección de retorno?\n\nq2 [single]: ¿Qué afirmación está mejor sustentada?\n  A. El llamador limpia cuatro argumentos\n  B. El callee limpia 16 bytes de argumentos\n  C. Es necesariamente __thiscall de MSVC\n  D. El retorno es de tipo void\n\nq3 [single]: ¿Por qué sería excesivo afirmar una convención de fuente exacta solo con estas instrucciones?\n  A. ret 10h no existe en x86\n  B. Código ensamblador o convenciones personalizadas pueden compartir el mismo patrón de limpieza\n  C. Los argumentos nunca se pasan por pila\n  D. EAX no puede contener resultados\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-pqenwpic\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"x86_stack\",\"answers\":{\"q1\":\"0x10\",\"q2\":\"B\",\"q3\":\"B\"},\"reasoning\":\"El llamador apila cuatro argumentos de 4 bytes y no ajusta ESP tras la llamada. La instrucción ret 10h del callee retira 16 bytes de argumentos, además de la dirección de retorno. Ese patrón también puede proceder de ensamblador o de una convención personalizada, por lo que no identifica una convención de fuente exacta.\"}\n2026-10-04T12:40:02.314791Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"67fde831-5882-4364-8d68-7a29b0b5ded9\"\ntokens used\n991\n",
+      "submission": {
+        "case_id": "x86_stack",
+        "answers": {
+          "q1": "0x10",
+          "q2": "B",
+          "q3": "B"
+        },
+        "reasoning": "El llamador apila cuatro argumentos de 4 bytes y no ajusta ESP tras la llamada. La instrucción ret 10h del callee retira 16 bytes de argumentos, además de la dirección de retorno. Ese patrón también puede proceder de ensamblador o de una convención personalizada, por lo que no identifica una convención de fuente exacta."
+      }
+    },
+    {
+      "case_id": "rip_relative",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 9.62,
+      "raw_output": "{\"case_id\":\"rip_relative\",\"answers\":{\"q1\":\"0x180004B00\",\"q2\":\"0x6B00\",\"q3\":\"B\"},\"reasoning\":\"El destino se calcula desde la dirección siguiente a cada instrucción: 0x180005127−0x627=0x180004B00; 0x190006317+0x7E9=0x190006B00, cuyo RVA es 0x6B00. Los cuatro bytes disp32 cambian entre builds y deben tratarse como variables.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-nf1573k3\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ed-afbe-7632-82c0-ddf74575672d\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO rip_relative: Destino de acceso RIP relative\nEn dos builds de un programa x64, una instrucción accede a un global con desplazamiento relativo. Calcula el destino efectivo y distingue el desplazamiento embebido de una dirección absoluta.\n\n--- ARTEFACTO artifacts/rip_relative/disasm.txt ---\nBuild 1, image base 00000001`80000000:\n00000001`80005120  48 8B 05 D9 F9 FF FF  mov rax,qword ptr [rip-627h]\n00000001`80005127  48 85 C0              test rax,rax\n\nBuild 2, image base 00000001`90000000:\n00000001`90006310  48 8B 05 E9 07 00 00  mov rax,qword ptr [rip+7E9h]\n00000001`90006317  48 85 C0              test rax,rax\n\n\nq1 [hex]: ¿Qué VA lee la instrucción de Build 1?\n\nq2 [hex]: ¿Qué RVA lee la instrucción de Build 2?\n\nq3 [single]: Para una firma que sobreviva a ambos builds, ¿qué parte debe tratarse como variable?\n  A. El opcode 48 8B 05\n  B. Los cuatro bytes disp32 tras 48 8B 05\n  C. Los bytes 48 85 C0\n  D. El prefijo REX siempre debe omitirse\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-nf1573k3\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"rip_relative\",\"answers\":{\"q1\":\"0x180004B00\",\"q2\":\"0x6B00\",\"q3\":\"B\"},\"reasoning\":\"El destino se calcula desde la dirección siguiente a cada instrucción: 0x180005127−0x627=0x180004B00; 0x190006317+0x7E9=0x190006B00, cuyo RVA es 0x6B00. Los cuatro bytes disp32 cambian entre builds y deben tratarse como variables.\"}\n2026-10-04T12:40:11.968462Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"6a237211-203c-4303-872f-523dd7ac443f\"\ntokens used\n1082\n",
+      "submission": {
+        "case_id": "rip_relative",
+        "answers": {
+          "q1": "0x180004B00",
+          "q2": "0x6B00",
+          "q3": "B"
+        },
+        "reasoning": "El destino se calcula desde la dirección siguiente a cada instrucción: 0x180005127−0x627=0x180004B00; 0x190006317+0x7E9=0x190006B00, cuyo RVA es 0x6B00. Los cuatro bytes disp32 cambian entre builds y deben tratarse como variables."
+      }
+    },
+    {
+      "case_id": "xor_config",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 12.5,
+      "raw_output": "{\"case_id\":\"xor_config\",\"answers\":{\"q1\":\"A\",\"q2\":\"0x5A\",\"q3\":\"A\"},\"reasoning\":\"El encabezado XCFG indica clave 0x5A y longitud 0x13 (19 bytes). Al aplicar XOR a esos 19 bytes se obtiene MODE=SAFE;PORT=8443. El formato usa una longitud explícita y no garantiza un NUL final.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-iwm5p5_q\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ed-d55a-71b2-9082-1ca991c51ac9\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO xor_config: Configuración codificada en un recurso\nUn programa interno guarda un bloque de configuración de prueba en un recurso. El encabezado indica longitud y XOR de un byte; la muestra no se ejecuta. Recupera el contenido a partir del archivo binario.\n\n--- ARTEFACTO artifacts/xor_config/format.txt ---\nFormato del recurso config.dat:\noffset 0..3 : ASCII 'XCFG'\noffset 4    : clave XOR (un byte)\noffset 5    : longitud de payload (un byte)\noffset 6..  : payload con cada byte XOR clave\nEl payload es texto ASCII terminado exactamente por la longitud; no hay NUL implícito.\n\n\n--- ARTEFACTO artifacts/xor_config/config.dat ---\nXCFGZ\u0013\u0017\u0015\u001e\u001fg\t\u001b\u001c\u001fa\n\u0015\b\u000egbnni\n\nq1 [single]: ¿Cuál es el texto decodificado?\n  A. MODE=SAFE;PORT=8443\n  B. MODE=FAST;PORT=443\n  C. MODE=SAFE;PORT=443\n  D. MODE=TEST;PORT=8443\n\nq2 [hex]: ¿Cuál es la clave XOR?\n\nq3 [single]: ¿Por qué no debe tratarse el payload codificado como string C sin decodificar?\n  A. El formato define una longitud explícita y no garantiza NUL\n  B. Los recursos PE siempre usan UTF-16\n  C. XOR cambia el tamaño de cada byte\n  D. ASCII no admite signos igual\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-iwm5p5_q\nhook: SessionStart\nhook: SessionStart Completed\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"Format-Hex -LiteralPath 'artifacts/xor_config/config.dat'\" in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-iwm5p5_q\n succeeded in 121ms:\n\n   Label: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-iwm5p5_q\\artifacts\\xor_config\\config.dat\n\n          Offset Bytes                                           Ascii\n                 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F\n          ------ ----------------------------------------------- -----\n0000000000000000 58 43 46 47 5A 13 17 15 1E 1F 67 09 1B 1C 1F 61 XCFGZ?????g????a\n0000000000000010 0A 15 08 0E 67 62 6E 6E 69                      ????gbnni\n\n\ncodex\n{\"case_id\":\"xor_config\",\"answers\":{\"q1\":\"A\",\"q2\":\"0x5A\",\"q3\":\"A\"},\"reasoning\":\"El encabezado XCFG indica clave 0x5A y longitud 0x13 (19 bytes). Al aplicar XOR a esos 19 bytes se obtiene MODE=SAFE;PORT=8443. El formato usa una longitud explícita y no garantiza un NUL final.\"}\n2026-10-04T12:40:24.361675Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"3f4c13de-9264-4cad-9ac0-04bed568e208\"\ntokens used\n2291\n",
+      "submission": {
+        "case_id": "xor_config",
+        "answers": {
+          "q1": "A",
+          "q2": "0x5A",
+          "q3": "A"
+        },
+        "reasoning": "El encabezado XCFG indica clave 0x5A y longitud 0x13 (19 bytes). Al aplicar XOR a esos 19 bytes se obtiene MODE=SAFE;PORT=8443. El formato usa una longitud explícita y no garantiza un NUL final."
+      }
+    },
+    {
+      "case_id": "com_activation",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 9.31,
+      "raw_output": "{\"case_id\":\"com_activation\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":[\"A\",\"B\",\"C\"]},\"reasoning\":\"El hilo UI ya se inicializó como STA; intentar inicializarlo después como MTA produjo 0x80010106. El cliente x86 solicita un servidor in-process, pero el único DLL indicado es AMD64 y no existe una build x86. Las reparaciones válidas son mantener un solo modelo de apartamento, proporcionar un DLL x86 compatible o usar un servidor x64 fuera de proceso con marshaling adecuado.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-s6bxbjcm\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ee-063a-70d1-b145-cdc4a5e9f842\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO com_activation: Dos fallos distintos al activar COM\nUna aplicación x86 intenta activar un componente de informes y el equipo mezcla dos errores en una sola hipótesis. Separa el cambio de apartamento de la incompatibilidad de arquitectura.\n\n--- ARTEFACTO artifacts/com_activation/com_trace.txt ---\nProceso: reporthost.exe (x86), Windows x64\nHilo UI: CoInitializeEx(NULL, COINIT_APARTMENTTHREADED) -> S_OK\nHilo UI: CoInitializeEx(NULL, COINIT_MULTITHREADED) -> 0x80010106\n\nRegistro comprobado en vista x64:\nHKCR\\CLSID\\{02C92310-8408-4B39-9C1B-11C822982501}\\InprocServer32\n  (Default) = C:\\Program Files\\Contoso\\ReportCom64.dll (PE32+, AMD64)\n\nEl cliente solicita CLSCTX_INPROC_SERVER. No existe build x86 del DLL.\nEl equipo propone copiar ReportCom64.dll a SysWOW64 y reintentar.\n\n\nq1 [single]: ¿Qué significa 0x80010106 en este hilo?\n  A. Falta un DLL en System32\n  B. Se intentó cambiar el modelo de apartamento ya fijado\n  C. El servidor COM se registró dos veces\n  D. El objeto agotó memoria\n\nq2 [single]: ¿Resolverá copiar el DLL x64 a SysWOW64 la activación in-process desde x86?\n  A. Sí, SysWOW64 convierte arquitectura\n  B. Sí, si se cambia la extensión a .ocx\n  C. No, un proceso x86 no puede cargar un DLL x64\n  D. No, porque COM no admite servidores in-process\n\nq3 [multi]: Selecciona reparaciones técnicamente válidas para los problemas independientes.\n  A. Inicializar el hilo con un único modelo COM coherente\n  B. Proporcionar un servidor in-process x86 compatible\n  C. Usar un servidor COM out-of-process x64 con marshaling adecuado\n  D. Copiar el DLL x64 a SysWOW64\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-s6bxbjcm\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"com_activation\",\"answers\":{\"q1\":\"B\",\"q2\":\"C\",\"q3\":[\"A\",\"B\",\"C\"]},\"reasoning\":\"El hilo UI ya se inicializó como STA; intentar inicializarlo después como MTA produjo 0x80010106. El cliente x86 solicita un servidor in-process, pero el único DLL indicado es AMD64 y no existe una build x86. Las reparaciones válidas son mantener un solo modelo de apartamento, proporcionar un DLL x86 compatible o usar un servidor x64 fuera de proceso con marshaling adecuado.\"}\n2026-10-04T12:40:33.813974Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"340df9fa-4717-4b12-8d77-5149fe08ec8e\"\ntokens used\n1138\n",
+      "submission": {
+        "case_id": "com_activation",
+        "answers": {
+          "q1": "B",
+          "q2": "C",
+          "q3": [
+            "A",
+            "B",
+            "C"
+          ]
+        },
+        "reasoning": "El hilo UI ya se inicializó como STA; intentar inicializarlo después como MTA produjo 0x80010106. El cliente x86 solicita un servidor in-process, pero el único DLL indicado es AMD64 y no existe una build x86. Las reparaciones válidas son mantener un solo modelo de apartamento, proporcionar un DLL x86 compatible o usar un servidor x64 fuera de proceso con marshaling adecuado."
+      }
+    },
+    {
+      "case_id": "aob_versions",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 13.0,
+      "raw_output": "{\"case_id\":\"aob_versions\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"B\"],\"q3\":\"B\"},\"reasoning\":\"Entre los bloques objetivo cambian el disp32 y el desplazamiento del salto corto. El patrón A los sustituye por wildcards y conserva 8B 48 08 85 C9, secuencia que distingue el objetivo del bloque no objetivo en Build B. Antes de usarlo en otra actualización, conviene verificar que el match sea único, respete los límites de instrucción y apunte al destino RIP-relative esperado.\"}\n",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-_guvtotb\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a106ee-2aa4-7481-91d4-7786f36ed08c\n--------\nuser\nEres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.\nNo presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.\nFormato: {\"case_id\":\"ID\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"C\"],\"q3\":\"0x1234\"},\"reasoning\":\"explicación breve con evidencia\"}.\nEn preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO aob_versions: Firma que falla tras actualizar\nUna firma AOB se construyó con bytes de una instrucción RIP-relative. En la siguiente versión cambia el layout; además aparece un segundo bloque con el mismo prefijo. Diseña una firma estable y justifica cómo discriminar el match.\n\n--- ARTEFACTO artifacts/aob_versions/versions.txt ---\nBuild A, bloque objetivo en RVA 0x4210:\n48 8B 05 72 13 00 00 48 85 C0 74 09 8B 48 08 85 C9\n\nBuild B, bloque objetivo en RVA 0x5A70:\n48 8B 05 E2 F0 FF FF 48 85 C0 74 0C 8B 48 08 85 C9\n\nBuild B, bloque NO objetivo en RVA 0x7C10:\n48 8B 05 31 02 00 00 48 85 C0 74 0C 8B 50 08 85 D2\n\nLos cuatro bytes después de 48 8B 05 son disp32; el byte después de 74 es un salto corto.\n\n\nq1 [single]: ¿Qué patrón conserva bytes estables y distingue el bloque objetivo de ambos builds?\n  A. 48 8B 05 ?? ?? ?? ?? 48 85 C0 74 ?? 8B 48 08 85 C9\n  B. 48 8B 05 72 13 00 00 48 85 C0 74 09\n  C. 48 8B 05 ?? ?? ?? ?? 48 85 C0\n  D. ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ??\n\nq2 [multi]: ¿Qué partes cambian explícitamente entre las dos versiones objetivo?\n  A. El disp32 de mov\n  B. El desplazamiento del jz corto\n  C. La secuencia 8B 48 08 85 C9\n  D. El opcode 48 85 C0\n\nq3 [single]: ¿Qué comprobación adicional es prudente antes de usar el resultado de un sigscan en otra actualización?\n  A. Aceptar siempre el primer match\n  B. Verificar unicidad, límites de instrucción y semántica del destino RIP-relative\n  C. Eliminar todos los wildcards\n  D. Interpretar el disp32 como VA absoluta\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-_guvtotb\nhook: SessionStart\nhook: SessionStart Completed\ncodex\n{\"case_id\":\"aob_versions\",\"answers\":{\"q1\":\"A\",\"q2\":[\"A\",\"B\"],\"q3\":\"B\"},\"reasoning\":\"Entre los bloques objetivo cambian el disp32 y el desplazamiento del salto corto. El patrón A los sustituye por wildcards y conserva 8B 48 08 85 C9, secuencia que distingue el objetivo del bloque no objetivo en Build B. Antes de usarlo en otra actualización, conviene verificar que el match sea único, respete los límites de instrucción y apunte al destino RIP-relative esperado.\"}\n2026-10-04T12:40:46.814446Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"0d8d243c-a874-4545-9cbe-cf91bcd83c6d\"\ntokens used\n1362\n",
+      "submission": {
+        "case_id": "aob_versions",
+        "answers": {
+          "q1": "A",
+          "q2": [
+            "A",
+            "B"
+          ],
+          "q3": "B"
+        },
+        "reasoning": "Entre los bloques objetivo cambian el disp32 y el desplazamiento del salto corto. El patrón A los sustituye por wildcards y conserva 8B 48 08 85 C9, secuencia que distingue el objetivo del bloque no objetivo en Build B. Antes de usarlo en otra actualización, conviene verificar que el match sea único, respete los límites de instrucción y apunte al destino RIP-relative esperado."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "pe_rva",
+      "answers": {
+        "q1": "0x680",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": ".rdata comienza en RVA 0x2000 y offset 0x600; por tanto, RVA 0x2080 corresponde al offset 0x680. Su tamaño en archivo es 0x200, así que RVA 0x2250 cae en la cola virtual sin bytes propios en disco. La VA preferida del punto de entrada es ImageBase 0x140000000 + RVA 0x1000 = 0x140001000."
+    },
+    {
+      "case_id": "pe_reloc",
+      "answers": {
+        "q1": "0x180001234",
+        "q2": "B",
+        "q3": "0x40000000"
+      },
+      "reasoning": "La base preferida es 0x140000000 y la imagen se carga en 0x180000000: el delta es 0x40000000. El bloque de relocaciones tiene RVA de página 0x2000; la entrada 0xA028 indica DIR64 (tipo 0xA) en RVA 0x2028. El QWORD original, 0x140001234, queda en 0x180001234."
+    },
+    {
+      "case_id": "abi_x64",
+      "answers": {
+        "q1": "0x55",
+        "q2": "B",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "Al entrar, RCX contiene a. [rsp] guarda la dirección de retorno; [rsp+0x08] a [rsp+0x20] son shadow space y no garantizan copias de los registros. El quinto y sexto argumentos están en [rsp+0x28]=0x55 y [rsp+0x30]=0x66."
+    },
+    {
+      "case_id": "crash_av",
+      "answers": {
+        "q1": "A",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "Parameter[0]=0 indica lectura y Parameter[1]=0x18 indica la dirección accedida. La instrucción lee [RAX+18h] con RAX=0, por lo que primero hay que comprobar el retorno de get_optional_context. Como el contexto es opcional, la corrección es comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto."
+    },
+    {
+      "case_id": "wow64_view",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "El proceso x86 bajo WOW64 puede ver una ruta de archivos y una vista del registro distintas de las del proceso x64. Sysnative da acceso al System32 nativo y KEY_WOW64_64KEY selecciona la vista x64 del registro. El acceso al DLL no implica que un proceso x86 pueda cargarlo."
+    },
+    {
+      "case_id": "unwind_x64",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "RtlLookupFunctionEntry devuelve NULL en +0x18, por lo que el stack walker trata el trampolín como leaf y lee [rsp] como retorno. El prólogo hizo push rbx y sub rsp,30h; sus metadatos de unwind deben describir el guardado de RBX y la asignación de 0x30 bytes. RtlAddFunctionTable registra una tabla de funciones dinámica para ese código."
+    },
+    {
+      "case_id": "symbols_pdb",
+      "answers": {
+        "q1": "0x71A0",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "El RIP 0x400071A0 menos la base 0x40000000 da el RVA 0x71A0. El GUID coincide, pero el módulo tiene Age 3 y el PDB Age 2. Hasta obtener símbolos correctos, la atribución debe basarse en el RVA y el desensamblado del binario cargado."
+    },
+    {
+      "case_id": "loader_lock",
+      "answers": {
+        "q1": "B",
+        "q2": "B",
+        "q3": "A"
+      },
+      "reasoning": "DllMain espera el evento del worker mientras el worker sigue pendiente de la notificación DLL_THREAD_ATTACH del loader; DllMain aún no ha retornado. Mover el inicio y la sincronización a Init, llamada tras LoadLibraryW, elimina esa espera dentro de DllMain. La existencia de Thread 18 confirma que el worker se creó."
+    },
+    {
+      "case_id": "etw_pid",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": "B"
+      },
+      "reasoning": "new.bin aparece en un FileWrite del PID 4380 con process_start_key B92 e imagen updater.exe. El PID 4380 perteneció antes a worker.exe/A17, pero esa instancia terminó; correlacionar PID y process_start_key distingue ambas instancias."
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": "A"
+      },
+      "reasoning": "En t3, FreeLibrary reduce el contador de referencias a cero y desasigna la imagen, pero registry.callback conserva la dirección obtenida en t1. En t4, otro DLL puede reutilizar ese rango: la llamada de t5 puede causar una AV o ejecutar código inesperado."
+    },
+    {
+      "case_id": "x86_stack",
+      "answers": {
+        "q1": "0x10",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "El llamador apila cuatro argumentos de 4 bytes y no ajusta ESP tras la llamada. La instrucción ret 10h del callee retira 16 bytes de argumentos, además de la dirección de retorno. Ese patrón también puede proceder de ensamblador o de una convención personalizada, por lo que no identifica una convención de fuente exacta."
+    },
+    {
+      "case_id": "rip_relative",
+      "answers": {
+        "q1": "0x180004B00",
+        "q2": "0x6B00",
+        "q3": "B"
+      },
+      "reasoning": "El destino se calcula desde la dirección siguiente a cada instrucción: 0x180005127−0x627=0x180004B00; 0x190006317+0x7E9=0x190006B00, cuyo RVA es 0x6B00. Los cuatro bytes disp32 cambian entre builds y deben tratarse como variables."
+    },
+    {
+      "case_id": "xor_config",
+      "answers": {
+        "q1": "A",
+        "q2": "0x5A",
+        "q3": "A"
+      },
+      "reasoning": "El encabezado XCFG indica clave 0x5A y longitud 0x13 (19 bytes). Al aplicar XOR a esos 19 bytes se obtiene MODE=SAFE;PORT=8443. El formato usa una longitud explícita y no garantiza un NUL final."
+    },
+    {
+      "case_id": "com_activation",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "El hilo UI ya se inicializó como STA; intentar inicializarlo después como MTA produjo 0x80010106. El cliente x86 solicita un servidor in-process, pero el único DLL indicado es AMD64 y no existe una build x86. Las reparaciones válidas son mantener un solo modelo de apartamento, proporcionar un DLL x86 compatible o usar un servidor x64 fuera de proceso con marshaling adecuado."
+    },
+    {
+      "case_id": "aob_versions",
+      "answers": {
+        "q1": "A",
+        "q2": [
+          "A",
+          "B"
+        ],
+        "q3": "B"
+      },
+      "reasoning": "Entre los bloques objetivo cambian el disp32 y el desplazamiento del salto corto. El patrón A los sustituye por wildcards y conserva 8B 48 08 85 C9, secuencia que distingue el objetivo del bloque no objetivo en Build B. Antes de usarlo en otra actualización, conviene verificar que el match sea único, respete los límites de instrucción y apunte al destino RIP-relative esperado."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "track": "protected-vm",
+  "variant": "custom",
+  "profile": "claude",
+  "attempts": [
+    {
+      "case_id": "vm_e1a4c106677a",
+      "seconds": 533.38,
+      "exit_code": 0,
+      "stdout": "ACCEPT! Code is `EXQPPNE2JP6A47EZLZYGEG4J`. Now compute SHA-256 of decrypted+decompressed bytecode:\n\nThe decompressed output was computed earlier with sha256 `762d69a5d3eaa2c9f3810a7e5a5790b014ea0ba7589e336e55ea4f80a50de5bd`.\n\n```json\n{\"case_id\":\"vm_e1a4c106677a\",\"code\":\"EXQPPNE2JP6A47EZLZYGEG4J\",\"program_sha256\":\"762d69a5d3eaa2c9f3810a7e5a5790b014ea0ba7589e336e55ea4f80a50de5bd\"}\n```\n",
+      "stderr": "",
+      "answer": {
+        "case_id": "vm_e1a4c106677a",
+        "code": "EXQPPNE2JP6A47EZLZYGEG4J",
+        "program_sha256": "762d69a5d3eaa2c9f3810a7e5a5790b014ea0ba7589e336e55ea4f80a50de5bd"
+      }
+    }
+  ]
+}

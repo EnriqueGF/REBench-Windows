@@ -1,0 +1,577 @@
+{
+  "benchmark_version": "7.0",
+  "started_at": "2026-10-04T22:29:45.203344+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "hard_resource_stream",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 136.88,
+      "raw_output": "{\"case_id\":\"hard_resource_stream\",\"answers\":{\"q1\":{\"tables\":{\"k\":[\"0x36e5e109598cd19f\",\"0xfbbb755537f649cf\",\"0xb7255472a85b40dd\",\"0x5ccca9a0a23757bb\",\"0x59b23fdbb5fde67f\",\"0x5747392fd70fa131\",\"0xd35225abb3bbc851\",\"0x22bcc7e6ea0579f\",\"0xce2dda66a102ca3d\",\"0x37fa26ad1b795e15\",\"0x4985cffaeb5613ad\",\"0xdf623939589c78f9\",\"0x45382f6fb73f2a97\",\"0x1d7c168aeae95889\",\"0xeb4948048a4b433b\",\"0x2da0e35ad183fd1f\"]},\"steps\":[{\"dst\":\"r2\",\"op\":\"lookup\",\"table\":\"k\",\"index\":1},{\"dst\":\"r2\",\"op\":\"mul\",\"a\":\"r2\",\"b\":\"n\"},{\"dst\":\"r0\",\"op\":\"xor\",\"a\":\"0x36e5e109598cd19f\",\"b\":\"r2\"},{\"dst\":\"r2\",\"op\":\"xor\",\"a\":\"0x5ccca9a0a23757bb\",\"b\":\"n\"},{\"dst\":\"r1\",\"op\":\"add\",\"a\":\"0xb7255472a85b40dd\",\"b\":\"r2\"},{\"op\":\"each\",\"body\":[{\"dst\":\"r2\",\"op\":\"rol\",\"a\":\"r1\",\"bits\":11},{\"dst\":\"r3\",\"op\":\"add\",\"a\":\"r0\",\"b\":\"r2\"},{\"dst\":\"r4\",\"op\":\"add\",\"a\":\"i\",\"b\":3},{\"dst\":\"r5\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r4\"},{\"dst\":\"r5\",\"op\":\"add\",\"a\":\"r5\",\"b\":\"byte\"},{\"dst\":\"r3\",\"op\":\"xor\",\"a\":\"r3\",\"b\":\"r5\"},{\"dst\":\"r4\",\"op\":\"xor\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"r5\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r4\"},{\"dst\":\"r0\",\"op\":\"mul\",\"a\":\"r5\",\"b\":\"r3\"},{\"dst\":\"r6\",\"op\":\"and\",\"a\":\"r4\",\"b\":4},{\"dst\":\"r7\",\"op\":\"shr\",\"a\":\"byte\",\"bits\":4},{\"dst\":\"r7\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r7\"},{\"dst\":\"r7\",\"op\":\"xor\",\"a\":\"r7\",\"b\":\"r0\"},{\"dst\":\"r7\",\"op\":\"rol\",\"a\":\"r7\",\"bits\":17},{\"dst\":\"r8\",\"op\":\"add\",\"a\":\"i\",\"b\":\"byte\"},{\"dst\":\"r8\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r8\"},{\"dst\":\"r8\",\"op\":\"add\",\"a\":\"r8\",\"b\":\"r0\"},{\"dst\":\"r8\",\"op\":\"ror\",\"a\":\"r8\",\"bits\":13},{\"dst\":\"r0\",\"op\":\"sel\",\"cond\":\"r6\",\"a\":\"r7\",\"b\":\"r8\"},{\"dst\":\"r9\",\"op\":\"add\",\"a\":\"i\",\"b\":1},{\"dst\":\"r9\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r9\"},{\"dst\":\"r9\",\"op\":\"xor\",\"a\":\"r9\",\"b\":\"byte\"},{\"dst\":\"r9\",\"op\":\"rol\",\"a\":\"r9\",\"bits\":5},{\"dst\":\"r1\",\"op\":\"xor\",\"a\":\"r1\",\"b\":\"r0\"},{\"dst\":\"r10\",\"op\":\"add\",\"a\":\"i\",\"b\":7},{\"dst\":\"r10\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r10\"},{\"dst\":\"r1\",\"op\":\"mul\",\"a\":\"r1\",\"b\":\"r10\"},{\"dst\":\"r1\",\"op\":\"add\",\"a\":\"r1\",\"b\":\"r9\"}]},{\"dst\":\"r1\",\"op\":\"rol\",\"a\":\"r1\",\"bits\":29},{\"dst\":\"r2\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"n\"},{\"dst\":\"r1\",\"op\":\"xor\",\"a\":\"r1\",\"b\":\"r2\"},{\"dst\":\"r2\",\"op\":\"mul\",\"a\":\"n\",\"b\":\"0xD6E8FEB86659FD93\"},{\"dst\":\"r1\",\"op\":\"xor\",\"a\":\"r1\",\"b\":\"r2\"},{\"dst\":\"r1\",\"op\":\"xor\",\"a\":\"r1\",\"b\":\"r0\"}],\"return\":\"r1\"},\"q2\":\"0x1390\",\"q3\":\"0x2BD\",\"q4\":\"0x36E5E109598CD19F\",\"q5\":\"0x69525313027E3FC2\",\"q6\":\"0x2A47A248C39BF88C\",\"q7\":[\"A\",\"D\"]},\"reasoning\":\"La rutina en RVA 0x10C0 carga RCDATA 701 y descifra 16 QWORD; la de RVA 0x1390 calcula el valor que se imprime. El DSL reproduce sus operaciones sobre longitud y bytes. Se contrastó con el ejecutable en 56 entradas, incluidos los dos mensajes solicitados.\"}\n",
+      "stderr": "racle = subprocess.run([PE, arg], capture_output=True, text=True)\n+        print(arg, f'{tag(data):016X}', oracle.returncode, oracle.stdout.strip())\ndiff --git a/verify_dsl.py b/verify_dsl.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..6487e6236c1b87f976d86c5e413d2f02de95875d\n--- /dev/null\n+++ b/verify_dsl.py\n@@ -0,0 +1,115 @@\n+import random\n+import subprocess\n+from analyze_stream import PE, MASK, k, tag\n+\n+\n+def step(dst, op, **kwargs):\n+    return dict(dst=dst, op=op, **kwargs)\n+\n+\n+program = {\n+    'tables': {'k': [hex(v) for v in k]},\n+    'steps': [\n+        step('r2', 'lookup', table='k', index=1),\n+        step('r2', 'mul', a='r2', b='n'),\n+        step('r0', 'xor', a=hex(k[0]), b='r2'),\n+        step('r2', 'xor', a=hex(k[3]), b='n'),\n+        step('r1', 'add', a=hex(k[2]), b='r2'),\n+        {'op': 'each', 'body': [\n+            step('r2', 'rol', a='r1', bits=11),\n+            step('r3', 'add', a='r0', b='r2'),\n+            step('r4', 'add', a='i', b=3),\n+            step('r5', 'lookup', table='k', index='r4'),\n+            step('r5', 'add', a='r5', b='byte'),\n+            step('r3', 'xor', a='r3', b='r5'),\n+            step('r4', 'xor', a='byte', b='i'),\n+            step('r5', 'lookup', table='k', index='r4'),\n+            step('r0', 'mul', a='r5', b='r3'),\n+            step('r6', 'and', a='r4', b=4),\n+            step('r7', 'shr', a='byte', bits=4),\n+            step('r7', 'lookup', table='k', index='r7'),\n+            step('r7', 'xor', a='r7', b='r0'),\n+            step('r7', 'rol', a='r7', bits=17),\n+            step('r8', 'add', a='i', b='byte'),\n+            step('r8', 'lookup', table='k', index='r8'),\n+            step('r8', 'add', a='r8', b='r0'),\n+            step('r8', 'ror', a='r8', bits=13),\n+            step('r0', 'sel', cond='r6', a='r7', b='r8'),\n+            step('r9', 'add', a='i', b=1),\n+            step('r9', 'lookup', table='k', index='r9'),\n+            step('r9', 'xor', a='r9', b='byte'),\n+            step('r9', 'rol', a='r9', bits=5),\n+            step('r1', 'xor', a='r1', b='r0'),\n+            step('r10', 'add', a='i', b=7),\n+            step('r10', 'lookup', table='k', index='r10'),\n+            step('r1', 'mul', a='r1', b='r10'),\n+            step('r1', 'add', a='r1', b='r9'),\n+        ]},\n+        step('r1', 'rol', a='r1', bits=29),\n+        step('r2', 'lookup', table='k', index='n'),\n+        step('r1', 'xor', a='r1', b='r2'),\n+        step('r2', 'mul', a='n', b='0xD6E8FEB86659FD93'),\n+        step('r1', 'xor', a='r1', b='r2'),\n+        step('r1', 'xor', a='r1', b='r0'),\n+    ],\n+    'return': 'r1',\n+}\n+\n+\n+def run_dsl(data):\n+    regs = {'n': len(data)}\n+\n+    def val(x):\n+        if isinstance(x, int):\n+            return x\n+        if x.startswith('0x'):\n+            return int(x, 16)\n+        return regs[x]\n+\n+    def run(s):\n+        if s['op'] == 'each':\n+            for i, b in enumerate(data):\n+                regs['i'], regs['byte'] = i, b\n+                for sub in s['body']:\n+                    run(sub)\n+            return\n+        op = s['op']\n+        if op == 'lookup':\n+            result = k[val(s['index']) % 16]\n+        elif op in ('rol', 'ror', 'shl', 'shr'):\n+            a, bits = val(s['a']), s['bits']\n+            if op == 'rol':\n+                result = ((a << bits) | (a >> (64 - bits))) & MASK if bits else a\n+            elif op == 'ror':\n+                result = ((a >> bits) | (a << (64 - bits))) & MASK if bits else a\n+            elif op == 'shl':\n+                result = a << bits\n+            else:\n+                result = a >> bits\n+        elif op == 'sel':\n+            result = val(s['a']) if val(s['cond']) else val(s['b'])\n+        else:\n+            a, b = val(s['a']), val(s['b'])\n+            result = {'add': lambda: a + b, 'sub': lambda: a - b,\n+                      'xor': lambda: a ^ b, 'and': lambda: a & b,\n+                      'or': lambda: a | b, 'mul': lambda: a * b}[op]()\n+        regs[s['dst']] = result & MASK\n+\n+    for s in program['steps']:\n+        run(s)\n+    return regs[program['return']]\n+\n+\n+if __name__ == '__main__':\n+    rng = random.Random(41380)\n+    tests = [b'', bytes.fromhex('00112233445566778899aabbccddeeff')]\n+    tests += [bytes([v]) * n for n in (1, 2, 15, 16, 17, 31, 32, 63, 64, 95, 96) for v in (0, 255)]\n+    tests += [rng.randbytes(rng.randrange(97)) for _ in range(32)]\n+    for data in tests:\n+        model = tag(data)\n+        got = run_dsl(data)\n+        oracle = int(subprocess.check_output([PE, data.hex() or '-']), 16)\n+        assert model == got == oracle, (data.hex(), hex(model), hex(got), hex(oracle))\n+    print(len(tests), 'matches; body steps', len(program['steps'][5]['body']))\n+    import json\n+    print(json.dumps(program, separators=(',', ':')))\n\n2026-10-04T22:32:01.352532Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"2b99efd4-df83-4fe9-860e-ab23103d0c18\"\ntokens used\n40.308\n",
+      "submission": {
+        "case_id": "hard_resource_stream",
+        "answers": {
+          "q1": {
+            "tables": {
+              "k": [
+                "0x36e5e109598cd19f",
+                "0xfbbb755537f649cf",
+                "0xb7255472a85b40dd",
+                "0x5ccca9a0a23757bb",
+                "0x59b23fdbb5fde67f",
+                "0x5747392fd70fa131",
+                "0xd35225abb3bbc851",
+                "0x22bcc7e6ea0579f",
+                "0xce2dda66a102ca3d",
+                "0x37fa26ad1b795e15",
+                "0x4985cffaeb5613ad",
+                "0xdf623939589c78f9",
+                "0x45382f6fb73f2a97",
+                "0x1d7c168aeae95889",
+                "0xeb4948048a4b433b",
+                "0x2da0e35ad183fd1f"
+              ]
+            },
+            "steps": [
+              {
+                "dst": "r2",
+                "op": "lookup",
+                "table": "k",
+                "index": 1
+              },
+              {
+                "dst": "r2",
+                "op": "mul",
+                "a": "r2",
+                "b": "n"
+              },
+              {
+                "dst": "r0",
+                "op": "xor",
+                "a": "0x36e5e109598cd19f",
+                "b": "r2"
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "0x5ccca9a0a23757bb",
+                "b": "n"
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "0xb7255472a85b40dd",
+                "b": "r2"
+              },
+              {
+                "op": "each",
+                "body": [
+                  {
+                    "dst": "r2",
+                    "op": "rol",
+                    "a": "r1",
+                    "bits": 11
+                  },
+                  {
+                    "dst": "r3",
+                    "op": "add",
+                    "a": "r0",
+                    "b": "r2"
+                  },
+                  {
+                    "dst": "r4",
+                    "op": "add",
+                    "a": "i",
+                    "b": 3
+                  },
+                  {
+                    "dst": "r5",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r4"
+                  },
+                  {
+                    "dst": "r5",
+                    "op": "add",
+                    "a": "r5",
+                    "b": "byte"
+                  },
+                  {
+                    "dst": "r3",
+                    "op": "xor",
+                    "a": "r3",
+                    "b": "r5"
+                  },
+                  {
+                    "dst": "r4",
+                    "op": "xor",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "r5",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r4"
+                  },
+                  {
+                    "dst": "r0",
+                    "op": "mul",
+                    "a": "r5",
+                    "b": "r3"
+                  },
+                  {
+                    "dst": "r6",
+                    "op": "and",
+                    "a": "r4",
+                    "b": 4
+                  },
+                  {
+                    "dst": "r7",
+                    "op": "shr",
+                    "a": "byte",
+                    "bits": 4
+                  },
+                  {
+                    "dst": "r7",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r7"
+                  },
+                  {
+                    "dst": "r7",
+                    "op": "xor",
+                    "a": "r7",
+                    "b": "r0"
+                  },
+                  {
+                    "dst": "r7",
+                    "op": "rol",
+                    "a": "r7",
+                    "bits": 17
+                  },
+                  {
+                    "dst": "r8",
+                    "op": "add",
+                    "a": "i",
+                    "b": "byte"
+                  },
+                  {
+                    "dst": "r8",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r8"
+                  },
+                  {
+                    "dst": "r8",
+                    "op": "add",
+                    "a": "r8",
+                    "b": "r0"
+                  },
+                  {
+                    "dst": "r8",
+                    "op": "ror",
+                    "a": "r8",
+                    "bits": 13
+                  },
+                  {
+                    "dst": "r0",
+                    "op": "sel",
+                    "cond": "r6",
+                    "a": "r7",
+                    "b": "r8"
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "add",
+                    "a": "i",
+                    "b": 1
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r9"
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "xor",
+                    "a": "r9",
+                    "b": "byte"
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "rol",
+                    "a": "r9",
+                    "bits": 5
+                  },
+                  {
+                    "dst": "r1",
+                    "op": "xor",
+                    "a": "r1",
+                    "b": "r0"
+                  },
+                  {
+                    "dst": "r10",
+                    "op": "add",
+                    "a": "i",
+                    "b": 7
+                  },
+                  {
+                    "dst": "r10",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r10"
+                  },
+                  {
+                    "dst": "r1",
+                    "op": "mul",
+                    "a": "r1",
+                    "b": "r10"
+                  },
+                  {
+                    "dst": "r1",
+                    "op": "add",
+                    "a": "r1",
+                    "b": "r9"
+                  }
+                ]
+              },
+              {
+                "dst": "r1",
+                "op": "rol",
+                "a": "r1",
+                "bits": 29
+              },
+              {
+                "dst": "r2",
+                "op": "lookup",
+                "table": "k",
+                "index": "n"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r2"
+              },
+              {
+                "dst": "r2",
+                "op": "mul",
+                "a": "n",
+                "b": "0xD6E8FEB86659FD93"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r2"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              }
+            ],
+            "return": "r1"
+          },
+          "q2": "0x1390",
+          "q3": "0x2BD",
+          "q4": "0x36E5E109598CD19F",
+          "q5": "0x69525313027E3FC2",
+          "q6": "0x2A47A248C39BF88C",
+          "q7": [
+            "A",
+            "D"
+          ]
+        },
+        "reasoning": "La rutina en RVA 0x10C0 carga RCDATA 701 y descifra 16 QWORD; la de RVA 0x1390 calcula el valor que se imprime. El DSL reproduce sus operaciones sobre longitud y bytes. Se contrastó con el ejecutable en 56 entradas, incluidos los dos mensajes solicitados."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_resource_stream",
+      "answers": {
+        "q1": {
+          "tables": {
+            "k": [
+              "0x36e5e109598cd19f",
+              "0xfbbb755537f649cf",
+              "0xb7255472a85b40dd",
+              "0x5ccca9a0a23757bb",
+              "0x59b23fdbb5fde67f",
+              "0x5747392fd70fa131",
+              "0xd35225abb3bbc851",
+              "0x22bcc7e6ea0579f",
+              "0xce2dda66a102ca3d",
+              "0x37fa26ad1b795e15",
+              "0x4985cffaeb5613ad",
+              "0xdf623939589c78f9",
+              "0x45382f6fb73f2a97",
+              "0x1d7c168aeae95889",
+              "0xeb4948048a4b433b",
+              "0x2da0e35ad183fd1f"
+            ]
+          },
+          "steps": [
+            {
+              "dst": "r2",
+              "op": "lookup",
+              "table": "k",
+              "index": 1
+            },
+            {
+              "dst": "r2",
+              "op": "mul",
+              "a": "r2",
+              "b": "n"
+            },
+            {
+              "dst": "r0",
+              "op": "xor",
+              "a": "0x36e5e109598cd19f",
+              "b": "r2"
+            },
+            {
+              "dst": "r2",
+              "op": "xor",
+              "a": "0x5ccca9a0a23757bb",
+              "b": "n"
+            },
+            {
+              "dst": "r1",
+              "op": "add",
+              "a": "0xb7255472a85b40dd",
+              "b": "r2"
+            },
+            {
+              "op": "each",
+              "body": [
+                {
+                  "dst": "r2",
+                  "op": "rol",
+                  "a": "r1",
+                  "bits": 11
+                },
+                {
+                  "dst": "r3",
+                  "op": "add",
+                  "a": "r0",
+                  "b": "r2"
+                },
+                {
+                  "dst": "r4",
+                  "op": "add",
+                  "a": "i",
+                  "b": 3
+                },
+                {
+                  "dst": "r5",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r4"
+                },
+                {
+                  "dst": "r5",
+                  "op": "add",
+                  "a": "r5",
+                  "b": "byte"
+                },
+                {
+                  "dst": "r3",
+                  "op": "xor",
+                  "a": "r3",
+                  "b": "r5"
+                },
+                {
+                  "dst": "r4",
+                  "op": "xor",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "r5",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r4"
+                },
+                {
+                  "dst": "r0",
+                  "op": "mul",
+                  "a": "r5",
+                  "b": "r3"
+                },
+                {
+                  "dst": "r6",
+                  "op": "and",
+                  "a": "r4",
+                  "b": 4
+                },
+                {
+                  "dst": "r7",
+                  "op": "shr",
+                  "a": "byte",
+                  "bits": 4
+                },
+                {
+                  "dst": "r7",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r7"
+                },
+                {
+                  "dst": "r7",
+                  "op": "xor",
+                  "a": "r7",
+                  "b": "r0"
+                },
+                {
+                  "dst": "r7",
+                  "op": "rol",
+                  "a": "r7",
+                  "bits": 17
+                },
+                {
+                  "dst": "r8",
+                  "op": "add",
+                  "a": "i",
+                  "b": "byte"
+                },
+                {
+                  "dst": "r8",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r8"
+                },
+                {
+                  "dst": "r8",
+                  "op": "add",
+                  "a": "r8",
+                  "b": "r0"
+                },
+                {
+                  "dst": "r8",
+                  "op": "ror",
+                  "a": "r8",
+                  "bits": 13
+                },
+                {
+                  "dst": "r0",
+                  "op": "sel",
+                  "cond": "r6",
+                  "a": "r7",
+                  "b": "r8"
+                },
+                {
+                  "dst": "r9",
+                  "op": "add",
+                  "a": "i",
+                  "b": 1
+                },
+                {
+                  "dst": "r9",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r9"
+                },
+                {
+                  "dst": "r9",
+                  "op": "xor",
+                  "a": "r9",
+                  "b": "byte"
+                },
+                {
+                  "dst": "r9",
+                  "op": "rol",
+                  "a": "r9",
+                  "bits": 5
+                },
+                {
+                  "dst": "r1",
+                  "op": "xor",
+                  "a": "r1",
+                  "b": "r0"
+                },
+                {
+                  "dst": "r10",
+                  "op": "add",
+                  "a": "i",
+                  "b": 7
+                },
+                {
+                  "dst": "r10",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r10"
+                },
+                {
+                  "dst": "r1",
+                  "op": "mul",
+                  "a": "r1",
+                  "b": "r10"
+                },
+                {
+                  "dst": "r1",
+                  "op": "add",
+                  "a": "r1",
+                  "b": "r9"
+                }
+              ]
+            },
+            {
+              "dst": "r1",
+              "op": "rol",
+              "a": "r1",
+              "bits": 29
+            },
+            {
+              "dst": "r2",
+              "op": "lookup",
+              "table": "k",
+              "index": "n"
+            },
+            {
+              "dst": "r1",
+              "op": "xor",
+              "a": "r1",
+              "b": "r2"
+            },
+            {
+              "dst": "r2",
+              "op": "mul",
+              "a": "n",
+              "b": "0xD6E8FEB86659FD93"
+            },
+            {
+              "dst": "r1",
+              "op": "xor",
+              "a": "r1",
+              "b": "r2"
+            },
+            {
+              "dst": "r1",
+              "op": "xor",
+              "a": "r1",
+              "b": "r0"
+            }
+          ],
+          "return": "r1"
+        },
+        "q2": "0x1390",
+        "q3": "0x2BD",
+        "q4": "0x36E5E109598CD19F",
+        "q5": "0x69525313027E3FC2",
+        "q6": "0x2A47A248C39BF88C",
+        "q7": [
+          "A",
+          "D"
+        ]
+      },
+      "reasoning": "La rutina en RVA 0x10C0 carga RCDATA 701 y descifra 16 QWORD; la de RVA 0x1390 calcula el valor que se imprime. El DSL reproduce sus operaciones sobre longitud y bytes. Se contrastó con el ejecutable en 56 entradas, incluidos los dos mensajes solicitados."
+    }
+  ]
+}

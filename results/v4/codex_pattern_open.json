@@ -1,0 +1,37 @@
+{
+  "benchmark_version": "4.0",
+  "started_at": "2026-10-04T14:08:12.395295+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "hard_pattern_open",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 136.36,
+      "raw_output": "{\"case_id\":\"hard_pattern_open\",\"answers\":{\"q1\":\"8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3\",\"q2\":\"0x1070\",\"q3\":\"0x1090\",\"q4\":\"B\"},\"reasoning\":\"La firma empieza en la rutina que conserva la secuencia mov, xor, ajuste aritmético, ror y ret. Coincide exactamente una vez en .text de cada build visible: 0x1070, 0x1080 y 0x1090. Los wildcards cubren las constantes y el cambio de add a sub; en aritmética módulo 2^32, sumar una constante equivale a restar su complemento a dos. La cuarta build no está disponible para comprobarla.\"}\n",
+      "stderr": "(f'artifacts/hard_pattern/layout_v{i}.exe')\n+    section = next(s for s in pe.sections if s.Name.startswith(b'.text'))\n+    data = section.get_data()\n+    matches = [section.VirtualAddress + pos for pos in range(len(data)-len(pattern)+1)\n+               if all(p == '??' or data[pos+j] == int(p, 16) for j, p in enumerate(pattern))]\n+    print(f'v{i}: {[hex(x) for x in matches]}')\n+    assert len(matches) == 1\n\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"Remove-Item -LiteralPath 'bin_dump.py','validate_pattern.py'\" in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-504a_f5y\n succeeded in 75ms:\ndiff --git a/inspect.py b/inspect.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..5c93f052e958b2ffcdbb39c731c9d2853f5bd421\n--- /dev/null\n+++ b/inspect.py\n@@ -0,0 +1,15 @@\n+import sys\n+import pefile\n+from capstone import Cs, CS_ARCH_X86, CS_MODE_64\n+\n+for path in sys.argv[1:]:\n+    pe = pefile.PE(path)\n+    print(f'\\n==== {path} base={pe.OPTIONAL_HEADER.ImageBase:#x} entry={pe.OPTIONAL_HEADER.AddressOfEntryPoint:#x}')\n+    for s in pe.sections:\n+        print(f'{s.Name.rstrip(bytes([0]))!r}: RVA={s.VirtualAddress:#x} raw={s.PointerToRawData:#x} size={s.SizeOfRawData:#x}')\n+    s = next(s for s in pe.sections if s.Name.startswith(b'.text'))\n+    data=s.get_data()\n+    cs=Cs(CS_ARCH_X86, CS_MODE_64)\n+    cs.detail=True\n+    for ins in cs.disasm(data[:0x300], pe.OPTIONAL_HEADER.ImageBase+s.VirtualAddress):\n+        print(f'{ins.address-pe.OPTIONAL_HEADER.ImageBase:04X}  {ins.bytes.hex(\" \"):25} {ins.mnemonic:8} {ins.op_str}')\ndiff --git a/validate_pattern.py b/validate_pattern.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..fe3339504ff96eba9a259ba7c58f950fc5988b7a\n--- /dev/null\n+++ b/validate_pattern.py\n@@ -0,0 +1,13 @@\n+import pefile\n+\n+pattern = '8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3'.split()\n+assert 8 <= len(pattern) <= 64\n+assert sum(t != '??' for t in pattern) >= 8\n+for i in (1, 2, 3):\n+    pe = pefile.PE(f'artifacts/hard_pattern/layout_v{i}.exe')\n+    section = next(s for s in pe.sections if s.Name.startswith(b'.text'))\n+    data = section.get_data()\n+    matches = [section.VirtualAddress + pos for pos in range(len(data)-len(pattern)+1)\n+               if all(p == '??' or data[pos+j] == int(p, 16) for j, p in enumerate(pattern))]\n+    print(f'v{i}: {[hex(x) for x in matches]}')\n+    assert len(matches) == 1\n\ncodex\n{\"case_id\":\"hard_pattern_open\",\"answers\":{\"q1\":\"8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3\",\"q2\":\"0x1070\",\"q3\":\"0x1090\",\"q4\":\"B\"},\"reasoning\":\"La firma empieza en la rutina que conserva la secuencia mov, xor, ajuste aritmético, ror y ret. Coincide exactamente una vez en .text de cada build visible: 0x1070, 0x1080 y 0x1090. Los wildcards cubren las constantes y el cambio de add a sub; en aritmética módulo 2^32, sumar una constante equivale a restar su complemento a dos. La cuarta build no está disponible para comprobarla.\"}\ndiff --git a/inspect.py b/inspect.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..5c93f052e958b2ffcdbb39c731c9d2853f5bd421\n--- /dev/null\n+++ b/inspect.py\n@@ -0,0 +1,15 @@\n+import sys\n+import pefile\n+from capstone import Cs, CS_ARCH_X86, CS_MODE_64\n+\n+for path in sys.argv[1:]:\n+    pe = pefile.PE(path)\n+    print(f'\\n==== {path} base={pe.OPTIONAL_HEADER.ImageBase:#x} entry={pe.OPTIONAL_HEADER.AddressOfEntryPoint:#x}')\n+    for s in pe.sections:\n+        print(f'{s.Name.rstrip(bytes([0]))!r}: RVA={s.VirtualAddress:#x} raw={s.PointerToRawData:#x} size={s.SizeOfRawData:#x}')\n+    s = next(s for s in pe.sections if s.Name.startswith(b'.text'))\n+    data=s.get_data()\n+    cs=Cs(CS_ARCH_X86, CS_MODE_64)\n+    cs.detail=True\n+    for ins in cs.disasm(data[:0x300], pe.OPTIONAL_HEADER.ImageBase+s.VirtualAddress):\n+        print(f'{ins.address-pe.OPTIONAL_HEADER.ImageBase:04X}  {ins.bytes.hex(\" \"):25} {ins.mnemonic:8} {ins.op_str}')\ndiff --git a/validate_pattern.py b/validate_pattern.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..fe3339504ff96eba9a259ba7c58f950fc5988b7a\n--- /dev/null\n+++ b/validate_pattern.py\n@@ -0,0 +1,13 @@\n+import pefile\n+\n+pattern = '8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3'.split()\n+assert 8 <= len(pattern) <= 64\n+assert sum(t != '??' for t in pattern) >= 8\n+for i in (1, 2, 3):\n+    pe = pefile.PE(f'artifacts/hard_pattern/layout_v{i}.exe')\n+    section = next(s for s in pe.sections if s.Name.startswith(b'.text'))\n+    data = section.get_data()\n+    matches = [section.VirtualAddress + pos for pos in range(len(data)-len(pattern)+1)\n+               if all(p == '??' or data[pos+j] == int(p, 16) for j, p in enumerate(pattern))]\n+    print(f'v{i}: {[hex(x) for x in matches]}')\n+    assert len(matches) == 1\n\n2026-10-04T14:10:28.158138Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"205405bd-4fd0-42d4-9398-beb8d18bc4c1\"\ntokens used\n54.289\n",
+      "submission": {
+        "case_id": "hard_pattern_open",
+        "answers": {
+          "q1": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+          "q2": "0x1070",
+          "q3": "0x1090",
+          "q4": "B"
+        },
+        "reasoning": "La firma empieza en la rutina que conserva la secuencia mov, xor, ajuste aritmético, ror y ret. Coincide exactamente una vez en .text de cada build visible: 0x1070, 0x1080 y 0x1090. Los wildcards cubren las constantes y el cambio de add a sub; en aritmética módulo 2^32, sumar una constante equivale a restar su complemento a dos. La cuarta build no está disponible para comprobarla."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_pattern_open",
+      "answers": {
+        "q1": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+        "q2": "0x1070",
+        "q3": "0x1090",
+        "q4": "B"
+      },
+      "reasoning": "La firma empieza en la rutina que conserva la secuencia mov, xor, ajuste aritmético, ror y ret. Coincide exactamente una vez en .text de cada build visible: 0x1070, 0x1080 y 0x1090. Los wildcards cubren las constantes y el cambio de add a sub; en aritmética módulo 2^32, sumar una constante equivale a restar su complemento a dos. La cuarta build no está disponible para comprobarla."
+    }
+  ]
+}

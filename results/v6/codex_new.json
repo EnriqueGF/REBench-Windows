@@ -1,0 +1,87 @@
+{
+  "benchmark_version": "6.0",
+  "started_at": "2026-10-04T18:24:51.124483+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "hard_delay_import",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 42.95,
+      "raw_output": "{\"case_id\":\"hard_delay_import\",\"answers\":{\"q1\":\"0x211E4\",\"q2\":\"0x21368\",\"q3\":\"0x20168\",\"q4\":\"0x140001BB3\",\"q5\":\"0x22B80\",\"q6\":[\"A\",\"C\",\"E\"],\"q7\":\"B\"},\"reasoning\":\"El descriptor de USER32.dll está en el RVA 0x211E4 y tiene grAttrs=1. Sus campos pUnloadIAT y phmod son 0x21368 y 0x22B80. La UIAT cae en .rdata: 0x15E00+(0x21368-0x17000)=0x20168. El primer QWORD del IAT y de la UIAT contiene 0x140001BB3; la UIAT permite restaurar ese thunk tras la descarga para resolver de nuevo la llamada.\"}\n",
+      "stderr": "rint('ImageBase', hex(pe.OPTIONAL_HEADER.ImageBase))\n+for s in pe.sections:\n+    print('section', s.Name.rstrip(b'\\0'), hex(s.VirtualAddress), hex(s.Misc_VirtualSize), hex(s.PointerToRawData), hex(s.SizeOfRawData))\n+dd = pe.OPTIONAL_HEADER.DATA_DIRECTORY[13]\n+print('DelayImportDirectory', hex(dd.VirtualAddress), hex(dd.Size), 'file offset', hex(pe.get_offset_from_rva(dd.VirtualAddress)))\n+for i in range(dd.Size // 32):\n+    rva = dd.VirtualAddress + i * 32\n+    offset = pe.get_offset_from_rva(rva)\n+    attrs, name, hmod, iat, intab, bound, unload, stamp = struct.unpack_from('<8I', data, offset)\n+    print('descriptor', i, 'rva', hex(rva), 'offset', hex(offset), 'fields', *[hex(x) for x in (attrs, name, hmod, iat, intab, bound, unload, stamp)])\n+    if not any((attrs, name, hmod, iat, intab, bound, unload, stamp)):\n+        break\n+    name_rva = name if attrs & 1 else name - pe.OPTIONAL_HEADER.ImageBase\n+    print('name', pe.get_string_at_rva(name_rva))\n+    for label, val in [('hmod', hmod), ('iat', iat), ('int', intab), ('bound', bound), ('unload', unload)]:\n+        if val:\n+            x = val if attrs & 1 else val - pe.OPTIONAL_HEADER.ImageBase\n+            off = pe.get_offset_from_rva(x)\n+            print(label, 'rva', hex(x), 'offset', hex(off), 'first qword', hex(struct.unpack_from('<Q', data, off)[0]), 'next qword', hex(struct.unpack_from('<Q', data, off + 8)[0]))\n\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command 'python inspect_delay.py' in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-4pazevs7\n succeeded in 135ms:\nSHA256 48ca501afe0157ec7e95e9040b9621ff478ac4b5733642e61203702b5981193c\nImageBase 0x140000000\nsection b'.text' 0x1000 0x15880 0x400 0x15a00\nsection b'.rdata' 0x17000 0xabe4 0x15e00 0xac00\nsection b'.data' 0x22000 0x1c40 0x20a00 0xc00\nsection b'.pdata' 0x24000 0x1368 0x21600 0x1400\nsection b'.fptable' 0x26000 0x100 0x22a00 0x200\nsection b'.reloc' 0x27000 0x68c 0x22c00 0x800\nDelayImportDirectory 0x211e4 0x40 file offset 0x1ffe4\ndescriptor 0 rva 0x211e4 offset 0x1ffe4 fields 0x1 0x173f0 0x22b80 0x22b40 0x21228 0x21250 0x21368 0x0\nname b'USER32.dll'\nhmod rva 0x22b80 offset 0x21580 first qword 0x0 next qword 0x0\niat rva 0x22b40 offset 0x21540 first qword 0x140001bb3 next qword 0x0\nint rva 0x21228 offset 0x20028 first qword 0x21238 next qword 0x0\nbound rva 0x21250 offset 0x20050 first qword 0x0 next qword 0x0\nunload rva 0x21368 offset 0x20168 first qword 0x140001bb3 next qword 0x0\ndescriptor 1 rva 0x21204 offset 0x20004 fields 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0\n\ndiff --git a/inspect_delay.py b/inspect_delay.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..ccf3b640440c950f23f144b36dca2818afb05ee6\n--- /dev/null\n+++ b/inspect_delay.py\n@@ -0,0 +1,29 @@\n+import hashlib\n+import struct\n+from pathlib import Path\n+\n+import pefile\n+\n+path = Path('artifacts/hard_delay/delay_probe.exe')\n+data = path.read_bytes()\n+pe = pefile.PE(data=data, fast_load=False)\n+print('SHA256', hashlib.sha256(data).hexdigest())\n+print('ImageBase', hex(pe.OPTIONAL_HEADER.ImageBase))\n+for s in pe.sections:\n+    print('section', s.Name.rstrip(b'\\0'), hex(s.VirtualAddress), hex(s.Misc_VirtualSize), hex(s.PointerToRawData), hex(s.SizeOfRawData))\n+dd = pe.OPTIONAL_HEADER.DATA_DIRECTORY[13]\n+print('DelayImportDirectory', hex(dd.VirtualAddress), hex(dd.Size), 'file offset', hex(pe.get_offset_from_rva(dd.VirtualAddress)))\n+for i in range(dd.Size // 32):\n+    rva = dd.VirtualAddress + i * 32\n+    offset = pe.get_offset_from_rva(rva)\n+    attrs, name, hmod, iat, intab, bound, unload, stamp = struct.unpack_from('<8I', data, offset)\n+    print('descriptor', i, 'rva', hex(rva), 'offset', hex(offset), 'fields', *[hex(x) for x in (attrs, name, hmod, iat, intab, bound, unload, stamp)])\n+    if not any((attrs, name, hmod, iat, intab, bound, unload, stamp)):\n+        break\n+    name_rva = name if attrs & 1 else name - pe.OPTIONAL_HEADER.ImageBase\n+    print('name', pe.get_string_at_rva(name_rva))\n+    for label, val in [('hmod', hmod), ('iat', iat), ('int', intab), ('bound', bound), ('unload', unload)]:\n+        if val:\n+            x = val if attrs & 1 else val - pe.OPTIONAL_HEADER.ImageBase\n+            off = pe.get_offset_from_rva(x)\n+            print(label, 'rva', hex(x), 'offset', hex(off), 'first qword', hex(struct.unpack_from('<Q', data, off)[0]), 'next qword', hex(struct.unpack_from('<Q', data, off + 8)[0]))\n\napply patch\npatch: completed\nC:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-4pazevs7\\inspect_delay.py\ncodex\n{\"case_id\":\"hard_delay_import\",\"answers\":{\"q1\":\"0x211E4\",\"q2\":\"0x21368\",\"q3\":\"0x20168\",\"q4\":\"0x140001BB3\",\"q5\":\"0x22B80\",\"q6\":[\"A\",\"C\",\"E\"],\"q7\":\"B\"},\"reasoning\":\"El descriptor de USER32.dll está en el RVA 0x211E4 y tiene grAttrs=1. Sus campos pUnloadIAT y phmod son 0x21368 y 0x22B80. La UIAT cae en .rdata: 0x15E00+(0x21368-0x17000)=0x20168. El primer QWORD del IAT y de la UIAT contiene 0x140001BB3; la UIAT permite restaurar ese thunk tras la descarga para resolver de nuevo la llamada.\"}\ntokens used\n8114\n",
+      "submission": {
+        "case_id": "hard_delay_import",
+        "answers": {
+          "q1": "0x211E4",
+          "q2": "0x21368",
+          "q3": "0x20168",
+          "q4": "0x140001BB3",
+          "q5": "0x22B80",
+          "q6": [
+            "A",
+            "C",
+            "E"
+          ],
+          "q7": "B"
+        },
+        "reasoning": "El descriptor de USER32.dll está en el RVA 0x211E4 y tiene grAttrs=1. Sus campos pUnloadIAT y phmod son 0x21368 y 0x22B80. La UIAT cae en .rdata: 0x15E00+(0x21368-0x17000)=0x20168. El primer QWORD del IAT y de la UIAT contiene 0x140001BB3; la UIAT permite restaurar ese thunk tras la descarga para resolver de nuevo la llamada."
+      }
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 36.3,
+      "raw_output": "{\"case_id\":\"hard_unwind_frame\",\"answers\":{\"q1\":\"0x10A0\",\"q2\":\"0x1EDF0\",\"q3\":\"0x88\",\"q4\":\"0x20\",\"q5\":\"0x000000C00100FF10\",\"q6\":\"0x1122334455667788\",\"q7\":\"0x00007FF612345678\",\"q8\":\"A\"},\"reasoning\":\"El RUNTIME_FUNCTION que cubre RVA 0x10B0 comienza en 0x10A0 y apunta a 0x1EDF0. UNWIND_INFO codifica ALLOC_LARGE con slot adicional 0x0011 (0x11×8=0x88), SET_FPREG con desplazamiento 2×16=0x20 y dos PUSH. Al deshacerlos, se recupera RBX de [RSP+0x88], el retorno de [RSP+0x98] y el RSP del llamador queda en RSP+0xA0.\"}\n",
+      "stderr": ", devuelve una lista de letras. Para valores, usa el formato pedido.\n\nCASO hard_unwind_frame: Virtual unwind de una rutina MASM x64\nUn PE64 contiene una rutina con prólogo y epílogo escritos en ensamblador MASM y metadatos reales en .pdata/.xdata. Reconstruye el marco al detenerla dentro del cuerpo. El volcado de pila es sintético, pero corresponde exactamente al prólogo del ejecutable. No se entrega fuente.\nHerramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.\n\n--- ARTEFACTO artifacts/hard_unwind_frame/context.txt ---\nImagen cargada en VA preferida 0x140000000. RIP = 0x00000001400010B0\nLa detención ocurre en el cuerpo de la rutina, después de su prólogo y antes del epílogo.\nRSP = 0x000000C00100FE70    RBP = 0x000000C00100FE90\nRBX = 0x0123456789ABCDEF\n\nMemoria QWORD del hilo:\n[RSP+0x88] = 0x1122334455667788\n[RSP+0x90] = 0x000000C00100FFA0\n[RSP+0x98] = 0x00007FF612345678\n\nSe pide el contexto DEL LLAMADOR después de aplicar VirtualUnwind desde este RIP.\nPara las preguntas de metadatos, lee las estructuras reales del PE en disco.\n\n\n--- ARTEFACTO BINARIO artifacts/hard_unwind/unwind_probe.exe ---\nSHA256: c61e9e1536c250212ddbd1de0bf5d925b556523b4dae0375061cde4b6bb81729\nBytes: 140288. Archivo disponible en el directorio del caso.\n\nq1 [hex]: RVA de comienzo de la rutina MASM cubierta por el RUNTIME_FUNCTION pertinente.\n\nq2 [hex]: RVA del UNWIND_INFO al que apunta ese RUNTIME_FUNCTION.\n\nq3 [hex]: Bytes realmente reservados por UWOP_ALLOC_LARGE; interpreta también su slot adicional.\n\nq4 [hex]: Offset efectivo en bytes entre RBP y RSP fijado por UWOP_SET_FPREG.\n\nq5 [hex]: RSP reconstruido del llamador después de retirar el return address.\n\nq6 [hex]: RBX no volátil restaurado en el contexto del llamador.\n\nq7 [hex]: RIP de retorno reconstruido del llamador.\n\nq8 [single]: Si RIP estuviera justo después de los dos PUSH iniciales y antes de SUB RSP, ¿qué parte del prólogo desharía el unwind en ese punto?\n  A. Los dos PUSH; todavía no la reserva de 0x88 ni el establecimiento de RBP.\n  B. La reserva de 0x88 y SET_FPREG; todavía no los PUSH.\n  C. Todo el prólogo, porque .pdata no guarda desplazamientos de instrucciones.\n  D. Ningún paso: en x64 solo se desenrolla el epílogo.\n\nDirectorio de artefactos: C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-3q3go2ao\nhook: SessionStart\nhook: SessionStart Completed\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command 'Get-ChildItem -Recurse -File | Select-Object FullName,Length' in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-3q3go2ao\n succeeded in 118ms:\n\nFullName                                                                                   Length\n--------                                                                                   ------\nC:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-3q3go2ao\\artifacts\\hard_unwind\\unwind_probe.exe  140288\nC:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-3q3go2ao\\artifacts\\hard_unwind_frame\\context.txt    535\n\n\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"python -c 'import pefile,capstone; p=pefile.PE(\\\"artifacts/hard_unwind/unwind_probe.exe\\\"); print(hex(p.OPTIONAL_HEADER.ImageBase)); print([(hex(e.struct.BeginAddress),hex(e.struct.EndAddress),hex(e.struct.UnwindData)) for e in p.DIRECTORY_ENTRY_EXCEPTION if e.struct.BeginAddress <= 0x10b0 < e.struct.EndAddress])'\" in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-3q3go2ao\n succeeded in 255ms:\n0x140000000\n[('0x10a0', '0x10c8', '0x1edf0')]\n\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command \"python -c 'import pefile,capstone; p=pefile.PE(\\\"artifacts/hard_unwind/unwind_probe.exe\\\"); u=0x1edf0; print(\\\"unwind\\\",p.get_data(u,32).hex(\\\" \\\")); b=p.get_data(0x10a0,0x28); d=capstone.Cs(capstone.CS_ARCH_X86,capstone.CS_MODE_64); print(\\\"\\\\n\\\".join(f\\\"{i.address:08x}: {i.mnemonic} {i.op_str}\\\" for i in d.disasm(b,0x1400010a0)))'\" in C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-3q3go2ao\n succeeded in 205ms:\nunwind 01 0e 05 25 0e 53 09 01 11 00 02 30 01 50 00 00 01 06 02 00 06 32 02 30 09 0f 06 00 0f 64 09 00\n1400010a0: push rbp\n1400010a1: push rbx\n1400010a2: sub rsp, 0x88\n1400010a9: lea rbp, [rsp + 0x20]\n1400010ae: mov rax, rcx\n1400010b1: xor rax, rdx\n1400010b4: movabs rbx, 0x123456789abcdef\n1400010be: add rax, rbx\n1400010c1: lea rsp, [rbp + 0x68]\n1400010c5: pop rbx\n1400010c6: pop rbp\n1400010c7: ret \n\ncodex\n{\"case_id\":\"hard_unwind_frame\",\"answers\":{\"q1\":\"0x10A0\",\"q2\":\"0x1EDF0\",\"q3\":\"0x88\",\"q4\":\"0x20\",\"q5\":\"0x000000C00100FF10\",\"q6\":\"0x1122334455667788\",\"q7\":\"0x00007FF612345678\",\"q8\":\"A\"},\"reasoning\":\"El RUNTIME_FUNCTION que cubre RVA 0x10B0 comienza en 0x10A0 y apunta a 0x1EDF0. UNWIND_INFO codifica ALLOC_LARGE con slot adicional 0x0011 (0x11×8=0x88), SET_FPREG con desplazamiento 2×16=0x20 y dos PUSH. Al deshacerlos, se recupera RBX de [RSP+0x88], el retorno de [RSP+0x98] y el RSP del llamador queda en RSP+0xA0.\"}\ntokens used\n6480\n",
+      "submission": {
+        "case_id": "hard_unwind_frame",
+        "answers": {
+          "q1": "0x10A0",
+          "q2": "0x1EDF0",
+          "q3": "0x88",
+          "q4": "0x20",
+          "q5": "0x000000C00100FF10",
+          "q6": "0x1122334455667788",
+          "q7": "0x00007FF612345678",
+          "q8": "A"
+        },
+        "reasoning": "El RUNTIME_FUNCTION que cubre RVA 0x10B0 comienza en 0x10A0 y apunta a 0x1EDF0. UNWIND_INFO codifica ALLOC_LARGE con slot adicional 0x0011 (0x11×8=0x88), SET_FPREG con desplazamiento 2×16=0x20 y dos PUSH. Al deshacerlos, se recupera RBX de [RSP+0x88], el retorno de [RSP+0x98] y el RSP del llamador queda en RSP+0xA0."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_delay_import",
+      "answers": {
+        "q1": "0x211E4",
+        "q2": "0x21368",
+        "q3": "0x20168",
+        "q4": "0x140001BB3",
+        "q5": "0x22B80",
+        "q6": [
+          "A",
+          "C",
+          "E"
+        ],
+        "q7": "B"
+      },
+      "reasoning": "El descriptor de USER32.dll está en el RVA 0x211E4 y tiene grAttrs=1. Sus campos pUnloadIAT y phmod son 0x21368 y 0x22B80. La UIAT cae en .rdata: 0x15E00+(0x21368-0x17000)=0x20168. El primer QWORD del IAT y de la UIAT contiene 0x140001BB3; la UIAT permite restaurar ese thunk tras la descarga para resolver de nuevo la llamada."
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "answers": {
+        "q1": "0x10A0",
+        "q2": "0x1EDF0",
+        "q3": "0x88",
+        "q4": "0x20",
+        "q5": "0x000000C00100FF10",
+        "q6": "0x1122334455667788",
+        "q7": "0x00007FF612345678",
+        "q8": "A"
+      },
+      "reasoning": "El RUNTIME_FUNCTION que cubre RVA 0x10B0 comienza en 0x10A0 y apunta a 0x1EDF0. UNWIND_INFO codifica ALLOC_LARGE con slot adicional 0x0011 (0x11×8=0x88), SET_FPREG con desplazamiento 2×16=0x20 y dos PUSH. Al deshacerlos, se recupera RBX de [RSP+0x88], el retorno de [RSP+0x98] y el RSP del llamador queda en RSP+0xA0."
+    }
+  ]
+}

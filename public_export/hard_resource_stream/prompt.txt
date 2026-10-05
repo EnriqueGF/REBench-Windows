@@ -1,0 +1,73 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_resource_stream: Reconstruir una función de longitud variable desde un recurso PE
+Este PE64 de consola acepta de 0 a 96 bytes en hexadecimal y devuelve una etiqueta de 64 bits. El estado real no está en los QWORD iniciales de .data: se deriva de un recurso RCDATA de Windows. Existe otro recurso de tamaño similar y una rutina de diagnóstico que calcula otro valor. Reconstruye la función que produce la salida del programa para cualquier entrada permitida. El corrector ejecutará tu programa declarativo con 384 mensajes ocultos de longitud y contenido variados. No se entrega código fuente ni PDB.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_resource_stream/brief.txt ---
+Uso: stream_oracle.exe HEX
+HEX contiene un número par de dígitos hexadecimales, sin prefijo; usa '-' para
+el mensaje vacío. Longitud máxima: 96 bytes. La salida correcta tiene 16 dígitos
+hexadecimales. Entrada inválida: código de salida 2.
+
+El oráculo puede consultarse. La clave q1 debe representar la transformación
+completa, no solo las muestras visibles. El corrector compara la salida del DSL
+con el ejecutable en 384 entradas ocultas: longitudes frontera, bytes uniformes,
+secuencias y entradas aleatorias. Hay crédito proporcional por coincidencias.
+
+
+--- ARTEFACTO artifacts/hard_resource_stream/dsl_stream.txt ---
+Formato de answers.q1: objeto JSON con `steps` (1..64 pasos) y `return`.
+Puede incluir `tables` con hasta 4 tablas de 1..16 constantes uint64.
+Registro inicial: n = número de bytes del mensaje. Destinos: r0..r31.
+Un operando es un registro definido, entero JSON o cadena hexadecimal `0x...`.
+Todas las operaciones numéricas son módulo 2^64.
+
+Operaciones add, sub, xor, and, or, mul: dst, a, b.
+Operaciones rol, ror, shl, shr: dst, a, bits (entero fijo 0..63).
+Operación not: dst, a. sel: dst, cond, a, b (a si cond != 0).
+lookup: dst, table, index; índice reducido módulo la longitud de la tabla.
+
+`each`: body (1..32 pasos), itera una vez por byte del mensaje, en orden.
+Solo dentro de body existen `byte` (0..255) e `i` (posición desde 0).
+El cuerpo puede actualizar registros creados antes del bucle. No se admiten
+bucles anidados. Se limita a 4096 el total de pasos ejecutados por entrada.
+El bucle de un mensaje vacío no ejecuta ninguna instrucción de body.
+
+Ejemplo de sintaxis, NO es la solución:
+{"tables":{"k":["0x5","0x7"]},"steps":[
+ {"dst":"r0","op":"xor","a":"n","b":"0x1"},
+ {"op":"each","body":[
+   {"dst":"r1","op":"lookup","table":"k","index":"i"},
+   {"dst":"r0","op":"add","a":"r0","b":"byte"}]}
+],"return":"r0"}
+
+Devuelve este objeto como valor de answers.q1; no envíes código Python ni
+serialices el JSON como cadena. El corrector interpreta el DSL de forma acotada.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_stream/stream_oracle.exe ---
+SHA256: 9529f92bc681babb2708704dd411b2a2d73481f3e9da456304139506994d21ac
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+q1 [stream64]: Recupera la función completa de longitud variable como programa DSL.
+
+q2 [hex]: RVA inicial de la función que produce el valor impreso (sin incluir el diagnóstico).
+
+q3 [hex]: Identificador numérico del recurso RCDATA que aporta el estado real.
+
+q4 [hex]: Primer uint64 efectivo de la tabla de claves, después de descifrar el recurso.
+
+q5 [hex]: Salida de la función para el mensaje vacío (`-`).
+
+q6 [hex]: Salida para el mensaje de 16 bytes 00112233445566778899AABBCCDDEEFF.
+
+q7 [multi]: Selecciona todas las afirmaciones que describen el camino que produce la salida.
+  A. Se carga un recurso RCDATA del PE y se descifra antes de calcular la etiqueta.
+  B. Los QWORD iniciales de keybank en disco son el estado final usado por stream_tag.
+  C. El valor de decoy_checksum es el que se imprime como resultado principal.
+  D. La longitud, la posición y el valor de cada byte influyen en el cálculo.
+  E. El recurso RCDATA 702 reemplaza obligatoriamente la tabla antes de printf.

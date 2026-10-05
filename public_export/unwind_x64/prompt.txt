@@ -1,0 +1,36 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO unwind_x64: Pila rota tras un hook
+Un plugin inserta un trampolín x64 en memoria ejecutable. Funciona en llamadas normales, pero un volcado tomado dentro del trampolín pierde frames al caminar la pila.
+
+--- ARTEFACTO artifacts/unwind_x64/hook.txt ---
+Rango del trampolín: 000001e7`10000000 .. 000001e7`10000030 (MEM_PRIVATE, RX)
+Prólogo en +0: push rbx; sub rsp, 30h
+En +0x18: call plugin!LogEvent
+Epílogo: add rsp,30h; pop rbx; ret
+
+RtlLookupFunctionEntry(000001e7`10000018) -> NULL
+La región no aparece en la tabla de funciones de ninguna imagen PE.
+El stack walker trata el PC como función leaf y lee [rsp] como retorno.
+
+
+q1 [single]: ¿Por qué falla el unwind en +0x18?
+  A. Una leaf function necesita siempre .pdata.
+  B. No hay metadatos de unwind para deshacer push rbx y sub rsp,30h.
+  C. RBX es volátil en Windows x64.
+  D. Todo MEM_PRIVATE es ilegible para un depurador.
+
+q2 [single]: ¿Qué API corresponde a registrar dinámicamente una tabla de funciones para ese código?
+  A. RtlAddFunctionTable
+  B. VirtualProtect
+  C. SetUnhandledExceptionFilter
+  D. SymInitialize
+
+q3 [multi]: ¿Qué campos debe describir el unwind de ese prólogo?
+  A. El guardado de RBX
+  B. La asignación de 0x30 bytes de pila
+  C. Cada instrucción NOP del cuerpo
+  D. El GUID del PDB

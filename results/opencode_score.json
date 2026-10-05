@@ -1,0 +1,488 @@
+{
+  "earned": 72,
+  "total": 72,
+  "percent": 100.0,
+  "by_category": {
+    "PE": {
+      "earned": 9,
+      "total": 9
+    },
+    "ABI x64": {
+      "earned": 6,
+      "total": 6
+    },
+    "WinDbg": {
+      "earned": 3,
+      "total": 3
+    },
+    "WOW64": {
+      "earned": 3,
+      "total": 3
+    },
+    "Unwind": {
+      "earned": 6,
+      "total": 6
+    },
+    "Símbolos": {
+      "earned": 3,
+      "total": 3
+    },
+    "Loader": {
+      "earned": 6,
+      "total": 6
+    },
+    "ETW": {
+      "earned": 6,
+      "total": 6
+    },
+    "Lifecycle": {
+      "earned": 3,
+      "total": 3
+    },
+    "ABI x86": {
+      "earned": 6,
+      "total": 6
+    },
+    "x64 assembly": {
+      "earned": 3,
+      "total": 3
+    },
+    "Data RE": {
+      "earned": 6,
+      "total": 6
+    },
+    "COM": {
+      "earned": 6,
+      "total": 6
+    },
+    "Patrones": {
+      "earned": 6,
+      "total": 6
+    }
+  },
+  "rows": [
+    {
+      "case_id": "pe_rva",
+      "question_id": "q1",
+      "category": "PE",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x680"
+    },
+    {
+      "case_id": "pe_rva",
+      "question_id": "q2",
+      "category": "PE",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "pe_rva",
+      "question_id": "q3",
+      "category": "PE",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "pe_reloc",
+      "question_id": "q1",
+      "category": "PE",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x180001234"
+    },
+    {
+      "case_id": "pe_reloc",
+      "question_id": "q2",
+      "category": "PE",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "pe_reloc",
+      "question_id": "q3",
+      "category": "PE",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x40000000"
+    },
+    {
+      "case_id": "abi_x64",
+      "question_id": "q1",
+      "category": "ABI x64",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x55"
+    },
+    {
+      "case_id": "abi_x64",
+      "question_id": "q2",
+      "category": "ABI x64",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "abi_x64",
+      "question_id": "q3",
+      "category": "ABI x64",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "case_id": "crash_av",
+      "question_id": "q1",
+      "category": "WinDbg",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "A"
+    },
+    {
+      "case_id": "crash_av",
+      "question_id": "q2",
+      "category": "WinDbg",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "crash_av",
+      "question_id": "q3",
+      "category": "WinDbg",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "wow64_view",
+      "question_id": "q1",
+      "category": "WOW64",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "wow64_view",
+      "question_id": "q2",
+      "category": "WOW64",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "C"
+    },
+    {
+      "case_id": "wow64_view",
+      "question_id": "q3",
+      "category": "WOW64",
+      "type": "multi",
+      "points": 1,
+      "earned": 1,
+      "submitted": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "case_id": "unwind_x64",
+      "question_id": "q1",
+      "category": "Unwind",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "unwind_x64",
+      "question_id": "q2",
+      "category": "Unwind",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A"
+    },
+    {
+      "case_id": "unwind_x64",
+      "question_id": "q3",
+      "category": "Unwind",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "case_id": "symbols_pdb",
+      "question_id": "q1",
+      "category": "Símbolos",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x71A0"
+    },
+    {
+      "case_id": "symbols_pdb",
+      "question_id": "q2",
+      "category": "Símbolos",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "symbols_pdb",
+      "question_id": "q3",
+      "category": "Símbolos",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "loader_lock",
+      "question_id": "q1",
+      "category": "Loader",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "loader_lock",
+      "question_id": "q2",
+      "category": "Loader",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "loader_lock",
+      "question_id": "q3",
+      "category": "Loader",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A"
+    },
+    {
+      "case_id": "etw_pid",
+      "question_id": "q1",
+      "category": "ETW",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "etw_pid",
+      "question_id": "q2",
+      "category": "ETW",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "C"
+    },
+    {
+      "case_id": "etw_pid",
+      "question_id": "q3",
+      "category": "ETW",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "question_id": "q1",
+      "category": "Lifecycle",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "question_id": "q2",
+      "category": "Lifecycle",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "A"
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "question_id": "q3",
+      "category": "Lifecycle",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "A"
+    },
+    {
+      "case_id": "x86_stack",
+      "question_id": "q1",
+      "category": "ABI x86",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x10"
+    },
+    {
+      "case_id": "x86_stack",
+      "question_id": "q2",
+      "category": "ABI x86",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "x86_stack",
+      "question_id": "q3",
+      "category": "ABI x86",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "rip_relative",
+      "question_id": "q1",
+      "category": "x64 assembly",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x180004B00"
+    },
+    {
+      "case_id": "rip_relative",
+      "question_id": "q2",
+      "category": "x64 assembly",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x6B00"
+    },
+    {
+      "case_id": "rip_relative",
+      "question_id": "q3",
+      "category": "x64 assembly",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "xor_config",
+      "question_id": "q1",
+      "category": "Data RE",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A"
+    },
+    {
+      "case_id": "xor_config",
+      "question_id": "q2",
+      "category": "Data RE",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x5A"
+    },
+    {
+      "case_id": "xor_config",
+      "question_id": "q3",
+      "category": "Data RE",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A"
+    },
+    {
+      "case_id": "com_activation",
+      "question_id": "q1",
+      "category": "COM",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    },
+    {
+      "case_id": "com_activation",
+      "question_id": "q2",
+      "category": "COM",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "C"
+    },
+    {
+      "case_id": "com_activation",
+      "question_id": "q3",
+      "category": "COM",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "case_id": "aob_versions",
+      "question_id": "q1",
+      "category": "Patrones",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A"
+    },
+    {
+      "case_id": "aob_versions",
+      "question_id": "q2",
+      "category": "Patrones",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "case_id": "aob_versions",
+      "question_id": "q3",
+      "category": "Patrones",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B"
+    }
+  ],
+  "missing_cases": []
+}

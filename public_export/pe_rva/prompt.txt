@@ -1,0 +1,25 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO pe_rva: RVA frente a offset de archivo
+Un analista recibe un PE64 mínimo y debe extraer una cadena y distinguir bytes presentes en disco de memoria inicializada por el loader. Examina las cabeceras y secciones del binario.
+
+--- ARTEFACTO BINARIO artifacts/pe64/sample_pe.bin ---
+SHA256: 98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65
+Bytes: 2560. Archivo disponible en el directorio del caso.
+
+q1 [hex]: ¿Cuál es el offset de archivo para RVA 0x2080? Responde en hexadecimal.
+
+q2 [single]: ¿Qué ocurre con RVA 0x2250 al mapear esta imagen?
+  A. Está dentro del archivo en offset 0x850.
+  B. Cae en la cola virtual de .rdata y no tiene bytes propios en el archivo.
+  C. Es un RVA de .reloc.
+  D. Está fuera de SizeOfImage.
+
+q3 [single]: ¿Cuál es el punto de entrada expresado como VA preferida?
+  A. 0x140000400
+  B. 0x140001000
+  C. 0x140002000
+  D. 0x1000

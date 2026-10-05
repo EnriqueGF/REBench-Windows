@@ -1,0 +1,44 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_delay_import: Reconstrucción de un delay import y su descarga
+Analiza un PE64 enlazado con /DELAYLOAD:USER32.dll y /DELAY:UNLOAD. El programa llama dos veces a la misma API y descarga el módulo entre ambas. Extrae el descriptor de importación retardada del ejecutable, traduce RVAs a offsets y razona sobre el estado del IAT. No se entrega fuente.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_delay_import/brief.txt ---
+El ejecutable es un PE64 de consola compilado con MSVC, sin PDB.
+Su primera llamada a GetForegroundWindow carga USER32.dll si hace falta.
+Después invoca __FUnloadDelayLoadedDLL2("USER32.dll") y vuelve a llamar a la API.
+Usa el DataDirectory[13] del Optional Header y el descriptor IMAGE_DELAYLOAD_DESCRIPTOR.
+Todas las cifras solicitadas son de la imagen en disco, antes de la primera llamada,
+salvo donde la pregunta indique expresamente otro estado.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_delay/delay_probe.exe ---
+SHA256: 48ca501afe0157ec7e95e9040b9621ff478ac4b5733642e61203702b5981193c
+Bytes: 144384. Archivo disponible en el directorio del caso.
+
+q1 [hex]: RVA del descriptor de delay import de USER32.dll.
+
+q2 [hex]: RVA de la Unload IAT (UIAT) que permite restaurar el estado de los thunks.
+
+q3 [hex]: Offset de archivo del primer QWORD de esa UIAT; no respondas con un RVA.
+
+q4 [hex]: Valor VA de 64 bits del primer thunk del delay IAT en la imagen en disco.
+
+q5 [hex]: RVA de la variable donde el helper almacena el HMODULE de USER32.dll.
+
+q6 [multi]: Selecciona todas las afirmaciones correctas para ESTE descriptor.
+  A. El bit RvaBased de grAttrs está activado; los campos de dirección del descriptor se interpretan como RVAs.
+  B. pIAT apunta a una tabla de QWORDs que guarda el HMODULE, no direcciones de función.
+  C. pUnloadIAT conserva una copia de los thunks iniciales para restaurar el delay IAT al descargar.
+  D. pBoundIAT y pUnloadIAT son el mismo campo del descriptor.
+  E. El RVA de pUnloadIAT debe sumarse a ImageBase para obtener su VA preferida.
+
+q7 [single]: Si la descarga tiene éxito y se vuelve a llamar a GetForegroundWindow, ¿qué secuencia concuerda con el helper de delay load?
+  A. La UIAT se borra y el IAT queda permanentemente con la dirección antigua de USER32.dll.
+  B. El IAT recupera los thunks iniciales desde la UIAT y la nueva llamada vuelve a resolver la DLL.
+  C. El loader ejecuta el callback TLS de USER32.dll para restaurar los thunks en el archivo.
+  D. El valor de pBoundIAT se ejecuta directamente como una función.

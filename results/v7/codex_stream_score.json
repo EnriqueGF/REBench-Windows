@@ -1,0 +1,350 @@
+{
+  "earned": 206,
+  "total": 206,
+  "percent": 100.0,
+  "by_category": {
+    "Recursos PE y RE funcional": {
+      "earned": 206,
+      "total": 206
+    }
+  },
+  "by_track": {
+    "research": {
+      "earned": 206,
+      "total": 206
+    }
+  },
+  "rows": [
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q1",
+      "category": "Recursos PE y RE funcional",
+      "type": "stream64",
+      "points": 160,
+      "earned": 160,
+      "submitted": {
+        "tables": {
+          "k": [
+            "0x36e5e109598cd19f",
+            "0xfbbb755537f649cf",
+            "0xb7255472a85b40dd",
+            "0x5ccca9a0a23757bb",
+            "0x59b23fdbb5fde67f",
+            "0x5747392fd70fa131",
+            "0xd35225abb3bbc851",
+            "0x22bcc7e6ea0579f",
+            "0xce2dda66a102ca3d",
+            "0x37fa26ad1b795e15",
+            "0x4985cffaeb5613ad",
+            "0xdf623939589c78f9",
+            "0x45382f6fb73f2a97",
+            "0x1d7c168aeae95889",
+            "0xeb4948048a4b433b",
+            "0x2da0e35ad183fd1f"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": 1
+          },
+          {
+            "dst": "r2",
+            "op": "mul",
+            "a": "r2",
+            "b": "n"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "0x36e5e109598cd19f",
+            "b": "r2"
+          },
+          {
+            "dst": "r2",
+            "op": "xor",
+            "a": "0x5ccca9a0a23757bb",
+            "b": "n"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "0xb7255472a85b40dd",
+            "b": "r2"
+          },
+          {
+            "op": "each",
+            "body": [
+              {
+                "dst": "r2",
+                "op": "rol",
+                "a": "r1",
+                "bits": 11
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "r0",
+                "b": "r2"
+              },
+              {
+                "dst": "r4",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r4"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "r5",
+                "b": "byte"
+              },
+              {
+                "dst": "r3",
+                "op": "xor",
+                "a": "r3",
+                "b": "r5"
+              },
+              {
+                "dst": "r4",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r4"
+              },
+              {
+                "dst": "r0",
+                "op": "mul",
+                "a": "r5",
+                "b": "r3"
+              },
+              {
+                "dst": "r6",
+                "op": "and",
+                "a": "r4",
+                "b": 4
+              },
+              {
+                "dst": "r7",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "r7",
+                "op": "lookup",
+                "table": "k",
+                "index": "r7"
+              },
+              {
+                "dst": "r7",
+                "op": "xor",
+                "a": "r7",
+                "b": "r0"
+              },
+              {
+                "dst": "r7",
+                "op": "rol",
+                "a": "r7",
+                "bits": 17
+              },
+              {
+                "dst": "r8",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "r8",
+                "op": "lookup",
+                "table": "k",
+                "index": "r8"
+              },
+              {
+                "dst": "r8",
+                "op": "add",
+                "a": "r8",
+                "b": "r0"
+              },
+              {
+                "dst": "r8",
+                "op": "ror",
+                "a": "r8",
+                "bits": 13
+              },
+              {
+                "dst": "r0",
+                "op": "sel",
+                "cond": "r6",
+                "a": "r7",
+                "b": "r8"
+              },
+              {
+                "dst": "r9",
+                "op": "add",
+                "a": "i",
+                "b": 1
+              },
+              {
+                "dst": "r9",
+                "op": "lookup",
+                "table": "k",
+                "index": "r9"
+              },
+              {
+                "dst": "r9",
+                "op": "xor",
+                "a": "r9",
+                "b": "byte"
+              },
+              {
+                "dst": "r9",
+                "op": "rol",
+                "a": "r9",
+                "bits": 5
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              },
+              {
+                "dst": "r10",
+                "op": "add",
+                "a": "i",
+                "b": 7
+              },
+              {
+                "dst": "r10",
+                "op": "lookup",
+                "table": "k",
+                "index": "r10"
+              },
+              {
+                "dst": "r1",
+                "op": "mul",
+                "a": "r1",
+                "b": "r10"
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r1",
+                "b": "r9"
+              }
+            ]
+          },
+          {
+            "dst": "r1",
+            "op": "rol",
+            "a": "r1",
+            "bits": 29
+          },
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": "n"
+          },
+          {
+            "dst": "r1",
+            "op": "xor",
+            "a": "r1",
+            "b": "r2"
+          },
+          {
+            "dst": "r2",
+            "op": "mul",
+            "a": "n",
+            "b": "0xD6E8FEB86659FD93"
+          },
+          {
+            "dst": "r1",
+            "op": "xor",
+            "a": "r1",
+            "b": "r2"
+          },
+          {
+            "dst": "r1",
+            "op": "xor",
+            "a": "r1",
+            "b": "r0"
+          }
+        ],
+        "return": "r1"
+      }
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q2",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x1390"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q3",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x2BD"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q4",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 10,
+      "earned": 10,
+      "submitted": "0x36E5E109598CD19F"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q5",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x69525313027E3FC2"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q6",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x2A47A248C39BF88C"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q7",
+      "category": "Recursos PE y RE funcional",
+      "type": "multi",
+      "points": 8,
+      "earned": 8,
+      "submitted": [
+        "A",
+        "D"
+      ]
+    }
+  ],
+  "missing_cases": []
+}

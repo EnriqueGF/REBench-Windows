@@ -1,0 +1,10 @@
+Build A, bloque objetivo en RVA 0x4210:
+48 8B 05 72 13 00 00 48 85 C0 74 09 8B 48 08 85 C9
+
+Build B, bloque objetivo en RVA 0x5A70:
+48 8B 05 E2 F0 FF FF 48 85 C0 74 0C 8B 48 08 85 C9
+
+Build B, bloque NO objetivo en RVA 0x7C10:
+48 8B 05 31 02 00 00 48 85 C0 74 0C 8B 50 08 85 D2
+
+Los cuatro bytes después de 48 8B 05 son disp32; el byte después de 74 es un salto corto.

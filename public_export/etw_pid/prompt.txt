@@ -1,0 +1,35 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO etw_pid: PID reciclado en telemetría
+Un detector correlaciona una operación de archivo con un proceso usando solo PID. Un reinicio rápido hace que se atribuya la operación al proceso incorrecto.
+
+--- ARTEFACTO artifacts/etw_pid/events.csv ---
+time_utc,event,pid,process_start_key,image,path
+12:00:01.000,ProcessStart,4380,A17,worker.exe,
+12:00:03.100,FileWrite,4380,A17,worker.exe,C:\Temp\old.bin
+12:00:04.000,ProcessStop,4380,A17,worker.exe,
+12:00:04.230,ProcessStart,4380,B92,updater.exe,
+12:00:04.310,FileWrite,4380,B92,updater.exe,C:\Temp\new.bin
+12:00:05.000,ProcessStop,4380,B92,updater.exe,
+
+
+q1 [single]: ¿A qué instancia pertenece new.bin?
+  A. worker.exe/A17
+  B. updater.exe/B92
+  C. A ambas
+  D. No se puede distinguir con los datos
+
+q2 [single]: ¿Qué clave de correlación evita la confusión mostrada?
+  A. PID solamente
+  B. Nombre de imagen solamente
+  C. PID más process_start_key
+  D. Ruta de archivo solamente
+
+q3 [single]: ¿Cuál es el fallo del algoritmo que usa PID como identidad permanente?
+  A. La hora UTC está redondeada
+  B. Los PID se pueden reutilizar tras terminar un proceso
+  C. ETW convierte rutas a UTF-8
+  D. Los eventos FileWrite siempre carecen de PID

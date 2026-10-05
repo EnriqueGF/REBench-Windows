@@ -1,0 +1,560 @@
+{
+  "benchmark_version": "4.0",
+  "ranking": [
+    {
+      "agent": "codex",
+      "model": "gpt-6-sol",
+      "score": 309,
+      "total": 309,
+      "percent": 100.0,
+      "evaluated_points": 309,
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 125
+      },
+      "completed_cases": 20,
+      "total_cases": 20,
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 125,
+          "total": 125
+        }
+      },
+      "missing_cases": [],
+      "attempts": [
+        {
+          "case_id": "pe_rva",
+          "file": "results\\codex.json",
+          "seconds": 22.06,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "pe_reloc",
+          "file": "results\\codex.json",
+          "seconds": 30.97,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "abi_x64",
+          "file": "results\\codex.json",
+          "seconds": 8.33,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "crash_av",
+          "file": "results\\codex.json",
+          "seconds": 8.5,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "wow64_view",
+          "file": "results\\codex.json",
+          "seconds": 8.14,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "unwind_x64",
+          "file": "results\\codex.json",
+          "seconds": 8.48,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "symbols_pdb",
+          "file": "results\\codex.json",
+          "seconds": 7.58,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "loader_lock",
+          "file": "results\\codex.json",
+          "seconds": 7.66,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "etw_pid",
+          "file": "results\\codex.json",
+          "seconds": 8.44,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "plugin_lifetime",
+          "file": "results\\codex.json",
+          "seconds": 7.36,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "x86_stack",
+          "file": "results\\codex.json",
+          "seconds": 8.92,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "rip_relative",
+          "file": "results\\codex.json",
+          "seconds": 9.62,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "xor_config",
+          "file": "results\\codex.json",
+          "seconds": 12.5,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "com_activation",
+          "file": "results\\codex.json",
+          "seconds": 9.31,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "aob_versions",
+          "file": "results\\codex.json",
+          "seconds": 13.0,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_license",
+          "file": "results\\v2\\codex_guided.json",
+          "seconds": 103.45,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_vm",
+          "file": "results\\v2\\codex_guided.json",
+          "seconds": 119.36,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pattern",
+          "file": "results\\v2\\codex_guided.json",
+          "seconds": 66.67,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pipeline",
+          "file": "results\\v3\\codex_pipeline.json",
+          "seconds": 119.77,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pattern_open",
+          "file": "results\\v4\\codex_pattern_open.json",
+          "seconds": 136.36,
+          "exit_code": 0,
+          "parse_error": null
+        }
+      ],
+      "lost_points": []
+    },
+    {
+      "agent": "opencode",
+      "model": "explabs/glm-5.3-flash-abliterated",
+      "score": 309,
+      "total": 309,
+      "percent": 100.0,
+      "evaluated_points": 309,
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 125
+      },
+      "completed_cases": 20,
+      "total_cases": 20,
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 125,
+          "total": 125
+        }
+      },
+      "missing_cases": [],
+      "attempts": [
+        {
+          "case_id": "pe_rva",
+          "file": "results\\opencode.json",
+          "seconds": 269.16,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "pe_reloc",
+          "file": "results\\opencode.json",
+          "seconds": 411.03,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "abi_x64",
+          "file": "results\\opencode.json",
+          "seconds": 202.09,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "crash_av",
+          "file": "results\\opencode.json",
+          "seconds": 123.44,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "wow64_view",
+          "file": "results\\opencode.json",
+          "seconds": 294.42,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "unwind_x64",
+          "file": "results\\opencode.json",
+          "seconds": 231.89,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "symbols_pdb",
+          "file": "results\\opencode.json",
+          "seconds": 129.74,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "loader_lock",
+          "file": "results\\opencode.json",
+          "seconds": 177.42,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "etw_pid",
+          "file": "results\\opencode.json",
+          "seconds": 189.03,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "plugin_lifetime",
+          "file": "results\\opencode.json",
+          "seconds": 284.61,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "x86_stack",
+          "file": "results\\opencode.json",
+          "seconds": 200.58,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "rip_relative",
+          "file": "results\\opencode.json",
+          "seconds": 66.72,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "xor_config",
+          "file": "results\\opencode.json",
+          "seconds": 176.62,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "com_activation",
+          "file": "results\\opencode.json",
+          "seconds": 198.41,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "aob_versions",
+          "file": "results\\opencode.json",
+          "seconds": 109.92,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_license",
+          "file": "results\\v2\\opencode_guided.json",
+          "seconds": 1200.05,
+          "exit_code": null,
+          "parse_error": "timeout"
+        },
+        {
+          "case_id": "hard_vm",
+          "file": "results\\v2\\opencode_guided.json",
+          "seconds": 1200.05,
+          "exit_code": null,
+          "parse_error": "timeout"
+        },
+        {
+          "case_id": "hard_pattern",
+          "file": "results\\v2\\opencode_guided.json",
+          "seconds": 1200.05,
+          "exit_code": null,
+          "parse_error": "timeout"
+        },
+        {
+          "case_id": "hard_license",
+          "file": "results\\v2\\opencode_retry_license.json",
+          "seconds": 801.09,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_vm",
+          "file": "results\\v2\\opencode_retry_vm.json",
+          "seconds": 858.2,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pattern",
+          "file": "results\\v2\\opencode_retry_pattern.json",
+          "seconds": 279.95,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pipeline",
+          "file": "results\\v3\\opencode_pipeline.json",
+          "seconds": 1800.05,
+          "exit_code": null,
+          "parse_error": "timeout"
+        },
+        {
+          "case_id": "hard_pipeline",
+          "file": "results\\v3\\opencode_pipeline_retry.json",
+          "seconds": 2204.75,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pattern_open",
+          "file": "results\\v4\\opencode_pattern_open.json",
+          "seconds": 1085.5,
+          "exit_code": 0,
+          "parse_error": null
+        }
+      ],
+      "lost_points": []
+    },
+    {
+      "agent": "claude",
+      "model": "claude-opus-4-7",
+      "score": 307,
+      "total": 309,
+      "percent": 99.35,
+      "evaluated_points": 309,
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 125
+      },
+      "completed_cases": 20,
+      "total_cases": 20,
+      "by_track": {
+        "foundations": {
+          "earned": 70,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 125,
+          "total": 125
+        }
+      },
+      "missing_cases": [],
+      "attempts": [
+        {
+          "case_id": "pe_rva",
+          "file": "results\\claude.json",
+          "seconds": 45.69,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "pe_reloc",
+          "file": "results\\claude.json",
+          "seconds": 50.76,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "abi_x64",
+          "file": "results\\claude.json",
+          "seconds": 6.17,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "crash_av",
+          "file": "results\\claude.json",
+          "seconds": 5.7,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "wow64_view",
+          "file": "results\\claude.json",
+          "seconds": 6.67,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "unwind_x64",
+          "file": "results\\claude.json",
+          "seconds": 7.5,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "symbols_pdb",
+          "file": "results\\claude.json",
+          "seconds": 5.69,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "loader_lock",
+          "file": "results\\claude.json",
+          "seconds": 6.83,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "etw_pid",
+          "file": "results\\claude.json",
+          "seconds": 5.69,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "plugin_lifetime",
+          "file": "results\\claude.json",
+          "seconds": 5.91,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "x86_stack",
+          "file": "results\\claude.json",
+          "seconds": 4.95,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "rip_relative",
+          "file": "results\\claude.json",
+          "seconds": 6.67,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "xor_config",
+          "file": "results\\claude.json",
+          "seconds": 14.14,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "com_activation",
+          "file": "results\\claude.json",
+          "seconds": 8.14,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "aob_versions",
+          "file": "results\\claude.json",
+          "seconds": 7.39,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_license",
+          "file": "results\\v2\\claude_license_guided.json",
+          "seconds": 147.69,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_vm",
+          "file": "results\\v2\\claude_guided_rest.json",
+          "seconds": 323.17,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pattern",
+          "file": "results\\v2\\claude_guided_rest.json",
+          "seconds": 44.75,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pipeline",
+          "file": "results\\v3\\claude_pipeline.json",
+          "seconds": 91.5,
+          "exit_code": 0,
+          "parse_error": null
+        },
+        {
+          "case_id": "hard_pattern_open",
+          "file": "results\\v4\\claude_pattern_open.json",
+          "seconds": 75.12,
+          "exit_code": 0,
+          "parse_error": null
+        }
+      ],
+      "lost_points": [
+        {
+          "case_id": "pe_reloc",
+          "question_id": "q1",
+          "points": 2,
+          "submitted": "0x0000000040000000",
+          "expected": "0x180001234"
+        }
+      ]
+    }
+  ]
+}

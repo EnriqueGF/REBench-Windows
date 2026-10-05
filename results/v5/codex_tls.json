@@ -1,0 +1,423 @@
+{
+  "benchmark_version": "5.0",
+  "started_at": "2026-10-04T18:11:11.902305+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "hard_tls_state",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 140.56,
+      "raw_output": "{\"case_id\":\"hard_tls_state\",\"answers\":{\"q1\":{\"tables\":{\"k\":[\"0x4cf5ad432745937f\",\"0xe97b1d0f83ac6b29\",\"0xc13fa9a902a6328f\",\"0x7b4d3be2a5ed7d63\",\"0xd0ed6f7758fb31a9\",\"0x2b6d85fe993ce12d\",\"0x8a6e52342d9afc71\",\"0xf963b3d5c6a98e4b\"],\"m\":[\"0x9e3779b185ebca87\",\"0xc2b2ae3d27d4eb4f\",\"0xd6e8feb86659fd93\",\"0xa24baed4963ee407\"]},\"steps\":[{\"dst\":\"r0\",\"op\":\"lookup\",\"table\":\"k\",\"index\":0},{\"dst\":\"r1\",\"op\":\"xor\",\"a\":\"r0\",\"b\":\"x\"},{\"dst\":\"r2\",\"op\":\"lookup\",\"table\":\"k\",\"index\":1},{\"dst\":\"r3\",\"op\":\"add\",\"a\":\"r2\",\"b\":\"y\"},{\"op\":\"loop\",\"count\":8,\"body\":[{\"dst\":\"r4\",\"op\":\"rol\",\"a\":\"r3\",\"bits\":11},{\"dst\":\"r5\",\"op\":\"add\",\"a\":\"r1\",\"b\":\"r4\"},{\"dst\":\"r6\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"i\"},{\"dst\":\"r5\",\"op\":\"xor\",\"a\":\"r5\",\"b\":\"r6\"},{\"dst\":\"r7\",\"op\":\"xor\",\"a\":\"r5\",\"b\":\"x\"},{\"dst\":\"r7\",\"op\":\"and\",\"a\":\"r7\",\"b\":\"0x200\"},{\"dst\":\"r8\",\"op\":\"rol\",\"a\":\"r5\",\"bits\":13},{\"dst\":\"r9\",\"op\":\"add\",\"a\":\"i\",\"b\":3},{\"dst\":\"r10\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r9\"},{\"dst\":\"r10\",\"op\":\"xor\",\"a\":\"r10\",\"b\":\"r5\"},{\"dst\":\"r10\",\"op\":\"ror\",\"a\":\"r10\",\"bits\":17},{\"dst\":\"r1\",\"op\":\"sel\",\"cond\":\"r7\",\"a\":\"r8\",\"b\":\"r10\"},{\"dst\":\"r3\",\"op\":\"xor\",\"a\":\"r3\",\"b\":\"r1\"},{\"dst\":\"r11\",\"op\":\"lookup\",\"table\":\"m\",\"index\":\"i\"},{\"dst\":\"r3\",\"op\":\"mul\",\"a\":\"r3\",\"b\":\"r11\"},{\"dst\":\"r12\",\"op\":\"sub\",\"a\":\"i\",\"b\":3},{\"dst\":\"r13\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"r12\"},{\"dst\":\"r3\",\"op\":\"add\",\"a\":\"r13\",\"b\":\"r3\"}]},{\"dst\":\"r14\",\"op\":\"rol\",\"a\":\"r3\",\"bits\":23},{\"dst\":\"r15\",\"op\":\"mul\",\"a\":\"x\",\"b\":\"y\"},{\"dst\":\"r15\",\"op\":\"mul\",\"a\":\"r15\",\"b\":\"0x8cb92ba72f3d8dd7\"},{\"dst\":\"r14\",\"op\":\"xor\",\"a\":\"r14\",\"b\":\"r15\"},{\"dst\":\"r14\",\"op\":\"xor\",\"a\":\"r14\",\"b\":\"r1\"}],\"return\":\"r14\"},\"q2\":\"0x1000\",\"q3\":\"0x11D0\",\"q4\":\"0x4CF5AD432745937F\",\"q5\":\"0x5685DD8B1B0483F1\",\"q6\":\"B\"},\"reasoning\":\"El directorio TLS señala al callback RVA 0x1000, que genera ocho claves a partir de una semilla y datos en RVA 0x17350, y las escribe sobre los señuelos en RVA 0x22000. La función en RVA 0x11D0 usa esas claves en ocho iteraciones. El DSL coincidió con el ejecutable en 71 pares, incluidos valores frontera y el par de q5.\"}\n",
+      "stderr": "okup','table':'k','index':'i'},\n+   {'dst':'r5','op':'xor','a':'r5','b':'r6'},\n+   {'dst':'r7','op':'xor','a':'r5','b':'x'},\n+   {'dst':'r7','op':'and','a':'r7','b':'0x200'},\n+   {'dst':'r8','op':'rol','a':'r5','bits':13},\n+   {'dst':'r9','op':'add','a':'i','b':3},\n+   {'dst':'r10','op':'lookup','table':'k','index':'r9'},\n+   {'dst':'r10','op':'xor','a':'r10','b':'r5'},\n+   {'dst':'r10','op':'ror','a':'r10','bits':17},\n+   {'dst':'r1','op':'sel','cond':'r7','a':'r8','b':'r10'},\n+   {'dst':'r3','op':'xor','a':'r3','b':'r1'},\n+   {'dst':'r11','op':'lookup','table':'m','index':'i'},\n+   {'dst':'r3','op':'mul','a':'r3','b':'r11'},\n+   {'dst':'r12','op':'sub','a':'i','b':3},\n+   {'dst':'r13','op':'lookup','table':'k','index':'r12'},\n+   {'dst':'r3','op':'add','a':'r13','b':'r3'},\n+  ]},\n+  {'dst':'r14','op':'rol','a':'r3','bits':23},\n+  {'dst':'r15','op':'mul','a':'x','b':'y'},\n+  {'dst':'r15','op':'mul','a':'r15','b':'0x8cb92ba72f3d8dd7'},\n+  {'dst':'r14','op':'xor','a':'r14','b':'r15'},\n+  {'dst':'r14','op':'xor','a':'r14','b':'r1'},\n+ ],'return':'r14'}\n+def evalp(x,y):\n+ regs={'x':x,'y':y}\n+ def val(k):return regs[k] if isinstance(k,str) and k in regs else int(k,0) if isinstance(k,str) else k\n+ def run(steps):\n+  for s in steps:\n+   op=s['op']\n+   if op=='loop':\n+    for j in range(s['count']):regs['i']=j;run(s['body'])\n+    continue\n+   if op=='lookup':out=int(P['tables'][s['table']][val(s['index'])%len(P['tables'][s['table']])],0)\n+   elif op in ('rol','ror'):out=(rol if op=='rol' else ror)(val(s['a']),s['bits'])\n+   elif op=='sel':out=val(s['a'] if val(s['cond']) else s['b'])\n+   else:\n+    a,b=val(s['a']),val(s['b'])\n+    out={'add':lambda:a+b,'sub':lambda:a-b,'xor':lambda:a^b,'and':lambda:a&b,'mul':lambda:a*b}[op]()\n+   regs[s['dst']]=out&M\n+ run(P['steps'])\n+ return regs[P['return']]\n+random.seed(47831)\n+cases=[(0,0),(M,M),(0,M),(M,0),(1,0),(0,1),(0x0123456789ABCDEF,0xFEDCBA9876543210)]\n+cases += [(random.getrandbits(64),random.getrandbits(64)) for _ in range(64)]\n+for x,y in cases:\n+ d=evalp(x,y)\n+ assert d==mix(x,y),(hex(x),hex(y),hex(d),hex(mix(x,y)))\n+ exe=subprocess.check_output(['artifacts/hard_tls/tls_oracle.exe',hex(x),hex(y)],text=True).strip()\n+ assert d==int(exe,16),(hex(x),hex(y),hex(d),exe)\n+print('PASS',len(cases),'pairs; executed steps',4+8*18+5)\n+print(json.dumps(P,separators=(',',':')))\ndiff --git a/derive.py b/derive.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..3b0b5c074950156a8f3cf0a0ee164501212ab589\n--- /dev/null\n+++ b/derive.py\n@@ -0,0 +1,31 @@\n+import pefile\n+p=pefile.PE('artifacts/hard_tls/tls_oracle.exe')\n+M=(1<<64)-1\n+def data(rva,n):return p.get_data(rva,n)\n+def q(rva,n):return [int.from_bytes(data(rva+8*i,8),'little') for i in range(n)]\n+def rol(a,n):return ((a<<n)|(a>>(64-n)))&M\n+def ror(a,n):return ((a>>n)|(a<<(64-n)))&M\n+print('PAD',*[hex(x) for x in q(0x17350,8)])\n+print('DISKKEYS',*[hex(x) for x in q(0x22000,8)])\n+print('MUL',*[hex(x) for x in q(0x22040,4)])\n+print('GUARD',hex(q(0x22ba0,1)[0]))\n+s=0xf1357aea2e62a9c5\n+keys=[]\n+for i,v in enumerate(q(0x17350,8)):\n+ s ^= (s<<13)&M\n+ s ^= s>>7\n+ s ^= (s<<17)&M\n+ s=(0xd1b54a32d192ed03 + rol(s,11)*0x94d049bb133111eb+i)&M\n+ keys.append(s^v)\n+print('KEYS',*[hex(x) for x in keys])\n+def mix(x,y,trace=False):\n+ d=keys[0]^x\n+ b=(keys[1]+y)&M\n+ for i in range(8):\n+  t=((d+rol(b,11))&M)^keys[i]\n+  v=rol(t,13) if ((t^x)&0x200) else ror(keys[(i+3)&7]^t,17)\n+  d=v\n+  b=(keys[(i-3)&7]+(((b^d)*q(0x22040,4)[i&3])&M))&M\n+  if trace:print(i,hex(t),hex(d),hex(b))\n+ return rol(b,23)^((x*y*0x8cb92ba72f3d8dd7)&M)^d\n+print('Q5',hex(mix(0x0123456789ABCDEF,0xFEDCBA9876543210,True)))\ndiff --git a/inspect.py b/inspect.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..40c67a9251db84a12810105c3de9f1e12c647fbb\n--- /dev/null\n+++ b/inspect.py\n@@ -0,0 +1,22 @@\n+import pefile, capstone\n+from pathlib import Path\n+p=pefile.PE(str(Path('artifacts/hard_tls/tls_oracle.exe')))\n+base=p.OPTIONAL_HEADER.ImageBase\n+print('BASE',hex(base),'ENTRY',hex(p.OPTIONAL_HEADER.AddressOfEntryPoint))\n+for s in p.sections:\n+ print('SECTION',s.Name.decode(errors='ignore').strip('\\0'),hex(s.VirtualAddress),hex(s.Misc_VirtualSize),hex(s.PointerToRawData),hex(s.SizeOfRawData))\n+print('TLS',p.DIRECTORY_ENTRY_TLS.struct.dump())\n+a=p.DIRECTORY_ENTRY_TLS.struct.AddressOfCallBacks\n+off=p.get_offset_from_rva(a-base)\n+while True:\n+ v=int.from_bytes(p.__data__[off:off+8],'little');off+=8\n+ if not v:break\n+ print('CALLBACK',hex(v-base))\n+md=capstone.Cs(capstone.CS_ARCH_X86,capstone.CS_MODE_64)\n+md.detail=True\n+def dis(rva,n):\n+ data=p.get_data(rva,n)\n+ for ins in md.disasm(data,base+rva):\n+  print(f'{ins.address-base:06x}: {ins.mnemonic:7} {ins.op_str}')\n+import sys\n+if len(sys.argv)>1:dis(int(sys.argv[1],0),int(sys.argv[2],0))\n\n2026-10-04T18:13:31.867461Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"34160bf7-5ee0-43ae-af1e-6a032c359ca4\"\ntokens used\n31.361\n",
+      "submission": {
+        "case_id": "hard_tls_state",
+        "answers": {
+          "q1": {
+            "tables": {
+              "k": [
+                "0x4cf5ad432745937f",
+                "0xe97b1d0f83ac6b29",
+                "0xc13fa9a902a6328f",
+                "0x7b4d3be2a5ed7d63",
+                "0xd0ed6f7758fb31a9",
+                "0x2b6d85fe993ce12d",
+                "0x8a6e52342d9afc71",
+                "0xf963b3d5c6a98e4b"
+              ],
+              "m": [
+                "0x9e3779b185ebca87",
+                "0xc2b2ae3d27d4eb4f",
+                "0xd6e8feb86659fd93",
+                "0xa24baed4963ee407"
+              ]
+            },
+            "steps": [
+              {
+                "dst": "r0",
+                "op": "lookup",
+                "table": "k",
+                "index": 0
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r0",
+                "b": "x"
+              },
+              {
+                "dst": "r2",
+                "op": "lookup",
+                "table": "k",
+                "index": 1
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "r2",
+                "b": "y"
+              },
+              {
+                "op": "loop",
+                "count": 8,
+                "body": [
+                  {
+                    "dst": "r4",
+                    "op": "rol",
+                    "a": "r3",
+                    "bits": 11
+                  },
+                  {
+                    "dst": "r5",
+                    "op": "add",
+                    "a": "r1",
+                    "b": "r4"
+                  },
+                  {
+                    "dst": "r6",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "i"
+                  },
+                  {
+                    "dst": "r5",
+                    "op": "xor",
+                    "a": "r5",
+                    "b": "r6"
+                  },
+                  {
+                    "dst": "r7",
+                    "op": "xor",
+                    "a": "r5",
+                    "b": "x"
+                  },
+                  {
+                    "dst": "r7",
+                    "op": "and",
+                    "a": "r7",
+                    "b": "0x200"
+                  },
+                  {
+                    "dst": "r8",
+                    "op": "rol",
+                    "a": "r5",
+                    "bits": 13
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "add",
+                    "a": "i",
+                    "b": 3
+                  },
+                  {
+                    "dst": "r10",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r9"
+                  },
+                  {
+                    "dst": "r10",
+                    "op": "xor",
+                    "a": "r10",
+                    "b": "r5"
+                  },
+                  {
+                    "dst": "r10",
+                    "op": "ror",
+                    "a": "r10",
+                    "bits": 17
+                  },
+                  {
+                    "dst": "r1",
+                    "op": "sel",
+                    "cond": "r7",
+                    "a": "r8",
+                    "b": "r10"
+                  },
+                  {
+                    "dst": "r3",
+                    "op": "xor",
+                    "a": "r3",
+                    "b": "r1"
+                  },
+                  {
+                    "dst": "r11",
+                    "op": "lookup",
+                    "table": "m",
+                    "index": "i"
+                  },
+                  {
+                    "dst": "r3",
+                    "op": "mul",
+                    "a": "r3",
+                    "b": "r11"
+                  },
+                  {
+                    "dst": "r12",
+                    "op": "sub",
+                    "a": "i",
+                    "b": 3
+                  },
+                  {
+                    "dst": "r13",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "r12"
+                  },
+                  {
+                    "dst": "r3",
+                    "op": "add",
+                    "a": "r13",
+                    "b": "r3"
+                  }
+                ]
+              },
+              {
+                "dst": "r14",
+                "op": "rol",
+                "a": "r3",
+                "bits": 23
+              },
+              {
+                "dst": "r15",
+                "op": "mul",
+                "a": "x",
+                "b": "y"
+              },
+              {
+                "dst": "r15",
+                "op": "mul",
+                "a": "r15",
+                "b": "0x8cb92ba72f3d8dd7"
+              },
+              {
+                "dst": "r14",
+                "op": "xor",
+                "a": "r14",
+                "b": "r15"
+              },
+              {
+                "dst": "r14",
+                "op": "xor",
+                "a": "r14",
+                "b": "r1"
+              }
+            ],
+            "return": "r14"
+          },
+          "q2": "0x1000",
+          "q3": "0x11D0",
+          "q4": "0x4CF5AD432745937F",
+          "q5": "0x5685DD8B1B0483F1",
+          "q6": "B"
+        },
+        "reasoning": "El directorio TLS señala al callback RVA 0x1000, que genera ocho claves a partir de una semilla y datos en RVA 0x17350, y las escribe sobre los señuelos en RVA 0x22000. La función en RVA 0x11D0 usa esas claves en ocho iteraciones. El DSL coincidió con el ejecutable en 71 pares, incluidos valores frontera y el par de q5."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_tls_state",
+      "answers": {
+        "q1": {
+          "tables": {
+            "k": [
+              "0x4cf5ad432745937f",
+              "0xe97b1d0f83ac6b29",
+              "0xc13fa9a902a6328f",
+              "0x7b4d3be2a5ed7d63",
+              "0xd0ed6f7758fb31a9",
+              "0x2b6d85fe993ce12d",
+              "0x8a6e52342d9afc71",
+              "0xf963b3d5c6a98e4b"
+            ],
+            "m": [
+              "0x9e3779b185ebca87",
+              "0xc2b2ae3d27d4eb4f",
+              "0xd6e8feb86659fd93",
+              "0xa24baed4963ee407"
+            ]
+          },
+          "steps": [
+            {
+              "dst": "r0",
+              "op": "lookup",
+              "table": "k",
+              "index": 0
+            },
+            {
+              "dst": "r1",
+              "op": "xor",
+              "a": "r0",
+              "b": "x"
+            },
+            {
+              "dst": "r2",
+              "op": "lookup",
+              "table": "k",
+              "index": 1
+            },
+            {
+              "dst": "r3",
+              "op": "add",
+              "a": "r2",
+              "b": "y"
+            },
+            {
+              "op": "loop",
+              "count": 8,
+              "body": [
+                {
+                  "dst": "r4",
+                  "op": "rol",
+                  "a": "r3",
+                  "bits": 11
+                },
+                {
+                  "dst": "r5",
+                  "op": "add",
+                  "a": "r1",
+                  "b": "r4"
+                },
+                {
+                  "dst": "r6",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "i"
+                },
+                {
+                  "dst": "r5",
+                  "op": "xor",
+                  "a": "r5",
+                  "b": "r6"
+                },
+                {
+                  "dst": "r7",
+                  "op": "xor",
+                  "a": "r5",
+                  "b": "x"
+                },
+                {
+                  "dst": "r7",
+                  "op": "and",
+                  "a": "r7",
+                  "b": "0x200"
+                },
+                {
+                  "dst": "r8",
+                  "op": "rol",
+                  "a": "r5",
+                  "bits": 13
+                },
+                {
+                  "dst": "r9",
+                  "op": "add",
+                  "a": "i",
+                  "b": 3
+                },
+                {
+                  "dst": "r10",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r9"
+                },
+                {
+                  "dst": "r10",
+                  "op": "xor",
+                  "a": "r10",
+                  "b": "r5"
+                },
+                {
+                  "dst": "r10",
+                  "op": "ror",
+                  "a": "r10",
+                  "bits": 17
+                },
+                {
+                  "dst": "r1",
+                  "op": "sel",
+                  "cond": "r7",
+                  "a": "r8",
+                  "b": "r10"
+                },
+                {
+                  "dst": "r3",
+                  "op": "xor",
+                  "a": "r3",
+                  "b": "r1"
+                },
+                {
+                  "dst": "r11",
+                  "op": "lookup",
+                  "table": "m",
+                  "index": "i"
+                },
+                {
+                  "dst": "r3",
+                  "op": "mul",
+                  "a": "r3",
+                  "b": "r11"
+                },
+                {
+                  "dst": "r12",
+                  "op": "sub",
+                  "a": "i",
+                  "b": 3
+                },
+                {
+                  "dst": "r13",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r12"
+                },
+                {
+                  "dst": "r3",
+                  "op": "add",
+                  "a": "r13",
+                  "b": "r3"
+                }
+              ]
+            },
+            {
+              "dst": "r14",
+              "op": "rol",
+              "a": "r3",
+              "bits": 23
+            },
+            {
+              "dst": "r15",
+              "op": "mul",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r15",
+              "op": "mul",
+              "a": "r15",
+              "b": "0x8cb92ba72f3d8dd7"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r14",
+              "b": "r15"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r14",
+              "b": "r1"
+            }
+          ],
+          "return": "r14"
+        },
+        "q2": "0x1000",
+        "q3": "0x11D0",
+        "q4": "0x4CF5AD432745937F",
+        "q5": "0x5685DD8B1B0483F1",
+        "q6": "B"
+      },
+      "reasoning": "El directorio TLS señala al callback RVA 0x1000, que genera ocho claves a partir de una semilla y datos en RVA 0x17350, y las escribe sobre los señuelos en RVA 0x22000. La función en RVA 0x11D0 usa esas claves en ocho iteraciones. El DSL coincidió con el ejecutable en 71 pares, incluidos valores frontera y el par de q5."
+    }
+  ]
+}

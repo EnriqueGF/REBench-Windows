@@ -1,0 +1,160 @@
+{
+  "earned": 69,
+  "total": 69,
+  "percent": 100.0,
+  "by_category": {
+    "RE funcional": {
+      "earned": 69,
+      "total": 69
+    }
+  },
+  "by_track": {
+    "research": {
+      "earned": 69,
+      "total": 69
+    }
+  },
+  "rows": [
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q1",
+      "category": "RE funcional",
+      "type": "pipeline64",
+      "points": 50,
+      "earned": 50,
+      "submitted": {
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "x",
+            "b": "0xd6e8feb86659fd93"
+          },
+          {
+            "dst": "r1",
+            "op": "rol",
+            "a": "r0",
+            "bits": 13
+          },
+          {
+            "dst": "r2",
+            "op": "add",
+            "a": "r1",
+            "b": "0xa0761d6478bd642f"
+          },
+          {
+            "dst": "r3",
+            "op": "mul",
+            "a": "y",
+            "b": "0x9e3779b185ebca87"
+          },
+          {
+            "dst": "r4",
+            "op": "add",
+            "a": "r2",
+            "b": "r3"
+          },
+          {
+            "dst": "r5",
+            "op": "xor",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r6",
+            "op": "and",
+            "a": "r5",
+            "b": "0x20"
+          },
+          {
+            "dst": "r7",
+            "op": "xor",
+            "a": "r4",
+            "b": "0xe7037ed1a0b428db"
+          },
+          {
+            "dst": "r8",
+            "op": "rol",
+            "a": "r7",
+            "bits": 17
+          },
+          {
+            "dst": "r9",
+            "op": "add",
+            "a": "r4",
+            "b": "0x8ebc6af09c88c6e3"
+          },
+          {
+            "dst": "r10",
+            "op": "ror",
+            "a": "r9",
+            "bits": 9
+          },
+          {
+            "dst": "r11",
+            "op": "sel",
+            "cond": "r6",
+            "a": "r8",
+            "b": "r10"
+          },
+          {
+            "dst": "r12",
+            "op": "add",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r13",
+            "op": "mul",
+            "a": "r12",
+            "b": "0xc2b2ae3d27d4eb4f"
+          },
+          {
+            "dst": "r14",
+            "op": "xor",
+            "a": "r13",
+            "b": "r11"
+          }
+        ],
+        "return": "r14"
+      }
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q2",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1100"
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q3",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 4,
+      "earned": 4,
+      "submitted": "0x73E9A26282AC1611"
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q4",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x20"
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q5",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0xC2B2AE3D27D4EB4F"
+    }
+  ],
+  "missing_cases": []
+}

@@ -1,0 +1,230 @@
+{
+  "benchmark_version": "4.0",
+  "started_at": "2026-10-04T15:38:24.703841+00:00",
+  "profile": "opencode",
+  "results": [
+    {
+      "case_id": "hard_pipeline",
+      "profile": "opencode",
+      "resumed_session": "ses_ef8ac8e00ffeuQeuVkNvtbqP02",
+      "exit_code": 0,
+      "seconds": 2204.75,
+      "raw_output": "El modelo no coincide con el oráculo. Es probable que los archivos `.data` se transformen en tiempo de ejecución mediante un inicializador CRT. Voy a buscar en el código las funciones que hacen referencia a esas direcciones.\nSolo mix_payload hace referencia a esas constantes, por lo que no hay un inicializador que las modifique. Permíteme decodificar los bytes de la función manualmente para descartar un desincronización del desensamblador.\nLa descompilación es limpia, por lo que la estructura es correcta pero los valores en tiempo de ejecución deben diferir. Permíteme verificar el mapeo de `.data` sin procesar y luego verificar de forma cruzada las constantes con el comportamiento del oráculo.\nNo hay reubicaciones reales en las constantes. Como `mix(0,0)` reduce la expresión a `ror(K3 + K2 + rol(K0,13), 9)`, puedo verificar las constantes directamente:\nEl caso degenerado sigue fallando, por lo que `.data` probablemente se inicialice en tiempo de ejecución en otro lugar. Déjame buscar todas las referencias de código en la región de `.data`.\nSolo mix_payload lee esas constantes, por lo que deben ocurrir diferencias en otra parte; tal vez la función 0x1060 no sea el `main` real. Voy a trazar la ruta de llamada desde el punto de entrada.\nEncontré mi error: en el modelo intercambié K3 y K4 entre las ramas. La ruta `je` (bit clear) usa la constante en 0x22020 con `add`+`ror9`, la ruta de continuación (fall-through, bit set) usa 0x22018 con `xor`+`rol17`. Déjame corregir y verificar:\nModelo confirmado. Ahora una validación aleatoria amplia en comparación con el oráculo (ambas ramas + valores límite), y luego calcularé q3.\nSe han superado las 127 pruebas de oracle en ambas ramas. Validación final: interpretaré el programa DSL y lo compararé con el oráculo en pares de casos límite:\n{\"case_id\":\"hard_pipeline\",\"answers\":{\"q1\":{\"steps\":[{\"dst\":\"r0\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"0xd6e8feb86659fd93\"},{\"dst\":\"r1\",\"op\":\"rol\",\"a\":\"r0\",\"bits\":13},{\"dst\":\"r2\",\"op\":\"add\",\"a\":\"r1\",\"b\":\"0xa0761d6478bd642f\"},{\"dst\":\"r3\",\"op\":\"mul\",\"a\":\"y\",\"b\":\"0x9e3779b185ebca87\"},{\"dst\":\"r4\",\"op\":\"add\",\"a\":\"r2\",\"b\":\"r3\"},{\"dst\":\"r5\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"y\"},{\"dst\":\"r6\",\"op\":\"and\",\"a\":\"r5\",\"b\":\"0x20\"},{\"dst\":\"r7\",\"op\":\"xor\",\"a\":\"r4\",\"b\":\"0xe7037ed1a0b428db\"},{\"dst\":\"r8\",\"op\":\"rol\",\"a\":\"r7\",\"bits\":17},{\"dst\":\"r9\",\"op\":\"add\",\"a\":\"r4\",\"b\":\"0x8ebc6af09c88c6e3\"},{\"dst\":\"r10\",\"op\":\"ror\",\"a\":\"r9\",\"bits\":9},{\"dst\":\"r11\",\"op\":\"sel\",\"cond\":\"r6\",\"a\":\"r8\",\"b\":\"r10\"},{\"dst\":\"r12\",\"op\":\"add\",\"a\":\"x\",\"b\":\"y\"},{\"dst\":\"r13\",\"op\":\"mul\",\"a\":\"r12\",\"b\":\"0xc2b2ae3d27d4eb4f\"},{\"dst\":\"r14\",\"op\":\"xor\",\"a\":\"r13\",\"b\":\"r11\"}],\"return\":\"r14\"},\"q2\":\"0x1100\",\"q3\":\"0x73E9A26282AC1611\",\"q4\":\"0x20\",\"q5\":\"0xC2B2AE3D27D4EB4F\"},\"reasoning\":\"Con pefile+capstone: main en RVA 0x1060 parsea argv con strtoull y llama a 0x140002100 (RVA 0x1100, entrada .pdata 0x1100-0x1185) antes de printf('%016llX'). mix_payload (RVA 0x1100): r9 = 0xa0761d6478bd642f + rotl64(0xd6e8feb86659fd93 ^ x,13) + 0x9e3779b185ebca87*y; si ((x^y)&0xff)&0x20 != 0 usa rotl64(0xe7037ed1a0b428db ^ r9,17) (call RVA 0x11e0 = rol), si no ror64(0x8ebc6af09c88c6e3 + r9,9) (call RVA 0x11f0 = ror); retorno = (x+y)*0xc2b2ae3d27d4eb4f ^ resultado_rama. Máscara de selección: test al,0x20 (q4=0x20). Constantes leídas de .data RVA 0x22000-0x2202F, únicas referencias en el binario. Modelo y programa DSL validados contra el oráculo en 177 consultas (frontera 0, MAX, 1, ramas ambas cubiertas): 100% coincidencia. q3 verificado ejecutando mix_oracle.exe 0x123456789ABCDEF 0xFEDCBA9876543210 -> 73E9A26282AC1611.\"}\n",
+      "stderr": "\"y\"},\n  {\"dst\":\"r6\",\"op\":\"and\",\"a\":\"r5\",\"b\":\"0x20\"},\n  {\"dst\":\"r7\",\"op\":\"xor\",\"a\":\"r4\",\"b\":\"0xe7037ed1a0b428db\"},\n  {\"dst\":\"r8\",\"op\":\"rol\",\"a\":\"r7\",\"bits\":17},\n  {\"dst\":\"r9\",\"op\":\"add\",\"a\":\"r4\",\"b\":\"0x8ebc6af09c88c6e3\"},\n  {\"dst\":\"r10\",\"op\":\"ror\",\"a\":\"r9\",\"bits\":9},\n  {\"dst\":\"r11\",\"op\":\"sel\",\"cond\":\"r6\",\"a\":\"r8\",\"b\":\"r10\"},\n  {\"dst\":\"r12\",\"op\":\"add\",\"a\":\"x\",\"b\":\"y\"},\n  {\"dst\":\"r13\",\"op\":\"mul\",\"a\":\"r12\",\"b\":\"0xc2b2ae3d27d4eb4f\"},\n  {\"dst\":\"r14\",\"op\":\"xor\",\"a\":\"r13\",\"b\":\"r11\"}\n ],\n \"return\":\"r14\"}\ndef run(x,y):\n    v={\"x\":x,\"y\":y}\n    for s in prog[\"steps\"]:\n        d=s[\"dst\"]\n        if s[\"op\"] in (\"rol\",\"ror\",\"shl\",\"shr\"):\n            a=v[s[\"a\"]]; b=s[\"bits\"]\n            if s[\"op\"]==\"rol\": r=((a<<(b&63))|(a>>(64-(b&63))))&M if b&63 else a\n            elif s[\"op\"]==\"ror\": r=((a>>(b&63))|(a<<(64-(b&63))))&M if b&63 else a\n            elif s[\"op\"]==\"shl\": r=(a<<b)&M\n            else: r=a>>b\n        elif s[\"op\"]==\"sel\":\n            r=v[s[\"a\"]] if v[s[\"cond\"]]!=0 else v[s[\"b\"]]\n        else:\n            a=v[s[\"a\"]]; b=v[s[\"b\"]]\n            r={\"add\":(a+b),\"sub\":(a-b),\"xor\":(a^b),\"and\":(a&b),\"or\":(a|b),\"mul\":(a*b)}[s[\"op\"]]\n        v[d]=r&M\n    return v[prog[\"return\"]]\ntests=[(0,0),(1,2),(M,M),(M,0),(0,M),(0x0123456789ABCDEF,0xFEDCBA9876543210),\n       (0x20,0),(0,0x20),(0x1F,0x3F),(0x20,0x20)]\nimport random; random.seed(3)\ntests+=[(random.getrandbits(64),random.getrandbits(64)) for _ in range(40)]\nbad=0\nfor x,y in tests:\n    out=subprocess.run([\"./mix_oracle.exe\",hex(x),hex(y)],capture_output=True,text=True).stdout.strip()\n    got=f\"{run(x,y):016X}\"\n    if out.upper()!=got: bad+=1; print(\"BAD\",hex(x),hex(y),out,got)\nprint(\"DSL validation: tested\",len(tests),\"bad\",bad)\nimport json\nprint(json.dumps(prog,separators=(',',':')))\nEOF\nTraceback (most recent call last):\n  File \"<stdin>\", line 46, in <module>\n  File \"<stdin>\", line 35, in run\nKeyError: '0xd6e8feb86659fd93'\n\u001b[0m\n\u001b[0m$ \u001b[0mcd \"/c/Users/el_en/AppData/Local/Temp/rebench-_pny9kbv/artifacts/hard_pipeline\" && python - <<'EOF'\nimport subprocess\nM=(1<<64)-1\nprog={\n \"steps\":[\n  {\"dst\":\"r0\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"0xd6e8feb86659fd93\"},\n  {\"dst\":\"r1\",\"op\":\"rol\",\"a\":\"r0\",\"bits\":13},\n  {\"dst\":\"r2\",\"op\":\"add\",\"a\":\"r1\",\"b\":\"0xa0761d6478bd642f\"},\n  {\"dst\":\"r3\",\"op\":\"mul\",\"a\":\"y\",\"b\":\"0x9e3779b185ebca87\"},\n  {\"dst\":\"r4\",\"op\":\"add\",\"a\":\"r2\",\"b\":\"r3\"},\n  {\"dst\":\"r5\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"y\"},\n  {\"dst\":\"r6\",\"op\":\"and\",\"a\":\"r5\",\"b\":\"0x20\"},\n  {\"dst\":\"r7\",\"op\":\"xor\",\"a\":\"r4\",\"b\":\"0xe7037ed1a0b428db\"},\n  {\"dst\":\"r8\",\"op\":\"rol\",\"a\":\"r7\",\"bits\":17},\n  {\"dst\":\"r9\",\"op\":\"add\",\"a\":\"r4\",\"b\":\"0x8ebc6af09c88c6e3\"},\n  {\"dst\":\"r10\",\"op\":\"ror\",\"a\":\"r9\",\"bits\":9},\n  {\"dst\":\"r11\",\"op\":\"sel\",\"cond\":\"r6\",\"a\":\"r8\",\"b\":\"r10\"},\n  {\"dst\":\"r12\",\"op\":\"add\",\"a\":\"x\",\"b\":\"y\"},\n  {\"dst\":\"r13\",\"op\":\"mul\",\"a\":\"r12\",\"b\":\"0xc2b2ae3d27d4eb4f\"},\n  {\"dst\":\"r14\",\"op\":\"xor\",\"a\":\"r13\",\"b\":\"r11\"}\n ],\n \"return\":\"r14\"}\ndef val(v,o): return int(o,16)&M if isinstance(o,str) and o.startswith(\"0x\") else v[o]\ndef run(x,y):\n    v={\"x\":x,\"y\":y}\n    for s in prog[\"steps\"]:\n        d=s[\"dst\"]\n        if s[\"op\"] in (\"rol\",\"ror\",\"shl\",\"shr\"):\n            a=val(v,s[\"a\"]); b=s[\"bits\"]&63\n            if s[\"op\"]==\"rol\": r=((a<<b)|(a>>(64-b)))&M if b else a\n            elif s[\"op\"]==\"ror\": r=((a>>b)|(a<<(64-b)))&M if b else a\n            elif s[\"op\"]==\"shl\": r=(a<<b)&M\n            else: r=a>>b\n        elif s[\"op\"]==\"sel\":\n            r=v[s[\"a\"]] if v[s[\"cond\"]]!=0 else v[s[\"b\"]]\n        else:\n            a=val(v,s[\"a\"]); b=val(v,s[\"b\"])\n            r={\"add\":(a+b),\"sub\":(a-b),\"xor\":(a^b),\"and\":(a&b),\"or\":(a|b),\"mul\":(a*b)}[s[\"op\"]]\n        v[d]=r&M\n    return v[prog[\"return\"]]\ntests=[(0,0),(1,2),(M,M),(M,0),(0,M),(0x0123456789ABCDEF,0xFEDCBA9876543210),\n       (0x20,0),(0,0x20),(0x1F,0x3F),(0x20,0x20)]\nimport random; random.seed(3)\ntests+=[(random.getrandbits(64),random.getrandbits(64)) for _ in range(40)]\nbad=0\nfor x,y in tests:\n    out=subprocess.run([\"./mix_oracle.exe\",hex(x),hex(y)],capture_output=True,text=True).stdout.strip()\n    got=f\"{run(x,y):016X}\"\n    if out.upper()!=got: bad+=1; print(\"BAD\",hex(x),hex(y),out,got)\nprint(\"DSL validation: tested\",len(tests),\"bad\",bad)\nimport json\nprint(json.dumps(prog,separators=(',',':')))\nEOF\nDSL validation: tested 50 bad 0\n{\"steps\":[{\"dst\":\"r0\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"0xd6e8feb86659fd93\"},{\"dst\":\"r1\",\"op\":\"rol\",\"a\":\"r0\",\"bits\":13},{\"dst\":\"r2\",\"op\":\"add\",\"a\":\"r1\",\"b\":\"0xa0761d6478bd642f\"},{\"dst\":\"r3\",\"op\":\"mul\",\"a\":\"y\",\"b\":\"0x9e3779b185ebca87\"},{\"dst\":\"r4\",\"op\":\"add\",\"a\":\"r2\",\"b\":\"r3\"},{\"dst\":\"r5\",\"op\":\"xor\",\"a\":\"x\",\"b\":\"y\"},{\"dst\":\"r6\",\"op\":\"and\",\"a\":\"r5\",\"b\":\"0x20\"},{\"dst\":\"r7\",\"op\":\"xor\",\"a\":\"r4\",\"b\":\"0xe7037ed1a0b428db\"},{\"dst\":\"r8\",\"op\":\"rol\",\"a\":\"r7\",\"bits\":17},{\"dst\":\"r9\",\"op\":\"add\",\"a\":\"r4\",\"b\":\"0x8ebc6af09c88c6e3\"},{\"dst\":\"r10\",\"op\":\"ror\",\"a\":\"r9\",\"bits\":9},{\"dst\":\"r11\",\"op\":\"sel\",\"cond\":\"r6\",\"a\":\"r8\",\"b\":\"r10\"},{\"dst\":\"r12\",\"op\":\"add\",\"a\":\"x\",\"b\":\"y\"},{\"dst\":\"r13\",\"op\":\"mul\",\"a\":\"r12\",\"b\":\"0xc2b2ae3d27d4eb4f\"},{\"dst\":\"r14\",\"op\":\"xor\",\"a\":\"r13\",\"b\":\"r11\"}],\"return\":\"r14\"}\n\u001b[0m\n",
+      "submission": {
+        "case_id": "hard_pipeline",
+        "answers": {
+          "q1": {
+            "steps": [
+              {
+                "dst": "r0",
+                "op": "xor",
+                "a": "x",
+                "b": "0xd6e8feb86659fd93"
+              },
+              {
+                "dst": "r1",
+                "op": "rol",
+                "a": "r0",
+                "bits": 13
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r1",
+                "b": "0xa0761d6478bd642f"
+              },
+              {
+                "dst": "r3",
+                "op": "mul",
+                "a": "y",
+                "b": "0x9e3779b185ebca87"
+              },
+              {
+                "dst": "r4",
+                "op": "add",
+                "a": "r2",
+                "b": "r3"
+              },
+              {
+                "dst": "r5",
+                "op": "xor",
+                "a": "x",
+                "b": "y"
+              },
+              {
+                "dst": "r6",
+                "op": "and",
+                "a": "r5",
+                "b": "0x20"
+              },
+              {
+                "dst": "r7",
+                "op": "xor",
+                "a": "r4",
+                "b": "0xe7037ed1a0b428db"
+              },
+              {
+                "dst": "r8",
+                "op": "rol",
+                "a": "r7",
+                "bits": 17
+              },
+              {
+                "dst": "r9",
+                "op": "add",
+                "a": "r4",
+                "b": "0x8ebc6af09c88c6e3"
+              },
+              {
+                "dst": "r10",
+                "op": "ror",
+                "a": "r9",
+                "bits": 9
+              },
+              {
+                "dst": "r11",
+                "op": "sel",
+                "cond": "r6",
+                "a": "r8",
+                "b": "r10"
+              },
+              {
+                "dst": "r12",
+                "op": "add",
+                "a": "x",
+                "b": "y"
+              },
+              {
+                "dst": "r13",
+                "op": "mul",
+                "a": "r12",
+                "b": "0xc2b2ae3d27d4eb4f"
+              },
+              {
+                "dst": "r14",
+                "op": "xor",
+                "a": "r13",
+                "b": "r11"
+              }
+            ],
+            "return": "r14"
+          },
+          "q2": "0x1100",
+          "q3": "0x73E9A26282AC1611",
+          "q4": "0x20",
+          "q5": "0xC2B2AE3D27D4EB4F"
+        },
+        "reasoning": "Con pefile+capstone: main en RVA 0x1060 parsea argv con strtoull y llama a 0x140002100 (RVA 0x1100, entrada .pdata 0x1100-0x1185) antes de printf('%016llX'). mix_payload (RVA 0x1100): r9 = 0xa0761d6478bd642f + rotl64(0xd6e8feb86659fd93 ^ x,13) + 0x9e3779b185ebca87*y; si ((x^y)&0xff)&0x20 != 0 usa rotl64(0xe7037ed1a0b428db ^ r9,17) (call RVA 0x11e0 = rol), si no ror64(0x8ebc6af09c88c6e3 + r9,9) (call RVA 0x11f0 = ror); retorno = (x+y)*0xc2b2ae3d27d4eb4f ^ resultado_rama. Máscara de selección: test al,0x20 (q4=0x20). Constantes leídas de .data RVA 0x22000-0x2202F, únicas referencias en el binario. Modelo y programa DSL validados contra el oráculo en 177 consultas (frontera 0, MAX, 1, ramas ambas cubiertas): 100% coincidencia. q3 verificado ejecutando mix_oracle.exe 0x123456789ABCDEF 0xFEDCBA9876543210 -> 73E9A26282AC1611."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_pipeline",
+      "answers": {
+        "q1": {
+          "steps": [
+            {
+              "dst": "r0",
+              "op": "xor",
+              "a": "x",
+              "b": "0xd6e8feb86659fd93"
+            },
+            {
+              "dst": "r1",
+              "op": "rol",
+              "a": "r0",
+              "bits": 13
+            },
+            {
+              "dst": "r2",
+              "op": "add",
+              "a": "r1",
+              "b": "0xa0761d6478bd642f"
+            },
+            {
+              "dst": "r3",
+              "op": "mul",
+              "a": "y",
+              "b": "0x9e3779b185ebca87"
+            },
+            {
+              "dst": "r4",
+              "op": "add",
+              "a": "r2",
+              "b": "r3"
+            },
+            {
+              "dst": "r5",
+              "op": "xor",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r6",
+              "op": "and",
+              "a": "r5",
+              "b": "0x20"
+            },
+            {
+              "dst": "r7",
+              "op": "xor",
+              "a": "r4",
+              "b": "0xe7037ed1a0b428db"
+            },
+            {
+              "dst": "r8",
+              "op": "rol",
+              "a": "r7",
+              "bits": 17
+            },
+            {
+              "dst": "r9",
+              "op": "add",
+              "a": "r4",
+              "b": "0x8ebc6af09c88c6e3"
+            },
+            {
+              "dst": "r10",
+              "op": "ror",
+              "a": "r9",
+              "bits": 9
+            },
+            {
+              "dst": "r11",
+              "op": "sel",
+              "cond": "r6",
+              "a": "r8",
+              "b": "r10"
+            },
+            {
+              "dst": "r12",
+              "op": "add",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r13",
+              "op": "mul",
+              "a": "r12",
+              "b": "0xc2b2ae3d27d4eb4f"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r13",
+              "b": "r11"
+            }
+          ],
+          "return": "r14"
+        },
+        "q2": "0x1100",
+        "q3": "0x73E9A26282AC1611",
+        "q4": "0x20",
+        "q5": "0xC2B2AE3D27D4EB4F"
+      },
+      "reasoning": "Con pefile+capstone: main en RVA 0x1060 parsea argv con strtoull y llama a 0x140002100 (RVA 0x1100, entrada .pdata 0x1100-0x1185) antes de printf('%016llX'). mix_payload (RVA 0x1100): r9 = 0xa0761d6478bd642f + rotl64(0xd6e8feb86659fd93 ^ x,13) + 0x9e3779b185ebca87*y; si ((x^y)&0xff)&0x20 != 0 usa rotl64(0xe7037ed1a0b428db ^ r9,17) (call RVA 0x11e0 = rol), si no ror64(0x8ebc6af09c88c6e3 + r9,9) (call RVA 0x11f0 = ror); retorno = (x+y)*0xc2b2ae3d27d4eb4f ^ resultado_rama. Máscara de selección: test al,0x20 (q4=0x20). Constantes leídas de .data RVA 0x22000-0x2202F, únicas referencias en el binario. Modelo y programa DSL validados contra el oráculo en 177 consultas (frontera 0, MAX, 1, ramas ambas cubiertas): 100% coincidencia. q3 verificado ejecutando mix_oracle.exe 0x123456789ABCDEF 0xFEDCBA9876543210 -> 73E9A26282AC1611."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_vm: Bytecode cifrado y validación permutada
+Un segundo PE64 valida un código de 16 caracteres mediante bytecode propio guardado en una sección PE adicional. El binario solo informa ACCEPT o REJECT; identifica la transformación de la sección, interpreta el programa y reconstruye el código. El orden de lectura de caracteres no coincide con su posición en el texto.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_vm/brief.txt ---
+Uso: vm_guard.exe <candidato-de-16-caracteres>
+Salida: ACCEPT o REJECT.
+
+Notas de triage: el PE tiene una sección no estándar que contiene aproximadamente 243 bytes
+de datos. El punto de entrada del runtime llega a dos rutinas propias: una copia y transforma
+esos bytes; la otra ejecuta instrucciones de longitud fija. No se dispone de PDB.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_vm/vm_guard.exe ---
+SHA256: 0517e54fe42ab92e15c78c4f084d92b68214f4207d289d2955d771c9ff0ab5b1
+Bytes: 112128. Archivo disponible en el directorio del caso.
+
+q1 [literal]: ¿Cuál es el código exacto de 16 caracteres aceptado por el VM?
+
+q2 [hex]: ¿Qué valor inicial de 8 bits usa la máscara con que se descifra el bytecode?
+
+q3 [single]: ¿Qué hace el opcode 0x5B al registro de 8 bits?
+  A. Rotación izquierda por arg bits
+  B. Rotación derecha por arg bits
+  C. XOR con arg
+  D. Lectura de input[arg]
+
+q4 [literal]: ¿En qué orden se validan los primeros cuatro índices de input? Responde exactamente `i,j,k,l` sin espacios.
+
+q5 [literal]: SHA-256 hexadecimal (minúsculas) de los 243 bytes de bytecode DESCIFRADO.

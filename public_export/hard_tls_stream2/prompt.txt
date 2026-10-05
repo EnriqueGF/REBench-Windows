@@ -1,0 +1,68 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_tls_stream2: Recuperar dos recorridos de un mensaje con claves iniciadas en TLS
+Un PE64 sin PDB acepta mensajes hexadecimales de 0 a 96 bytes y devuelve una etiqueta de 64 bits. Las claves efectivas no están en claro en el archivo: un callback TLS lee un recurso RCDATA y las descifra antes de main. La rutina que imprime el resultado hace dos recorridos dependientes del contenido, uno en cada dirección. Hay un recurso y una rutina de auditoría que no determinan la salida principal. Recupera el comportamiento para mensajes no vistos; el corrector usa 384 entradas ocultas, incluidas longitudes frontera y clases de bytes distintas.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_tls_stream2/brief.txt ---
+Uso: stream2_oracle.exe HEX, o stream2_oracle.exe - para el mensaje vacío.
+Salida: 16 dígitos hexadecimales. El ejecutable es PE64 sin PDB.
+La entrada se limita a 96 bytes. El ejecutable puede consultarse como oráculo,
+pero las 384 pruebas de q1 no se entregan. Se requiere reconstruir ambos
+recorridos y el estado efectivo que el cargador establece antes de main.
+
+
+--- ARTEFACTO artifacts/hard_tls_stream2/dsl.txt ---
+Formato de answers.q1: objeto JSON con `tables`, `steps` y `return`.
+Registros iniciales: `x=0`, `y=0`, `n` = longitud del mensaje. Destinos
+libres con nombre alfanumérico; no se puede asignar a x,y,n,i,byte.
+Los operandos son registros definidos, enteros o constantes `0x...`.
+Todas las operaciones se calculan módulo 2^64.
+
+Operaciones: add, sub, xor, and, or, mul (a,b); rol, ror, shl, shr (a,bits);
+not (a); sel (cond,a,b), que elige a cuando cond != 0; lookup
+(table,index), con índice módulo longitud de la tabla.
+Hasta cuatro tablas, cada una de hasta 16 uint64. `steps` admite hasta 64
+instrucciones. `each` ejecuta `body` en orden creciente de índice; `each_reverse`
+lo ejecuta en orden decreciente. Dentro del cuerpo están disponibles `i` y
+`byte`. Cada cuerpo admite hasta 32 instrucciones. Ambos bucles pueden compartir
+los registros calculados antes o durante el otro bucle. Sin bucles anidados.
+Máximo 8192 instrucciones ejecutadas por entrada; se incluye el mensaje vacío.
+
+Ejemplo de sintaxis, NO es la solución:
+{"tables":{"k":["0x5"]},"steps":[
+  {"dst":"acc","op":"xor","a":"n","b":"0x5"},
+  {"op":"each","body":[{"dst":"acc","op":"add","a":"acc","b":"byte"}]},
+  {"op":"each_reverse","body":[{"dst":"acc","op":"xor","a":"acc","b":"i"}]}
+],"return":"acc"}
+
+Devuelve el objeto en answers.q1, no código ejecutable ni una cadena JSON.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_stream2/stream2_oracle.exe ---
+SHA256: 20349fca8be2b79bb6a20f4fc06cdd3af801dbfaf5cf21b91bac86acc72d0a2c
+Bytes: 143360. Archivo disponible en el directorio del caso.
+
+q1 [stream2_64]: Reconstruye la etiqueta completa como programa DSL para cualquier mensaje válido.
+
+q2 [hex]: RVA inicial de la función que genera la etiqueta impresa.
+
+q3 [hex]: RVA del callback TLS que inicializa las claves efectivas.
+
+q4 [hex]: Identificador del recurso RCDATA usado por el callback TLS.
+
+q5 [hex]: Primer uint64 de la tabla de claves efectiva, después de descifrarla.
+
+q6 [hex]: Etiqueta para el mensaje vacío.
+
+q7 [hex]: Etiqueta para 00112233445566778899AABBCCDDEEFF.
+
+q8 [multi]: Selecciona todas las afirmaciones correctas sobre la salida principal.
+  A. El callback TLS modifica el estado antes de entrar en main.
+  B. El recurso RCDATA 804 suministra necesariamente las claves efectivas.
+  C. El segundo recorrido procesa los bytes desde el último hasta el primero.
+  D. La función de auditoría, y no la de dos recorridos, alimenta printf.
+  E. El resultado para un mensaje de 16 bytes puede inferirse del mensaje vacío sin analizar los bucles.

@@ -1,0 +1,5 @@
+layout_v1.exe, layout_v2.exe y layout_v3.exe son builds x64 del mismo programa.
+La función principal combina el resultado de la rutina viva con auditoría y helpers
+antes de imprimir. Por ello, ejecutar el EXE no entrega directamente el valor de
+la rutina viva. El campo de modo es un DWORD en +0x2A8 desde el contexto.
+Los tres PE tienen ImageBase preferida 0x140000000 y no incluyen PDB.

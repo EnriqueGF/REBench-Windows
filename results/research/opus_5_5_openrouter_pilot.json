@@ -1,0 +1,16 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "model": "openrouter/anthropic/claude-opus-5.5",
+  "timeout_seconds": 300,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 12.62,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "\u001b[0m\n> build · anthropic/claude-opus-5.5\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1073, limit=900]\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"^EXECUTABLE|^\\[|^[A-Z][A-Z ]+$\"\u001b[90m in . · 2 matches\u001b[0m\n\u001b[91m\u001b[1mError: \u001b[0mProvider returned error\n",
+      "parse_error": "No valid JSON answer with matching case_id"
+    }
+  ]
+}

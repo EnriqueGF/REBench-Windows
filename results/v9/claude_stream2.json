@@ -1,0 +1,843 @@
+{
+  "benchmark_version": "9.0",
+  "started_at": "2026-10-05T08:20:37.103160+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "hard_tls_stream2",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 784.83,
+      "raw_output": "{\"case_id\":\"hard_tls_stream2\",\"answers\":{\"q1\":{\"tables\":{\"K\":[\"0x9631d3fca527cc7d\",\"0xb2f05aa3bebf5615\",\"0xf5a56ee0b019f42f\",\"0xc6d53be849f074d7\",\"0x391ac53cee7726f1\",\"0x25c69dad62a3857\",\"0x3f475c4dd0b3c81\",\"0xb3f0dfecb605870f\",\"0xbdccf37a21b32819\",\"0x82ec2e9fe64913f1\",\"0x1ce9936e54d03247\",\"0x4b4417846c599dd\",\"0xb55954c12e91be97\",\"0x23985cc0f44d934b\",\"0x44f2899235d13b47\",\"0xa4f52a10900e4cc7\"]},\"steps\":[{\"dst\":\"t1\",\"op\":\"mul\",\"a\":\"0xb2f05aa3bebf5615\",\"b\":\"n\"},{\"dst\":\"r9\",\"op\":\"xor\",\"a\":\"0x9631d3fca527cc7d\",\"b\":\"t1\"},{\"dst\":\"t2\",\"op\":\"xor\",\"a\":\"0xc6d53be849f074d7\",\"b\":\"n\"},{\"dst\":\"r8\",\"op\":\"add\",\"a\":\"0xf5a56ee0b019f42f\",\"b\":\"t2\"},{\"op\":\"each\",\"body\":[{\"dst\":\"a0\",\"op\":\"rol\",\"a\":\"r8\",\"b\":7},{\"dst\":\"rax\",\"op\":\"add\",\"a\":\"a0\",\"b\":\"r9\"},{\"dst\":\"idx1\",\"op\":\"add\",\"a\":\"i\",\"b\":5},{\"dst\":\"ki5\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idx1\"},{\"dst\":\"t3\",\"op\":\"add\",\"a\":\"ki5\",\"b\":\"byte\"},{\"dst\":\"rax\",\"op\":\"xor\",\"a\":\"rax\",\"b\":\"t3\"},{\"dst\":\"idx2\",\"op\":\"add\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"kbi\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idx2\"},{\"dst\":\"r9\",\"op\":\"mul\",\"a\":\"kbi\",\"b\":\"rax\"},{\"dst\":\"bh\",\"op\":\"shr\",\"a\":\"byte\",\"b\":4},{\"dst\":\"kbh\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"bh\"},{\"dst\":\"irc\",\"op\":\"xor\",\"a\":\"kbh\",\"b\":\"r9\"},{\"dst\":\"ifr9\",\"op\":\"rol\",\"a\":\"irc\",\"b\":13},{\"dst\":\"idx3\",\"op\":\"add\",\"a\":\"i\",\"b\":3},{\"dst\":\"ki3\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idx3\"},{\"dst\":\"erc\",\"op\":\"add\",\"a\":\"ki3\",\"b\":\"r9\"},{\"dst\":\"elr9\",\"op\":\"ror\",\"a\":\"erc\",\"b\":11},{\"dst\":\"bxi\",\"op\":\"xor\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"c1\",\"op\":\"and\",\"a\":\"bxi\",\"b\":1},{\"dst\":\"r9\",\"op\":\"sel\",\"cond\":\"c1\",\"a\":\"ifr9\",\"b\":\"elr9\"},{\"dst\":\"idx4\",\"op\":\"add\",\"a\":\"i\",\"b\":11},{\"dst\":\"ki11\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idx4\"},{\"dst\":\"r8x\",\"op\":\"xor\",\"a\":\"r8\",\"b\":\"r9\"},{\"dst\":\"r8m\",\"op\":\"mul\",\"a\":\"r8x\",\"b\":\"ki11\"},{\"dst\":\"r8\",\"op\":\"add\",\"a\":\"r8m\",\"b\":\"byte\"}]},{\"op\":\"each_reverse\",\"body\":[{\"dst\":\"ra0\",\"op\":\"ror\",\"a\":\"r9\",\"b\":9},{\"dst\":\"rdx\",\"op\":\"xor\",\"a\":\"ra0\",\"b\":\"r8\"},{\"dst\":\"idxA\",\"op\":\"add\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"kA\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idxA\"},{\"dst\":\"rdx\",\"op\":\"add\",\"a\":\"rdx\",\"b\":\"kA\"},{\"dst\":\"idxB\",\"op\":\"add\",\"a\":\"i\",\"b\":7},{\"dst\":\"kB\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idxB\"},{\"dst\":\"ifrc\",\"op\":\"xor\",\"a\":\"kB\",\"b\":\"rdx\"},{\"dst\":\"ifr8\",\"op\":\"rol\",\"a\":\"ifrc\",\"b\":17},{\"dst\":\"bh2\",\"op\":\"shr\",\"a\":\"byte\",\"b\":4},{\"dst\":\"kbh2\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"bh2\"},{\"dst\":\"elrc\",\"op\":\"add\",\"a\":\"kbh2\",\"b\":\"rdx\"},{\"dst\":\"elr8\",\"op\":\"ror\",\"a\":\"elrc\",\"b\":19},{\"dst\":\"bxi2\",\"op\":\"xor\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"c2\",\"op\":\"and\",\"a\":\"bxi2\",\"b\":\"0x20\"},{\"dst\":\"r8\",\"op\":\"sel\",\"cond\":\"c2\",\"a\":\"ifr8\",\"b\":\"elr8\"},{\"dst\":\"idxC\",\"op\":\"add\",\"a\":\"i\",\"b\":2},{\"dst\":\"kC\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idxC\"},{\"dst\":\"tC\",\"op\":\"add\",\"a\":\"kC\",\"b\":\"byte\"},{\"dst\":\"rax2\",\"op\":\"rol\",\"a\":\"tC\",\"b\":5},{\"dst\":\"idxD\",\"op\":\"add\",\"a\":\"i\",\"b\":1},{\"dst\":\"kD\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"idxD\"},{\"dst\":\"sum\",\"op\":\"add\",\"a\":\"r9\",\"b\":\"r8\"},{\"dst\":\"mul1\",\"op\":\"mul\",\"a\":\"sum\",\"b\":\"kD\"},{\"dst\":\"r9\",\"op\":\"xor\",\"a\":\"mul1\",\"b\":\"rax2\"}]},{\"dst\":\"f1\",\"op\":\"rol\",\"a\":\"r8\",\"b\":29},{\"dst\":\"kn\",\"op\":\"lookup\",\"table\":\"K\",\"index\":\"n\"},{\"dst\":\"f2\",\"op\":\"xor\",\"a\":\"f1\",\"b\":\"kn\"},{\"dst\":\"nm\",\"op\":\"mul\",\"a\":\"n\",\"b\":\"0x8cb92ba72f3d8dd7\"},{\"dst\":\"f3\",\"op\":\"xor\",\"a\":\"f2\",\"b\":\"nm\"},{\"dst\":\"out\",\"op\":\"xor\",\"a\":\"f3\",\"b\":\"r9\"}],\"return\":\"out\"},\"q2\":\"0x1380\",\"q3\":\"0x1000\",\"q4\":\"0x323\",\"q5\":\"0x9631d3fca527cc7d\",\"q6\":\"0x1F414D20D78F5559\",\"q7\":\"0xE4C071B4B88381E5\",\"q8\":[\"A\",\"C\"]},\"reasoning\":\"TLS callback RVA 0x1000 (only non-null AoCB entry) reads RCDATA 0x323 (803, 0x80 bytes = 16 qwords) and decrypts into K at RVA 0x22000 via 16-round PRG rbx=rol(r10^rbx,7)*rdi-rsi; r10-=rbp; K[i]=rbx^ct[i] with rbx=0x6c8e9cf5702a41d3, rbp=0x61c8864e7a143579, rdi=0xd6e8feb86659fd93, rsi=0x5db4512b69c11bf9, r10=0x79b5d06c8a4e3f21. Main (0x11e0) parses hex (0..96 bytes), calls audit sub_0x1180 (stored to global but not printed) and tag sub_0x1380 whose return feeds %016llX. 0x1380: r9=K[0]^(K[1]*n), r8=K[2]+(K[3]^n); forward each-byte (i=0..n-1) then reverse each-byte (i=n-1..0) with the per-byte updates shown in q1; final tag=rol(r8,0x1d)^K[n&0xf]^(n*0x8cb92ba72f3d8dd7)^r9. DSL interpreter matches the oracle on 68 random/boundary inputs. RCDATA 804 belongs to the unused audit routine.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_tls_stream2",
+        "answers": {
+          "q1": {
+            "tables": {
+              "K": [
+                "0x9631d3fca527cc7d",
+                "0xb2f05aa3bebf5615",
+                "0xf5a56ee0b019f42f",
+                "0xc6d53be849f074d7",
+                "0x391ac53cee7726f1",
+                "0x25c69dad62a3857",
+                "0x3f475c4dd0b3c81",
+                "0xb3f0dfecb605870f",
+                "0xbdccf37a21b32819",
+                "0x82ec2e9fe64913f1",
+                "0x1ce9936e54d03247",
+                "0x4b4417846c599dd",
+                "0xb55954c12e91be97",
+                "0x23985cc0f44d934b",
+                "0x44f2899235d13b47",
+                "0xa4f52a10900e4cc7"
+              ]
+            },
+            "steps": [
+              {
+                "dst": "t1",
+                "op": "mul",
+                "a": "0xb2f05aa3bebf5615",
+                "b": "n"
+              },
+              {
+                "dst": "r9",
+                "op": "xor",
+                "a": "0x9631d3fca527cc7d",
+                "b": "t1"
+              },
+              {
+                "dst": "t2",
+                "op": "xor",
+                "a": "0xc6d53be849f074d7",
+                "b": "n"
+              },
+              {
+                "dst": "r8",
+                "op": "add",
+                "a": "0xf5a56ee0b019f42f",
+                "b": "t2"
+              },
+              {
+                "op": "each",
+                "body": [
+                  {
+                    "dst": "a0",
+                    "op": "rol",
+                    "a": "r8",
+                    "b": 7
+                  },
+                  {
+                    "dst": "rax",
+                    "op": "add",
+                    "a": "a0",
+                    "b": "r9"
+                  },
+                  {
+                    "dst": "idx1",
+                    "op": "add",
+                    "a": "i",
+                    "b": 5
+                  },
+                  {
+                    "dst": "ki5",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idx1"
+                  },
+                  {
+                    "dst": "t3",
+                    "op": "add",
+                    "a": "ki5",
+                    "b": "byte"
+                  },
+                  {
+                    "dst": "rax",
+                    "op": "xor",
+                    "a": "rax",
+                    "b": "t3"
+                  },
+                  {
+                    "dst": "idx2",
+                    "op": "add",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "kbi",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idx2"
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "mul",
+                    "a": "kbi",
+                    "b": "rax"
+                  },
+                  {
+                    "dst": "bh",
+                    "op": "shr",
+                    "a": "byte",
+                    "b": 4
+                  },
+                  {
+                    "dst": "kbh",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "bh"
+                  },
+                  {
+                    "dst": "irc",
+                    "op": "xor",
+                    "a": "kbh",
+                    "b": "r9"
+                  },
+                  {
+                    "dst": "ifr9",
+                    "op": "rol",
+                    "a": "irc",
+                    "b": 13
+                  },
+                  {
+                    "dst": "idx3",
+                    "op": "add",
+                    "a": "i",
+                    "b": 3
+                  },
+                  {
+                    "dst": "ki3",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idx3"
+                  },
+                  {
+                    "dst": "erc",
+                    "op": "add",
+                    "a": "ki3",
+                    "b": "r9"
+                  },
+                  {
+                    "dst": "elr9",
+                    "op": "ror",
+                    "a": "erc",
+                    "b": 11
+                  },
+                  {
+                    "dst": "bxi",
+                    "op": "xor",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "c1",
+                    "op": "and",
+                    "a": "bxi",
+                    "b": 1
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "sel",
+                    "cond": "c1",
+                    "a": "ifr9",
+                    "b": "elr9"
+                  },
+                  {
+                    "dst": "idx4",
+                    "op": "add",
+                    "a": "i",
+                    "b": 11
+                  },
+                  {
+                    "dst": "ki11",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idx4"
+                  },
+                  {
+                    "dst": "r8x",
+                    "op": "xor",
+                    "a": "r8",
+                    "b": "r9"
+                  },
+                  {
+                    "dst": "r8m",
+                    "op": "mul",
+                    "a": "r8x",
+                    "b": "ki11"
+                  },
+                  {
+                    "dst": "r8",
+                    "op": "add",
+                    "a": "r8m",
+                    "b": "byte"
+                  }
+                ]
+              },
+              {
+                "op": "each_reverse",
+                "body": [
+                  {
+                    "dst": "ra0",
+                    "op": "ror",
+                    "a": "r9",
+                    "b": 9
+                  },
+                  {
+                    "dst": "rdx",
+                    "op": "xor",
+                    "a": "ra0",
+                    "b": "r8"
+                  },
+                  {
+                    "dst": "idxA",
+                    "op": "add",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "kA",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idxA"
+                  },
+                  {
+                    "dst": "rdx",
+                    "op": "add",
+                    "a": "rdx",
+                    "b": "kA"
+                  },
+                  {
+                    "dst": "idxB",
+                    "op": "add",
+                    "a": "i",
+                    "b": 7
+                  },
+                  {
+                    "dst": "kB",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idxB"
+                  },
+                  {
+                    "dst": "ifrc",
+                    "op": "xor",
+                    "a": "kB",
+                    "b": "rdx"
+                  },
+                  {
+                    "dst": "ifr8",
+                    "op": "rol",
+                    "a": "ifrc",
+                    "b": 17
+                  },
+                  {
+                    "dst": "bh2",
+                    "op": "shr",
+                    "a": "byte",
+                    "b": 4
+                  },
+                  {
+                    "dst": "kbh2",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "bh2"
+                  },
+                  {
+                    "dst": "elrc",
+                    "op": "add",
+                    "a": "kbh2",
+                    "b": "rdx"
+                  },
+                  {
+                    "dst": "elr8",
+                    "op": "ror",
+                    "a": "elrc",
+                    "b": 19
+                  },
+                  {
+                    "dst": "bxi2",
+                    "op": "xor",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "c2",
+                    "op": "and",
+                    "a": "bxi2",
+                    "b": "0x20"
+                  },
+                  {
+                    "dst": "r8",
+                    "op": "sel",
+                    "cond": "c2",
+                    "a": "ifr8",
+                    "b": "elr8"
+                  },
+                  {
+                    "dst": "idxC",
+                    "op": "add",
+                    "a": "i",
+                    "b": 2
+                  },
+                  {
+                    "dst": "kC",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idxC"
+                  },
+                  {
+                    "dst": "tC",
+                    "op": "add",
+                    "a": "kC",
+                    "b": "byte"
+                  },
+                  {
+                    "dst": "rax2",
+                    "op": "rol",
+                    "a": "tC",
+                    "b": 5
+                  },
+                  {
+                    "dst": "idxD",
+                    "op": "add",
+                    "a": "i",
+                    "b": 1
+                  },
+                  {
+                    "dst": "kD",
+                    "op": "lookup",
+                    "table": "K",
+                    "index": "idxD"
+                  },
+                  {
+                    "dst": "sum",
+                    "op": "add",
+                    "a": "r9",
+                    "b": "r8"
+                  },
+                  {
+                    "dst": "mul1",
+                    "op": "mul",
+                    "a": "sum",
+                    "b": "kD"
+                  },
+                  {
+                    "dst": "r9",
+                    "op": "xor",
+                    "a": "mul1",
+                    "b": "rax2"
+                  }
+                ]
+              },
+              {
+                "dst": "f1",
+                "op": "rol",
+                "a": "r8",
+                "b": 29
+              },
+              {
+                "dst": "kn",
+                "op": "lookup",
+                "table": "K",
+                "index": "n"
+              },
+              {
+                "dst": "f2",
+                "op": "xor",
+                "a": "f1",
+                "b": "kn"
+              },
+              {
+                "dst": "nm",
+                "op": "mul",
+                "a": "n",
+                "b": "0x8cb92ba72f3d8dd7"
+              },
+              {
+                "dst": "f3",
+                "op": "xor",
+                "a": "f2",
+                "b": "nm"
+              },
+              {
+                "dst": "out",
+                "op": "xor",
+                "a": "f3",
+                "b": "r9"
+              }
+            ],
+            "return": "out"
+          },
+          "q2": "0x1380",
+          "q3": "0x1000",
+          "q4": "0x323",
+          "q5": "0x9631d3fca527cc7d",
+          "q6": "0x1F414D20D78F5559",
+          "q7": "0xE4C071B4B88381E5",
+          "q8": [
+            "A",
+            "C"
+          ]
+        },
+        "reasoning": "TLS callback RVA 0x1000 (only non-null AoCB entry) reads RCDATA 0x323 (803, 0x80 bytes = 16 qwords) and decrypts into K at RVA 0x22000 via 16-round PRG rbx=rol(r10^rbx,7)*rdi-rsi; r10-=rbp; K[i]=rbx^ct[i] with rbx=0x6c8e9cf5702a41d3, rbp=0x61c8864e7a143579, rdi=0xd6e8feb86659fd93, rsi=0x5db4512b69c11bf9, r10=0x79b5d06c8a4e3f21. Main (0x11e0) parses hex (0..96 bytes), calls audit sub_0x1180 (stored to global but not printed) and tag sub_0x1380 whose return feeds %016llX. 0x1380: r9=K[0]^(K[1]*n), r8=K[2]+(K[3]^n); forward each-byte (i=0..n-1) then reverse each-byte (i=n-1..0) with the per-byte updates shown in q1; final tag=rol(r8,0x1d)^K[n&0xf]^(n*0x8cb92ba72f3d8dd7)^r9. DSL interpreter matches the oracle on 68 random/boundary inputs. RCDATA 804 belongs to the unused audit routine."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_tls_stream2",
+      "answers": {
+        "q1": {
+          "tables": {
+            "K": [
+              "0x9631d3fca527cc7d",
+              "0xb2f05aa3bebf5615",
+              "0xf5a56ee0b019f42f",
+              "0xc6d53be849f074d7",
+              "0x391ac53cee7726f1",
+              "0x25c69dad62a3857",
+              "0x3f475c4dd0b3c81",
+              "0xb3f0dfecb605870f",
+              "0xbdccf37a21b32819",
+              "0x82ec2e9fe64913f1",
+              "0x1ce9936e54d03247",
+              "0x4b4417846c599dd",
+              "0xb55954c12e91be97",
+              "0x23985cc0f44d934b",
+              "0x44f2899235d13b47",
+              "0xa4f52a10900e4cc7"
+            ]
+          },
+          "steps": [
+            {
+              "dst": "t1",
+              "op": "mul",
+              "a": "0xb2f05aa3bebf5615",
+              "b": "n"
+            },
+            {
+              "dst": "r9",
+              "op": "xor",
+              "a": "0x9631d3fca527cc7d",
+              "b": "t1"
+            },
+            {
+              "dst": "t2",
+              "op": "xor",
+              "a": "0xc6d53be849f074d7",
+              "b": "n"
+            },
+            {
+              "dst": "r8",
+              "op": "add",
+              "a": "0xf5a56ee0b019f42f",
+              "b": "t2"
+            },
+            {
+              "op": "each",
+              "body": [
+                {
+                  "dst": "a0",
+                  "op": "rol",
+                  "a": "r8",
+                  "b": 7
+                },
+                {
+                  "dst": "rax",
+                  "op": "add",
+                  "a": "a0",
+                  "b": "r9"
+                },
+                {
+                  "dst": "idx1",
+                  "op": "add",
+                  "a": "i",
+                  "b": 5
+                },
+                {
+                  "dst": "ki5",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idx1"
+                },
+                {
+                  "dst": "t3",
+                  "op": "add",
+                  "a": "ki5",
+                  "b": "byte"
+                },
+                {
+                  "dst": "rax",
+                  "op": "xor",
+                  "a": "rax",
+                  "b": "t3"
+                },
+                {
+                  "dst": "idx2",
+                  "op": "add",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "kbi",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idx2"
+                },
+                {
+                  "dst": "r9",
+                  "op": "mul",
+                  "a": "kbi",
+                  "b": "rax"
+                },
+                {
+                  "dst": "bh",
+                  "op": "shr",
+                  "a": "byte",
+                  "b": 4
+                },
+                {
+                  "dst": "kbh",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "bh"
+                },
+                {
+                  "dst": "irc",
+                  "op": "xor",
+                  "a": "kbh",
+                  "b": "r9"
+                },
+                {
+                  "dst": "ifr9",
+                  "op": "rol",
+                  "a": "irc",
+                  "b": 13
+                },
+                {
+                  "dst": "idx3",
+                  "op": "add",
+                  "a": "i",
+                  "b": 3
+                },
+                {
+                  "dst": "ki3",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idx3"
+                },
+                {
+                  "dst": "erc",
+                  "op": "add",
+                  "a": "ki3",
+                  "b": "r9"
+                },
+                {
+                  "dst": "elr9",
+                  "op": "ror",
+                  "a": "erc",
+                  "b": 11
+                },
+                {
+                  "dst": "bxi",
+                  "op": "xor",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "c1",
+                  "op": "and",
+                  "a": "bxi",
+                  "b": 1
+                },
+                {
+                  "dst": "r9",
+                  "op": "sel",
+                  "cond": "c1",
+                  "a": "ifr9",
+                  "b": "elr9"
+                },
+                {
+                  "dst": "idx4",
+                  "op": "add",
+                  "a": "i",
+                  "b": 11
+                },
+                {
+                  "dst": "ki11",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idx4"
+                },
+                {
+                  "dst": "r8x",
+                  "op": "xor",
+                  "a": "r8",
+                  "b": "r9"
+                },
+                {
+                  "dst": "r8m",
+                  "op": "mul",
+                  "a": "r8x",
+                  "b": "ki11"
+                },
+                {
+                  "dst": "r8",
+                  "op": "add",
+                  "a": "r8m",
+                  "b": "byte"
+                }
+              ]
+            },
+            {
+              "op": "each_reverse",
+              "body": [
+                {
+                  "dst": "ra0",
+                  "op": "ror",
+                  "a": "r9",
+                  "b": 9
+                },
+                {
+                  "dst": "rdx",
+                  "op": "xor",
+                  "a": "ra0",
+                  "b": "r8"
+                },
+                {
+                  "dst": "idxA",
+                  "op": "add",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "kA",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idxA"
+                },
+                {
+                  "dst": "rdx",
+                  "op": "add",
+                  "a": "rdx",
+                  "b": "kA"
+                },
+                {
+                  "dst": "idxB",
+                  "op": "add",
+                  "a": "i",
+                  "b": 7
+                },
+                {
+                  "dst": "kB",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idxB"
+                },
+                {
+                  "dst": "ifrc",
+                  "op": "xor",
+                  "a": "kB",
+                  "b": "rdx"
+                },
+                {
+                  "dst": "ifr8",
+                  "op": "rol",
+                  "a": "ifrc",
+                  "b": 17
+                },
+                {
+                  "dst": "bh2",
+                  "op": "shr",
+                  "a": "byte",
+                  "b": 4
+                },
+                {
+                  "dst": "kbh2",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "bh2"
+                },
+                {
+                  "dst": "elrc",
+                  "op": "add",
+                  "a": "kbh2",
+                  "b": "rdx"
+                },
+                {
+                  "dst": "elr8",
+                  "op": "ror",
+                  "a": "elrc",
+                  "b": 19
+                },
+                {
+                  "dst": "bxi2",
+                  "op": "xor",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "c2",
+                  "op": "and",
+                  "a": "bxi2",
+                  "b": "0x20"
+                },
+                {
+                  "dst": "r8",
+                  "op": "sel",
+                  "cond": "c2",
+                  "a": "ifr8",
+                  "b": "elr8"
+                },
+                {
+                  "dst": "idxC",
+                  "op": "add",
+                  "a": "i",
+                  "b": 2
+                },
+                {
+                  "dst": "kC",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idxC"
+                },
+                {
+                  "dst": "tC",
+                  "op": "add",
+                  "a": "kC",
+                  "b": "byte"
+                },
+                {
+                  "dst": "rax2",
+                  "op": "rol",
+                  "a": "tC",
+                  "b": 5
+                },
+                {
+                  "dst": "idxD",
+                  "op": "add",
+                  "a": "i",
+                  "b": 1
+                },
+                {
+                  "dst": "kD",
+                  "op": "lookup",
+                  "table": "K",
+                  "index": "idxD"
+                },
+                {
+                  "dst": "sum",
+                  "op": "add",
+                  "a": "r9",
+                  "b": "r8"
+                },
+                {
+                  "dst": "mul1",
+                  "op": "mul",
+                  "a": "sum",
+                  "b": "kD"
+                },
+                {
+                  "dst": "r9",
+                  "op": "xor",
+                  "a": "mul1",
+                  "b": "rax2"
+                }
+              ]
+            },
+            {
+              "dst": "f1",
+              "op": "rol",
+              "a": "r8",
+              "b": 29
+            },
+            {
+              "dst": "kn",
+              "op": "lookup",
+              "table": "K",
+              "index": "n"
+            },
+            {
+              "dst": "f2",
+              "op": "xor",
+              "a": "f1",
+              "b": "kn"
+            },
+            {
+              "dst": "nm",
+              "op": "mul",
+              "a": "n",
+              "b": "0x8cb92ba72f3d8dd7"
+            },
+            {
+              "dst": "f3",
+              "op": "xor",
+              "a": "f2",
+              "b": "nm"
+            },
+            {
+              "dst": "out",
+              "op": "xor",
+              "a": "f3",
+              "b": "r9"
+            }
+          ],
+          "return": "out"
+        },
+        "q2": "0x1380",
+        "q3": "0x1000",
+        "q4": "0x323",
+        "q5": "0x9631d3fca527cc7d",
+        "q6": "0x1F414D20D78F5559",
+        "q7": "0xE4C071B4B88381E5",
+        "q8": [
+          "A",
+          "C"
+        ]
+      },
+      "reasoning": "TLS callback RVA 0x1000 (only non-null AoCB entry) reads RCDATA 0x323 (803, 0x80 bytes = 16 qwords) and decrypts into K at RVA 0x22000 via 16-round PRG rbx=rol(r10^rbx,7)*rdi-rsi; r10-=rbp; K[i]=rbx^ct[i] with rbx=0x6c8e9cf5702a41d3, rbp=0x61c8864e7a143579, rdi=0xd6e8feb86659fd93, rsi=0x5db4512b69c11bf9, r10=0x79b5d06c8a4e3f21. Main (0x11e0) parses hex (0..96 bytes), calls audit sub_0x1180 (stored to global but not printed) and tag sub_0x1380 whose return feeds %016llX. 0x1380: r9=K[0]^(K[1]*n), r8=K[2]+(K[3]^n); forward each-byte (i=0..n-1) then reverse each-byte (i=n-1..0) with the per-byte updates shown in q1; final tag=rol(r8,0x1d)^K[n&0xf]^(n*0x8cb92ba72f3d8dd7)^r9. DSL interpreter matches the oracle on 68 random/boundary inputs. RCDATA 804 belongs to the unused audit routine."
+    }
+  ]
+}

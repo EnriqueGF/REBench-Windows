@@ -1,0 +1,87 @@
+{
+  "source": "AgentRE-Bench V3",
+  "commit": "654c4042bb0022b32b522769d99f76b103f5d504",
+  "track": "static-evidence adaptation",
+  "tasks": [
+    {
+      "case_id": "pe_9d2c76988f0c",
+      "upstream_task": "v3_l14_s",
+      "binary_sha256": "80985ff85db3f829fb4c1e77843c4c2d3f875c73c1daac820512fc52e63face9",
+      "evidence_sha256": "a63e9185dcdbdbb1fbadec5e38507b739d0833b89412ec594feae5a74d9b679c",
+      "ground_truth": "version3/ground_truths/windows_level14_DLLInjection.json",
+      "evidence": "public_research\\pe_9d2c76988f0c\\evidence.txt"
+    },
+    {
+      "case_id": "pe_94b05aea9745",
+      "upstream_task": "v3_l15_s",
+      "binary_sha256": "a15cd54f75172ff7278ec298912051784e6ed15f26e57807eda5f0f65dce1ba3",
+      "evidence_sha256": "14f32ad63bc72c1b634e05e02398705c6fd16860a0fb629434e4b2ce6dc81ce7",
+      "ground_truth": "version3/ground_truths/windows_level15_APCInjection.json",
+      "evidence": "public_research\\pe_94b05aea9745\\evidence.txt"
+    },
+    {
+      "case_id": "pe_8101ee5eb7f4",
+      "upstream_task": "v3_l16_s",
+      "binary_sha256": "41256ca6b967c6293622ac5f5d5ceda1ac4955dc11e9a94d55fd3d7f14f0de54",
+      "evidence_sha256": "9277669cd3d1420fd33d87db41f9468bbddac80f1bf66aa7020b9472c35fe986",
+      "ground_truth": "version3/ground_truths/windows_level16_CodeCave.json",
+      "evidence": "public_research\\pe_8101ee5eb7f4\\evidence.txt"
+    },
+    {
+      "case_id": "pe_c535d97e08b0",
+      "upstream_task": "v3_l17_s",
+      "binary_sha256": "a1cee64b06e6e98e2e2f17d9dc4363d213382d660cdcebf16447bee4b812b337",
+      "evidence_sha256": "0dda9b5420963d8207c5ad70c92c23ef24011da948b2ab1fdb1bfb4ecfd6b9d2",
+      "ground_truth": "version3/ground_truths/windows_level17_ProcessHollowing.json",
+      "evidence": "public_research\\pe_c535d97e08b0\\evidence.txt"
+    },
+    {
+      "case_id": "pe_905b8feecf16",
+      "upstream_task": "v3_l18_s",
+      "binary_sha256": "c7e9110794dc2c239810d36f1ddad90ff0e3b4214f2d3ea9797bed8be8efe62d",
+      "evidence_sha256": "6b08bd55c05eb2d327997845bb9895b5dacd42005aa37f1c16e5cad7379312ff",
+      "ground_truth": "version3/ground_truths/windows_level18_HellsGate.json",
+      "evidence": "public_research\\pe_905b8feecf16\\evidence.txt"
+    },
+    {
+      "case_id": "pe_0403db984001",
+      "upstream_task": "v3_l19_s",
+      "binary_sha256": "a215cf67d7f261706c47d5d7f86c98c7864f081e1f4bb47bb8e63c3071a91037",
+      "evidence_sha256": "a17bb96b21f47b98f990cf6c9785fd88ef3d93b779710219aa25d4026e7a0e2c",
+      "ground_truth": "version3/ground_truths/windows_level19_ReflectiveDLLInjection.json",
+      "evidence": "public_research\\pe_0403db984001\\evidence.txt"
+    },
+    {
+      "case_id": "pe_3522127906bc",
+      "upstream_task": "v3_l20_s",
+      "binary_sha256": "f131ad2326b870e301ac50350631c757b8b21827a830e3cf7f548c636484c5fb",
+      "evidence_sha256": "1609ba5d8995106bdaf95635e3c8d2e5d89503ae79af5cfbdc893d4fcc68a3b8",
+      "ground_truth": "version3/ground_truths/windows_level20_RemotePEExecution.json",
+      "evidence": "public_research\\pe_3522127906bc\\evidence.txt"
+    },
+    {
+      "case_id": "pe_137a5fbd6564",
+      "upstream_task": "v3_l21_s",
+      "binary_sha256": "07343c58d6ae4506d3dc6dcf3761ccf98e3969c23dd3bd73e71f51bbe3a7902f",
+      "evidence_sha256": "7f956bac189c1b267f7fb3b4644492b8c8b4f8114fad79853b1cfcd6f94aa865",
+      "ground_truth": "version3/ground_truths/windows_level21_GhostProcessHollowing.json",
+      "evidence": "public_research\\pe_137a5fbd6564\\evidence.txt"
+    },
+    {
+      "case_id": "pe_5e1ab1858c69",
+      "upstream_task": "v3_l22_s",
+      "binary_sha256": "8cbc664bc946448466a9130a02b92ec6b99d5a8d2698a05ee9bcc91ee3ef4570",
+      "evidence_sha256": "099815733822f98ae4c3e0dd227677f092760d141082fc5a41cef0af61e523ed",
+      "ground_truth": "version3/ground_truths/windows_level22_AESEncryptedMultiTechnique.json",
+      "evidence": "public_research\\pe_5e1ab1858c69\\evidence.txt"
+    },
+    {
+      "case_id": "pe_69e70ad5f453",
+      "upstream_task": "v3_l23_s",
+      "binary_sha256": "76e5e00b6671b1b9af8d6f53224475286428736f1812139ad5a2a21ec446739f",
+      "evidence_sha256": "702b3b6612413941700cd13c6a89589e5a73f07ee80f4e2e7c544d6692238e1d",
+      "ground_truth": "version3/ground_truths/windows_level23_WannaCryWorm.json",
+      "evidence": "public_research\\pe_69e70ad5f453\\evidence.txt"
+    }
+  ]
+}

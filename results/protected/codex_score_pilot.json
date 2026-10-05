@@ -1,0 +1,29 @@
+{
+  "track": "protected-vm",
+  "score": 200,
+  "maximum": 300,
+  "variant": "custom",
+  "cases": [
+    {
+      "case_id": "vm_c9e58d681202",
+      "points": 0,
+      "code_correct": false,
+      "bytecode_hash_correct": false,
+      "status": "missing valid JSON with matching case_id"
+    },
+    {
+      "case_id": "vm_7442e9f3ad16",
+      "points": 100,
+      "code_correct": true,
+      "bytecode_hash_correct": true,
+      "status": "answered"
+    },
+    {
+      "case_id": "vm_523792d06473",
+      "points": 100,
+      "code_correct": true,
+      "bytecode_hash_correct": true,
+      "status": "answered"
+    }
+  ]
+}

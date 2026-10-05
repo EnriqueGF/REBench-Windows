@@ -1,0 +1,26 @@
+{
+  "benchmark_version": "2.0",
+  "started_at": "2026-10-04T13:49:16.954454+00:00",
+  "profile": "opencode",
+  "results": [
+    {
+      "case_id": "hard_license",
+      "profile": "opencode",
+      "seconds": 1200.05,
+      "parse_error": "timeout"
+    },
+    {
+      "case_id": "hard_vm",
+      "profile": "opencode",
+      "seconds": 1200.05,
+      "parse_error": "timeout"
+    },
+    {
+      "case_id": "hard_pattern",
+      "profile": "opencode",
+      "seconds": 1200.05,
+      "parse_error": "timeout"
+    }
+  ],
+  "submissions": []
+}

@@ -1,0 +1,27 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO rip_relative: Destino de acceso RIP relative
+En dos builds de un programa x64, una instrucción accede a un global con desplazamiento relativo. Calcula el destino efectivo y distingue el desplazamiento embebido de una dirección absoluta.
+
+--- ARTEFACTO artifacts/rip_relative/disasm.txt ---
+Build 1, image base 00000001`80000000:
+00000001`80005120  48 8B 05 D9 F9 FF FF  mov rax,qword ptr [rip-627h]
+00000001`80005127  48 85 C0              test rax,rax
+
+Build 2, image base 00000001`90000000:
+00000001`90006310  48 8B 05 E9 07 00 00  mov rax,qword ptr [rip+7E9h]
+00000001`90006317  48 85 C0              test rax,rax
+
+
+q1 [hex]: ¿Qué VA lee la instrucción de Build 1?
+
+q2 [hex]: ¿Qué RVA lee la instrucción de Build 2?
+
+q3 [single]: Para una firma que sobreviva a ambos builds, ¿qué parte debe tratarse como variable?
+  A. El opcode 48 8B 05
+  B. Los cuatro bytes disp32 tras 48 8B 05
+  C. Los bytes 48 85 C0
+  D. El prefijo REX siempre debe omitirse

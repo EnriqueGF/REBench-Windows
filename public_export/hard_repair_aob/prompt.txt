@@ -1,0 +1,84 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_repair_aob: Reparar dos saltos de control en cuatro builds PE64
+Tres versiones sin símbolos de la misma utilidad aceptan o rechazan pares uint64. Cada versión contiene exactamente dos defectos de un byte en saltos condicionales cortos. Debes derivar una firma de localización para cada salto y el byte de reemplazo; el corrector aplicará ambas reparaciones a las tres versiones visibles y a una cuarta compilación oculta con otra disposición de código. Los pares de entrada ocultos comprueban que se aceptan los válidos y se rechazan los inválidos. No se entrega fuente ni PDB.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_repair_aob/brief.txt ---
+Uso: repair_vN.exe 0xX 0xY
+Salida: ACCEPT o REJECT. Los tres ejecutables visibles comparten el mismo
+contrato de aceptación. Una rutina de auditoría usa x,y, pero no decide la salida.
+
+Solo se permiten DOS cambios de un byte, ambos en opcodes de saltos condicionales
+cortos de la función que decide ACCEPT/REJECT. Conserva los desplazamientos y los
+demás bytes. La cuarta build no se entrega. Tu patrón de cada sitio debe encontrar
+una sola coincidencia en .text de cada build, visible y oculta, y el `offset`
+debe señalar exactamente el opcode que se cambia.
+
+Formato de answers.q1:
+{"sites":{"length":{"pattern":"TOKENS AOB","offset":0,"byte":"HH"},
+          "flag":{"pattern":"TOKENS AOB","offset":0,"byte":"HH"}}}
+El ejemplo muestra campos, no valores de solución. Cada patrón tiene 8..64 tokens
+separados por espacio, cada token `HH` o `??`, al menos 8 bytes literales.
+`offset` es la posición 0-based del opcode dentro del patrón; `byte` son dos
+dígitos hexadecimales del nuevo opcode. El corrector prueba las firmas en cuatro
+builds y ejecuta los PE reparados con entradas ocultas. Solo se admiten los
+opcodes de salto condicional esperados en los sitios comprobados.
+
+
+--- ARTEFACTO artifacts/hard_repair_aob/expected_samples.txt ---
+Valores del contrato correcto (antes de puntuar, no del binario defectuoso):
+x=0x0 y=0x0 => REJECT
+x=0x0 y=0x20 => ACCEPT
+x=0x0 y=0x21 => REJECT
+x=0x1 y=0x20 => REJECT
+x=0x1 y=0x21 => ACCEPT
+x=0xff y=0x21 => ACCEPT
+x=0x100 y=0x20 => ACCEPT
+x=0x100 y=0x21 => REJECT
+x=0x101 y=0x21 => REJECT
+x=0x80 y=0x20 => ACCEPT
+x=0x80 y=0x0 => REJECT
+
+
+--- ARTEFACTO BINARIO artifacts/hard_repair/repair_v1.exe ---
+SHA256: e28499fbd34cf91347375020c76eb55cb89795a53ef47d0d9f8be7220d17ebdc
+Bytes: 112640. Archivo disponible en el directorio del caso.
+
+--- ARTEFACTO BINARIO artifacts/hard_repair/repair_v2.exe ---
+SHA256: 910a8d4dc7ef986fc618c7e39c8fa9e208052060d864ee6854235c07450575a8
+Bytes: 113152. Archivo disponible en el directorio del caso.
+
+--- ARTEFACTO BINARIO artifacts/hard_repair/repair_v3.exe ---
+SHA256: 4f36f0a88314e0c3eadf186362282f25297279e1605b1a1d9ac09dad8c69b9f9
+Bytes: 112640. Archivo disponible en el directorio del caso.
+
+q1 [patch_aob]: Devuelve las dos firmas y bytes de reparación que funcionan en las cuatro builds.
+
+q2 [hex]: RVA de comienzo de la rutina que decide ACCEPT/REJECT en repair_v1.exe.
+
+q3 [hex]: RVA del opcode defectuoso que controla el límite de x en repair_v2.exe.
+
+q4 [hex]: RVA del opcode defectuoso que controla el bit de y en repair_v3.exe.
+
+q5 [single]: Tras reparar, ¿qué debe imprimir x=0x100, y=0x20?
+  A. ACCEPT
+  B. REJECT
+  C. ERROR
+  D. La salida depende de la build.
+
+q6 [single]: Tras reparar, ¿qué debe imprimir x=0, y=0?
+  A. ACCEPT
+  B. REJECT
+  C. ERROR
+  D. La salida depende de la build.
+
+q7 [multi]: Selecciona las propiedades que exige una reparación válida.
+  A. El patrón de cada sitio tiene una coincidencia única en .text de cada build.
+  B. Se puede cambiar el desplazamiento relativo de ambos saltos para llamar a la auditoría.
+  C. La reparación debe conservar tanto aceptaciones correctas como rechazos correctos.
+  D. Basta con acertar el RVA absoluto de repair_v1 para localizar la cuarta build.
+  E. Cada `offset` señala el byte del opcode que cambia, no la instrucción siguiente.

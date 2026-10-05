@@ -1,0 +1,63 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "model": "openrouter/moonshotai/kimi-k3",
+  "timeout_seconds": 300,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 97.38,
+      "exit_code": 0,
+      "stdout": "{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":true,\"techniques\":[\"file_encryption (custom 10-round substitution-XOR cipher, 16-byte blocks, first min(size,0x100000) bytes, targeted extensions)\",\"encrypted_file_rename (appends .WNCRY via MoveFileA, then SetFileAttributesA hidden)\",\"ransom_note_drop (%s\\\\@Please_Read_Me@.txt in Desktop/Documents; note text 'Oops, your files have been encrypted!', $300 BTC demand, address 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa)\",\"single_instance_mutex (Global\\\\MsWinZonesCacheCounterMutexA, GetLastError==0xB7 check)\",\"service_persistence (CreateServiceA name 'mssecsvc2.0', display 'Microsoft Security Center (2.0)', SERVICE_ALL_ACCESS, auto-start, own process; OpenServiceA/StartServiceA fallback)\",\"killswitch_domain_check (InternetOpenA 'Microsoft Internet Explorer' + InternetOpenUrlA 'http://example.com'; exits if reachable)\",\"c2_beacon (socket/connect to XOR-decoded IPv4, TCP port 8443, 3000ms timeout, sends 'SYSTEM:%s:WIN:%ld' with GetComputerNameA/GetVersion)\",\"lan_port445_scan (connect sweep of 192.0.2.1-192.0.2.4 on TCP 445, 2000ms timeout)\",\"string_obfuscation (13-byte C2 IP at VA 0x140009128 decoded at 0x140001f31 via repeating-key XOR, key length 8)\",\"recursive_directory_walk (FindFirstFileA/FindNextFileA recursion with extension filter, root %PUBLIC%\\\\Documents\\\\synthetic_target)\",\"sleep_delay (Sleep 60000ms at end of main)\"],\"injection_details\":{},\"encryption_details\":{\"algorithm\":\"custom 10-round block cipher: per-byte AES S-box substitution then XOR with 16-byte key then XOR round constant (27*round), applied per 16-byte block (AES-inspired, no ShiftRows/MixColumns); not standard AES\",\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\"hardcoded plaintext ASCII in .rdata (VA 0x14000a100, file offset 0x8500)\",\"sbox\":\"AES S-box in .rdata (VA 0x14000a120, file offset 0x8520, begins 63 7c 77 7b 'c|w{')\",\"scope\":\"first min(filesize, 0x100000) bytes of each file\",\"extension_appended\":\".WNCRY\",\"target_extensions\":\".doc .docx .xls .xlsx .ppt .pptx .pdf .txt .jpg .png .bmp .zip .rar .sql .mdb .cpp .html .css .xml .json .csv .mp3 .mp4 .avi .wav\",\"ransom_note_file\":\"@Please_Read_Me@.txt\"},\"decoded_strings\":{\"encrypted_extension_marker\":\".WNCRY (from immediates 0x434e572e/0x595243 at 0x140001a0a)\",\"target_subdirectory\":\"\\\\Documents\\\\synthetic_target (from movabs immediates at 0x140002400-0x140002433)\",\"beacon_format\":\"SYSTEM:%s:WIN:%ld\",\"c2_ip_encoded_location\":\"13 bytes at VA 0x140009128 (.data file offset 0x8328); 8-byte XOR key at VA 0x14000a220 (.rdata file offset 0x8620) not present as readable bytes in this evidence, plaintext IP not recoverable\"},\"anti_analysis\":[\"IsDebuggerPresent\",\"PEB.BeingDebugged check (mov rax, gs:[0x60]; test byte [rax+2])\",\"NtQueryInformationProcess ProcessDebugPort (7) via GetModuleHandleA('ntdll.dll')+GetProcAddress, checks result == -1\",\"VM file check: GetFileAttributesA('C:\\\\Windows\\\\System32\\\\drivers\\\\vmmouse.sys')\",\"VM file check: GetFileAttributesA('C:\\\\Windows\\\\System32\\\\drivers\\\\vmhgfs.sys')\",\"Sandboxie check: GetModuleHandleA('sbiedll.dll')\",\"dbghelp.dll load check\",\"CPUID leaf 1 hypervisor bit test (ECX bit 31)\",\"kill-switch connectivity check to http://example.com (abort if reachable)\",\"Sleep(60000) execution delay\"],\"decoded_c2\":null,\"c2_protocol\":\"raw TCP (AF_INET/SOCK_STREAM/IPPROTO_TCP) to XOR-decoded IPv4 address, port 8443 (htons(0x20fb)), 3000ms connect timeout, then send() of 'SYSTEM:<computername>:WIN:<GetVersion>'; separate TCP/445 connect sweep of 192.0.2.1-192.0.2.4\"}}\n",
+      "stderr": "\u001b[0m\n> build · moonshotai/kimi-k3\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1073, limit=1200]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1835, limit=1400]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=2631, limit=1500]\u001b[0m\n\u001b[0m\n\u001b[0m$ \u001b[0mpowershell -Command \"(Get-Content 'C:\\Users\\el_en\\AppData\\Local\\Temp\\agentre_static_3cqyfvbx\\evidence.txt').Count\"\n9295\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=8900, limit=400]\u001b[0m\n",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "file_encryption (custom 10-round substitution-XOR cipher, 16-byte blocks, first min(size,0x100000) bytes, targeted extensions)",
+          "encrypted_file_rename (appends .WNCRY via MoveFileA, then SetFileAttributesA hidden)",
+          "ransom_note_drop (%s\\@Please_Read_Me@.txt in Desktop/Documents; note text 'Oops, your files have been encrypted!', $300 BTC demand, address 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa)",
+          "single_instance_mutex (Global\\MsWinZonesCacheCounterMutexA, GetLastError==0xB7 check)",
+          "service_persistence (CreateServiceA name 'mssecsvc2.0', display 'Microsoft Security Center (2.0)', SERVICE_ALL_ACCESS, auto-start, own process; OpenServiceA/StartServiceA fallback)",
+          "killswitch_domain_check (InternetOpenA 'Microsoft Internet Explorer' + InternetOpenUrlA 'http://example.com'; exits if reachable)",
+          "c2_beacon (socket/connect to XOR-decoded IPv4, TCP port 8443, 3000ms timeout, sends 'SYSTEM:%s:WIN:%ld' with GetComputerNameA/GetVersion)",
+          "lan_port445_scan (connect sweep of 192.0.2.1-192.0.2.4 on TCP 445, 2000ms timeout)",
+          "string_obfuscation (13-byte C2 IP at VA 0x140009128 decoded at 0x140001f31 via repeating-key XOR, key length 8)",
+          "recursive_directory_walk (FindFirstFileA/FindNextFileA recursion with extension filter, root %PUBLIC%\\Documents\\synthetic_target)",
+          "sleep_delay (Sleep 60000ms at end of main)"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": "custom 10-round block cipher: per-byte AES S-box substitution then XOR with 16-byte key then XOR round constant (27*round), applied per 16-byte block (AES-inspired, no ShiftRows/MixColumns); not standard AES",
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": "hardcoded plaintext ASCII in .rdata (VA 0x14000a100, file offset 0x8500)",
+          "sbox": "AES S-box in .rdata (VA 0x14000a120, file offset 0x8520, begins 63 7c 77 7b 'c|w{')",
+          "scope": "first min(filesize, 0x100000) bytes of each file",
+          "extension_appended": ".WNCRY",
+          "target_extensions": ".doc .docx .xls .xlsx .ppt .pptx .pdf .txt .jpg .png .bmp .zip .rar .sql .mdb .cpp .html .css .xml .json .csv .mp3 .mp4 .avi .wav",
+          "ransom_note_file": "@Please_Read_Me@.txt"
+        },
+        "decoded_strings": {
+          "encrypted_extension_marker": ".WNCRY (from immediates 0x434e572e/0x595243 at 0x140001a0a)",
+          "target_subdirectory": "\\Documents\\synthetic_target (from movabs immediates at 0x140002400-0x140002433)",
+          "beacon_format": "SYSTEM:%s:WIN:%ld",
+          "c2_ip_encoded_location": "13 bytes at VA 0x140009128 (.data file offset 0x8328); 8-byte XOR key at VA 0x14000a220 (.rdata file offset 0x8620) not present as readable bytes in this evidence, plaintext IP not recoverable"
+        },
+        "anti_analysis": [
+          "IsDebuggerPresent",
+          "PEB.BeingDebugged check (mov rax, gs:[0x60]; test byte [rax+2])",
+          "NtQueryInformationProcess ProcessDebugPort (7) via GetModuleHandleA('ntdll.dll')+GetProcAddress, checks result == -1",
+          "VM file check: GetFileAttributesA('C:\\Windows\\System32\\drivers\\vmmouse.sys')",
+          "VM file check: GetFileAttributesA('C:\\Windows\\System32\\drivers\\vmhgfs.sys')",
+          "Sandboxie check: GetModuleHandleA('sbiedll.dll')",
+          "dbghelp.dll load check",
+          "CPUID leaf 1 hypervisor bit test (ECX bit 31)",
+          "kill-switch connectivity check to http://example.com (abort if reachable)",
+          "Sleep(60000) execution delay"
+        ],
+        "decoded_c2": null,
+        "c2_protocol": "raw TCP (AF_INET/SOCK_STREAM/IPPROTO_TCP) to XOR-decoded IPv4 address, port 8443 (htons(0x20fb)), 3000ms connect timeout, then send() of 'SYSTEM:<computername>:WIN:<GetVersion>'; separate TCP/445 connect sweep of 192.0.2.1-192.0.2.4"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+Rango del trampolín: 000001e7`10000000 .. 000001e7`10000030 (MEM_PRIVATE, RX)
+Prólogo en +0: push rbx; sub rsp, 30h
+En +0x18: call plugin!LogEvent
+Epílogo: add rsp,30h; pop rbx; ret
+
+RtlLookupFunctionEntry(000001e7`10000018) -> NULL
+La región no aparece en la tabla de funciones de ninguna imagen PE.
+El stack walker trata el PC como función leaf y lee [rsp] como retorno.

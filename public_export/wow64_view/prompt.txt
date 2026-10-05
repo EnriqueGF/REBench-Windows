@@ -1,0 +1,34 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO wow64_view: DLL aparentemente ausente
+Una herramienta x86 falla al comprobar un DLL nativo y una clave de configuración en Windows x64. El informe de soporte compara resultados de procesos de distinta arquitectura.
+
+--- ARTEFACTO artifacts/wow64_view/support.txt ---
+Proceso de diagnóstico: x86 bajo WOW64; Windows: x64.
+CreateFileW(L"C:\Windows\System32\nativeprobe.dll") -> ERROR_FILE_NOT_FOUND.
+Un proceso x64 abre C:\Windows\System32\nativeprobe.dll con éxito.
+El proceso x86 también enumera HKLM\Software\Contoso\Agent y no ve Version.
+Un proceso x64 lee Version=7 bajo HKLM\Software\Contoso\Agent.
+El DLL solo existe en el directorio nativo x64. No hay solicitud UAC.
+
+
+q1 [single]: ¿Qué ruta permite al proceso x86 acceder al directorio System32 nativo?
+  A. C:\Windows\SysWOW64
+  B. C:\Windows\Sysnative
+  C. C:\Windows\System32\SysWOW64
+  D. C:\Windows\WinSxS
+
+q2 [single]: ¿Qué bandera permite abrir explícitamente la vista de registro x64 desde x86?
+  A. KEY_WOW64_32KEY
+  B. KEY_READ
+  C. KEY_WOW64_64KEY
+  D. REG_OPTION_VOLATILE
+
+q3 [multi]: ¿Qué conclusiones están sustentadas?
+  A. La redirección de archivos puede explicar el ERROR_FILE_NOT_FOUND.
+  B. Las vistas de registro separadas pueden explicar la diferencia de Version.
+  C. El DLL nativo x64 podrá cargarse dentro del proceso x86 si se usa Sysnative.
+  D. La ausencia observada desde x86 prueba que el DLL no existe en disco.

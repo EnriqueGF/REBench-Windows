@@ -1,0 +1,40 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO loader_lock: Bloqueo durante DllMain
+Un DLL de telemetría deja colgada la aplicación durante LoadLibraryW. Hay dos hilos vivos y ninguno consume CPU.
+
+--- ARTEFACTO artifacts/loader_lock/threads.txt ---
+Thread 12:
+  ntdll!LdrLoadDll
+  sample!DllMain(DLL_PROCESS_ATTACH)
+  sample!StartWorker
+  kernelbase!WaitForSingleObject(worker_ready, INFINITE)
+
+Thread 18 (worker creado por Thread 12):
+  ntdll!LdrpCallInitRoutine
+  [pendiente de notificación DLL_THREAD_ATTACH]
+  sample!WorkerMain -> SetEvent(worker_ready)  [todavía no ejecutado]
+
+El callback DllMain no ha retornado. El worker se creó correctamente.
+
+
+q1 [single]: ¿Cuál es la dependencia circular?
+  A. WaitForSingleObject necesita un handle x86.
+  B. DllMain espera al worker, cuyo arranque requiere que terminen las notificaciones serializadas del loader.
+  C. CreateThread falla siempre desde DllMain.
+  D. El evento worker_ready se resetea automáticamente antes de esperar.
+
+q2 [single]: ¿Qué cambio evita esta espera en el loader?
+  A. Esperar menos tiempo dentro de DllMain.
+  B. Mover inicio y sincronización del worker a una función Init explícita llamada tras LoadLibrary.
+  C. Llamar LoadLibrary otra vez desde DllMain.
+  D. Marcar worker_ready antes de crearlo y seguir asumiendo que inicializó.
+
+q3 [single]: ¿Qué observación descarta que CreateThread haya fallado?
+  A. Thread 18 existe y espera el paso de inicialización del loader.
+  B. Thread 12 está en LdrLoadDll.
+  C. El evento es auto reset.
+  D. La DLL tiene exports.

@@ -1,0 +1,14 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 2.3,
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "\u001b[0m\n> build · glm-5.3-flash-abliterated\n\u001b[0m\n\u001b[91m\u001b[1mError: \u001b[0mA valid gateway Bearer key is required. Send the virtual key as 'Authorization: Bearer <key>'.\n",
+      "parse_error": "No valid JSON answer with matching case_id"
+    }
+  ]
+}

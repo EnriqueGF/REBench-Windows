@@ -1,0 +1,17 @@
+Formato de q1: objeto JSON con `steps` (1..32 instrucciones) y `return`.
+Registros iniciales: `x` y `y` (uint64). Destinos: `r0`..`r15`.
+Un operando es un registro ya definido o una constante hexadecimal `0x...`.
+Cada instrucción escribe `dst`. Todas las operaciones envuelven a 64 bits.
+
+Binarias: add, sub, xor, and, or, mul: campos `a` y `b`.
+Rotación/desplazamiento: rol, ror, shl, shr: campo `a` y `bits` entero 0..63.
+Selección: sel: campos `cond`, `a`, `b`; devuelve a si cond != 0, si no b.
+Unaria: not: campo `a`.
+
+Ejemplo de sintaxis (NO es la solución):
+{"steps":[{"dst":"r0","op":"xor","a":"x","b":"0x5"},
+          {"dst":"r1","op":"rol","a":"r0","bits":7}],"return":"r1"}
+
+Devuelve este objeto como valor de `answers.q1`, no como texto escapado.
+El corrector acepta programas equivalentes, no exige los mismos registros o
+la misma secuencia de instrucciones que la implementación de referencia.

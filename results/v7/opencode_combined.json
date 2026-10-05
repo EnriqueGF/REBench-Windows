@@ -1,0 +1,342 @@
+{
+  "benchmark_version": "7.0",
+  "profile": "opencode",
+  "model": "explabs/glm-5.3-flash-abliterated",
+  "submissions": [
+    {
+      "case_id": "pe_rva",
+      "answers": {
+        "q1": "0x680",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "Cabeceras PE64 (e_lfanew=0x80, Machine=0x8664, OptMagic=0x20b): .text VA=0x1000 Raw=0x400/0x200; .rdata VA=0x2000 VSize=0x300 Raw=0x600/0x200; .reloc VA=0x3000 Raw=0x800/0x200; SizeOfImage=0x4000; ImageBase=0x140000000; EntryPoint RVA=0x1000. q1: RVA 0x2080 cae en .rdata (delta 0x80), offset = 0x600+0x80 = 0x680, dentro de RawSize (0x200). q2: RVA 0x2250 está dentro de .rdata VirtualSize (0x2000-0x2300) pero por encima de RawSize (0x2000-0x2200 en disco): es la cola virtual de .rdata que el loader inicializa a cero, sin bytes propios en archivo (0x850 pertenece a los datos crudos de .reloc, no a .rdata). q3: Entry point VA preferida = ImageBase + EntryPoint = 0x140000000 + 0x1000 = 0x140001000."
+    },
+    {
+      "case_id": "pe_reloc",
+      "answers": {
+        "q1": "0x180001234",
+        "q2": "B",
+        "q3": "0x40000000"
+      },
+      "reasoning": "Cabecera PE32+ (offset 0xB0): ImageBase=0x140000000; DllCharacteristics=0x0040 (DYNAMIC_BASE). Directorio BaseRelocation (0x130): RVA 0x3000, size 0xC; sección .reloc RVA 0x3000→file 0x800. Bloque en 0x800: PageRVA=0x2000, BlockSize=0xC, entrada única 0xA028 → tipo A (DIR64), offset 0x28 ⇒ DIR64 en RVA 0x2028 (q2=B). RVA 0x2028 cae en .rdata (RVA 0x2000→file 0x600): QWORD en file 0x628 = 0x0000000140001234. Delta = 0x180000000 - 0x140000000 = 0x40000000 (q3). Parche DIR64: 0x140001234 + 0x40000000 = 0x180001234 (q1)."
+    },
+    {
+      "case_id": "abi_x64",
+      "answers": {
+        "q1": "0x55",
+        "q2": "B",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "En la entrada (antes del prólogo) [rsp] = 00007ff6`21302234 es la dirección de retorno; [rsp+0x08..0x20] son los 4 slots de shadow space (1111..., 2222..., 3333..., 4444...). El 5º argumento e está en [rsp+0x28] = 0x55 y el 6º f en [rsp+0x30] = 0x66. Por tanto: q1 = 0x55. q2: [rsp+0x20] = 44444444`44444444 es el cuarto slot de shadow space (espacio para d), no un argumento → B. q3: RCX = 0x11 = a (A cierta); [rsp+0x28] = 0x55 = e (B cierta); [rsp+0x30] = 0x66 = f (C cierta); [rsp+0x08] es shadow space cuyo contenido el llamador no está obligado a rellenar con a, así que no está garantizado (D falsa)."
+    },
+    {
+      "case_id": "crash_av",
+      "answers": {
+        "q1": "A",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "EXCEPTION_RECORD: Parameter[0]=0 indica acceso de lectura y Parameter[1]=0x18 es la dirección fallida; coincide con la instrucción 'mov rcx,qword ptr [rax+18h]' (lectura de [rax+18h]) con rax=0, por lo que la operación fue una lectura en 0x18 (A), no en 0x0 ni una escritura/ejecución. La causa raíz es rax=0 como base, que proviene de ctx=get_optional_context(node) devolviendo NULL antes de 'use(ctx->next)'; por tanto lo primero a comprobar es RAX y el retorno de get_optional_context (B). La corrección que preserva la semántica es validar ctx antes de desreferenciar ctx->next y definir la ruta cuando no hay contexto (B); NOP siempre, cambiar la base preferida o ignorar c0000005 no abordan el puntero nulo."
+    },
+    {
+      "case_id": "wow64_view",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "Evidencia: proceso x86 bajo WOW64 obtiene ERROR_FILE_NOT_FOUND para C:\\Windows\\System32\\nativeprobe.dll mientras un proceso x64 lo abre con éxito, y el DLL solo existe en el directorio nativo x64. q1=B: Sysnative es el alias virtual que permite a un proceso x86 acceder al System32 real x64 (SysWOW64 es la vista redirigida, no el directorio nativo). q2=C: KEY_WOW64_64KEY abre explícitamente la vista de registro x64 desde un proceso x86, lo que explica que el x64 lea Version=7 en HKLM\\Software\\Contoso\\Agent y el x86 no la vea (vistas separadas). q3: A correcta porque la redirección WOW64 de System32 hacia SysWOW64 explica el ERROR_FILE_NOT_FOUND; B correcta porque las vistas de registro de 32/64 bits explican la diferencia de Version; C incorrecta porque Sysnative solo resuelve el acceso a archivos, no permite cargar un DLL nativo x64 dentro de un proceso x86 (arquitectura incompatible); D incorrecta porque la evidencia muestra que el DLL sí existe en disco (el proceso x64 lo abre), la ausencia es solo efecto de la redirección."
+    },
+    {
+      "case_id": "unwind_x64",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "El artefacto muestra RtlLookupFunctionEntry(000001e7`10000018) -> NULL y que la región MEM_PRIVATE RX no está en la tabla de funciones de ninguna imagen PE: sin metadatos de unwind, el walker trata el PC como leaf y lee [rsp] como retorno, sin poder deshacer push rbx ni sub rsp,30h (q1=B). Para registrar dinámicamente una tabla de funciones para código generado en memoria se usa RtlAddFunctionTable (q2=A); VirtualProtect solo cambia permisos, SetUnhandledExceptionFilter y SymInitialize no registran unwind. El unwind del prólogo debe describir el guardado no volátil de RBX y la asignación de 0x30 bytes de pila (q3=A,B); los NOP del cuerpo no afectan el prologo/epílogo y el GUID del PDB no forma parte de los unwind codes."
+    },
+    {
+      "case_id": "symbols_pdb",
+      "answers": {
+        "q1": "0x71A0",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "q1: RVA = RIP - base = 00007ffb`400071A0 - 00007ffb`40000000 = 0x71A0, consistente con el desensamblado en RVA 0x71A0. q2: B; la identidad RSDS incluye GUID y Age: el módulo tiene Age 3 y el PDB Age 2, por lo que !lmi lo marca mismatched aunque el GUID coincida. q3: B; mientras no haya símbolos coincidentes, la atribución debe basarse en el RVA y el desensamblado del binario cargado (mov rax,qword ptr [rcx+20h] en 0x71A0), no en nombres de un PDB ajeno (Age 2) que corresponde a otra build."
+    },
+    {
+      "case_id": "loader_lock",
+      "answers": {
+        "q1": "B",
+        "q2": "B",
+        "q3": "A"
+      },
+      "reasoning": "threads.txt: Thread 12 está en DllMain(DLL_PROCESS_ATTACH) bloqueado en WaitForSingleObject(worker_ready, INFINITE) mientras LdrLoadDll sigue activo (loader lock retenido porque DllMain no retornó). Thread 18 existe (el worker se creó) pero está pendiente de la notificación serializada DLL_THREAD_ATTACH antes de ejecutar WorkerMain->SetEvent, que aún no corrió: el worker necesita que el loader termine las notificaciones, y esas notificaciones requieren que DllMain retorne → dependencia circular (q1=B). El arreglo correcto es no sincronizar dentro de DllMain sino mover el arranque/espera del worker a una Init explícita invocada tras LoadLibrary (q2=B); esperar menos, recargar la DLL o pre-señalar el evento no eliminan la violación del loader lock. Que CreateThread no falló lo evidencia la existencia del Thread 18 esperando su inicialización por el loader (q3=A); ni LdrLoadDll, ni el tipo de evento, ni los exports prueban eso."
+    },
+    {
+      "case_id": "etw_pid",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": "B"
+      },
+      "reasoning": "En events.csv, new.bin (12:00:04.310) tiene pid=4380 y process_start_key=B92, correspondiente a updater.exe iniciado en 12:00:04.230 tras el ProcessStop de worker.exe/A17 (12:00:04.000); el mismo PID 4380 fue reutilizado, por lo que correlacionar solo por PID atribuye erróneamente eventos a la instancia anterior. La clave que distingue instancias es PID + process_start_key, ya que el nombre de imagen y el PID coinciden/comparten mientras la start key es única por instancia. El fallo de fondo es la reutilización de PID tras la terminación de un proceso."
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": "A"
+      },
+      "reasoning": "El timeline muestra en t1-t2 que registry.callback guarda la dirección absoluta 00007ff9`a1001430 del export 'Process' de plugin.dll; en t3 FreeLibrary deja el refcount en 0 y desasigna la imagen, por lo que el callback queda apuntando a memoria de un módulo descargado (B), fallo intermitente porque en t4 another.dll puede reutilizar ese rango de direcciones. La reparación correcta (A) es retener una referencia al módulo (no llamar FreeLibrary) mientras el callback pueda ejecutarse y retirar el callback antes de descargar; las demás opciones no restauran la validez del puntero. En q3 (A), si otro módulo se mapea en el rango reutilizado, la llamada ejecuta código arbitrario de ese módulo en vez de provocar un access violation, tal como indica t4 'address range may be reused' y t5 'AV or unexpected code'."
+    },
+    {
+      "case_id": "x86_stack",
+      "answers": {
+        "q1": "0x10",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "El callee termina en 'ret 10h' (00402700), lo que retira 0x10=16 bytes de argumentos además de la dirección de retorno; en el caller no hay 'add esp,10h' tras el call, confirmando que el callee limpia. q2=B: es lo único directamente sustentado (el caller sí usa eax en 'mov ebx,eax', descartando D; __thiscall y tipo void son atribuciones sin evidencia). q3=B: el patrón push args + ret N es compatible con stdcall, ensamblador a mano o convenciones personalizadas, por lo que afirmar la fuente exacta es excesivo."
+    },
+    {
+      "case_id": "rip_relative",
+      "answers": {
+        "q1": "0x180004B00",
+        "q2": "0x6B00",
+        "q3": "B"
+      },
+      "reasoning": "Build 1: instr de 7 bytes en VA 0x180005120, fin=0x180005127; disp32 D9F9FFFF = -0x627; destino=0x180005127-0x627=0x180004B00 (RVA 0x4B00). Build 2: fin=0x90006317; disp32 E9070000=+0x7E9; VA=0x90006317+0x7E9=0x90006B00; RVA=0x6B00 tras base 0x90000000. El opcode 48 8B 05 y los bytes finales 48 85 C0 son idénticos en ambos builds; solo cambian los 4 bytes disp32 (FF FF FF F9 vs 00 00 07 E9), por lo que una firma que sobreviva a ambos debe dejar variable el disp32 → B. Ninguna dirección absoluta aparece embebida: el destino se deriva de RIP+disp."
+    },
+    {
+      "case_id": "xor_config",
+      "answers": {
+        "q1": "A",
+        "q2": "0x5A",
+        "q3": "A"
+      },
+      "reasoning": "config.dat inicia con 'XCFG' (offsets 0-3); el byte 4 = 0x5A es la clave XOR y el byte 5 = 19 (0x13) la longitud del payload. XOR de los 19 bytes siguientes con 0x5A produce 'MODE=SAFE;PORT=8443' (q1=A, clave 0x5A). El formato declara longitud explícita en un byte y no incluye NUL implícito (el último byte decodificado es '3', no 0x00), por lo que tratar el payload cifrado como string C sin decodificar sería incorrecto (q3=A)."
+    },
+    {
+      "case_id": "com_activation",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "q1: La evidencia muestra que el hilo ya hizo CoInitializeEx(COINIT_APARTMENTTHREADED)->S_OK y luego COINIT_MULTITHREADED devuelve 0x80010106 (CO_E_ALREADYINITIALIZED): no se puede cambiar el apartamento ya fijado del hilo. q2: reporthost.exe es x86 y ReportCom64.dll es PE32+/AMD64; un proceso x86 no puede cargar un DLL x64 in-process, y copiarlo a SysWOW64 no convierte la arquitectura (la evidencia indica que no existe build x86). q3: A corrige el conflicto de apartamento usando un único modelo COM coherente; B corrige la activación in-process con un servidor x86 compatible; C es válida usando un servidor out-of-process x64 con marshaling para que el cliente x86 lo consuma; D es la propuesta descartada que no resuelve nada."
+    },
+    {
+      "case_id": "aob_versions",
+      "answers": {
+        "q1": "A",
+        "q2": [
+          "A",
+          "B"
+        ],
+        "q3": "B"
+      },
+      "reasoning": "q1: La opción A fija los bytes estables (48 8B 05, 48 85 C0, 74, 8B 48 08 85 C9) y wildcard en disp32 y en el offset del salto corto; encaja con el objetivo de Build A (72 13 00 00 / 09) y Build B (E2 F0 FF FF / 0C), y rechaza el bloque no objetivo de Build B porque su cola es 8B 50 08 85 D2 ≠ 8B 48 08 85 C9. B hardcodea el disp32/offset de Build A (falla en B), C y D no discriminan (C matchea también 0x7C10, D matchea todo). q2: Entre los objetivos cambian el disp32 (72 13 00 00 → E2 F0 FF FF) y el desplazamiento del jz corto (09 → 0C); 8B 48 08 85 C9 y 48 85 C0 son idénticos en ambos. q3: Antes de reusar un sigscan conviene verificar unicidad del match, que el patrón respete límites de instrucción y que el destino RIP-relative (RIP + disp32) apunte a la estructura esperada; aceptar el primer match, eliminar wildcards o tratar el disp32 como VA absoluta son errores evidentes."
+    },
+    {
+      "case_id": "hard_license",
+      "answers": {
+        "q1": "N7K4C2R9Q5M8V3X6T1P0",
+        "q2": "A1B2C3D4E5F6G7H8J9K0",
+        "q3": "0x3212cf66",
+        "q4": "0x1180"
+      },
+      "reasoning": "El main (RVA 0x1220) valida strlen==20 y llama a check(buf,mode). Para el código actual, la rutina en RVA 0x1180 carga la semilla uint32 de .data RVA 0xA000 (0xC43D8A17) y XOR-ea cada byte del blob cifrado de 20 bytes en .rdata RVA 0x10330 (552e96a0f650ce1746515e5135010b12cc82da55) con máscaras del generador en RVA 0x12B0: state' = rol32(((i*0x045D9F3B - 0x61C88647) ^ state),7)*0x7FEB352D + 0x846CA68B, máscara = state'>>23. Eso produce N7K4C2R9Q5M8V3X6T1P0, confirmado ejecutando el PE -> ACCEPT. La ruta --retired usa la rutina RVA 0x11D0 con semilla en RVA 0xA004 (0x7319BC05) y blob en RVA 0x10348 (f3d7f8c093c39f6385df8bd283317c36d52b6a56), produciendo A1B2C3D4E5F6G7H8J9K0, confirmado con --retired -> RETIRED ACCEPT (y rechazado en modo normal, y viceversa). Estado del generador actual tras las 10 primeras máscaras (i=0..9): 0x3212CF66. El descifrador del código actual está en RVA 0x1180."
+    },
+    {
+      "case_id": "hard_vm",
+      "answers": {
+        "q1": "Q8M4Z2N7R5T9V3X6",
+        "q2": "0x6d",
+        "q3": "A",
+        "q4": "7,0,12,3",
+        "q5": "af1ccf55231d74341be7b089261c10f6f1dd5331c73b7b14b596422f29152de8"
+      },
+      "reasoning": "main (0x1400011c0) exige argv[1] de 16 bytes, llama al descifrador 0x140001230 y al interprete 0x140001000. El descifrador lee la semilla de 8 bits en 0x14001A000 (seccion .data) = 0x6d y aplica LCG m=(m*0x49+0x29)&0xFF en XOR sobre los 243 bytes de .vmz (0x14001E000). El bytecode descifrado contiene 81 instrucciones de 3 bytes: 16 bloques [0x31 leer input[arg], 0xa4 XOR arg, 0x5B ROL8 arg, 0x79 ADD arg, 0xC2 comparar] + 0xF0 accept; opcode 0x5B cae en el handler 0x140001064 que hace rotacion izquierda (shr por 8-arg | shl por arg), luego el binario real emite ACCEPT con Q8M4Z2N7R5T9V3X6. Cada bloque solo tiene un candidato ASCII imprimible. Los indices de input leidos en orden son 7,0,12,3,15,8,1,10,5,14,2,9,6,13,4,11 (permutacion); los primeros cuatro son 7,0,12,3. SHA-256 de los 243 bytes descifrados = af1ccf55231d74341be7b089261c10f6f1dd5331c73b7b14b596422f29152de8."
+    },
+    {
+      "case_id": "hard_pattern",
+      "answers": {
+        "q1": "0x1070",
+        "q2": "0x1080",
+        "q3": "0x1090",
+        "q4": "A",
+        "q5": "0x3091c972"
+      },
+      "reasoning": "En cada .text solo dos rutinas leen el campo de modo (8B 81 A8 02 00 00 = mov eax,[rcx+0x2A8]). La de 0x1060 evoluciona entre builds (v1: imul/xor; v2 añade lea/xor/imul; v3 añade más mezcla) y es la de auditoría; la rutina viva mantiene estructura estable con claves por build: v1 0x1070 (xor 0xa35c7e19; add 0x174f2a03; ror 29), v2 0x1080 (xor 0xc1190b7f; add 0x29ac5d11; ror 29), v3 0x1090 (xor 0x76e2845d; sub 0x1ec498f7; ror 29), cada una terminada en C1 C8 1D C3 y con un único caller en main (que combina viva^auditoría^helper antes de imprimir con %08X). Prueba de patrones sobre las tres secciones .text: A = 1 match en cada build (RVA 0x1070/0x1080/0x1090); B = 2 matches (toma también la de auditoría); C solo calza en v1 (inmediatos concretos de v1); D falla en v3 porque usa sub (2D) en lugar de add (05). Por eso A es la única firma con exactamente 1 ocurrencia en los tres .text. q5: (0x12345678 xor 0x76e2845d)=0x64d6d225; -0x1ec498f7 mod 2^32=0x4612392e; ror32 29 (= rol 3) = 0x3091c972."
+    },
+    {
+      "case_id": "hard_pipeline",
+      "answers": {
+        "q1": {
+          "steps": [
+            {
+              "dst": "r0",
+              "op": "xor",
+              "a": "x",
+              "b": "0xd6e8feb86659fd93"
+            },
+            {
+              "dst": "r1",
+              "op": "rol",
+              "a": "r0",
+              "bits": 13
+            },
+            {
+              "dst": "r2",
+              "op": "add",
+              "a": "r1",
+              "b": "0xa0761d6478bd642f"
+            },
+            {
+              "dst": "r3",
+              "op": "mul",
+              "a": "y",
+              "b": "0x9e3779b185ebca87"
+            },
+            {
+              "dst": "r4",
+              "op": "add",
+              "a": "r2",
+              "b": "r3"
+            },
+            {
+              "dst": "r5",
+              "op": "xor",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r6",
+              "op": "and",
+              "a": "r5",
+              "b": "0x20"
+            },
+            {
+              "dst": "r7",
+              "op": "xor",
+              "a": "r4",
+              "b": "0xe7037ed1a0b428db"
+            },
+            {
+              "dst": "r8",
+              "op": "rol",
+              "a": "r7",
+              "bits": 17
+            },
+            {
+              "dst": "r9",
+              "op": "add",
+              "a": "r4",
+              "b": "0x8ebc6af09c88c6e3"
+            },
+            {
+              "dst": "r10",
+              "op": "ror",
+              "a": "r9",
+              "bits": 9
+            },
+            {
+              "dst": "r11",
+              "op": "sel",
+              "cond": "r6",
+              "a": "r8",
+              "b": "r10"
+            },
+            {
+              "dst": "r12",
+              "op": "add",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r13",
+              "op": "mul",
+              "a": "r12",
+              "b": "0xc2b2ae3d27d4eb4f"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r13",
+              "b": "r11"
+            }
+          ],
+          "return": "r14"
+        },
+        "q2": "0x1100",
+        "q3": "0x73E9A26282AC1611",
+        "q4": "0x20",
+        "q5": "0xC2B2AE3D27D4EB4F"
+      },
+      "reasoning": "Con pefile+capstone: main en RVA 0x1060 parsea argv con strtoull y llama a 0x140002100 (RVA 0x1100, entrada .pdata 0x1100-0x1185) antes de printf('%016llX'). mix_payload (RVA 0x1100): r9 = 0xa0761d6478bd642f + rotl64(0xd6e8feb86659fd93 ^ x,13) + 0x9e3779b185ebca87*y; si ((x^y)&0xff)&0x20 != 0 usa rotl64(0xe7037ed1a0b428db ^ r9,17) (call RVA 0x11e0 = rol), si no ror64(0x8ebc6af09c88c6e3 + r9,9) (call RVA 0x11f0 = ror); retorno = (x+y)*0xc2b2ae3d27d4eb4f ^ resultado_rama. Máscara de selección: test al,0x20 (q4=0x20). Constantes leídas de .data RVA 0x22000-0x2202F, únicas referencias en el binario. Modelo y programa DSL validados contra el oráculo en 177 consultas (frontera 0, MAX, 1, ramas ambas cubiertas): 100% coincidencia. q3 verificado ejecutando mix_oracle.exe 0x123456789ABCDEF 0xFEDCBA9876543210 -> 73E9A26282AC1611."
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "answers": {
+        "q1": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+        "q2": "0x1070",
+        "q3": "0x1090",
+        "q4": "B"
+      },
+      "reasoning": "En .text hay dos rutinas que leen [rcx+0x2A8]: la de auditoría (RVA 0x1060 en las tres builds, cuyo cuerpo crece entre builds: 14/23/34 bytes) y la rutina viva (xor eax,imm32; add/sub eax,imm32; ror eax,0x1D; ret), que en v1 está en 0x1070, en v2 en 0x1080 y en v3 en 0x1090; el verificador de 0x1090(v1)/0x10A0(v2)/0x10B0(v3) llama a ambas, confirmando que la de tamaño creciente es el decoy. Las constantes xor y add/sub se aleatorizan por build y el opcode add (05) pasa a sub (2D) en v3, por lo que esos bytes van como ??; el prólogo 8B 81 A8 02 00 00, el opcode 35, el ror C1 C8 1D y el C3 son estables. La firma de 20 bytes (11 literales) empieza en el primer byte de la rutina viva y coincide exactamente una vez en .text de v1/v2/v3 (0x1070/0x1080/0x1090); el prefijo 8B81A8020000 solo aparece 2 veces por build (decoy+viva) y el decoy nunca tiene 35 en el offset 6, por lo que la firma sigue siendo única ante el crecimiento del decoy en v4. q4: v1 usa add eax,0x174F2A03 y v3 sub eax,0x1EC498F7; ambos cálculos son módulo 2^32 (sub K ≡ add 2^32−K, p.ej. 2^32−0x174F2A03=0xE8B0D5FD), es decir, el compilador/obfuscador representó la suma modular de una constante grande como resta de su complemento a dos (opción B), no hay cifrado de .text, cambio de DWORD a QWORD (el load sigue siendo mov eax,dword) ni parcheo en ejecución."
+    },
+    {
+      "case_id": "hard_delay_import",
+      "answers": {
+        "q1": "0x211e4",
+        "q2": "0x21368",
+        "q3": "0x20168",
+        "q4": "0x140001bb3",
+        "q5": "0x22b80",
+        "q6": [
+          "A",
+          "C",
+          "E"
+        ],
+        "q7": "B"
+      },
+      "reasoning": "DataDirectory[13] del Optional Header = RVA 0x211E4 (offset 0x1FFE4), tamaño 0x40; allí reside el IMAGE_DELAYLOAD_DESCRIPTOR de USER32.dll: grAttrs=0x1 (bit RvaBased), szName=0x173F0 ('USER32.dll'), phmod=0x22B80, pIAT=0x22B40, pINT=0x21228, pBoundIAT=0x21250, pUnloadIAT=0x21368. La UIAT cae en .rdata (0x17000→0x15E00), hence offset = 0x21368-0x17000+0x15E00 = 0x20168 (q3). En disco, IAT[0] y UIAT[0] contienen ambos 0x140001BB3: el VA del stub delay-load en .text (lea rax,[rip+0x20F86] → rax=0x140022B40; jmp 0x140001B3A, el helper), verificado con capstone; ese es el valor del primer thunk del delay IAT antes de la primera llamada (q4). pBoundIAT[0]=0 en disco. q6: A correcta (grAttrs=0x1), C correcta (la UIAT conserva los thunks originales para restaurar el IAT en __FUnloadDelayLoadedDLL2), E correcta (VA preferido = RVA+ImageBase 0x140000000); B falsa porque pIAT guarda direcciones de función y el HMODULE va en phmod (q5=0x22B80, campo .data); D falsa porque pBoundIAT (0x21250) y pUnloadIAT (0x21368) son campos distintos. q7: ejecutando el binario se observa 'first=...170A16 unloaded=1 second=...170A16': la descarga restaura el IAT desde la UIAT y la segunda llamada reejecuta el helper recargando USER32.dll (opción B)."
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "answers": {
+        "q1": "0x10a0",
+        "q2": "0x1edf0",
+        "q3": "0x88",
+        "q4": "0x20",
+        "q5": "0xc00100ff10",
+        "q6": "0x1122334455667788",
+        "q7": "0x7ff612345678",
+        "q8": "A"
+      },
+      "reasoning": ".pdata: RUNTIME_FUNCTION (0x10a0,0x10c8) cubre RIP RVA 0x10B0 y apunta a UNWIND_INFO en 0x1edf0 (q1,q2). UNWIND_INFO: ver=1, Prolog=0x0e, Count=5, FrameReg=r5(RBP), FrameOff nibble=2 x16=0x20, que coincide con RBP-RSP=0x20 (q4). Codigos (orden de ejecucion): PUSH rbp(off1), PUSH rbx(off2), UWOP_ALLOC_LARGE info=0 con slot extra de 16 bits = 0x0011 -> 0x11*8=0x88 bytes reservados (q3; el slot adicional no es el tamano, es size/8), UWOP_SET_FPREG RBP=[RSP+0x20] (off 0xe; corresponde a lea rbp,[rsp+0x20] en 0x10a9). RIP esta a offset 0x10 >= Prolog 0x0e, hence prologo completo aplicado. Unwind: NextRsp=RBP-0x20=0xC00100FE70; +0x88 -> 0xC00100FEF8 ([RSP+0x88]=0x1122334455667788 = RBX del llamador, q6); push rbp -> 0xC00100FF00 ([RSP+0x90]=0xC00100FFA0 = RBP llamador); return address en 0xC00100FF08 = [RSP+0x98] = 0x7FF612345678 (q7); caller RSP = 0xC00100FF08+8 = 0xC00100FF10 (q5). El cuerpo reescribe RBX con movabs (0x0123456789ABCDEF), por lo que el RBX restaurado es el pushed, no el registro vivo. q8: a offset 2 del prologo solo se han ejecutado push rbp y push rbx; el unwinder desharia unicamente los dos PUSH (los codigos con offset>2: ALLOC_LARGE y SET_FPREG aun no aplican) -> A."
+    }
+  ],
+  "source_files": [
+    "results\\v6\\opencode_combined.json",
+    "results\\v7\\opencode_stream.json"
+  ]
+}

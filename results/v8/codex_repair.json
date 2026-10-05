@@ -1,0 +1,77 @@
+{
+  "benchmark_version": "8.0",
+  "started_at": "2026-10-05T08:08:37.520793+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "hard_repair_aob",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 175.08,
+      "raw_output": "{\"case_id\":\"hard_repair_aob\",\"answers\":{\"q1\":{\"sites\":{\"length\":{\"pattern\":\"48 81 F9 00 01 00 00 ?? ?? F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01\",\"offset\":7,\"byte\":\"77\"},\"flag\":{\"pattern\":\"F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01 ?? ?? B8 01 00 00 00 C3 33 C0 C3\",\"offset\":3,\"byte\":\"74\"}}},\"q2\":\"0x1170\",\"q3\":\"0x1207\",\"q4\":\"0x118C\",\"q5\":\"A\",\"q6\":\"B\",\"q7\":[\"A\",\"C\",\"E\"]},\"reasoning\":\"La rutina compara x con 0x100 y comprueba el bit 0x20 de y. Cambiar 73 por 77 permite x=0x100; cambiar 75 por 74 rechaza y cuando falta ese bit. Cada firma tuvo una única coincidencia en .text de las tres builds visibles, y los ejecutables reparados cumplieron todas las muestras proporcionadas. La cuarta build no estaba disponible para comprobarla.\"}\n",
+      "stderr": "ds visibles, y los ejecutables reparados cumplieron todas las muestras proporcionadas. La cuarta build no estaba disponible para comprobarla.\"}\ndiff --git a/check_signatures.py b/check_signatures.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..ccc87441edc1cb7cb90f437d85d591be163f9ba3\n--- /dev/null\n+++ b/check_signatures.py\n@@ -0,0 +1,14 @@\n+import pefile,pathlib\n+patterns={\n+ 'length':'48 81 F9 00 01 00 00 ?? ?? F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01',\n+ 'flag':'F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01 ?? ?? B8 01 00 00 00 C3 33 C0 C3'\n+}\n+for p in pathlib.Path('artifacts/hard_repair').glob('*.exe'):\n+ pe=pefile.PE(str(p))\n+ s=next(s for s in pe.sections if s.Name.startswith(b'.text'))\n+ data=s.get_data()\n+ print(p.name)\n+ for name,pat in patterns.items():\n+  tokens=[int(x,16) if x!='??' else None for x in pat.split()]\n+  hits=[i+s.VirtualAddress for i in range(len(data)-len(tokens)+1) if all(t is None or data[i+j]==t for j,t in enumerate(tokens))]\n+  print(name,len(tokens),[hex(x) for x in hits])\ndiff --git a/dump_region.py b/dump_region.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..f521783f199055aa2d6f9d016a38ec794b638a70\n--- /dev/null\n+++ b/dump_region.py\n@@ -0,0 +1,9 @@\n+import pefile,capstone,pathlib,sys\n+lo=int(sys.argv[1],0) if len(sys.argv)>1 else 0x1100\n+hi=int(sys.argv[2],0) if len(sys.argv)>2 else 0x1240\n+for p in pathlib.Path('artifacts/hard_repair').glob('*.exe'):\n+ pe=pefile.PE(str(p)); b=p.read_bytes(); base=pe.OPTIONAL_HEADER.ImageBase\n+ print('\\n'+p.name)\n+ md=capstone.Cs(capstone.CS_ARCH_X86,capstone.CS_MODE_64)\n+ for ins in md.disasm(b[pe.get_offset_from_rva(lo):pe.get_offset_from_rva(hi)],base+lo):\n+  print(f'{ins.address-base:06X}  {ins.bytes.hex(\" \").upper():30} {ins.mnemonic:7} {ins.op_str}')\ndiff --git a/inspect.py b/inspect.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..bcc90f985c32e4b0f05b49a3d55d138408bc0cfe\n--- /dev/null\n+++ b/inspect.py\n@@ -0,0 +1,26 @@\n+import pefile, capstone, pathlib, sys\n+\n+for p in pathlib.Path('artifacts/hard_repair').glob('*.exe'):\n+    pe = pefile.PE(str(p))\n+    print('\\n',p.name,'base',hex(pe.OPTIONAL_HEADER.ImageBase),'entry',hex(pe.OPTIONAL_HEADER.AddressOfEntryPoint))\n+    data=p.read_bytes()\n+    for s in pe.sections:\n+        print(s.Name.decode().strip('\\0'),hex(s.VirtualAddress),hex(s.Misc_VirtualSize),hex(s.PointerToRawData))\n+    for needle in (b'ACCEPT',b'REJECT'):\n+        pos=data.find(needle)\n+        print(needle, 'offset',hex(pos), 'rva',hex(pe.get_rva_from_offset(pos)) if pos>=0 else '')\n+    s=next(s for s in pe.sections if s.Name.startswith(b'.text'))\n+    md=capstone.Cs(capstone.CS_ARCH_X86,capstone.CS_MODE_64)\n+    md.detail=True\n+    insns=list(md.disasm(s.get_data(),pe.OPTIONAL_HEADER.ImageBase+s.VirtualAddress))\n+    strings={pe.OPTIONAL_HEADER.ImageBase+pe.get_rva_from_offset(data.find(n)):n for n in (b'ACCEPT',b'REJECT')}\n+    for i,ins in enumerate(insns):\n+        refs=[]\n+        for op in ins.operands:\n+            if op.type==capstone.x86.X86_OP_MEM and op.mem.base==capstone.x86.X86_REG_RIP:\n+                target=ins.address+ins.size+op.mem.disp\n+                if target in strings: refs.append(strings[target])\n+        if refs:\n+            print('string ref',hex(ins.address-pe.OPTIONAL_HEADER.ImageBase),ins.mnemonic,ins.op_str,refs)\n+        if ins.mnemonic=='cmp' and ('0x20' in ins.op_str or '0x100' in ins.op_str or '0x21' in ins.op_str):\n+            print('cmp',hex(ins.address-pe.OPTIONAL_HEADER.ImageBase),ins.mnemonic,ins.op_str,' '.join('%02X'%x for x in ins.bytes))\ndiff --git a/verify_repairs.py b/verify_repairs.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..3c971a7879df86f509ab184112df4834be0f5430\n--- /dev/null\n+++ b/verify_repairs.py\n@@ -0,0 +1,16 @@\n+import pefile,pathlib,subprocess\n+\n+samples=[(0,0,'REJECT'),(0,0x20,'ACCEPT'),(0,0x21,'REJECT'),(1,0x20,'REJECT'),(1,0x21,'ACCEPT'),(0xff,0x21,'ACCEPT'),(0x100,0x20,'ACCEPT'),(0x100,0x21,'REJECT'),(0x101,0x21,'REJECT'),(0x80,0x20,'ACCEPT'),(0x80,0,'REJECT')]\n+locs={'repair_v1.exe':(0x1177,0x117c),'repair_v2.exe':(0x1207,0x120c),'repair_v3.exe':(0x1187,0x118c)}\n+for p in pathlib.Path('artifacts/hard_repair').glob('*.exe'):\n+ pe=pefile.PE(str(p)); b=bytearray(p.read_bytes()); a,c=locs[p.name]\n+ assert b[pe.get_offset_from_rva(a)]==0x73\n+ assert b[pe.get_offset_from_rva(c)]==0x75\n+ b[pe.get_offset_from_rva(a)]=0x77\n+ b[pe.get_offset_from_rva(c)]=0x74\n+ out=pathlib.Path('repaired_'+p.name); out.write_bytes(b)\n+ errors=[]\n+ for x,y,want in samples:\n+  got=subprocess.run([str(out.resolve()),hex(x),hex(y)],capture_output=True,text=True).stdout.strip()\n+  if got!=want: errors.append((hex(x),hex(y),want,got))\n+ print(p.name,'PASS' if not errors else errors)\n\n2026-10-05T08:11:32.023394Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"16fd93f4-3545-4136-a43e-f2e7d38b4e04\"\ntokens used\n23.845\n",
+      "submission": {
+        "case_id": "hard_repair_aob",
+        "answers": {
+          "q1": {
+            "sites": {
+              "length": {
+                "pattern": "48 81 F9 00 01 00 00 ?? ?? F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01",
+                "offset": 7,
+                "byte": "77"
+              },
+              "flag": {
+                "pattern": "F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01 ?? ?? B8 01 00 00 00 C3 33 C0 C3",
+                "offset": 3,
+                "byte": "74"
+              }
+            }
+          },
+          "q2": "0x1170",
+          "q3": "0x1207",
+          "q4": "0x118C",
+          "q5": "A",
+          "q6": "B",
+          "q7": [
+            "A",
+            "C",
+            "E"
+          ]
+        },
+        "reasoning": "La rutina compara x con 0x100 y comprueba el bit 0x20 de y. Cambiar 73 por 77 permite x=0x100; cambiar 75 por 74 rechaza y cuando falta ese bit. Cada firma tuvo una única coincidencia en .text de las tres builds visibles, y los ejecutables reparados cumplieron todas las muestras proporcionadas. La cuarta build no estaba disponible para comprobarla."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_repair_aob",
+      "answers": {
+        "q1": {
+          "sites": {
+            "length": {
+              "pattern": "48 81 F9 00 01 00 00 ?? ?? F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01",
+              "offset": 7,
+              "byte": "77"
+            },
+            "flag": {
+              "pattern": "F6 C2 20 ?? ?? 48 8B C1 48 33 C2 A8 01 ?? ?? B8 01 00 00 00 C3 33 C0 C3",
+              "offset": 3,
+              "byte": "74"
+            }
+          }
+        },
+        "q2": "0x1170",
+        "q3": "0x1207",
+        "q4": "0x118C",
+        "q5": "A",
+        "q6": "B",
+        "q7": [
+          "A",
+          "C",
+          "E"
+        ]
+      },
+      "reasoning": "La rutina compara x con 0x100 y comprueba el bit 0x20 de y. Cambiar 73 por 77 permite x=0x100; cambiar 75 por 74 rechaza y cuando falta ese bit. Cada firma tuvo una única coincidencia en .text de las tres builds visibles, y los ejecutables reparados cumplieron todas las muestras proporcionadas. La cuarta build no estaba disponible para comprobarla."
+    }
+  ]
+}

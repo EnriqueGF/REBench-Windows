@@ -1,0 +1,843 @@
+{
+  "benchmark_version": "9.0",
+  "started_at": "2026-10-05T08:20:37.103160+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "hard_tls_stream2",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 305.97,
+      "raw_output": "{\"case_id\":\"hard_tls_stream2\",\"answers\":{\"q1\":{\"tables\":{\"k\":[\"0x9631d3fca527cc7d\",\"0xb2f05aa3bebf5615\",\"0xf5a56ee0b019f42f\",\"0xc6d53be849f074d7\",\"0x391ac53cee7726f1\",\"0x25c69dad62a3857\",\"0x3f475c4dd0b3c81\",\"0xb3f0dfecb605870f\",\"0xbdccf37a21b32819\",\"0x82ec2e9fe64913f1\",\"0x1ce9936e54d03247\",\"0x4b4417846c599dd\",\"0xb55954c12e91be97\",\"0x23985cc0f44d934b\",\"0x44f2899235d13b47\",\"0xa4f52a10900e4cc7\"]},\"steps\":[{\"dst\":\"v\",\"op\":\"mul\",\"a\":\"n\",\"b\":\"0xb2f05aa3bebf5615\"},{\"dst\":\"f\",\"op\":\"xor\",\"a\":\"v\",\"b\":\"0x9631d3fca527cc7d\"},{\"dst\":\"v\",\"op\":\"xor\",\"a\":\"n\",\"b\":\"0xc6d53be849f074d7\"},{\"dst\":\"r\",\"op\":\"add\",\"a\":\"v\",\"b\":\"0xf5a56ee0b019f42f\"},{\"op\":\"each\",\"body\":[{\"dst\":\"u\",\"op\":\"rol\",\"a\":\"r\",\"bits\":7},{\"dst\":\"u\",\"op\":\"add\",\"a\":\"u\",\"b\":\"f\"},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"i\",\"b\":5},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"v\",\"op\":\"add\",\"a\":\"kv\",\"b\":\"byte\"},{\"dst\":\"u\",\"op\":\"xor\",\"a\":\"u\",\"b\":\"v\"},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"f\",\"op\":\"mul\",\"a\":\"kv\",\"b\":\"u\"},{\"dst\":\"j\",\"op\":\"shr\",\"a\":\"byte\",\"bits\":4},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"odd\",\"op\":\"xor\",\"a\":\"f\",\"b\":\"kv\"},{\"dst\":\"odd\",\"op\":\"rol\",\"a\":\"odd\",\"bits\":13},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"i\",\"b\":3},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"even\",\"op\":\"add\",\"a\":\"f\",\"b\":\"kv\"},{\"dst\":\"even\",\"op\":\"ror\",\"a\":\"even\",\"bits\":11},{\"dst\":\"cond\",\"op\":\"xor\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"cond\",\"op\":\"and\",\"a\":\"cond\",\"b\":1},{\"dst\":\"f\",\"op\":\"sel\",\"cond\":\"cond\",\"a\":\"odd\",\"b\":\"even\"},{\"dst\":\"r\",\"op\":\"xor\",\"a\":\"r\",\"b\":\"f\"},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"i\",\"b\":11},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"r\",\"op\":\"mul\",\"a\":\"r\",\"b\":\"kv\"},{\"dst\":\"r\",\"op\":\"add\",\"a\":\"r\",\"b\":\"byte\"}]},{\"op\":\"each_reverse\",\"body\":[{\"dst\":\"u\",\"op\":\"ror\",\"a\":\"f\",\"bits\":9},{\"dst\":\"u\",\"op\":\"xor\",\"a\":\"u\",\"b\":\"r\"},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"u\",\"op\":\"add\",\"a\":\"u\",\"b\":\"kv\"},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"i\",\"b\":7},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"odd\",\"op\":\"xor\",\"a\":\"u\",\"b\":\"kv\"},{\"dst\":\"odd\",\"op\":\"rol\",\"a\":\"odd\",\"bits\":17},{\"dst\":\"j\",\"op\":\"shr\",\"a\":\"byte\",\"bits\":4},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"even\",\"op\":\"add\",\"a\":\"u\",\"b\":\"kv\"},{\"dst\":\"even\",\"op\":\"ror\",\"a\":\"even\",\"bits\":19},{\"dst\":\"cond\",\"op\":\"xor\",\"a\":\"byte\",\"b\":\"i\"},{\"dst\":\"cond\",\"op\":\"and\",\"a\":\"cond\",\"b\":32},{\"dst\":\"r\",\"op\":\"sel\",\"cond\":\"cond\",\"a\":\"odd\",\"b\":\"even\"},{\"dst\":\"f\",\"op\":\"add\",\"a\":\"f\",\"b\":\"r\"},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"i\",\"b\":1},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"f\",\"op\":\"mul\",\"a\":\"f\",\"b\":\"kv\"},{\"dst\":\"j\",\"op\":\"add\",\"a\":\"i\",\"b\":2},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"j\"},{\"dst\":\"u\",\"op\":\"add\",\"a\":\"kv\",\"b\":\"byte\"},{\"dst\":\"u\",\"op\":\"rol\",\"a\":\"u\",\"bits\":5},{\"dst\":\"f\",\"op\":\"xor\",\"a\":\"f\",\"b\":\"u\"}]},{\"dst\":\"r\",\"op\":\"rol\",\"a\":\"r\",\"bits\":29},{\"dst\":\"kv\",\"op\":\"lookup\",\"table\":\"k\",\"index\":\"n\"},{\"dst\":\"r\",\"op\":\"xor\",\"a\":\"r\",\"b\":\"kv\"},{\"dst\":\"v\",\"op\":\"mul\",\"a\":\"n\",\"b\":\"0x8cb92ba72f3d8dd7\"},{\"dst\":\"r\",\"op\":\"xor\",\"a\":\"r\",\"b\":\"v\"},{\"dst\":\"r\",\"op\":\"xor\",\"a\":\"r\",\"b\":\"f\"}],\"return\":\"r\"},\"q2\":\"0x1380\",\"q3\":\"0x1000\",\"q4\":\"0x323\",\"q5\":\"0x9631d3fca527cc7d\",\"q6\":\"0x1F414D20D78F5559\",\"q7\":\"0xE4C071B4B88381E5\",\"q8\":[\"A\",\"C\"]},\"reasoning\":\"El callback TLS en 0x1000 carga RCDATA 803 y descifra 16 claves. Main pasa el mensaje a 0x1380, que recorre los bytes primero en orden creciente y luego decreciente. El programa DSL reprodujo 93 salidas del ejecutable, incluidos el mensaje vacío, el ejemplo y longitudes frontera.\"}\n",
+      "stderr": "ort json\n+import random\n+import subprocess\n+\n+from verify import K, label\n+\n+\n+def op(dst, name, *args):\n+    keys = ('table', 'index') if name == 'lookup' else ('cond', 'a', 'b') if name == 'sel' else ('a', 'bits') if name in ('rol', 'ror', 'shl', 'shr') else ('a',) if name == 'not' else ('a', 'b')\n+    return {'dst': dst, 'op': name, **dict(zip(keys, args))}\n+\n+\n+steps = [\n+    op('v', 'mul', 'n', hex(K[1])),\n+    op('f', 'xor', 'v', hex(K[0])),\n+    op('v', 'xor', 'n', hex(K[3])),\n+    op('r', 'add', 'v', hex(K[2])),\n+    {'op': 'each', 'body': [\n+        op('u', 'rol', 'r', 7),\n+        op('u', 'add', 'u', 'f'),\n+        op('j', 'add', 'i', 5),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('v', 'add', 'kv', 'byte'),\n+        op('u', 'xor', 'u', 'v'),\n+        op('j', 'add', 'byte', 'i'),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('f', 'mul', 'kv', 'u'),\n+        op('j', 'shr', 'byte', 4),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('odd', 'xor', 'f', 'kv'),\n+        op('odd', 'rol', 'odd', 13),\n+        op('j', 'add', 'i', 3),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('even', 'add', 'f', 'kv'),\n+        op('even', 'ror', 'even', 11),\n+        op('cond', 'xor', 'byte', 'i'),\n+        op('cond', 'and', 'cond', 1),\n+        op('f', 'sel', 'cond', 'odd', 'even'),\n+        op('r', 'xor', 'r', 'f'),\n+        op('j', 'add', 'i', 11),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('r', 'mul', 'r', 'kv'),\n+        op('r', 'add', 'r', 'byte'),\n+    ]},\n+    {'op': 'each_reverse', 'body': [\n+        op('u', 'ror', 'f', 9),\n+        op('u', 'xor', 'u', 'r'),\n+        op('j', 'add', 'byte', 'i'),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('u', 'add', 'u', 'kv'),\n+        op('j', 'add', 'i', 7),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('odd', 'xor', 'u', 'kv'),\n+        op('odd', 'rol', 'odd', 17),\n+        op('j', 'shr', 'byte', 4),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('even', 'add', 'u', 'kv'),\n+        op('even', 'ror', 'even', 19),\n+        op('cond', 'xor', 'byte', 'i'),\n+        op('cond', 'and', 'cond', 32),\n+        op('r', 'sel', 'cond', 'odd', 'even'),\n+        op('f', 'add', 'f', 'r'),\n+        op('j', 'add', 'i', 1),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('f', 'mul', 'f', 'kv'),\n+        op('j', 'add', 'i', 2),\n+        op('kv', 'lookup', 'k', 'j'),\n+        op('u', 'add', 'kv', 'byte'),\n+        op('u', 'rol', 'u', 5),\n+        op('f', 'xor', 'f', 'u'),\n+    ]},\n+    op('r', 'rol', 'r', 29),\n+    op('kv', 'lookup', 'k', 'n'),\n+    op('r', 'xor', 'r', 'kv'),\n+    op('v', 'mul', 'n', '0x8cb92ba72f3d8dd7'),\n+    op('r', 'xor', 'r', 'v'),\n+    op('r', 'xor', 'r', 'f'),\n+]\n+program = {'tables': {'k': [hex(k) for k in K]}, 'steps': steps, 'return': 'r'}\n+assert len(steps) <= 64\n+assert all(len(s['body']) <= 32 for s in steps if 'body' in s)\n+\n+\n+def evaluate(data):\n+    regs = {'x': 0, 'y': 0, 'n': len(data)}\n+\n+    def val(v):\n+        return regs[v] if isinstance(v, str) and v in regs else int(v, 0) if isinstance(v, str) else v\n+\n+    def run(body):\n+        for s in body:\n+            operation = s['op']\n+            if operation in ('each', 'each_reverse'):\n+                indices = range(len(data)) if operation == 'each' else range(len(data) - 1, -1, -1)\n+                for i in indices:\n+                    regs['i'], regs['byte'] = i, data[i]\n+                    run(s['body'])\n+                continue\n+            if operation == 'lookup':\n+                result = K[val(s['index']) % len(K)]\n+            elif operation == 'sel':\n+                result = val(s['a']) if val(s['cond']) else val(s['b'])\n+            else:\n+                a = val(s['a'])\n+                if operation == 'rol':\n+                    b = val(s['bits']) % 64\n+                    result = ((a << b) | (a >> ((64 - b) % 64)))\n+                elif operation == 'ror':\n+                    b = val(s['bits']) % 64\n+                    result = ((a >> b) | (a << ((64 - b) % 64)))\n+                elif operation == 'shr':\n+                    result = a >> val(s['bits'])\n+                else:\n+                    b = val(s['b'])\n+                    result = {'add': lambda: a + b, 'mul': lambda: a * b, 'xor': lambda: a ^ b,\n+                              'and': lambda: a & b}[operation]()\n+            regs[s['dst']] = result & ((1 << 64) - 1)\n+\n+    run(program['steps'])\n+    return regs[program['return']]\n+\n+\n+rng = random.Random(1)\n+cases = [b'', bytes.fromhex('00112233445566778899AABBCCDDEEFF')]\n+cases += [bytes(rng.randrange(256) for _ in range(n)) for n in range(97)]\n+for case in cases:\n+    assert evaluate(case) == label(case)\n+print('DSL matches model for', len(cases), 'cases')\n+print(json.dumps(program, separators=(',', ':')))\n\n2026-10-05T08:25:42.540721Z ERROR rmcp::transport::streamable_http_client: fail to delete session: unexpected server response: DELETE returned HTTP 501 session_id=\"842d242c-ca12-4f6f-97a7-6a03120aa314\"\ntokens used\n37.887\n",
+      "submission": {
+        "case_id": "hard_tls_stream2",
+        "answers": {
+          "q1": {
+            "tables": {
+              "k": [
+                "0x9631d3fca527cc7d",
+                "0xb2f05aa3bebf5615",
+                "0xf5a56ee0b019f42f",
+                "0xc6d53be849f074d7",
+                "0x391ac53cee7726f1",
+                "0x25c69dad62a3857",
+                "0x3f475c4dd0b3c81",
+                "0xb3f0dfecb605870f",
+                "0xbdccf37a21b32819",
+                "0x82ec2e9fe64913f1",
+                "0x1ce9936e54d03247",
+                "0x4b4417846c599dd",
+                "0xb55954c12e91be97",
+                "0x23985cc0f44d934b",
+                "0x44f2899235d13b47",
+                "0xa4f52a10900e4cc7"
+              ]
+            },
+            "steps": [
+              {
+                "dst": "v",
+                "op": "mul",
+                "a": "n",
+                "b": "0xb2f05aa3bebf5615"
+              },
+              {
+                "dst": "f",
+                "op": "xor",
+                "a": "v",
+                "b": "0x9631d3fca527cc7d"
+              },
+              {
+                "dst": "v",
+                "op": "xor",
+                "a": "n",
+                "b": "0xc6d53be849f074d7"
+              },
+              {
+                "dst": "r",
+                "op": "add",
+                "a": "v",
+                "b": "0xf5a56ee0b019f42f"
+              },
+              {
+                "op": "each",
+                "body": [
+                  {
+                    "dst": "u",
+                    "op": "rol",
+                    "a": "r",
+                    "bits": 7
+                  },
+                  {
+                    "dst": "u",
+                    "op": "add",
+                    "a": "u",
+                    "b": "f"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "i",
+                    "b": 5
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "v",
+                    "op": "add",
+                    "a": "kv",
+                    "b": "byte"
+                  },
+                  {
+                    "dst": "u",
+                    "op": "xor",
+                    "a": "u",
+                    "b": "v"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "f",
+                    "op": "mul",
+                    "a": "kv",
+                    "b": "u"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "shr",
+                    "a": "byte",
+                    "bits": 4
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "odd",
+                    "op": "xor",
+                    "a": "f",
+                    "b": "kv"
+                  },
+                  {
+                    "dst": "odd",
+                    "op": "rol",
+                    "a": "odd",
+                    "bits": 13
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "i",
+                    "b": 3
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "even",
+                    "op": "add",
+                    "a": "f",
+                    "b": "kv"
+                  },
+                  {
+                    "dst": "even",
+                    "op": "ror",
+                    "a": "even",
+                    "bits": 11
+                  },
+                  {
+                    "dst": "cond",
+                    "op": "xor",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "cond",
+                    "op": "and",
+                    "a": "cond",
+                    "b": 1
+                  },
+                  {
+                    "dst": "f",
+                    "op": "sel",
+                    "cond": "cond",
+                    "a": "odd",
+                    "b": "even"
+                  },
+                  {
+                    "dst": "r",
+                    "op": "xor",
+                    "a": "r",
+                    "b": "f"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "i",
+                    "b": 11
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "r",
+                    "op": "mul",
+                    "a": "r",
+                    "b": "kv"
+                  },
+                  {
+                    "dst": "r",
+                    "op": "add",
+                    "a": "r",
+                    "b": "byte"
+                  }
+                ]
+              },
+              {
+                "op": "each_reverse",
+                "body": [
+                  {
+                    "dst": "u",
+                    "op": "ror",
+                    "a": "f",
+                    "bits": 9
+                  },
+                  {
+                    "dst": "u",
+                    "op": "xor",
+                    "a": "u",
+                    "b": "r"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "u",
+                    "op": "add",
+                    "a": "u",
+                    "b": "kv"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "i",
+                    "b": 7
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "odd",
+                    "op": "xor",
+                    "a": "u",
+                    "b": "kv"
+                  },
+                  {
+                    "dst": "odd",
+                    "op": "rol",
+                    "a": "odd",
+                    "bits": 17
+                  },
+                  {
+                    "dst": "j",
+                    "op": "shr",
+                    "a": "byte",
+                    "bits": 4
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "even",
+                    "op": "add",
+                    "a": "u",
+                    "b": "kv"
+                  },
+                  {
+                    "dst": "even",
+                    "op": "ror",
+                    "a": "even",
+                    "bits": 19
+                  },
+                  {
+                    "dst": "cond",
+                    "op": "xor",
+                    "a": "byte",
+                    "b": "i"
+                  },
+                  {
+                    "dst": "cond",
+                    "op": "and",
+                    "a": "cond",
+                    "b": 32
+                  },
+                  {
+                    "dst": "r",
+                    "op": "sel",
+                    "cond": "cond",
+                    "a": "odd",
+                    "b": "even"
+                  },
+                  {
+                    "dst": "f",
+                    "op": "add",
+                    "a": "f",
+                    "b": "r"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "i",
+                    "b": 1
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "f",
+                    "op": "mul",
+                    "a": "f",
+                    "b": "kv"
+                  },
+                  {
+                    "dst": "j",
+                    "op": "add",
+                    "a": "i",
+                    "b": 2
+                  },
+                  {
+                    "dst": "kv",
+                    "op": "lookup",
+                    "table": "k",
+                    "index": "j"
+                  },
+                  {
+                    "dst": "u",
+                    "op": "add",
+                    "a": "kv",
+                    "b": "byte"
+                  },
+                  {
+                    "dst": "u",
+                    "op": "rol",
+                    "a": "u",
+                    "bits": 5
+                  },
+                  {
+                    "dst": "f",
+                    "op": "xor",
+                    "a": "f",
+                    "b": "u"
+                  }
+                ]
+              },
+              {
+                "dst": "r",
+                "op": "rol",
+                "a": "r",
+                "bits": 29
+              },
+              {
+                "dst": "kv",
+                "op": "lookup",
+                "table": "k",
+                "index": "n"
+              },
+              {
+                "dst": "r",
+                "op": "xor",
+                "a": "r",
+                "b": "kv"
+              },
+              {
+                "dst": "v",
+                "op": "mul",
+                "a": "n",
+                "b": "0x8cb92ba72f3d8dd7"
+              },
+              {
+                "dst": "r",
+                "op": "xor",
+                "a": "r",
+                "b": "v"
+              },
+              {
+                "dst": "r",
+                "op": "xor",
+                "a": "r",
+                "b": "f"
+              }
+            ],
+            "return": "r"
+          },
+          "q2": "0x1380",
+          "q3": "0x1000",
+          "q4": "0x323",
+          "q5": "0x9631d3fca527cc7d",
+          "q6": "0x1F414D20D78F5559",
+          "q7": "0xE4C071B4B88381E5",
+          "q8": [
+            "A",
+            "C"
+          ]
+        },
+        "reasoning": "El callback TLS en 0x1000 carga RCDATA 803 y descifra 16 claves. Main pasa el mensaje a 0x1380, que recorre los bytes primero en orden creciente y luego decreciente. El programa DSL reprodujo 93 salidas del ejecutable, incluidos el mensaje vacío, el ejemplo y longitudes frontera."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_tls_stream2",
+      "answers": {
+        "q1": {
+          "tables": {
+            "k": [
+              "0x9631d3fca527cc7d",
+              "0xb2f05aa3bebf5615",
+              "0xf5a56ee0b019f42f",
+              "0xc6d53be849f074d7",
+              "0x391ac53cee7726f1",
+              "0x25c69dad62a3857",
+              "0x3f475c4dd0b3c81",
+              "0xb3f0dfecb605870f",
+              "0xbdccf37a21b32819",
+              "0x82ec2e9fe64913f1",
+              "0x1ce9936e54d03247",
+              "0x4b4417846c599dd",
+              "0xb55954c12e91be97",
+              "0x23985cc0f44d934b",
+              "0x44f2899235d13b47",
+              "0xa4f52a10900e4cc7"
+            ]
+          },
+          "steps": [
+            {
+              "dst": "v",
+              "op": "mul",
+              "a": "n",
+              "b": "0xb2f05aa3bebf5615"
+            },
+            {
+              "dst": "f",
+              "op": "xor",
+              "a": "v",
+              "b": "0x9631d3fca527cc7d"
+            },
+            {
+              "dst": "v",
+              "op": "xor",
+              "a": "n",
+              "b": "0xc6d53be849f074d7"
+            },
+            {
+              "dst": "r",
+              "op": "add",
+              "a": "v",
+              "b": "0xf5a56ee0b019f42f"
+            },
+            {
+              "op": "each",
+              "body": [
+                {
+                  "dst": "u",
+                  "op": "rol",
+                  "a": "r",
+                  "bits": 7
+                },
+                {
+                  "dst": "u",
+                  "op": "add",
+                  "a": "u",
+                  "b": "f"
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "i",
+                  "b": 5
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "v",
+                  "op": "add",
+                  "a": "kv",
+                  "b": "byte"
+                },
+                {
+                  "dst": "u",
+                  "op": "xor",
+                  "a": "u",
+                  "b": "v"
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "f",
+                  "op": "mul",
+                  "a": "kv",
+                  "b": "u"
+                },
+                {
+                  "dst": "j",
+                  "op": "shr",
+                  "a": "byte",
+                  "bits": 4
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "odd",
+                  "op": "xor",
+                  "a": "f",
+                  "b": "kv"
+                },
+                {
+                  "dst": "odd",
+                  "op": "rol",
+                  "a": "odd",
+                  "bits": 13
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "i",
+                  "b": 3
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "even",
+                  "op": "add",
+                  "a": "f",
+                  "b": "kv"
+                },
+                {
+                  "dst": "even",
+                  "op": "ror",
+                  "a": "even",
+                  "bits": 11
+                },
+                {
+                  "dst": "cond",
+                  "op": "xor",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "cond",
+                  "op": "and",
+                  "a": "cond",
+                  "b": 1
+                },
+                {
+                  "dst": "f",
+                  "op": "sel",
+                  "cond": "cond",
+                  "a": "odd",
+                  "b": "even"
+                },
+                {
+                  "dst": "r",
+                  "op": "xor",
+                  "a": "r",
+                  "b": "f"
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "i",
+                  "b": 11
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "r",
+                  "op": "mul",
+                  "a": "r",
+                  "b": "kv"
+                },
+                {
+                  "dst": "r",
+                  "op": "add",
+                  "a": "r",
+                  "b": "byte"
+                }
+              ]
+            },
+            {
+              "op": "each_reverse",
+              "body": [
+                {
+                  "dst": "u",
+                  "op": "ror",
+                  "a": "f",
+                  "bits": 9
+                },
+                {
+                  "dst": "u",
+                  "op": "xor",
+                  "a": "u",
+                  "b": "r"
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "u",
+                  "op": "add",
+                  "a": "u",
+                  "b": "kv"
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "i",
+                  "b": 7
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "odd",
+                  "op": "xor",
+                  "a": "u",
+                  "b": "kv"
+                },
+                {
+                  "dst": "odd",
+                  "op": "rol",
+                  "a": "odd",
+                  "bits": 17
+                },
+                {
+                  "dst": "j",
+                  "op": "shr",
+                  "a": "byte",
+                  "bits": 4
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "even",
+                  "op": "add",
+                  "a": "u",
+                  "b": "kv"
+                },
+                {
+                  "dst": "even",
+                  "op": "ror",
+                  "a": "even",
+                  "bits": 19
+                },
+                {
+                  "dst": "cond",
+                  "op": "xor",
+                  "a": "byte",
+                  "b": "i"
+                },
+                {
+                  "dst": "cond",
+                  "op": "and",
+                  "a": "cond",
+                  "b": 32
+                },
+                {
+                  "dst": "r",
+                  "op": "sel",
+                  "cond": "cond",
+                  "a": "odd",
+                  "b": "even"
+                },
+                {
+                  "dst": "f",
+                  "op": "add",
+                  "a": "f",
+                  "b": "r"
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "i",
+                  "b": 1
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "f",
+                  "op": "mul",
+                  "a": "f",
+                  "b": "kv"
+                },
+                {
+                  "dst": "j",
+                  "op": "add",
+                  "a": "i",
+                  "b": 2
+                },
+                {
+                  "dst": "kv",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "j"
+                },
+                {
+                  "dst": "u",
+                  "op": "add",
+                  "a": "kv",
+                  "b": "byte"
+                },
+                {
+                  "dst": "u",
+                  "op": "rol",
+                  "a": "u",
+                  "bits": 5
+                },
+                {
+                  "dst": "f",
+                  "op": "xor",
+                  "a": "f",
+                  "b": "u"
+                }
+              ]
+            },
+            {
+              "dst": "r",
+              "op": "rol",
+              "a": "r",
+              "bits": 29
+            },
+            {
+              "dst": "kv",
+              "op": "lookup",
+              "table": "k",
+              "index": "n"
+            },
+            {
+              "dst": "r",
+              "op": "xor",
+              "a": "r",
+              "b": "kv"
+            },
+            {
+              "dst": "v",
+              "op": "mul",
+              "a": "n",
+              "b": "0x8cb92ba72f3d8dd7"
+            },
+            {
+              "dst": "r",
+              "op": "xor",
+              "a": "r",
+              "b": "v"
+            },
+            {
+              "dst": "r",
+              "op": "xor",
+              "a": "r",
+              "b": "f"
+            }
+          ],
+          "return": "r"
+        },
+        "q2": "0x1380",
+        "q3": "0x1000",
+        "q4": "0x323",
+        "q5": "0x9631d3fca527cc7d",
+        "q6": "0x1F414D20D78F5559",
+        "q7": "0xE4C071B4B88381E5",
+        "q8": [
+          "A",
+          "C"
+        ]
+      },
+      "reasoning": "El callback TLS en 0x1000 carga RCDATA 803 y descifra 16 claves. Main pasa el mensaje a 0x1380, que recorre los bytes primero en orden creciente y luego decreciente. El programa DSL reprodujo 93 salidas del ejecutable, incluidos el mensaje vacío, el ejemplo y longitudes frontera."
+    }
+  ]
+}

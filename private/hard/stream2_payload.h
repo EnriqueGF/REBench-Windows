@@ -1,0 +1,2 @@
+#pragma once
+#define STREAM2_SEED 0x6C8E9CF5702A41D3ULL

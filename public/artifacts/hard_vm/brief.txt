@@ -1,0 +1,6 @@
+Uso: vm_guard.exe <candidato-de-16-caracteres>
+Salida: ACCEPT o REJECT.
+
+Notas de triage: el PE tiene una sección no estándar que contiene aproximadamente 243 bytes
+de datos. El punto de entrada del runtime llega a dos rutinas propias: una copia y transforma
+esos bytes; la otra ejecuta instrucciones de longitud fija. No se dispone de PDB.

@@ -1,0 +1,21 @@
+{
+  "protector": "UPX",
+  "version": "5.2.1",
+  "cases": [
+    {
+      "case_id": "vm_e1a4c106677a",
+      "exe": "public_upx\\vm_e1a4c106677a\\guard.exe",
+      "sha256": "4aa2c68ce9632f514b4bb2756304110c80d15232b87eaddc044cf912bff9de8a"
+    },
+    {
+      "case_id": "vm_59f2ce1d4f22",
+      "exe": "public_upx\\vm_59f2ce1d4f22\\guard.exe",
+      "sha256": "e7ce7fb2f76af9f34e9f1051937d79d600ff2d650e1bcdb2aa9c33c072d3e78a"
+    },
+    {
+      "case_id": "vm_c48f7e7dd145",
+      "exe": "public_upx\\vm_c48f7e7dd145\\guard.exe",
+      "sha256": "60712e3aa8f802e45e3f33711a01ca2af9d3f7d4ec5f5bc7381900e9cec092ed"
+    }
+  ]
+}

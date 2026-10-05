@@ -1,0 +1,15 @@
+{
+  "track": "protected-vm",
+  "variant": "custom",
+  "profile": "codex",
+  "attempts": [
+    {
+      "case_id": "vm_e1a4c106677a",
+      "seconds": 14.16,
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "Reading additional input from stdin...\nOpenAI Codex v0.160.0\n--------\nworkdir: C:\\Users\\el_en\\AppData\\Local\\Temp\\vm_re_plughj3j\nmodel: gpt-6-sol\nprovider: openai\napproval: never\nsandbox: read-only\nreasoning effort: high\nreasoning summaries: none\nsession id: 01a10bd6-d499-7f01-b3f3-5f31d64e4fc8\n--------\nuser\nAnalyze guard.exe, a benign Windows x64 crackme. It accepts exactly one 24-character code and prints ACCEPT or REJECT. The validation logic runs in a custom VM; its bytecode is packed and encrypted on disk. Recover the accepted code AND the SHA-256 of the decrypted, decompressed bytecode. You may execute guard.exe locally as an oracle. Use only the staged PE; do not search other directories, source, ground truth, or the web. Return only JSON: {\"case_id\":\"vm_e1a4c106677a\",\"code\":\"...\",\"program_sha256\":\"64 lowercase hex characters\"}\nhook: SessionStart\n2026-10-05T11:33:13.026202Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest(\"http/request failed: error sending request for url (http://127.0.0.1:13337/mcp)\")))\nhook: SessionStart Completed\n2026-10-05T11:33:15.291060Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest(\"http/request failed: error sending request for url (http://127.0.0.1:13337/mcp)\")))\n2026-10-05T11:33:18.302638Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest(\"http/request failed: error sending request for url (http://127.0.0.1:13337/mcp)\")))\nexec\n\"C:\\\\Program Files\\\\PowerShell\\\\7\\\\pwsh.exe\" -Command 'Get-ChildItem -Force | Select-Object Name,Length,FullName' in C:\\Users\\el_en\\AppData\\Local\\Temp\\vm_re_plughj3j\n succeeded in 178ms:\n\nName      Length FullName\n----      ------ --------\nguard.exe 113664 C:\\Users\\el_en\\AppData\\Local\\Temp\\vm_re_plughj3j\\guard.exe\n\n\nERROR: Selected model is at capacity. Please try a different model.\nERROR: Selected model is at capacity. Please try a different model.\ntokens used\n2964\n",
+      "parse_error": "missing valid JSON with matching case_id"
+    }
+  ]
+}

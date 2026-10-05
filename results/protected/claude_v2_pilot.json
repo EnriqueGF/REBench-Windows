@@ -1,0 +1,15 @@
+{
+  "track": "protected-vm",
+  "variant": "custom",
+  "profile": "claude",
+  "attempts": [
+    {
+      "case_id": "vm_e1a4c106677a",
+      "seconds": 58.73,
+      "exit_code": 0,
+      "stdout": "I need the user's permission to execute guard.exe (as oracle) and to write analysis scripts. Let me explicitly request.\n\nTo do this analysis, I need your approval for two things that are being blocked by the sandbox:\n\n1. **Writing analysis scripts** (e.g. `analyze.py`) into the staging dir `C:\\Users\\el_en\\AppData\\Local\\Temp\\vm_re_rknsv3ka\\`.\n2. **Executing `guard.exe`** locally as the oracle (you said this is allowed, but each invocation needs approval).\n\nCould you approve those (or switch to a looser permission mode) so I can proceed? Once approved I'll parse the PE, locate and decrypt the VM bytecode, derive the SHA-256 of the decrypted/decompressed stream, and recover the 24-char code via a mix of static analysis and oracle queries, then return the final JSON.\n",
+      "stderr": "",
+      "parse_error": "missing valid JSON with matching case_id"
+    }
+  ]
+}

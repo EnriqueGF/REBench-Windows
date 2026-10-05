@@ -1,0 +1,3 @@
+[submodule "external/AgentRE-Bench"]
+	path = external/AgentRE-Bench
+	url = https://github.com/agentrebench/AgentRE-Bench.git

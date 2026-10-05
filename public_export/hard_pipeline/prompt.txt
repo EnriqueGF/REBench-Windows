@@ -1,0 +1,52 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_pipeline: Recuperar función x64 para entradas ocultas
+Un PE64 de consola implementa una transformación uint64_t mix_payload(uint64_t x, uint64_t y). Puedes consultarlo con dos argumentos hexadecimales, pero el test principal se evalúa en 256 pares de entrada que no se entregan. Recupera la función de su código máquina y exprésala con el DSL restringido del artefacto. Las operaciones usan aritmética modular de 64 bits.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_pipeline/brief.txt ---
+Uso del oráculo: mix_oracle.exe 0xX 0xY
+Salida: 16 dígitos hexadecimales, o error si los argumentos no son válidos.
+
+El ejecutable es un PE64 sin PDB y contiene CRT estático. La función propia
+mix_payload recibe los dos parámetros en los registros Windows x64 estándar.
+No se entrega fuente. El objeto JSON de q1 se ejecutará en un intérprete seguro
+sobre 256 pares ocultos, incluidos valores frontera y ambas ramas de control.
+
+
+--- ARTEFACTO artifacts/hard_pipeline/dsl.txt ---
+Formato de q1: objeto JSON con `steps` (1..32 instrucciones) y `return`.
+Registros iniciales: `x` y `y` (uint64). Destinos: `r0`..`r15`.
+Un operando es un registro ya definido o una constante hexadecimal `0x...`.
+Cada instrucción escribe `dst`. Todas las operaciones envuelven a 64 bits.
+
+Binarias: add, sub, xor, and, or, mul: campos `a` y `b`.
+Rotación/desplazamiento: rol, ror, shl, shr: campo `a` y `bits` entero 0..63.
+Selección: sel: campos `cond`, `a`, `b`; devuelve a si cond != 0, si no b.
+Unaria: not: campo `a`.
+
+Ejemplo de sintaxis (NO es la solución):
+{"steps":[{"dst":"r0","op":"xor","a":"x","b":"0x5"},
+          {"dst":"r1","op":"rol","a":"r0","bits":7}],"return":"r1"}
+
+Devuelve este objeto como valor de `answers.q1`, no como texto escapado.
+El corrector acepta programas equivalentes, no exige los mismos registros o
+la misma secuencia de instrucciones que la implementación de referencia.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_pipeline/mix_oracle.exe ---
+SHA256: 47dba733b336ae14ece65d8f2a342f663130e21cafc7f392ba20e3c93adccdb3
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+q1 [pipeline64]: Recupera mix_payload como programa DSL que funcione para cualquier x,y uint64.
+
+q2 [hex]: ¿Cuál es el RVA inicial de mix_payload dentro del PE?
+
+q3 [hex]: ¿Qué devuelve mix_payload para x=0x0123456789ABCDEF, y=0xFEDCBA9876543210?
+
+q4 [hex]: ¿Cuál es la máscara de bits usada para elegir entre las dos ramas?
+
+q5 [hex]: ¿Cuál es la constante uint64 multiplicada por (x+y) en la combinación final?

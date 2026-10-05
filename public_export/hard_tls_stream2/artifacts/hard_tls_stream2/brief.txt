@@ -1,0 +1,5 @@
+Uso: stream2_oracle.exe HEX, o stream2_oracle.exe - para el mensaje vacío.
+Salida: 16 dígitos hexadecimales. El ejecutable es PE64 sin PDB.
+La entrada se limita a 96 bytes. El ejecutable puede consultarse como oráculo,
+pero las 384 pruebas de q1 no se entregan. Se requiere reconstruir ambos
+recorridos y el estado efectivo que el cargador establece antes de main.

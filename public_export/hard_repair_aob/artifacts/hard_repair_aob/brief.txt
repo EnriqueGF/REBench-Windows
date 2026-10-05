@@ -1,0 +1,19 @@
+Uso: repair_vN.exe 0xX 0xY
+Salida: ACCEPT o REJECT. Los tres ejecutables visibles comparten el mismo
+contrato de aceptación. Una rutina de auditoría usa x,y, pero no decide la salida.
+
+Solo se permiten DOS cambios de un byte, ambos en opcodes de saltos condicionales
+cortos de la función que decide ACCEPT/REJECT. Conserva los desplazamientos y los
+demás bytes. La cuarta build no se entrega. Tu patrón de cada sitio debe encontrar
+una sola coincidencia en .text de cada build, visible y oculta, y el `offset`
+debe señalar exactamente el opcode que se cambia.
+
+Formato de answers.q1:
+{"sites":{"length":{"pattern":"TOKENS AOB","offset":0,"byte":"HH"},
+          "flag":{"pattern":"TOKENS AOB","offset":0,"byte":"HH"}}}
+El ejemplo muestra campos, no valores de solución. Cada patrón tiene 8..64 tokens
+separados por espacio, cada token `HH` o `??`, al menos 8 bytes literales.
+`offset` es la posición 0-based del opcode dentro del patrón; `byte` son dos
+dígitos hexadecimales del nuevo opcode. El corrector prueba las firmas en cuatro
+builds y ejecuta los PE reparados con entradas ocultas. Solo se admiten los
+opcodes de salto condicional esperados en los sitios comprobados.

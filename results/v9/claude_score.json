@@ -1,0 +1,3485 @@
+{
+  "earned": 1246,
+  "total": 1258,
+  "percent": 99.05,
+  "by_category": {
+    "PE": {
+      "earned": 7,
+      "total": 9
+    },
+    "ABI x64": {
+      "earned": 6,
+      "total": 6
+    },
+    "WinDbg": {
+      "earned": 3,
+      "total": 3
+    },
+    "WOW64": {
+      "earned": 3,
+      "total": 3
+    },
+    "Unwind": {
+      "earned": 6,
+      "total": 6
+    },
+    "Símbolos": {
+      "earned": 3,
+      "total": 3
+    },
+    "Loader": {
+      "earned": 6,
+      "total": 6
+    },
+    "ETW": {
+      "earned": 6,
+      "total": 6
+    },
+    "Lifecycle": {
+      "earned": 3,
+      "total": 3
+    },
+    "ABI x86": {
+      "earned": 6,
+      "total": 6
+    },
+    "x64 assembly": {
+      "earned": 3,
+      "total": 3
+    },
+    "Data RE": {
+      "earned": 6,
+      "total": 6
+    },
+    "COM": {
+      "earned": 6,
+      "total": 6
+    },
+    "Patrones": {
+      "earned": 6,
+      "total": 6
+    },
+    "PE práctico": {
+      "earned": 36,
+      "total": 36
+    },
+    "VM práctico": {
+      "earned": 47,
+      "total": 47
+    },
+    "Patrones PE": {
+      "earned": 85,
+      "total": 85
+    },
+    "TLS PE y RE funcional": {
+      "earned": 130,
+      "total": 130
+    },
+    "PE loader": {
+      "earned": 38,
+      "total": 48
+    },
+    "Unwind x64": {
+      "earned": 55,
+      "total": 55
+    },
+    "Recursos PE y RE funcional": {
+      "earned": 206,
+      "total": 206
+    },
+    "Parche binario y patrones PE": {
+      "earned": 160,
+      "total": 160
+    },
+    "TLS, recursos PE y RE funcional": {
+      "earned": 350,
+      "total": 350
+    },
+    "RE funcional": {
+      "earned": 69,
+      "total": 69
+    }
+  },
+  "by_track": {
+    "foundations": {
+      "earned": 70,
+      "total": 72
+    },
+    "expert": {
+      "earned": 112,
+      "total": 112
+    },
+    "research": {
+      "earned": 1064,
+      "total": 1074
+    }
+  },
+  "rows": [
+    {
+      "case_id": "pe_rva",
+      "question_id": "q1",
+      "category": "PE",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x680",
+      "expected": "0x680"
+    },
+    {
+      "case_id": "pe_rva",
+      "question_id": "q2",
+      "category": "PE",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "pe_rva",
+      "question_id": "q3",
+      "category": "PE",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "pe_reloc",
+      "question_id": "q1",
+      "category": "PE",
+      "type": "hex",
+      "points": 2,
+      "earned": 0,
+      "submitted": "0x0000000040000000",
+      "expected": "0x180001234"
+    },
+    {
+      "case_id": "pe_reloc",
+      "question_id": "q2",
+      "category": "PE",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "pe_reloc",
+      "question_id": "q3",
+      "category": "PE",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x40000000",
+      "expected": "0x40000000"
+    },
+    {
+      "case_id": "abi_x64",
+      "question_id": "q1",
+      "category": "ABI x64",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x55",
+      "expected": "0x55"
+    },
+    {
+      "case_id": "abi_x64",
+      "question_id": "q2",
+      "category": "ABI x64",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "abi_x64",
+      "question_id": "q3",
+      "category": "ABI x64",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B",
+        "C"
+      ],
+      "expected": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "case_id": "crash_av",
+      "question_id": "q1",
+      "category": "WinDbg",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "crash_av",
+      "question_id": "q2",
+      "category": "WinDbg",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "crash_av",
+      "question_id": "q3",
+      "category": "WinDbg",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "wow64_view",
+      "question_id": "q1",
+      "category": "WOW64",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "wow64_view",
+      "question_id": "q2",
+      "category": "WOW64",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "C",
+      "expected": "C"
+    },
+    {
+      "case_id": "wow64_view",
+      "question_id": "q3",
+      "category": "WOW64",
+      "type": "multi",
+      "points": 1,
+      "earned": 1,
+      "submitted": [
+        "A",
+        "B"
+      ],
+      "expected": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "case_id": "unwind_x64",
+      "question_id": "q1",
+      "category": "Unwind",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "unwind_x64",
+      "question_id": "q2",
+      "category": "Unwind",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "unwind_x64",
+      "question_id": "q3",
+      "category": "Unwind",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B"
+      ],
+      "expected": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "case_id": "symbols_pdb",
+      "question_id": "q1",
+      "category": "Símbolos",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x71A0",
+      "expected": "0x71A0"
+    },
+    {
+      "case_id": "symbols_pdb",
+      "question_id": "q2",
+      "category": "Símbolos",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "symbols_pdb",
+      "question_id": "q3",
+      "category": "Símbolos",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "loader_lock",
+      "question_id": "q1",
+      "category": "Loader",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "loader_lock",
+      "question_id": "q2",
+      "category": "Loader",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "loader_lock",
+      "question_id": "q3",
+      "category": "Loader",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "etw_pid",
+      "question_id": "q1",
+      "category": "ETW",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "etw_pid",
+      "question_id": "q2",
+      "category": "ETW",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "C",
+      "expected": "C"
+    },
+    {
+      "case_id": "etw_pid",
+      "question_id": "q3",
+      "category": "ETW",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "question_id": "q1",
+      "category": "Lifecycle",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "question_id": "q2",
+      "category": "Lifecycle",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "question_id": "q3",
+      "category": "Lifecycle",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "x86_stack",
+      "question_id": "q1",
+      "category": "ABI x86",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x10",
+      "expected": "0x10"
+    },
+    {
+      "case_id": "x86_stack",
+      "question_id": "q2",
+      "category": "ABI x86",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "x86_stack",
+      "question_id": "q3",
+      "category": "ABI x86",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "rip_relative",
+      "question_id": "q1",
+      "category": "x64 assembly",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x180004B00",
+      "expected": "0x180004B00"
+    },
+    {
+      "case_id": "rip_relative",
+      "question_id": "q2",
+      "category": "x64 assembly",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x6B00",
+      "expected": "0x6B00"
+    },
+    {
+      "case_id": "rip_relative",
+      "question_id": "q3",
+      "category": "x64 assembly",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "xor_config",
+      "question_id": "q1",
+      "category": "Data RE",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "xor_config",
+      "question_id": "q2",
+      "category": "Data RE",
+      "type": "hex",
+      "points": 2,
+      "earned": 2,
+      "submitted": "0x5A",
+      "expected": "0x5A"
+    },
+    {
+      "case_id": "xor_config",
+      "question_id": "q3",
+      "category": "Data RE",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "com_activation",
+      "question_id": "q1",
+      "category": "COM",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "com_activation",
+      "question_id": "q2",
+      "category": "COM",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "C",
+      "expected": "C"
+    },
+    {
+      "case_id": "com_activation",
+      "question_id": "q3",
+      "category": "COM",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B",
+        "C"
+      ],
+      "expected": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "case_id": "aob_versions",
+      "question_id": "q1",
+      "category": "Patrones",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "aob_versions",
+      "question_id": "q2",
+      "category": "Patrones",
+      "type": "multi",
+      "points": 2,
+      "earned": 2,
+      "submitted": [
+        "A",
+        "B"
+      ],
+      "expected": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "case_id": "aob_versions",
+      "question_id": "q3",
+      "category": "Patrones",
+      "type": "single",
+      "points": 2,
+      "earned": 2,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "hard_license",
+      "question_id": "q1",
+      "category": "PE práctico",
+      "type": "literal",
+      "points": 20,
+      "earned": 20,
+      "submitted": "N7K4C2R9Q5M8V3X6T1P0",
+      "expected": "N7K4C2R9Q5M8V3X6T1P0"
+    },
+    {
+      "case_id": "hard_license",
+      "question_id": "q2",
+      "category": "PE práctico",
+      "type": "literal",
+      "points": 5,
+      "earned": 5,
+      "submitted": "A1B2C3D4E5F6G7H8J9K0",
+      "expected": "A1B2C3D4E5F6G7H8J9K0"
+    },
+    {
+      "case_id": "hard_license",
+      "question_id": "q3",
+      "category": "PE práctico",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x3212cf66",
+      "expected": "0x3212cf66"
+    },
+    {
+      "case_id": "hard_license",
+      "question_id": "q4",
+      "category": "PE práctico",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1180",
+      "expected": "0x1180"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q1",
+      "category": "VM práctico",
+      "type": "literal",
+      "points": 25,
+      "earned": 25,
+      "submitted": "Q8M4Z2N7R5T9V3X6",
+      "expected": "Q8M4Z2N7R5T9V3X6"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q2",
+      "category": "VM práctico",
+      "type": "hex",
+      "points": 4,
+      "earned": 4,
+      "submitted": "0x6d",
+      "expected": "0x6d"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q3",
+      "category": "VM práctico",
+      "type": "single",
+      "points": 4,
+      "earned": 4,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q4",
+      "category": "VM práctico",
+      "type": "literal",
+      "points": 6,
+      "earned": 6,
+      "submitted": "7,0,12,3",
+      "expected": "7,0,12,3"
+    },
+    {
+      "case_id": "hard_vm",
+      "question_id": "q5",
+      "category": "VM práctico",
+      "type": "literal",
+      "points": 8,
+      "earned": 8,
+      "submitted": "af1ccf55231d74341be7b089261c10f6f1dd5331c73b7b14b596422f29152de8",
+      "expected": "af1ccf55231d74341be7b089261c10f6f1dd5331c73b7b14b596422f29152de8"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q1",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1070",
+      "expected": "0x1070"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q2",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1080",
+      "expected": "0x1080"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q3",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1090",
+      "expected": "0x1090"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q4",
+      "category": "Patrones PE",
+      "type": "single",
+      "points": 8,
+      "earned": 8,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "hard_pattern",
+      "question_id": "q5",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x3091c972",
+      "expected": "0x3091c972"
+    },
+    {
+      "case_id": "hard_tls_state",
+      "question_id": "q1",
+      "category": "TLS PE y RE funcional",
+      "type": "pipeline64",
+      "points": 100,
+      "earned": 100,
+      "submitted": {
+        "tables": {
+          "t": [
+            "0x4cf5ad432745937f",
+            "0xe97b1d0f83ac6b29",
+            "0xc13fa9a902a6328f",
+            "0x7b4d3be2a5ed7d63",
+            "0xd0ed6f7758fb31a9",
+            "0x2b6d85fe993ce12d",
+            "0x8a6e52342d9afc71",
+            "0xf963b3d5c6a98e4b"
+          ],
+          "m": [
+            "0x9e3779b185ebca87",
+            "0xc2b2ae3d27d4eb4f",
+            "0xd6e8feb86659fd93",
+            "0xa24baed4963ee407"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "lookup",
+            "table": "t",
+            "index": 0
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "x"
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "t",
+            "index": 1
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "r1",
+            "b": "y"
+          },
+          {
+            "op": "loop",
+            "count": 8,
+            "body": [
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "t",
+                "index": "i"
+              },
+              {
+                "dst": "r6",
+                "op": "rol",
+                "a": "r1",
+                "bits": 11
+              },
+              {
+                "dst": "r7",
+                "op": "add",
+                "a": "r0",
+                "b": "r6"
+              },
+              {
+                "dst": "r8",
+                "op": "xor",
+                "a": "r7",
+                "b": "r5"
+              },
+              {
+                "dst": "r9",
+                "op": "xor",
+                "a": "r8",
+                "b": "x"
+              },
+              {
+                "dst": "r10",
+                "op": "and",
+                "a": "r9",
+                "b": "0x200"
+              },
+              {
+                "dst": "r11",
+                "op": "rol",
+                "a": "r8",
+                "bits": 13
+              },
+              {
+                "dst": "r12",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "r13",
+                "op": "lookup",
+                "table": "t",
+                "index": "r12"
+              },
+              {
+                "dst": "r14",
+                "op": "xor",
+                "a": "r13",
+                "b": "r8"
+              },
+              {
+                "dst": "r15",
+                "op": "ror",
+                "a": "r14",
+                "bits": 17
+              },
+              {
+                "dst": "r16",
+                "op": "sel",
+                "cond": "r10",
+                "a": "r11",
+                "b": "r15"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r16"
+              },
+              {
+                "dst": "r17",
+                "op": "lookup",
+                "table": "m",
+                "index": "i"
+              },
+              {
+                "dst": "r18",
+                "op": "mul",
+                "a": "r17",
+                "b": "r1"
+              },
+              {
+                "dst": "r19",
+                "op": "sub",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "r20",
+                "op": "lookup",
+                "table": "t",
+                "index": "r19"
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r20",
+                "b": "r18"
+              },
+              {
+                "dst": "r0",
+                "op": "xor",
+                "a": "r16",
+                "b": 0
+              }
+            ]
+          },
+          {
+            "dst": "r21",
+            "op": "rol",
+            "a": "r1",
+            "bits": 23
+          },
+          {
+            "dst": "r22",
+            "op": "mul",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r23",
+            "op": "mul",
+            "a": "r22",
+            "b": "0x8cb92ba72f3d8dd7"
+          },
+          {
+            "dst": "r24",
+            "op": "xor",
+            "a": "r21",
+            "b": "r23"
+          },
+          {
+            "dst": "r25",
+            "op": "xor",
+            "a": "r24",
+            "b": "r0"
+          }
+        ],
+        "return": "r25"
+      },
+      "expected": {
+        "tables": {
+          "keys": [
+            "0x4cf5ad432745937f",
+            "0xe97b1d0f83ac6b29",
+            "0xc13fa9a902a6328f",
+            "0x7b4d3be2a5ed7d63",
+            "0xd0ed6f7758fb31a9",
+            "0x2b6d85fe993ce12d",
+            "0x8a6e52342d9afc71",
+            "0xf963b3d5c6a98e4b"
+          ],
+          "muls": [
+            "0x9e3779b185ebca87",
+            "0xc2b2ae3d27d4eb4f",
+            "0xd6e8feb86659fd93",
+            "0xa24baed4963ee407"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "lookup",
+            "table": "keys",
+            "index": "0x0"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "x",
+            "b": "r0"
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "keys",
+            "index": "0x1"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "y",
+            "b": "r1"
+          },
+          {
+            "op": "loop",
+            "count": 8,
+            "body": [
+              {
+                "dst": "r2",
+                "op": "rol",
+                "a": "r1",
+                "bits": 11
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r0",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "keys",
+                "index": "i"
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r2",
+                "b": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "xor",
+                "a": "r2",
+                "b": "x"
+              },
+              {
+                "dst": "r4",
+                "op": "and",
+                "a": "r4",
+                "b": "0x200"
+              },
+              {
+                "dst": "r5",
+                "op": "rol",
+                "a": "r2",
+                "bits": 13
+              },
+              {
+                "dst": "r6",
+                "op": "add",
+                "a": "i",
+                "b": "0x3"
+              },
+              {
+                "dst": "r6",
+                "op": "lookup",
+                "table": "keys",
+                "index": "r6"
+              },
+              {
+                "dst": "r6",
+                "op": "xor",
+                "a": "r2",
+                "b": "r6"
+              },
+              {
+                "dst": "r6",
+                "op": "ror",
+                "a": "r6",
+                "bits": 17
+              },
+              {
+                "dst": "r0",
+                "op": "sel",
+                "cond": "r4",
+                "a": "r5",
+                "b": "r6"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              },
+              {
+                "dst": "r7",
+                "op": "lookup",
+                "table": "muls",
+                "index": "i"
+              },
+              {
+                "dst": "r1",
+                "op": "mul",
+                "a": "r1",
+                "b": "r7"
+              },
+              {
+                "dst": "r8",
+                "op": "add",
+                "a": "i",
+                "b": "0x5"
+              },
+              {
+                "dst": "r8",
+                "op": "lookup",
+                "table": "keys",
+                "index": "r8"
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r1",
+                "b": "r8"
+              }
+            ]
+          },
+          {
+            "dst": "r2",
+            "op": "rol",
+            "a": "r1",
+            "bits": 23
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r3",
+            "op": "mul",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r3",
+            "op": "mul",
+            "a": "r3",
+            "b": "0x8cb92ba72f3d8dd7"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r3"
+          }
+        ],
+        "return": "r0"
+      }
+    },
+    {
+      "case_id": "hard_tls_state",
+      "question_id": "q2",
+      "category": "TLS PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x1000",
+      "expected": "0x1000"
+    },
+    {
+      "case_id": "hard_tls_state",
+      "question_id": "q3",
+      "category": "TLS PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x11d0",
+      "expected": "0x11d0"
+    },
+    {
+      "case_id": "hard_tls_state",
+      "question_id": "q4",
+      "category": "TLS PE y RE funcional",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x4cf5ad432745937f",
+      "expected": "0x4cf5ad432745937f"
+    },
+    {
+      "case_id": "hard_tls_state",
+      "question_id": "q5",
+      "category": "TLS PE y RE funcional",
+      "type": "hex",
+      "points": 4,
+      "earned": 4,
+      "submitted": "0x5685dd8b1b0483f1",
+      "expected": "0x5685dd8b1b0483f1"
+    },
+    {
+      "case_id": "hard_tls_state",
+      "question_id": "q6",
+      "category": "TLS PE y RE funcional",
+      "type": "single",
+      "points": 4,
+      "earned": 4,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q1",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x211e4",
+      "expected": "0x211e4"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q2",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x21368",
+      "expected": "0x21368"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q3",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x20168",
+      "expected": "0x20168"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q4",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x140001bb3",
+      "expected": "0x140001bb3"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q5",
+      "category": "PE loader",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x22b80",
+      "expected": "0x22b80"
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q6",
+      "category": "PE loader",
+      "type": "multi",
+      "points": 10,
+      "earned": 0,
+      "submitted": [
+        "A",
+        "C"
+      ],
+      "expected": [
+        "A",
+        "C",
+        "E"
+      ]
+    },
+    {
+      "case_id": "hard_delay_import",
+      "question_id": "q7",
+      "category": "PE loader",
+      "type": "single",
+      "points": 6,
+      "earned": 6,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q1",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x10A0",
+      "expected": "0x10a0"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q2",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x1EDF0",
+      "expected": "0x1edf0"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q3",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x88",
+      "expected": "0x88"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q4",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x20",
+      "expected": "0x20"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q5",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0xC00100FF10",
+      "expected": "0xc00100ff10"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q6",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x1122334455667788",
+      "expected": "0x1122334455667788"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q7",
+      "category": "Unwind x64",
+      "type": "hex",
+      "points": 7,
+      "earned": 7,
+      "submitted": "0x7FF612345678",
+      "expected": "0x7ff612345678"
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "question_id": "q8",
+      "category": "Unwind x64",
+      "type": "single",
+      "points": 6,
+      "earned": 6,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q1",
+      "category": "Recursos PE y RE funcional",
+      "type": "stream64",
+      "points": 160,
+      "earned": 160,
+      "submitted": {
+        "tables": {
+          "K": [
+            "0x36e5e109598cd19f",
+            "0xfbbb755537f649cf",
+            "0xb7255472a85b40dd",
+            "0x5ccca9a0a23757bb",
+            "0x59b23fdbb5fde67f",
+            "0x5747392fd70fa131",
+            "0xd35225abb3bbc851",
+            "0x022bcc7e6ea0579f",
+            "0xce2dda66a102ca3d",
+            "0x37fa26ad1b795e15",
+            "0x4985cffaeb5613ad",
+            "0xdf623939589c78f9",
+            "0x45382f6fb73f2a97",
+            "0x1d7c168aeae95889",
+            "0xeb4948048a4b433b",
+            "0x2da0e35ad183fd1f"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r1",
+            "op": "mul",
+            "a": "0xfbbb755537f649cf",
+            "b": "n"
+          },
+          {
+            "dst": "r9",
+            "op": "xor",
+            "a": "0x36e5e109598cd19f",
+            "b": "r1"
+          },
+          {
+            "dst": "r2",
+            "op": "xor",
+            "a": "0x5ccca9a0a23757bb",
+            "b": "n"
+          },
+          {
+            "dst": "r8",
+            "op": "add",
+            "a": "0xb7255472a85b40dd",
+            "b": "r2"
+          },
+          {
+            "op": "each",
+            "body": [
+              {
+                "dst": "t1",
+                "op": "rol",
+                "a": "r8",
+                "bits": 11
+              },
+              {
+                "dst": "tmp",
+                "op": "add",
+                "a": "r9",
+                "b": "t1"
+              },
+              {
+                "dst": "i3",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "k_i3",
+                "op": "lookup",
+                "table": "K",
+                "index": "i3"
+              },
+              {
+                "dst": "c",
+                "op": "add",
+                "a": "k_i3",
+                "b": "byte"
+              },
+              {
+                "dst": "tempA",
+                "op": "xor",
+                "a": "tmp",
+                "b": "c"
+              },
+              {
+                "dst": "cond",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "k_cond",
+                "op": "lookup",
+                "table": "K",
+                "index": "cond"
+              },
+              {
+                "dst": "r9new",
+                "op": "mul",
+                "a": "k_cond",
+                "b": "tempA"
+              },
+              {
+                "dst": "bh",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "k_bh",
+                "op": "lookup",
+                "table": "K",
+                "index": "bh"
+              },
+              {
+                "dst": "tb1",
+                "op": "xor",
+                "a": "k_bh",
+                "b": "r9new"
+              },
+              {
+                "dst": "tb",
+                "op": "rol",
+                "a": "tb1",
+                "bits": 17
+              },
+              {
+                "dst": "ib",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "k_ib",
+                "op": "lookup",
+                "table": "K",
+                "index": "ib"
+              },
+              {
+                "dst": "fb1",
+                "op": "add",
+                "a": "k_ib",
+                "b": "r9new"
+              },
+              {
+                "dst": "fb",
+                "op": "ror",
+                "a": "fb1",
+                "bits": 13
+              },
+              {
+                "dst": "cbit",
+                "op": "and",
+                "a": "cond",
+                "b": 4
+              },
+              {
+                "dst": "r9",
+                "op": "sel",
+                "cond": "cbit",
+                "a": "tb",
+                "b": "fb"
+              },
+              {
+                "dst": "i1",
+                "op": "add",
+                "a": "i",
+                "b": 1
+              },
+              {
+                "dst": "k_i1",
+                "op": "lookup",
+                "table": "K",
+                "index": "i1"
+              },
+              {
+                "dst": "rx1",
+                "op": "xor",
+                "a": "k_i1",
+                "b": "byte"
+              },
+              {
+                "dst": "rax2",
+                "op": "rol",
+                "a": "rx1",
+                "bits": 5
+              },
+              {
+                "dst": "r8x",
+                "op": "xor",
+                "a": "r8",
+                "b": "r9"
+              },
+              {
+                "dst": "i7",
+                "op": "add",
+                "a": "i",
+                "b": 7
+              },
+              {
+                "dst": "k_i7",
+                "op": "lookup",
+                "table": "K",
+                "index": "i7"
+              },
+              {
+                "dst": "mul1",
+                "op": "mul",
+                "a": "r8x",
+                "b": "k_i7"
+              },
+              {
+                "dst": "r8",
+                "op": "add",
+                "a": "mul1",
+                "b": "rax2"
+              }
+            ]
+          },
+          {
+            "dst": "f1",
+            "op": "rol",
+            "a": "r8",
+            "bits": 29
+          },
+          {
+            "dst": "k_n",
+            "op": "lookup",
+            "table": "K",
+            "index": "n"
+          },
+          {
+            "dst": "f2",
+            "op": "xor",
+            "a": "f1",
+            "b": "k_n"
+          },
+          {
+            "dst": "nm",
+            "op": "mul",
+            "a": "n",
+            "b": "0xd6e8feb86659fd93"
+          },
+          {
+            "dst": "f3",
+            "op": "xor",
+            "a": "f2",
+            "b": "nm"
+          },
+          {
+            "dst": "out",
+            "op": "xor",
+            "a": "f3",
+            "b": "r9"
+          }
+        ],
+        "return": "out"
+      },
+      "expected": {
+        "tables": {
+          "k": [
+            "0x36e5e109598cd19f",
+            "0xfbbb755537f649cf",
+            "0xb7255472a85b40dd",
+            "0x5ccca9a0a23757bb",
+            "0x59b23fdbb5fde67f",
+            "0x5747392fd70fa131",
+            "0xd35225abb3bbc851",
+            "0x22bcc7e6ea0579f",
+            "0xce2dda66a102ca3d",
+            "0x37fa26ad1b795e15",
+            "0x4985cffaeb5613ad",
+            "0xdf623939589c78f9",
+            "0x45382f6fb73f2a97",
+            "0x1d7c168aeae95889",
+            "0xeb4948048a4b433b",
+            "0x2da0e35ad183fd1f"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "lookup",
+            "table": "k",
+            "index": 0
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "k",
+            "index": 1
+          },
+          {
+            "dst": "r1",
+            "op": "mul",
+            "a": "n",
+            "b": "r1"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r1"
+          },
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": 2
+          },
+          {
+            "dst": "r3",
+            "op": "lookup",
+            "table": "k",
+            "index": 3
+          },
+          {
+            "dst": "r3",
+            "op": "xor",
+            "a": "n",
+            "b": "r3"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "r2",
+            "b": "r3"
+          },
+          {
+            "op": "each",
+            "body": [
+              {
+                "dst": "r2",
+                "op": "rol",
+                "a": "r1",
+                "bits": 11
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r0",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "add",
+                "a": "byte",
+                "b": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r2",
+                "b": "r4"
+              },
+              {
+                "dst": "r5",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "r6",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r2",
+                "op": "mul",
+                "a": "r2",
+                "b": "r6"
+              },
+              {
+                "dst": "r7",
+                "op": "and",
+                "a": "r5",
+                "b": 4
+              },
+              {
+                "dst": "r8",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "r8",
+                "op": "lookup",
+                "table": "k",
+                "index": "r8"
+              },
+              {
+                "dst": "r9",
+                "op": "xor",
+                "a": "r2",
+                "b": "r8"
+              },
+              {
+                "dst": "r9",
+                "op": "rol",
+                "a": "r9",
+                "bits": 17
+              },
+              {
+                "dst": "r10",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "r10",
+                "op": "lookup",
+                "table": "k",
+                "index": "r10"
+              },
+              {
+                "dst": "r11",
+                "op": "add",
+                "a": "r2",
+                "b": "r10"
+              },
+              {
+                "dst": "r11",
+                "op": "ror",
+                "a": "r11",
+                "bits": 13
+              },
+              {
+                "dst": "r0",
+                "op": "sel",
+                "cond": "r7",
+                "a": "r9",
+                "b": "r11"
+              },
+              {
+                "dst": "r1",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              },
+              {
+                "dst": "r12",
+                "op": "add",
+                "a": "i",
+                "b": 7
+              },
+              {
+                "dst": "r12",
+                "op": "lookup",
+                "table": "k",
+                "index": "r12"
+              },
+              {
+                "dst": "r1",
+                "op": "mul",
+                "a": "r1",
+                "b": "r12"
+              },
+              {
+                "dst": "r13",
+                "op": "add",
+                "a": "i",
+                "b": 1
+              },
+              {
+                "dst": "r13",
+                "op": "lookup",
+                "table": "k",
+                "index": "r13"
+              },
+              {
+                "dst": "r14",
+                "op": "xor",
+                "a": "byte",
+                "b": "r13"
+              },
+              {
+                "dst": "r14",
+                "op": "rol",
+                "a": "r14",
+                "bits": 5
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r1",
+                "b": "r14"
+              }
+            ]
+          },
+          {
+            "dst": "r2",
+            "op": "rol",
+            "a": "r1",
+            "bits": 29
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r3",
+            "op": "lookup",
+            "table": "k",
+            "index": "n"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r3"
+          },
+          {
+            "dst": "r4",
+            "op": "mul",
+            "a": "n",
+            "b": "0xd6e8feb86659fd93"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r4"
+          }
+        ],
+        "return": "r0"
+      }
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q2",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x1390",
+      "expected": "0x1390"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q3",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x2bd",
+      "expected": "0x2bd"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q4",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 10,
+      "earned": 10,
+      "submitted": "0x36e5e109598cd19f",
+      "expected": "0x36e5e109598cd19f"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q5",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x69525313027E3FC2",
+      "expected": "0x69525313027e3fc2"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q6",
+      "category": "Recursos PE y RE funcional",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x2A47A248C39BF88C",
+      "expected": "0x2a47a248c39bf88c"
+    },
+    {
+      "case_id": "hard_resource_stream",
+      "question_id": "q7",
+      "category": "Recursos PE y RE funcional",
+      "type": "multi",
+      "points": 8,
+      "earned": 8,
+      "submitted": [
+        "A",
+        "D"
+      ],
+      "expected": [
+        "A",
+        "D"
+      ]
+    },
+    {
+      "case_id": "hard_repair_aob",
+      "question_id": "q1",
+      "category": "Parche binario y patrones PE",
+      "type": "patch_aob",
+      "points": 120,
+      "earned": 120,
+      "submitted": {
+        "sites": {
+          "length": {
+            "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3",
+            "offset": 7,
+            "byte": "77"
+          },
+          "flag": {
+            "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3",
+            "offset": 12,
+            "byte": "74"
+          }
+        }
+      },
+      "expected": {
+        "sites": {
+          "length": {
+            "pattern": "81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8",
+            "offset": 6,
+            "byte": "77"
+          },
+          "flag": {
+            "pattern": "00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01",
+            "offset": 6,
+            "byte": "74"
+          }
+        },
+        "versions": [
+          {
+            "path": "public/artifacts/hard_repair/repair_v1.exe",
+            "length_rva": "0x1177",
+            "flag_rva": "0x117c"
+          },
+          {
+            "path": "public/artifacts/hard_repair/repair_v2.exe",
+            "length_rva": "0x1207",
+            "flag_rva": "0x120c"
+          },
+          {
+            "path": "public/artifacts/hard_repair/repair_v3.exe",
+            "length_rva": "0x1187",
+            "flag_rva": "0x118c"
+          },
+          {
+            "path": "private/hard/hidden/repair_v4.exe",
+            "length_rva": "0x11c7",
+            "flag_rva": "0x11cc"
+          }
+        ],
+        "tests": [
+          {
+            "x": "0x0",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x0",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x0",
+            "y": "0x20",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x0",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x20",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x1",
+            "y": "0x21",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x20",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xff",
+            "y": "0x21",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x20",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x100",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x1",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x20",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x101",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x110",
+            "y": "0x31",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xba",
+            "y": "0x2c",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x4f",
+            "y": "0xc",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xee",
+            "y": "0x21",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xc4",
+            "y": "0x24",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0x83",
+            "y": "0x15",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x24",
+            "y": "0x8",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x85",
+            "y": "0x3e",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x88",
+            "y": "0x39",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x74",
+            "y": "0xd",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xa",
+            "y": "0x1e",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x113",
+            "y": "0xd",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xfe",
+            "y": "0x3c",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0xf5",
+            "y": "0x0",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x5c",
+            "y": "0x25",
+            "output": "REJECT"
+          },
+          {
+            "x": "0xe8",
+            "y": "0x29",
+            "output": "REJECT"
+          },
+          {
+            "x": "0x82",
+            "y": "0x34",
+            "output": "ACCEPT"
+          },
+          {
+            "x": "0xc8",
+            "y": "0x1b",
+            "output": "REJECT"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "hard_repair_aob",
+      "question_id": "q2",
+      "category": "Parche binario y patrones PE",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x1170",
+      "expected": "0x1170"
+    },
+    {
+      "case_id": "hard_repair_aob",
+      "question_id": "q3",
+      "category": "Parche binario y patrones PE",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x1207",
+      "expected": "0x1207"
+    },
+    {
+      "case_id": "hard_repair_aob",
+      "question_id": "q4",
+      "category": "Parche binario y patrones PE",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x118c",
+      "expected": "0x118c"
+    },
+    {
+      "case_id": "hard_repair_aob",
+      "question_id": "q5",
+      "category": "Parche binario y patrones PE",
+      "type": "single",
+      "points": 4,
+      "earned": 4,
+      "submitted": "A",
+      "expected": "A"
+    },
+    {
+      "case_id": "hard_repair_aob",
+      "question_id": "q6",
+      "category": "Parche binario y patrones PE",
+      "type": "single",
+      "points": 4,
+      "earned": 4,
+      "submitted": "B",
+      "expected": "B"
+    },
+    {
+      "case_id": "hard_repair_aob",
+      "question_id": "q7",
+      "category": "Parche binario y patrones PE",
+      "type": "multi",
+      "points": 8,
+      "earned": 8,
+      "submitted": [
+        "A",
+        "C",
+        "E"
+      ],
+      "expected": [
+        "A",
+        "C",
+        "E"
+      ]
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q1",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "stream2_64",
+      "points": 300,
+      "earned": 300,
+      "submitted": {
+        "tables": {
+          "K": [
+            "0x9631d3fca527cc7d",
+            "0xb2f05aa3bebf5615",
+            "0xf5a56ee0b019f42f",
+            "0xc6d53be849f074d7",
+            "0x391ac53cee7726f1",
+            "0x25c69dad62a3857",
+            "0x3f475c4dd0b3c81",
+            "0xb3f0dfecb605870f",
+            "0xbdccf37a21b32819",
+            "0x82ec2e9fe64913f1",
+            "0x1ce9936e54d03247",
+            "0x4b4417846c599dd",
+            "0xb55954c12e91be97",
+            "0x23985cc0f44d934b",
+            "0x44f2899235d13b47",
+            "0xa4f52a10900e4cc7"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "t1",
+            "op": "mul",
+            "a": "0xb2f05aa3bebf5615",
+            "b": "n"
+          },
+          {
+            "dst": "r9",
+            "op": "xor",
+            "a": "0x9631d3fca527cc7d",
+            "b": "t1"
+          },
+          {
+            "dst": "t2",
+            "op": "xor",
+            "a": "0xc6d53be849f074d7",
+            "b": "n"
+          },
+          {
+            "dst": "r8",
+            "op": "add",
+            "a": "0xf5a56ee0b019f42f",
+            "b": "t2"
+          },
+          {
+            "op": "each",
+            "body": [
+              {
+                "dst": "a0",
+                "op": "rol",
+                "a": "r8",
+                "b": 7
+              },
+              {
+                "dst": "rax",
+                "op": "add",
+                "a": "a0",
+                "b": "r9"
+              },
+              {
+                "dst": "idx1",
+                "op": "add",
+                "a": "i",
+                "b": 5
+              },
+              {
+                "dst": "ki5",
+                "op": "lookup",
+                "table": "K",
+                "index": "idx1"
+              },
+              {
+                "dst": "t3",
+                "op": "add",
+                "a": "ki5",
+                "b": "byte"
+              },
+              {
+                "dst": "rax",
+                "op": "xor",
+                "a": "rax",
+                "b": "t3"
+              },
+              {
+                "dst": "idx2",
+                "op": "add",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "kbi",
+                "op": "lookup",
+                "table": "K",
+                "index": "idx2"
+              },
+              {
+                "dst": "r9",
+                "op": "mul",
+                "a": "kbi",
+                "b": "rax"
+              },
+              {
+                "dst": "bh",
+                "op": "shr",
+                "a": "byte",
+                "b": 4
+              },
+              {
+                "dst": "kbh",
+                "op": "lookup",
+                "table": "K",
+                "index": "bh"
+              },
+              {
+                "dst": "irc",
+                "op": "xor",
+                "a": "kbh",
+                "b": "r9"
+              },
+              {
+                "dst": "ifr9",
+                "op": "rol",
+                "a": "irc",
+                "b": 13
+              },
+              {
+                "dst": "idx3",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "ki3",
+                "op": "lookup",
+                "table": "K",
+                "index": "idx3"
+              },
+              {
+                "dst": "erc",
+                "op": "add",
+                "a": "ki3",
+                "b": "r9"
+              },
+              {
+                "dst": "elr9",
+                "op": "ror",
+                "a": "erc",
+                "b": 11
+              },
+              {
+                "dst": "bxi",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "c1",
+                "op": "and",
+                "a": "bxi",
+                "b": 1
+              },
+              {
+                "dst": "r9",
+                "op": "sel",
+                "cond": "c1",
+                "a": "ifr9",
+                "b": "elr9"
+              },
+              {
+                "dst": "idx4",
+                "op": "add",
+                "a": "i",
+                "b": 11
+              },
+              {
+                "dst": "ki11",
+                "op": "lookup",
+                "table": "K",
+                "index": "idx4"
+              },
+              {
+                "dst": "r8x",
+                "op": "xor",
+                "a": "r8",
+                "b": "r9"
+              },
+              {
+                "dst": "r8m",
+                "op": "mul",
+                "a": "r8x",
+                "b": "ki11"
+              },
+              {
+                "dst": "r8",
+                "op": "add",
+                "a": "r8m",
+                "b": "byte"
+              }
+            ]
+          },
+          {
+            "op": "each_reverse",
+            "body": [
+              {
+                "dst": "ra0",
+                "op": "ror",
+                "a": "r9",
+                "b": 9
+              },
+              {
+                "dst": "rdx",
+                "op": "xor",
+                "a": "ra0",
+                "b": "r8"
+              },
+              {
+                "dst": "idxA",
+                "op": "add",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "kA",
+                "op": "lookup",
+                "table": "K",
+                "index": "idxA"
+              },
+              {
+                "dst": "rdx",
+                "op": "add",
+                "a": "rdx",
+                "b": "kA"
+              },
+              {
+                "dst": "idxB",
+                "op": "add",
+                "a": "i",
+                "b": 7
+              },
+              {
+                "dst": "kB",
+                "op": "lookup",
+                "table": "K",
+                "index": "idxB"
+              },
+              {
+                "dst": "ifrc",
+                "op": "xor",
+                "a": "kB",
+                "b": "rdx"
+              },
+              {
+                "dst": "ifr8",
+                "op": "rol",
+                "a": "ifrc",
+                "b": 17
+              },
+              {
+                "dst": "bh2",
+                "op": "shr",
+                "a": "byte",
+                "b": 4
+              },
+              {
+                "dst": "kbh2",
+                "op": "lookup",
+                "table": "K",
+                "index": "bh2"
+              },
+              {
+                "dst": "elrc",
+                "op": "add",
+                "a": "kbh2",
+                "b": "rdx"
+              },
+              {
+                "dst": "elr8",
+                "op": "ror",
+                "a": "elrc",
+                "b": 19
+              },
+              {
+                "dst": "bxi2",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "c2",
+                "op": "and",
+                "a": "bxi2",
+                "b": "0x20"
+              },
+              {
+                "dst": "r8",
+                "op": "sel",
+                "cond": "c2",
+                "a": "ifr8",
+                "b": "elr8"
+              },
+              {
+                "dst": "idxC",
+                "op": "add",
+                "a": "i",
+                "b": 2
+              },
+              {
+                "dst": "kC",
+                "op": "lookup",
+                "table": "K",
+                "index": "idxC"
+              },
+              {
+                "dst": "tC",
+                "op": "add",
+                "a": "kC",
+                "b": "byte"
+              },
+              {
+                "dst": "rax2",
+                "op": "rol",
+                "a": "tC",
+                "b": 5
+              },
+              {
+                "dst": "idxD",
+                "op": "add",
+                "a": "i",
+                "b": 1
+              },
+              {
+                "dst": "kD",
+                "op": "lookup",
+                "table": "K",
+                "index": "idxD"
+              },
+              {
+                "dst": "sum",
+                "op": "add",
+                "a": "r9",
+                "b": "r8"
+              },
+              {
+                "dst": "mul1",
+                "op": "mul",
+                "a": "sum",
+                "b": "kD"
+              },
+              {
+                "dst": "r9",
+                "op": "xor",
+                "a": "mul1",
+                "b": "rax2"
+              }
+            ]
+          },
+          {
+            "dst": "f1",
+            "op": "rol",
+            "a": "r8",
+            "b": 29
+          },
+          {
+            "dst": "kn",
+            "op": "lookup",
+            "table": "K",
+            "index": "n"
+          },
+          {
+            "dst": "f2",
+            "op": "xor",
+            "a": "f1",
+            "b": "kn"
+          },
+          {
+            "dst": "nm",
+            "op": "mul",
+            "a": "n",
+            "b": "0x8cb92ba72f3d8dd7"
+          },
+          {
+            "dst": "f3",
+            "op": "xor",
+            "a": "f2",
+            "b": "nm"
+          },
+          {
+            "dst": "out",
+            "op": "xor",
+            "a": "f3",
+            "b": "r9"
+          }
+        ],
+        "return": "out"
+      },
+      "expected": {
+        "tables": {
+          "k": [
+            "0x9631d3fca527cc7d",
+            "0xb2f05aa3bebf5615",
+            "0xf5a56ee0b019f42f",
+            "0xc6d53be849f074d7",
+            "0x391ac53cee7726f1",
+            "0x25c69dad62a3857",
+            "0x3f475c4dd0b3c81",
+            "0xb3f0dfecb605870f",
+            "0xbdccf37a21b32819",
+            "0x82ec2e9fe64913f1",
+            "0x1ce9936e54d03247",
+            "0x4b4417846c599dd",
+            "0xb55954c12e91be97",
+            "0x23985cc0f44d934b",
+            "0x44f2899235d13b47",
+            "0xa4f52a10900e4cc7"
+          ]
+        },
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "lookup",
+            "table": "k",
+            "index": 0
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "k",
+            "index": 1
+          },
+          {
+            "dst": "r1",
+            "op": "mul",
+            "a": "n",
+            "b": "r1"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r1"
+          },
+          {
+            "dst": "r1",
+            "op": "lookup",
+            "table": "k",
+            "index": 2
+          },
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": 3
+          },
+          {
+            "dst": "r2",
+            "op": "xor",
+            "a": "n",
+            "b": "r2"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "r1",
+            "b": "r2"
+          },
+          {
+            "op": "each",
+            "body": [
+              {
+                "dst": "r2",
+                "op": "rol",
+                "a": "r1",
+                "bits": 7
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r0",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": 5
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "add",
+                "a": "byte",
+                "b": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r2",
+                "b": "r4"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "mul",
+                "a": "r2",
+                "b": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "r4",
+                "op": "and",
+                "a": "r4",
+                "b": 1
+              },
+              {
+                "dst": "r5",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "xor",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "rol",
+                "a": "r6",
+                "bits": 13
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 3
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "add",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "ror",
+                "a": "r7",
+                "bits": 11
+              },
+              {
+                "dst": "r0",
+                "op": "sel",
+                "cond": "r4",
+                "a": "r6",
+                "b": "r7"
+              },
+              {
+                "dst": "r3",
+                "op": "xor",
+                "a": "r1",
+                "b": "r0"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 11
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r1",
+                "op": "mul",
+                "a": "r3",
+                "b": "r5"
+              },
+              {
+                "dst": "r1",
+                "op": "add",
+                "a": "r1",
+                "b": "byte"
+              }
+            ]
+          },
+          {
+            "op": "each_reverse",
+            "body": [
+              {
+                "dst": "r2",
+                "op": "ror",
+                "a": "r0",
+                "bits": 9
+              },
+              {
+                "dst": "r2",
+                "op": "xor",
+                "a": "r1",
+                "b": "r2"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "i",
+                "b": "byte"
+              },
+              {
+                "dst": "r3",
+                "op": "lookup",
+                "table": "k",
+                "index": "r3"
+              },
+              {
+                "dst": "r2",
+                "op": "add",
+                "a": "r2",
+                "b": "r3"
+              },
+              {
+                "dst": "r4",
+                "op": "xor",
+                "a": "byte",
+                "b": "i"
+              },
+              {
+                "dst": "r4",
+                "op": "and",
+                "a": "r4",
+                "b": 32
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 7
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "xor",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r6",
+                "op": "rol",
+                "a": "r6",
+                "bits": 17
+              },
+              {
+                "dst": "r5",
+                "op": "shr",
+                "a": "byte",
+                "bits": 4
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "add",
+                "a": "r2",
+                "b": "r5"
+              },
+              {
+                "dst": "r7",
+                "op": "ror",
+                "a": "r7",
+                "bits": 19
+              },
+              {
+                "dst": "r1",
+                "op": "sel",
+                "cond": "r4",
+                "a": "r6",
+                "b": "r7"
+              },
+              {
+                "dst": "r3",
+                "op": "add",
+                "a": "r0",
+                "b": "r1"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 1
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r3",
+                "op": "mul",
+                "a": "r3",
+                "b": "r5"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "i",
+                "b": 2
+              },
+              {
+                "dst": "r5",
+                "op": "lookup",
+                "table": "k",
+                "index": "r5"
+              },
+              {
+                "dst": "r5",
+                "op": "add",
+                "a": "byte",
+                "b": "r5"
+              },
+              {
+                "dst": "r5",
+                "op": "rol",
+                "a": "r5",
+                "bits": 5
+              },
+              {
+                "dst": "r0",
+                "op": "xor",
+                "a": "r3",
+                "b": "r5"
+              }
+            ]
+          },
+          {
+            "dst": "r2",
+            "op": "rol",
+            "a": "r1",
+            "bits": 29
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r2",
+            "op": "lookup",
+            "table": "k",
+            "index": "n"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          },
+          {
+            "dst": "r2",
+            "op": "mul",
+            "a": "n",
+            "b": "0x8cb92ba72f3d8dd7"
+          },
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "r0",
+            "b": "r2"
+          }
+        ],
+        "return": "r0"
+      }
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q2",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x1380",
+      "expected": "0x1380"
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q3",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x1000",
+      "expected": "0x1000"
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q4",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "hex",
+      "points": 8,
+      "earned": 8,
+      "submitted": "0x323",
+      "expected": "0x323"
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q5",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "hex",
+      "points": 10,
+      "earned": 10,
+      "submitted": "0x9631d3fca527cc7d",
+      "expected": "0x9631d3fca527cc7d"
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q6",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0x1F414D20D78F5559",
+      "expected": "0x1f414d20d78f5559"
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q7",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "hex",
+      "points": 6,
+      "earned": 6,
+      "submitted": "0xE4C071B4B88381E5",
+      "expected": "0xe4c071b4b88381e5"
+    },
+    {
+      "case_id": "hard_tls_stream2",
+      "question_id": "q8",
+      "category": "TLS, recursos PE y RE funcional",
+      "type": "multi",
+      "points": 4,
+      "earned": 4,
+      "submitted": [
+        "A",
+        "C"
+      ],
+      "expected": [
+        "A",
+        "C"
+      ]
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q1",
+      "category": "RE funcional",
+      "type": "pipeline64",
+      "points": 50,
+      "earned": 50,
+      "submitted": {
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "x",
+            "b": "0xd6e8feb86659fd93"
+          },
+          {
+            "dst": "r1",
+            "op": "rol",
+            "a": "r0",
+            "bits": 13
+          },
+          {
+            "dst": "r2",
+            "op": "mul",
+            "a": "0x9e3779b185ebca87",
+            "b": "y"
+          },
+          {
+            "dst": "r3",
+            "op": "add",
+            "a": "r1",
+            "b": "r2"
+          },
+          {
+            "dst": "r4",
+            "op": "add",
+            "a": "r3",
+            "b": "0xa0761d6478bd642f"
+          },
+          {
+            "dst": "r5",
+            "op": "xor",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r6",
+            "op": "and",
+            "a": "r5",
+            "b": "0x20"
+          },
+          {
+            "dst": "r7",
+            "op": "xor",
+            "a": "r4",
+            "b": "0xe7037ed1a0b428db"
+          },
+          {
+            "dst": "r8",
+            "op": "rol",
+            "a": "r7",
+            "bits": 17
+          },
+          {
+            "dst": "r9",
+            "op": "add",
+            "a": "r4",
+            "b": "0x8ebc6af09c88c6e3"
+          },
+          {
+            "dst": "r10",
+            "op": "ror",
+            "a": "r9",
+            "bits": 9
+          },
+          {
+            "dst": "r11",
+            "op": "sel",
+            "cond": "r6",
+            "a": "r8",
+            "b": "r10"
+          },
+          {
+            "dst": "r12",
+            "op": "add",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r13",
+            "op": "mul",
+            "a": "r12",
+            "b": "0xc2b2ae3d27d4eb4f"
+          },
+          {
+            "dst": "r14",
+            "op": "xor",
+            "a": "r13",
+            "b": "r11"
+          }
+        ],
+        "return": "r14"
+      },
+      "expected": {
+        "steps": [
+          {
+            "dst": "r0",
+            "op": "xor",
+            "a": "x",
+            "b": "0xd6e8feb86659fd93"
+          },
+          {
+            "dst": "r0",
+            "op": "rol",
+            "a": "r0",
+            "bits": 13
+          },
+          {
+            "dst": "r1",
+            "op": "mul",
+            "a": "y",
+            "b": "0x9e3779b185ebca87"
+          },
+          {
+            "dst": "r1",
+            "op": "add",
+            "a": "r1",
+            "b": "0xa0761d6478bd642f"
+          },
+          {
+            "dst": "r2",
+            "op": "add",
+            "a": "r0",
+            "b": "r1"
+          },
+          {
+            "dst": "r3",
+            "op": "xor",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r3",
+            "op": "and",
+            "a": "r3",
+            "b": "0x20"
+          },
+          {
+            "dst": "r4",
+            "op": "xor",
+            "a": "r2",
+            "b": "0xe7037ed1a0b428db"
+          },
+          {
+            "dst": "r4",
+            "op": "rol",
+            "a": "r4",
+            "bits": 17
+          },
+          {
+            "dst": "r5",
+            "op": "add",
+            "a": "r2",
+            "b": "0x8ebc6af09c88c6e3"
+          },
+          {
+            "dst": "r5",
+            "op": "ror",
+            "a": "r5",
+            "bits": 9
+          },
+          {
+            "dst": "r6",
+            "op": "sel",
+            "cond": "r3",
+            "a": "r4",
+            "b": "r5"
+          },
+          {
+            "dst": "r7",
+            "op": "add",
+            "a": "x",
+            "b": "y"
+          },
+          {
+            "dst": "r7",
+            "op": "mul",
+            "a": "r7",
+            "b": "0xc2b2ae3d27d4eb4f"
+          },
+          {
+            "dst": "r8",
+            "op": "xor",
+            "a": "r6",
+            "b": "r7"
+          }
+        ],
+        "return": "r8"
+      }
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q2",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1100",
+      "expected": "0x1100"
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q3",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 4,
+      "earned": 4,
+      "submitted": "0x73E9A26282AC1611",
+      "expected": "0x73e9a26282ac1611"
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q4",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x20",
+      "expected": "0x20"
+    },
+    {
+      "case_id": "hard_pipeline",
+      "question_id": "q5",
+      "category": "RE funcional",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0xc2b2ae3d27d4eb4f",
+      "expected": "0xc2b2ae3d27d4eb4f"
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q1",
+      "category": "Patrones PE",
+      "type": "aob",
+      "points": 40,
+      "earned": 40,
+      "submitted": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+      "expected": {
+        "pattern": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+        "targets": [
+          {
+            "path": "public/artifacts/hard_pattern/layout_v1.exe",
+            "rva": "0x1070"
+          },
+          {
+            "path": "public/artifacts/hard_pattern/layout_v2.exe",
+            "rva": "0x1080"
+          },
+          {
+            "path": "public/artifacts/hard_pattern/layout_v3.exe",
+            "rva": "0x1090"
+          },
+          {
+            "path": "private/hard/hidden/layout_v4.exe",
+            "rva": "0x1090"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q2",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1070",
+      "expected": "0x1070"
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q3",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1090",
+      "expected": "0x1090"
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q4",
+      "category": "Patrones PE",
+      "type": "single",
+      "points": 6,
+      "earned": 6,
+      "submitted": "B",
+      "expected": "B"
+    }
+  ],
+  "missing_cases": []
+}

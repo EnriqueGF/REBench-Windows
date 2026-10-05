@@ -1,0 +1,7 @@
+time_utc,event,pid,process_start_key,image,path
+12:00:01.000,ProcessStart,4380,A17,worker.exe,
+12:00:03.100,FileWrite,4380,A17,worker.exe,C:\Temp\old.bin
+12:00:04.000,ProcessStop,4380,A17,worker.exe,
+12:00:04.230,ProcessStart,4380,B92,updater.exe,
+12:00:04.310,FileWrite,4380,B92,updater.exe,C:\Temp\new.bin
+12:00:05.000,ProcessStop,4380,B92,updater.exe,

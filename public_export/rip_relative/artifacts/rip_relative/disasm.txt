@@ -1,0 +1,7 @@
+Build 1, image base 00000001`80000000:
+00000001`80005120  48 8B 05 D9 F9 FF FF  mov rax,qword ptr [rip-627h]
+00000001`80005127  48 85 C0              test rax,rax
+
+Build 2, image base 00000001`90000000:
+00000001`90006310  48 8B 05 E9 07 00 00  mov rax,qword ptr [rip+7E9h]
+00000001`90006317  48 85 C0              test rax,rax

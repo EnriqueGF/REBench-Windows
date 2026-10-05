@@ -1,0 +1,34 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO plugin_lifetime: Puntero tras descargar un DLL
+La aplicación almacena un callback exportado por un plugin y lo llama tras una recarga. El fallo solo aparece en algunas ejecuciones.
+
+--- ARTEFACTO artifacts/plugin_lifetime/timeline.txt ---
+t0 LoadLibraryW(plugin.dll) -> HMODULE 00007ff9`a1000000
+t1 GetProcAddress(h, "Process") -> 00007ff9`a1001430
+t2 registry.callback = 00007ff9`a1001430
+t3 FreeLibrary(h) -> TRUE; reference count reaches 0; image unmapped
+t4 another.dll loads; address range may be reused
+t5 registry.callback() -> AV or unexpected code
+
+
+q1 [single]: ¿Qué causa explica el comportamiento intermitente?
+  A. El export cambia de nombre en cada llamada
+  B. El callback queda apuntando a memoria de un módulo descargado
+  C. GetProcAddress devuelve siempre una dirección relativa
+  D. FreeLibrary invalida todos los hilos del proceso
+
+q2 [single]: ¿Qué reparación conserva la validez del callback?
+  A. Retener una referencia al módulo mientras cualquier callback pueda ejecutarse y retirarlo antes de descargar
+  B. Guardar solo los 32 bits bajos del puntero
+  C. Volver a llamar el puntero hasta que funcione
+  D. Desactivar ASLR
+
+q3 [single]: ¿Por qué a veces se ejecuta código inesperado en vez de una AV?
+  A. La dirección antigua puede quedar asignada a otro módulo
+  B. El export es forwarder
+  C. El retorno de GetProcAddress es ASCII
+  D. El loader reescribe el registro

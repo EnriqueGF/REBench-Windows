@@ -1,0 +1,56 @@
+{
+  "earned": 56,
+  "total": 56,
+  "percent": 100.0,
+  "by_category": {
+    "Patrones PE": {
+      "earned": 56,
+      "total": 56
+    }
+  },
+  "by_track": {
+    "research": {
+      "earned": 56,
+      "total": 56
+    }
+  },
+  "rows": [
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q1",
+      "category": "Patrones PE",
+      "type": "aob",
+      "points": 40,
+      "earned": 40,
+      "submitted": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3"
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q2",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1070"
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q3",
+      "category": "Patrones PE",
+      "type": "hex",
+      "points": 5,
+      "earned": 5,
+      "submitted": "0x1090"
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "question_id": "q4",
+      "category": "Patrones PE",
+      "type": "single",
+      "points": 6,
+      "earned": 6,
+      "submitted": "B"
+    }
+  ],
+  "missing_cases": []
+}

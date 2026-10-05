@@ -1,0 +1,81 @@
+{
+  "source_benchmark": "1.0",
+  "target_benchmark": "2.0",
+  "checks": [
+    {
+      "case_id": "pe_rva",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "pe_reloc",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "abi_x64",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "crash_av",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "wow64_view",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "unwind_x64",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "symbols_pdb",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "loader_lock",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "etw_pid",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "x86_stack",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "rip_relative",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "xor_config",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "com_activation",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    },
+    {
+      "case_id": "aob_versions",
+      "same_nonempty_prompt_lines": true,
+      "same_artifact_bytes": true
+    }
+  ]
+}

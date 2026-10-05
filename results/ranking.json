@@ -1,0 +1,206 @@
+{
+  "benchmark_version": "1.0",
+  "ranking": [
+    {
+      "file": "results\\codex.json",
+      "profile": "codex",
+      "earned": 72,
+      "total": 72,
+      "percent": 100.0,
+      "completed": 15,
+      "seconds": 170.87,
+      "by_category": {
+        "PE": {
+          "earned": 9,
+          "total": 9
+        },
+        "ABI x64": {
+          "earned": 6,
+          "total": 6
+        },
+        "WinDbg": {
+          "earned": 3,
+          "total": 3
+        },
+        "WOW64": {
+          "earned": 3,
+          "total": 3
+        },
+        "Unwind": {
+          "earned": 6,
+          "total": 6
+        },
+        "Símbolos": {
+          "earned": 3,
+          "total": 3
+        },
+        "Loader": {
+          "earned": 6,
+          "total": 6
+        },
+        "ETW": {
+          "earned": 6,
+          "total": 6
+        },
+        "Lifecycle": {
+          "earned": 3,
+          "total": 3
+        },
+        "ABI x86": {
+          "earned": 6,
+          "total": 6
+        },
+        "x64 assembly": {
+          "earned": 3,
+          "total": 3
+        },
+        "Data RE": {
+          "earned": 6,
+          "total": 6
+        },
+        "COM": {
+          "earned": 6,
+          "total": 6
+        },
+        "Patrones": {
+          "earned": 6,
+          "total": 6
+        }
+      }
+    },
+    {
+      "file": "results\\opencode.json",
+      "profile": "opencode",
+      "earned": 72,
+      "total": 72,
+      "percent": 100.0,
+      "completed": 15,
+      "seconds": 3065.08,
+      "by_category": {
+        "PE": {
+          "earned": 9,
+          "total": 9
+        },
+        "ABI x64": {
+          "earned": 6,
+          "total": 6
+        },
+        "WinDbg": {
+          "earned": 3,
+          "total": 3
+        },
+        "WOW64": {
+          "earned": 3,
+          "total": 3
+        },
+        "Unwind": {
+          "earned": 6,
+          "total": 6
+        },
+        "Símbolos": {
+          "earned": 3,
+          "total": 3
+        },
+        "Loader": {
+          "earned": 6,
+          "total": 6
+        },
+        "ETW": {
+          "earned": 6,
+          "total": 6
+        },
+        "Lifecycle": {
+          "earned": 3,
+          "total": 3
+        },
+        "ABI x86": {
+          "earned": 6,
+          "total": 6
+        },
+        "x64 assembly": {
+          "earned": 3,
+          "total": 3
+        },
+        "Data RE": {
+          "earned": 6,
+          "total": 6
+        },
+        "COM": {
+          "earned": 6,
+          "total": 6
+        },
+        "Patrones": {
+          "earned": 6,
+          "total": 6
+        }
+      }
+    },
+    {
+      "file": "results\\claude.json",
+      "profile": "claude",
+      "earned": 70,
+      "total": 72,
+      "percent": 97.22,
+      "completed": 15,
+      "seconds": 187.9,
+      "by_category": {
+        "PE": {
+          "earned": 7,
+          "total": 9
+        },
+        "ABI x64": {
+          "earned": 6,
+          "total": 6
+        },
+        "WinDbg": {
+          "earned": 3,
+          "total": 3
+        },
+        "WOW64": {
+          "earned": 3,
+          "total": 3
+        },
+        "Unwind": {
+          "earned": 6,
+          "total": 6
+        },
+        "Símbolos": {
+          "earned": 3,
+          "total": 3
+        },
+        "Loader": {
+          "earned": 6,
+          "total": 6
+        },
+        "ETW": {
+          "earned": 6,
+          "total": 6
+        },
+        "Lifecycle": {
+          "earned": 3,
+          "total": 3
+        },
+        "ABI x86": {
+          "earned": 6,
+          "total": 6
+        },
+        "x64 assembly": {
+          "earned": 3,
+          "total": 3
+        },
+        "Data RE": {
+          "earned": 6,
+          "total": 6
+        },
+        "COM": {
+          "earned": 6,
+          "total": 6
+        },
+        "Patrones": {
+          "earned": 6,
+          "total": 6
+        }
+      }
+    }
+  ]
+}

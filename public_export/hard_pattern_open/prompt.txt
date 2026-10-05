@@ -1,0 +1,44 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_pattern_open: Firma AOB abierta con build oculto
+Recupera una firma de bytes para la rutina viva que lee un DWORD de la estructura en +0x2A8. Hay una rutina de auditoría que lee el mismo campo. Dispones de tres PE64 sin símbolos y el patrón se probará también en una cuarta build no entregada. La firma debe empezar en el primer byte de la rutina viva y coincidir exactamente una vez en `.text` de cada versión.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_pattern_open/brief.txt ---
+Archivos visibles: layout_v1.exe, layout_v2.exe, layout_v3.exe.
+La cuarta build se mantiene fuera del entorno del agente para validar
+generalización. El código de auditoría cambia de tamaño entre builds y
+también lee +0x2A8; un match único no basta si señala esa rutina.
+
+Formato de firma: tokens separados por espacios; cada token es un byte
+hexadecimal de dos dígitos (`8B`) o wildcard `??`. Longitud 8..64 bytes,
+al menos 8 bytes literales. El primer token representa la primera instrucción
+de la rutina viva. El corrector examina solo la sección .text.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_pattern/layout_v1.exe ---
+SHA256: 2fe7a82393a1ae24f756d10777f93744c2948d107c3a15020995378334b706e1
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+--- ARTEFACTO BINARIO artifacts/hard_pattern/layout_v2.exe ---
+SHA256: f9d6c2b61c736d5d7f7584fc6e56ed864479113458e63ad66ea7defa2e79b863
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+--- ARTEFACTO BINARIO artifacts/hard_pattern/layout_v3.exe ---
+SHA256: 7fa003addb45b6021dc19e8853a96c505300fbc01b1a43699a04cef33a83cc36
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+q1 [aob]: Devuelve una firma AOB válida para las tres builds visibles y la cuarta oculta. Responde con la cadena de tokens.
+
+q2 [hex]: RVA del primer byte de la rutina viva en layout_v1.exe.
+
+q3 [hex]: RVA del primer byte de la rutina viva en layout_v3.exe.
+
+q4 [single]: En v3, una instrucción usa `sub eax, inm` donde v1 usa `add eax, inm`. ¿Qué explica que ambas implementen la misma operación fuente con constantes distintas?
+  A. La sección .text fue cifrada y el opcode cambia al cargarla.
+  B. El compilador representó una suma módulo 2^32 de constante grande como resta de su complemento a dos.
+  C. El campo de la estructura cambió de DWORD a QWORD.
+  D. El decoy parchea la instrucción de la rutina viva en ejecución.

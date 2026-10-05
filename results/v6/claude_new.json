@@ -1,0 +1,85 @@
+{
+  "benchmark_version": "6.0",
+  "started_at": "2026-10-04T18:24:51.123486+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "hard_delay_import",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 28.92,
+      "raw_output": "{\"case_id\":\"hard_delay_import\",\"answers\":{\"q1\":\"0x211e4\",\"q2\":\"0x21368\",\"q3\":\"0x20168\",\"q4\":\"0x140001bb3\",\"q5\":\"0x22b80\",\"q6\":[\"A\",\"C\"],\"q7\":\"B\"},\"reasoning\":\"DataDirectory[13] RVA=0x211e4 → descriptor at file off 0x1ffe4. Fields: Attributes=1 (RvaBased set → A), DllName=0x173f0 ('USER32.dll'), ModuleHandle=0x22b80 (q5), IAT=0x22b40, INT=0x21228, BoundIAT=0x21250, UnloadIAT=0x21368 (q2), file off 0x20168 (q3). First IAT QWORD on disk = 0x140001bb3 (q4), identical to first UIAT QWORD, confirming UIAT holds a copy of initial thunks to restore on unload (C). B is false (IAT holds function pointers; HMODULE is in ModuleHandle). D false (distinct fields). E false (RvaBased=1, treated as RVA not VA). On unload+recall, UIAT restores thunks and resolver runs again (q7=B).\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_delay_import",
+        "answers": {
+          "q1": "0x211e4",
+          "q2": "0x21368",
+          "q3": "0x20168",
+          "q4": "0x140001bb3",
+          "q5": "0x22b80",
+          "q6": [
+            "A",
+            "C"
+          ],
+          "q7": "B"
+        },
+        "reasoning": "DataDirectory[13] RVA=0x211e4 → descriptor at file off 0x1ffe4. Fields: Attributes=1 (RvaBased set → A), DllName=0x173f0 ('USER32.dll'), ModuleHandle=0x22b80 (q5), IAT=0x22b40, INT=0x21228, BoundIAT=0x21250, UnloadIAT=0x21368 (q2), file off 0x20168 (q3). First IAT QWORD on disk = 0x140001bb3 (q4), identical to first UIAT QWORD, confirming UIAT holds a copy of initial thunks to restore on unload (C). B is false (IAT holds function pointers; HMODULE is in ModuleHandle). D false (distinct fields). E false (RvaBased=1, treated as RVA not VA). On unload+recall, UIAT restores thunks and resolver runs again (q7=B)."
+      }
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 40.42,
+      "raw_output": "Let me parse carefully. Codes:\n- [0] offset=0x0E, op=3 (SET_FPREG), info=5 → RBP = RSP + 5*16 = +0x50. Wait, FrameOffset field already said 0x20... Let me re-read. Frame byte=0x25: frame reg=5 (RBP), offset = (0x25>>4)*16 = 2*16 = 0x20. The info field in SET_FPREG is 0. Here info=5 but op_info for SET_FPREG is unused. Actually op info for UWOP_SET_FPREG is unused; the frame offset comes from the header. So RBP = RSP + 0x20.\n\nWait let me recheck - offset 0x0E, opcode=3=SET_FPREG. Yes.\n\n- [1] offset=0x09, op=1=ALLOC_LARGE, info=0 → next slot is size/8. Next code slot = (0x11, 0x00) interpreted as uint16=0x0011, size = 0x11*8 = 0x88. ✓\n\nSo:\n- [1] ALLOC_LARGE at offset 0x09, size=0x88\n- The 0x11,0x00 is consumed by this ALLOC_LARGE\n- [3] (next real) at offset=0x02, op=0=PUSH_NONVOL, info=3 → push RBX\n- [4] at offset=0x01, op=0=PUSH_NONVOL, info=5 → push RBP\n\nPrologue: push rbp (1 byte), push rbx (1 byte: offset 2), sub rsp, 0x88 (ends at offset 9), lea rbp,[rsp+0x20] (ends at offset 0xE).\n\nNow unwind from body (past prologue):\n- RSP currently 0x000000C00100FE70\n- Undo SET_FPREG: no stack change\n- Undo ALLOC_LARGE 0x88: RSP += 0x88 → 0xC00100FEF8\n- Undo PUSH RBX: RBX = [RSP] = ?, RSP += 8 → 0xC00100FF00\n- Undo PUSH RBP: RBP = [RSP], RSP += 8 → 0xC00100FF08\n- Return address at [RSP], RSP += 8 → 0xC00100FF10\n\nMemory given relative to current RSP (0xC00100FE70):\n- RSP+0x88 = 0xC00100FEF8 → 0x1122334455667788 (that's RBX pushed)\n- RSP+0x90 = 0xC00100FF00 → 0xC00100FFA0 (that's RBP pushed)\n- RSP+0x98 = 0xC00100FF08 → 0x00007FF612345678 (that's return address)\n\nSo:\n- RSP caller (after return address removed) = 0xC00100FF10\n- RBX restored = 0x1122334455667788\n- RIP return = 0x00007FF612345678\n\nAnswers:\n- q1: 0x10A0\n- q2: 0x1EDF0\n- q3: 0x88\n- q4: 0x20\n- q5: 0xC00100FF10\n- q6: 0x1122334455667788\n- q7: 0x7FF612345678\n- q8: A\n\n{\"case_id\":\"hard_unwind_frame\",\"answers\":{\"q1\":\"0x10A0\",\"q2\":\"0x1EDF0\",\"q3\":\"0x88\",\"q4\":\"0x20\",\"q5\":\"0xC00100FF10\",\"q6\":\"0x1122334455667788\",\"q7\":\"0x7FF612345678\",\"q8\":\"A\"},\"reasoning\":\"RIP RVA 0x10B0 falls in RUNTIME_FUNCTION [0x10A0,0x10C8) with UnwindData=0x1EDF0. UNWIND_INFO: ver=1, prolog=0x0E, 5 slots used by 4 codes: SET_FPREG @0x0E (frame=RBP, off=0x20), ALLOC_LARGE @0x09 info=0 with slot 0x0011 → 0x11*8=0x88, PUSH_NONVOL RBX @0x02, PUSH_NONVOL RBP @0x01. Unwinding from body: RSP+=0x88 →FEF8; pop RBX=[FEF8]=0x1122334455667788; pop RBP=[FF00]=C00100FFA0; return addr=[FF08]=0x7FF612345678; caller RSP after retaddr pop = 0xC00100FF10. q8: before SUB RSP, only the two PUSH have executed, so unwind reverts just those.\"}\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_unwind_frame",
+        "answers": {
+          "q1": "0x10A0",
+          "q2": "0x1EDF0",
+          "q3": "0x88",
+          "q4": "0x20",
+          "q5": "0xC00100FF10",
+          "q6": "0x1122334455667788",
+          "q7": "0x7FF612345678",
+          "q8": "A"
+        },
+        "reasoning": "RIP RVA 0x10B0 falls in RUNTIME_FUNCTION [0x10A0,0x10C8) with UnwindData=0x1EDF0. UNWIND_INFO: ver=1, prolog=0x0E, 5 slots used by 4 codes: SET_FPREG @0x0E (frame=RBP, off=0x20), ALLOC_LARGE @0x09 info=0 with slot 0x0011 → 0x11*8=0x88, PUSH_NONVOL RBX @0x02, PUSH_NONVOL RBP @0x01. Unwinding from body: RSP+=0x88 →FEF8; pop RBX=[FEF8]=0x1122334455667788; pop RBP=[FF00]=C00100FFA0; return addr=[FF08]=0x7FF612345678; caller RSP after retaddr pop = 0xC00100FF10. q8: before SUB RSP, only the two PUSH have executed, so unwind reverts just those."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_delay_import",
+      "answers": {
+        "q1": "0x211e4",
+        "q2": "0x21368",
+        "q3": "0x20168",
+        "q4": "0x140001bb3",
+        "q5": "0x22b80",
+        "q6": [
+          "A",
+          "C"
+        ],
+        "q7": "B"
+      },
+      "reasoning": "DataDirectory[13] RVA=0x211e4 → descriptor at file off 0x1ffe4. Fields: Attributes=1 (RvaBased set → A), DllName=0x173f0 ('USER32.dll'), ModuleHandle=0x22b80 (q5), IAT=0x22b40, INT=0x21228, BoundIAT=0x21250, UnloadIAT=0x21368 (q2), file off 0x20168 (q3). First IAT QWORD on disk = 0x140001bb3 (q4), identical to first UIAT QWORD, confirming UIAT holds a copy of initial thunks to restore on unload (C). B is false (IAT holds function pointers; HMODULE is in ModuleHandle). D false (distinct fields). E false (RvaBased=1, treated as RVA not VA). On unload+recall, UIAT restores thunks and resolver runs again (q7=B)."
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "answers": {
+        "q1": "0x10A0",
+        "q2": "0x1EDF0",
+        "q3": "0x88",
+        "q4": "0x20",
+        "q5": "0xC00100FF10",
+        "q6": "0x1122334455667788",
+        "q7": "0x7FF612345678",
+        "q8": "A"
+      },
+      "reasoning": "RIP RVA 0x10B0 falls in RUNTIME_FUNCTION [0x10A0,0x10C8) with UnwindData=0x1EDF0. UNWIND_INFO: ver=1, prolog=0x0E, 5 slots used by 4 codes: SET_FPREG @0x0E (frame=RBP, off=0x20), ALLOC_LARGE @0x09 info=0 with slot 0x0011 → 0x11*8=0x88, PUSH_NONVOL RBX @0x02, PUSH_NONVOL RBP @0x01. Unwinding from body: RSP+=0x88 →FEF8; pop RBX=[FEF8]=0x1122334455667788; pop RBP=[FF00]=C00100FFA0; return addr=[FF08]=0x7FF612345678; caller RSP after retaddr pop = 0xC00100FF10. q8: before SUB RSP, only the two PUSH have executed, so unwind reverts just those."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "benchmark_version": "2.0",
+  "started_at": "2026-10-04T13:42:16.336663+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "hard_license",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 147.69,
+      "raw_output": "Both confirmed. The decrypt routine (current) starts at RVA 0x1180.\n\n```json\n{\"case_id\":\"hard_license\",\"answers\":{\"q1\":\"N7K4C2R9Q5M8V3X6T1P0\",\"q2\":\"A1B2C3D4E5F6G7H8J9K0\",\"q3\":\"0x3212cf66\",\"q4\":\"0x1180\"},\"reasoning\":\"PE64 has two symmetric decrypt routines at RVA 0x1180 (current) and 0x11d0 (retired). Each XORs 20 ciphertext bytes against a byte stream from a PRNG (next_mask at 0x12b0): x=(idx*0x045d9f3b)-0x61c88647; x^=state; x=rol(x,7); x=x*0x7feb352d+0x846ca68b; state=x; mask=(x>>23)&0xff. Seeds live at RVA 0x1a000=0xc43d8a17 (current) and 0x1a004=0x7319bc05 (retired). Ciphertexts at RVA 0x10330 and 0x10348. Decrypting with the PRNG yields N7K4C2R9Q5M8V3X6T1P0 and A1B2C3D4E5F6G7H8J9K0 — confirmed by running license_probe.exe. Iterating next_mask 10 times from the current seed gives state 0x3212cf66.\"}\n```\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_license",
+        "answers": {
+          "q1": "N7K4C2R9Q5M8V3X6T1P0",
+          "q2": "A1B2C3D4E5F6G7H8J9K0",
+          "q3": "0x3212cf66",
+          "q4": "0x1180"
+        },
+        "reasoning": "PE64 has two symmetric decrypt routines at RVA 0x1180 (current) and 0x11d0 (retired). Each XORs 20 ciphertext bytes against a byte stream from a PRNG (next_mask at 0x12b0): x=(idx*0x045d9f3b)-0x61c88647; x^=state; x=rol(x,7); x=x*0x7feb352d+0x846ca68b; state=x; mask=(x>>23)&0xff. Seeds live at RVA 0x1a000=0xc43d8a17 (current) and 0x1a004=0x7319bc05 (retired). Ciphertexts at RVA 0x10330 and 0x10348. Decrypting with the PRNG yields N7K4C2R9Q5M8V3X6T1P0 and A1B2C3D4E5F6G7H8J9K0 — confirmed by running license_probe.exe. Iterating next_mask 10 times from the current seed gives state 0x3212cf66."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_license",
+      "answers": {
+        "q1": "N7K4C2R9Q5M8V3X6T1P0",
+        "q2": "A1B2C3D4E5F6G7H8J9K0",
+        "q3": "0x3212cf66",
+        "q4": "0x1180"
+      },
+      "reasoning": "PE64 has two symmetric decrypt routines at RVA 0x1180 (current) and 0x11d0 (retired). Each XORs 20 ciphertext bytes against a byte stream from a PRNG (next_mask at 0x12b0): x=(idx*0x045d9f3b)-0x61c88647; x^=state; x=rol(x,7); x=x*0x7feb352d+0x846ca68b; state=x; mask=(x>>23)&0xff. Seeds live at RVA 0x1a000=0xc43d8a17 (current) and 0x1a004=0x7319bc05 (retired). Ciphertexts at RVA 0x10330 and 0x10348. Decrypting with the PRNG yields N7K4C2R9Q5M8V3X6T1P0 and A1B2C3D4E5F6G7H8J9K0 — confirmed by running license_probe.exe. Iterating next_mask 10 times from the current seed gives state 0x3212cf66."
+    }
+  ]
+}

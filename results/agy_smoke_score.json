@@ -1,0 +1,47 @@
+{
+  "earned": 3,
+  "total": 3,
+  "percent": 100.0,
+  "by_category": {
+    "PE": {
+      "earned": 3,
+      "total": 3
+    }
+  },
+  "by_track": {
+    "foundations": {
+      "earned": 3,
+      "total": 3
+    }
+  },
+  "rows": [
+    {
+      "case_id": "pe_rva",
+      "question_id": "q1",
+      "category": "PE",
+      "type": "hex",
+      "points": 1,
+      "earned": 1,
+      "submitted": "0x680"
+    },
+    {
+      "case_id": "pe_rva",
+      "question_id": "q2",
+      "category": "PE",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    },
+    {
+      "case_id": "pe_rva",
+      "question_id": "q3",
+      "category": "PE",
+      "type": "single",
+      "points": 1,
+      "earned": 1,
+      "submitted": "B"
+    }
+  ],
+  "missing_cases": []
+}

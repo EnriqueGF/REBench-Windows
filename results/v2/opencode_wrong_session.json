@@ -1,0 +1,18 @@
+{
+  "benchmark_version": "4.0",
+  "started_at": "2026-10-04T14:58:18.838119+00:00",
+  "profile": "opencode",
+  "results": [
+    {
+      "case_id": "hard_pattern",
+      "profile": "opencode",
+      "resumed_session": "ses_ef8b557b9ffeW9p5811Pg5iihl",
+      "exit_code": 0,
+      "seconds": 95.14,
+      "raw_output": "{\"case_id\":\"hard_pattern_open\",\"answers\":{\"q1\":\"8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3\",\"q2\":\"0x1070\",\"q3\":\"0x1090\",\"q4\":\"B\"},\"reasoning\":\"La rutina viva (mov eax,[rcx+0x2A8]; xor eax,imm32; add/sub eax,imm32; ror eax,0x1D; ret) está en RVA 0x1070 (v1), 0x1080 (v2) y 0x1090 (v3); la rutina de auditoría en 0x1060 crece por build (14/23/34 bytes) y nunca tiene 35 (xor eax,imm32) tras el prólogo. Las constantes xor/add/sub se aleatorizan por build y el opcode add (05) pasa a sub (2D) en v3, de ahí los ??; el prólogo 8B 81 A8 02 00 00, el 35, el ror C1 C8 1D y el C3 son estables en las tres builds. La firma de 20 bytes (11 literales, dentro de 8..64) coincide exactamente una vez en .text de v1/v2/v3, lo que validado de nuevo ahora: 0x1070/0x1080/0x1090, y generaliza a la build oculta porque solo fija bytes estables. q4: add K y sub (2^32−K) son equivalentes módulo 2^32; el compilador representó la suma modular de una constante grande como resta de su complemento a dos (B); no hay cifrado de .text (el resto de instrucciones es idéntico), el campo sigue siendo DWORD (mov eax,dword ptr) y no hay parcheo en ejecución.\"}\n",
+      "stderr": "\u001b[0m\n> build · glm-5.3-flash-abliterated\n\u001b[0m\n\u001b[0m$ \u001b[0mpython - <<'EOF'\nimport pefile\ndef text(v):\n    pe = pefile.PE(f'artifacts/hard_pattern/layout_{v}.exe')\n    for s in pe.sections:\n        if s.Name.rstrip(b'\\0')==b'.text': return s.get_data(), s.VirtualAddress\npat=\"8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3\".split()\nfor v in ['v1','v2','v3']:\n    d,b=text(v); ms=[]\n    for i in range(len(d)-len(pat)+1):\n        if all(t=='??' or d[i+j]==int(t,16) for j,t in enumerate(pat)): ms.append(hex(b+i))\n    print(v, ms)\nEOF\nv1 ['0x1070']\nv2 ['0x1080']\nv3 ['0x1090']\n\u001b[0m\n",
+      "parse_error": "No valid answer object found for hard_pattern"
+    }
+  ],
+  "submissions": []
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+Thumbs.db
+.DS_Store
+
+# UPX is downloaded from its official, hash-pinned release by the build script.
+/external/upx-5.2.1-win64/
+/external/upx-5.2.1-win64.zip

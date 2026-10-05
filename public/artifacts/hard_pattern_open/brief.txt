@@ -1,0 +1,9 @@
+Archivos visibles: layout_v1.exe, layout_v2.exe, layout_v3.exe.
+La cuarta build se mantiene fuera del entorno del agente para validar
+generalización. El código de auditoría cambia de tamaño entre builds y
+también lee +0x2A8; un match único no basta si señala esa rutina.
+
+Formato de firma: tokens separados por espacios; cada token es un byte
+hexadecimal de dos dígitos (`8B`) o wildcard `??`. Longitud 8..64 bytes,
+al menos 8 bytes literales. El primer token representa la primera instrucción
+de la rutina viva. El corrector examina solo la sección .text.

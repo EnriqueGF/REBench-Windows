@@ -1,0 +1,27 @@
+Formato de answers.q1: objeto JSON con `steps` (1..64 pasos) y `return`.
+Puede incluir `tables` con hasta 4 tablas de 1..16 constantes uint64.
+Registro inicial: n = número de bytes del mensaje. Destinos: r0..r31.
+Un operando es un registro definido, entero JSON o cadena hexadecimal `0x...`.
+Todas las operaciones numéricas son módulo 2^64.
+
+Operaciones add, sub, xor, and, or, mul: dst, a, b.
+Operaciones rol, ror, shl, shr: dst, a, bits (entero fijo 0..63).
+Operación not: dst, a. sel: dst, cond, a, b (a si cond != 0).
+lookup: dst, table, index; índice reducido módulo la longitud de la tabla.
+
+`each`: body (1..32 pasos), itera una vez por byte del mensaje, en orden.
+Solo dentro de body existen `byte` (0..255) e `i` (posición desde 0).
+El cuerpo puede actualizar registros creados antes del bucle. No se admiten
+bucles anidados. Se limita a 4096 el total de pasos ejecutados por entrada.
+El bucle de un mensaje vacío no ejecuta ninguna instrucción de body.
+
+Ejemplo de sintaxis, NO es la solución:
+{"tables":{"k":["0x5","0x7"]},"steps":[
+ {"dst":"r0","op":"xor","a":"n","b":"0x1"},
+ {"op":"each","body":[
+   {"dst":"r1","op":"lookup","table":"k","index":"i"},
+   {"dst":"r0","op":"add","a":"r0","b":"byte"}]}
+],"return":"r0"}
+
+Devuelve este objeto como valor de answers.q1; no envíes código Python ni
+serialices el JSON como cadena. El corrector interpreta el DSL de forma acotada.

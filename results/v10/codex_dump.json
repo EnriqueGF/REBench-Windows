@@ -1,0 +1,59 @@
+{
+  "benchmark_version": "10.0",
+  "started_at": "2026-10-05T08:38:17.246426+00:00",
+  "profile": "codex",
+  "results": [
+    {
+      "case_id": "hard_crash_dump",
+      "profile": "codex",
+      "exit_code": 0,
+      "seconds": 151.3,
+      "raw_output": "{\"case_id\":\"hard_crash_dump\",\"answers\":{\"q1\":\"0xC0000005\",\"q2\":\"0x10AE\",\"q3\":\"0x000000007A200003\",\"q4\":\"A\",\"q5\":\"0x000001D47A200000\",\"q6\":\"0xA5C39FA92B920F46\",\"q7\":\"0xA5C39E7D51B20F46\",\"q8\":\"0x13E0\",\"q9\":\"0x10A0\",\"q10\":\"0x00000000000001B5\",\"q11\":\"B\",\"q12\":[\"A\",\"B\"]},\"reasoning\":\"El minidump registra una lectura inválida en 0x7A200003; la instrucción está en la RVA 0x10AE. JOB contiene el puntero ofuscado, cuyo XOR con la constante da 0x000001D47A200000, dirección del búfer capturado. En resolve_payload, mov edx,[rcx] conserva solo los 32 bits bajos antes del XOR: el puntero queda en 0x7A200000. Con los bytes 0x36 y 0x7A del búfer y el resto de operaciones intactas, dispatch_job devolvería 0x1B5.\"}\n",
+      "stderr": "000000000000000000000000000000..a2fabdccdf2eef00e56df2aebdf0ae646f499bdf\n--- /dev/null\n+++ b/inspect_dump.py\n@@ -0,0 +1,51 @@\n+import struct, pathlib\n+\n+d = pathlib.Path('artifacts/hard_dump/fault.dmp').read_bytes()\n+u32 = lambda p: struct.unpack_from('<I', d, p)[0]\n+u64 = lambda p: struct.unpack_from('<Q', d, p)[0]\n+sig,ver,n,dirrva,checksum,timestamp,flags = struct.unpack_from('<IIIIIIQ',d,0)\n+print('header',hex(sig),hex(ver),n,hex(dirrva),hex(flags))\n+streams={}\n+for i in range(n):\n+    t,size,rva=struct.unpack_from('<III',d,dirrva+i*12)\n+    streams[t]=(rva,size)\n+    print('stream',t,hex(size),hex(rva))\n+\n+def minidump_string(rva):\n+    length=u32(rva)\n+    return d[rva+4:rva+4+length].decode('utf-16le')\n+\n+if 6 in streams:\n+    p,size=streams[6]\n+    tid=u32(p)\n+    code,fl,record,address,npar,_=struct.unpack_from('<IIQQII',d,p+8)\n+    info=struct.unpack_from('<15Q',d,p+40)\n+    csize,crva=struct.unpack_from('<II',d,p+160)\n+    print('EXCEPTION',hex(tid),hex(code),hex(fl),hex(record),hex(address),npar,[hex(x) for x in info[:npar]],'CONTEXT',hex(csize),hex(crva))\n+    for name,off in [('Rax',0x78),('Rcx',0x80),('Rdx',0x88),('Rbx',0x90),('Rsp',0x98),('Rbp',0xa0),('Rsi',0xa8),('Rdi',0xb0),('R8',0xb8),('R9',0xc0),('R10',0xc8),('R11',0xd0),('R12',0xd8),('R13',0xe0),('R14',0xe8),('R15',0xf0),('Rip',0xf8)]:\n+        print(name,hex(u64(crva+off)))\n+\n+if 4 in streams:\n+    p,size=streams[4]\n+    print('MODULES',u32(p))\n+    for i in range(u32(p)):\n+        m=p+4+i*108\n+        base,sz,cs,stamp,nrva=struct.unpack_from('<QIIII',d,m)\n+        print(i,hex(base),hex(sz),minidump_string(nrva))\n+\n+if 5 in streams:\n+    p,size=streams[5]\n+    print('MEMORY',u32(p))\n+    for i in range(u32(p)):\n+        a,s,r=struct.unpack_from('<QII',d,p+4+i*16)\n+        print(i,hex(a),hex(s),hex(r))\n+\n+if 9 in streams:\n+    p,size=streams[9]\n+    count,base=struct.unpack_from('<QQ',d,p)\n+    print('MEMORY64',count,hex(base))\n+    offset=base\n+    for i in range(count):\n+        a,s=struct.unpack_from('<QQ',d,p+16+i*16)\n+        print(i,hex(a),hex(s),hex(offset))\n+        offset+=s\n\ncodex\n{\"case_id\":\"hard_crash_dump\",\"answers\":{\"q1\":\"0xC0000005\",\"q2\":\"0x10AE\",\"q3\":\"0x000000007A200003\",\"q4\":\"A\",\"q5\":\"0x000001D47A200000\",\"q6\":\"0xA5C39FA92B920F46\",\"q7\":\"0xA5C39E7D51B20F46\",\"q8\":\"0x13E0\",\"q9\":\"0x10A0\",\"q10\":\"0x00000000000001B5\",\"q11\":\"B\",\"q12\":[\"A\",\"B\"]},\"reasoning\":\"El minidump registra una lectura inválida en 0x7A200003; la instrucción está en la RVA 0x10AE. JOB contiene el puntero ofuscado, cuyo XOR con la constante da 0x000001D47A200000, dirección del búfer capturado. En resolve_payload, mov edx,[rcx] conserva solo los 32 bits bajos antes del XOR: el puntero queda en 0x7A200000. Con los bytes 0x36 y 0x7A del búfer y el resto de operaciones intactas, dispatch_job devolvería 0x1B5.\"}\ndiff --git a/inspect_dump.py b/inspect_dump.py\nnew file mode 100644\nindex 0000000000000000000000000000000000000000..a2fabdccdf2eef00e56df2aebdf0ae646f499bdf\n--- /dev/null\n+++ b/inspect_dump.py\n@@ -0,0 +1,51 @@\n+import struct, pathlib\n+\n+d = pathlib.Path('artifacts/hard_dump/fault.dmp').read_bytes()\n+u32 = lambda p: struct.unpack_from('<I', d, p)[0]\n+u64 = lambda p: struct.unpack_from('<Q', d, p)[0]\n+sig,ver,n,dirrva,checksum,timestamp,flags = struct.unpack_from('<IIIIIIQ',d,0)\n+print('header',hex(sig),hex(ver),n,hex(dirrva),hex(flags))\n+streams={}\n+for i in range(n):\n+    t,size,rva=struct.unpack_from('<III',d,dirrva+i*12)\n+    streams[t]=(rva,size)\n+    print('stream',t,hex(size),hex(rva))\n+\n+def minidump_string(rva):\n+    length=u32(rva)\n+    return d[rva+4:rva+4+length].decode('utf-16le')\n+\n+if 6 in streams:\n+    p,size=streams[6]\n+    tid=u32(p)\n+    code,fl,record,address,npar,_=struct.unpack_from('<IIQQII',d,p+8)\n+    info=struct.unpack_from('<15Q',d,p+40)\n+    csize,crva=struct.unpack_from('<II',d,p+160)\n+    print('EXCEPTION',hex(tid),hex(code),hex(fl),hex(record),hex(address),npar,[hex(x) for x in info[:npar]],'CONTEXT',hex(csize),hex(crva))\n+    for name,off in [('Rax',0x78),('Rcx',0x80),('Rdx',0x88),('Rbx',0x90),('Rsp',0x98),('Rbp',0xa0),('Rsi',0xa8),('Rdi',0xb0),('R8',0xb8),('R9',0xc0),('R10',0xc8),('R11',0xd0),('R12',0xd8),('R13',0xe0),('R14',0xe8),('R15',0xf0),('Rip',0xf8)]:\n+        print(name,hex(u64(crva+off)))\n+\n+if 4 in streams:\n+    p,size=streams[4]\n+    print('MODULES',u32(p))\n+    for i in range(u32(p)):\n+        m=p+4+i*108\n+        base,sz,cs,stamp,nrva=struct.unpack_from('<QIIII',d,m)\n+        print(i,hex(base),hex(sz),minidump_string(nrva))\n+\n+if 5 in streams:\n+    p,size=streams[5]\n+    print('MEMORY',u32(p))\n+    for i in range(u32(p)):\n+        a,s,r=struct.unpack_from('<QII',d,p+4+i*16)\n+        print(i,hex(a),hex(s),hex(r))\n+\n+if 9 in streams:\n+    p,size=streams[9]\n+    count,base=struct.unpack_from('<QQ',d,p)\n+    print('MEMORY64',count,hex(base))\n+    offset=base\n+    for i in range(count):\n+        a,s=struct.unpack_from('<QQ',d,p+16+i*16)\n+        print(i,hex(a),hex(s),hex(offset))\n+        offset+=s\n\ntokens used\n20.342\n",
+      "submission": {
+        "case_id": "hard_crash_dump",
+        "answers": {
+          "q1": "0xC0000005",
+          "q2": "0x10AE",
+          "q3": "0x000000007A200003",
+          "q4": "A",
+          "q5": "0x000001D47A200000",
+          "q6": "0xA5C39FA92B920F46",
+          "q7": "0xA5C39E7D51B20F46",
+          "q8": "0x13E0",
+          "q9": "0x10A0",
+          "q10": "0x00000000000001B5",
+          "q11": "B",
+          "q12": [
+            "A",
+            "B"
+          ]
+        },
+        "reasoning": "El minidump registra una lectura inválida en 0x7A200003; la instrucción está en la RVA 0x10AE. JOB contiene el puntero ofuscado, cuyo XOR con la constante da 0x000001D47A200000, dirección del búfer capturado. En resolve_payload, mov edx,[rcx] conserva solo los 32 bits bajos antes del XOR: el puntero queda en 0x7A200000. Con los bytes 0x36 y 0x7A del búfer y el resto de operaciones intactas, dispatch_job devolvería 0x1B5."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_crash_dump",
+      "answers": {
+        "q1": "0xC0000005",
+        "q2": "0x10AE",
+        "q3": "0x000000007A200003",
+        "q4": "A",
+        "q5": "0x000001D47A200000",
+        "q6": "0xA5C39FA92B920F46",
+        "q7": "0xA5C39E7D51B20F46",
+        "q8": "0x13E0",
+        "q9": "0x10A0",
+        "q10": "0x00000000000001B5",
+        "q11": "B",
+        "q12": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "El minidump registra una lectura inválida en 0x7A200003; la instrucción está en la RVA 0x10AE. JOB contiene el puntero ofuscado, cuyo XOR con la constante da 0x000001D47A200000, dirección del búfer capturado. En resolve_payload, mov edx,[rcx] conserva solo los 32 bits bajos antes del XOR: el puntero queda en 0x7A200000. Con los bytes 0x36 y 0x7A del búfer y el resto de operaciones intactas, dispatch_job devolvería 0x1B5."
+    }
+  ]
+}

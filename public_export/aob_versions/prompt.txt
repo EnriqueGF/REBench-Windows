@@ -1,0 +1,38 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO aob_versions: Firma que falla tras actualizar
+Una firma AOB se construyó con bytes de una instrucción RIP-relative. En la siguiente versión cambia el layout; además aparece un segundo bloque con el mismo prefijo. Diseña una firma estable y justifica cómo discriminar el match.
+
+--- ARTEFACTO artifacts/aob_versions/versions.txt ---
+Build A, bloque objetivo en RVA 0x4210:
+48 8B 05 72 13 00 00 48 85 C0 74 09 8B 48 08 85 C9
+
+Build B, bloque objetivo en RVA 0x5A70:
+48 8B 05 E2 F0 FF FF 48 85 C0 74 0C 8B 48 08 85 C9
+
+Build B, bloque NO objetivo en RVA 0x7C10:
+48 8B 05 31 02 00 00 48 85 C0 74 0C 8B 50 08 85 D2
+
+Los cuatro bytes después de 48 8B 05 son disp32; el byte después de 74 es un salto corto.
+
+
+q1 [single]: ¿Qué patrón conserva bytes estables y distingue el bloque objetivo de ambos builds?
+  A. 48 8B 05 ?? ?? ?? ?? 48 85 C0 74 ?? 8B 48 08 85 C9
+  B. 48 8B 05 72 13 00 00 48 85 C0 74 09
+  C. 48 8B 05 ?? ?? ?? ?? 48 85 C0
+  D. ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ??
+
+q2 [multi]: ¿Qué partes cambian explícitamente entre las dos versiones objetivo?
+  A. El disp32 de mov
+  B. El desplazamiento del jz corto
+  C. La secuencia 8B 48 08 85 C9
+  D. El opcode 48 85 C0
+
+q3 [single]: ¿Qué comprobación adicional es prudente antes de usar el resultado de un sigscan en otra actualización?
+  A. Aceptar siempre el primer match
+  B. Verificar unicidad, límites de instrucción y semántica del destino RIP-relative
+  C. Eliminar todos los wildcards
+  D. Interpretar el disp32 como VA absoluta

@@ -1,0 +1,35 @@
+{
+  "generator_seed": 20261005,
+  "cases": [
+    {
+      "case_id": "vm_e1a4c106677a",
+      "exe": "public_protected\\vm_e1a4c106677a\\guard.exe",
+      "exe_sha256": "d20e61e587e4060bb79f2157713eecd96ebd5278f748c6484982906421cf3c15",
+      "secret": "EXQPPNE2JP6A47EZLZYGEG4J",
+      "program_sha256": "762d69a5d3eaa2c9f3810a7e5a5790b014ea0ba7589e336e55ea4f80a50de5bd",
+      "program_size": 177,
+      "packed_size": 146,
+      "cipher_size": 146
+    },
+    {
+      "case_id": "vm_59f2ce1d4f22",
+      "exe": "public_protected\\vm_59f2ce1d4f22\\guard.exe",
+      "exe_sha256": "ddccbe7c768278eacbba20187fbd2b8c620e426dd96e256f28b79f9dfd9bd477",
+      "secret": "HJJCRRFFA5ZPPD9PRPQ9D2K4",
+      "program_sha256": "40e31cedb13e5d915fca796e52bbf8a249a5dabf722279d875c5e77d6673fc76",
+      "program_size": 177,
+      "packed_size": 146,
+      "cipher_size": 146
+    },
+    {
+      "case_id": "vm_c48f7e7dd145",
+      "exe": "public_protected\\vm_c48f7e7dd145\\guard.exe",
+      "exe_sha256": "3acf6e1b0ce6489176266ed7553d24a52bf26687f4dd1808cfea8f7e0f9bb6f6",
+      "secret": "669PSGU5R35YBPHRYNC8GX9G",
+      "program_sha256": "bfd6e70f178d3380aecfa1bdfb90327b273c6837f194643b65bd98cea58847f1",
+      "program_size": 177,
+      "packed_size": 146,
+      "cipher_size": 146
+    }
+  ]
+}

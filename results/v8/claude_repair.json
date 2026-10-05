@@ -1,0 +1,77 @@
+{
+  "benchmark_version": "8.0",
+  "started_at": "2026-10-05T08:08:37.520793+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "hard_repair_aob",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 135.28,
+      "raw_output": "All 11 expected pairs match. The patches work.\n\nRVAs:\n- q2 (decision function start in v1): 0x1170\n- q3 (length opcode in v2): 0x1207\n- q4 (flag opcode in v3): 0x118c\n\nPattern as tokens (30 bytes): `48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3`\n\n```json\n{\"case_id\":\"hard_repair_aob\",\"answers\":{\"q1\":{\"sites\":{\"length\":{\"pattern\":\"48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3\",\"offset\":7,\"byte\":\"77\"},\"flag\":{\"pattern\":\"48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3\",\"offset\":12,\"byte\":\"74\"}}},\"q2\":\"0x1170\",\"q3\":\"0x1207\",\"q4\":\"0x118c\",\"q5\":\"A\",\"q6\":\"B\",\"q7\":[\"A\",\"C\",\"E\"]},\"reasoning\":\"La función decisora reside en v1 RVA 0x1170 con prólogo `48 81 F9 00 01 00 00` (cmp rcx,0x100). Los dos saltos cortos defectuosos son `73 15` (jae reject) en +7 y `75 10` (jne reject) en +12. Contrato esperado: ACCEPT si x<=0x100 Y (y&0x20)!=0 Y (x^y)&1==0. Para que x=0x100 acepte, `jae`→`ja` (0x73→0x77). Para que y=0 rechace e y=0x20 acepte, `jne`→`je` (0x75→0x74). El patrón de 30 bytes aparece exactamente una vez en .text de v1 (0x1170), v2 (0x1200) y v3 (0x1180); se asume igual firma en la 4ª build. Parcheado p.exe reproduce las 11 filas de expected_samples.txt. q3=v2 opcode length RVA=0x1200+7=0x1207. q4=v3 opcode flag RVA=0x1180+12=0x118c.\"}\n```\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_repair_aob",
+        "answers": {
+          "q1": {
+            "sites": {
+              "length": {
+                "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3",
+                "offset": 7,
+                "byte": "77"
+              },
+              "flag": {
+                "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3",
+                "offset": 12,
+                "byte": "74"
+              }
+            }
+          },
+          "q2": "0x1170",
+          "q3": "0x1207",
+          "q4": "0x118c",
+          "q5": "A",
+          "q6": "B",
+          "q7": [
+            "A",
+            "C",
+            "E"
+          ]
+        },
+        "reasoning": "La función decisora reside en v1 RVA 0x1170 con prólogo `48 81 F9 00 01 00 00` (cmp rcx,0x100). Los dos saltos cortos defectuosos son `73 15` (jae reject) en +7 y `75 10` (jne reject) en +12. Contrato esperado: ACCEPT si x<=0x100 Y (y&0x20)!=0 Y (x^y)&1==0. Para que x=0x100 acepte, `jae`→`ja` (0x73→0x77). Para que y=0 rechace e y=0x20 acepte, `jne`→`je` (0x75→0x74). El patrón de 30 bytes aparece exactamente una vez en .text de v1 (0x1170), v2 (0x1200) y v3 (0x1180); se asume igual firma en la 4ª build. Parcheado p.exe reproduce las 11 filas de expected_samples.txt. q3=v2 opcode length RVA=0x1200+7=0x1207. q4=v3 opcode flag RVA=0x1180+12=0x118c."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_repair_aob",
+      "answers": {
+        "q1": {
+          "sites": {
+            "length": {
+              "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3",
+              "offset": 7,
+              "byte": "77"
+            },
+            "flag": {
+              "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06 B8 01 00 00 00 C3",
+              "offset": 12,
+              "byte": "74"
+            }
+          }
+        },
+        "q2": "0x1170",
+        "q3": "0x1207",
+        "q4": "0x118c",
+        "q5": "A",
+        "q6": "B",
+        "q7": [
+          "A",
+          "C",
+          "E"
+        ]
+      },
+      "reasoning": "La función decisora reside en v1 RVA 0x1170 con prólogo `48 81 F9 00 01 00 00` (cmp rcx,0x100). Los dos saltos cortos defectuosos son `73 15` (jae reject) en +7 y `75 10` (jne reject) en +12. Contrato esperado: ACCEPT si x<=0x100 Y (y&0x20)!=0 Y (x^y)&1==0. Para que x=0x100 acepte, `jae`→`ja` (0x73→0x77). Para que y=0 rechace e y=0x20 acepte, `jne`→`je` (0x75→0x74). El patrón de 30 bytes aparece exactamente una vez en .text de v1 (0x1170), v2 (0x1200) y v3 (0x1180); se asume igual firma en la 4ª build. Parcheado p.exe reproduce las 11 filas de expected_samples.txt. q3=v2 opcode length RVA=0x1200+7=0x1207. q4=v3 opcode flag RVA=0x1180+12=0x118c."
+    }
+  ]
+}

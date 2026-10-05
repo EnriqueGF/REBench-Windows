@@ -1,0 +1,13 @@
+Artefactos: dump_probe.exe y fault.dmp. El segundo es un minidump genuino
+escrito por MiniDumpWriteDump durante la excepción del ejecutable adjunto.
+No se entrega PDB ni código fuente. No necesitas ejecutar de nuevo el PE.
+
+Las preguntas sobre direcciones VA se refieren al proceso capturado en fault.dmp.
+Las RVA son relativas a la base del módulo dump_probe.exe dentro de ese dump.
+`encoded_payload` guarda un puntero de 64 bits ofuscado por XOR; una función de
+auditoría accede correctamente al mismo búfer antes del fallo. El camino que
+falla pasa por dispatch_job, resolve_payload y consume_payload.
+
+Puedes parsear los streams MINIDUMP_EXCEPTION_STREAM, MINIDUMP_MODULE_LIST y
+MINIDUMP_MEMORY_LIST con Python, o usar herramientas de depuración locales.
+Para el resultado tras la corrección, usa el contenido del búfer capturado.

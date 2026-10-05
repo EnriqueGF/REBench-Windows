@@ -1,0 +1,202 @@
+{
+  "benchmark_version": "6.0",
+  "models": {
+    "codex": {
+      "model": "gpt-6-sol",
+      "earned": 542,
+      "evaluated_points": 542,
+      "total_points": 542,
+      "completed_cases": 23,
+      "total_cases": 23,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 358,
+          "total": 358
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 358
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_tls_state",
+          "seconds": 140.56,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v5\\codex_tls.json"
+        },
+        {
+          "case_id": "hard_delay_import",
+          "seconds": 42.95,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v6\\codex_new.json"
+        },
+        {
+          "case_id": "hard_unwind_frame",
+          "seconds": 36.3,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v6\\codex_new.json"
+        }
+      ],
+      "source_files": [
+        "results\\v4\\codex_combined.json",
+        "results\\v5\\codex_tls.json",
+        "results\\v6\\codex_new.json"
+      ]
+    },
+    "claude": {
+      "model": "claude-opus-4-7",
+      "earned": 530,
+      "evaluated_points": 542,
+      "total_points": 542,
+      "completed_cases": 23,
+      "total_cases": 23,
+      "missing_cases": [],
+      "by_track": {
+        "foundations": {
+          "earned": 70,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 348,
+          "total": 358
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 358
+      },
+      "lost_points": [
+        {
+          "case_id": "pe_reloc",
+          "question_id": "q1",
+          "earned": 0,
+          "points": 2,
+          "submitted": "0x0000000040000000",
+          "expected": "0x180001234"
+        },
+        {
+          "case_id": "hard_delay_import",
+          "question_id": "q6",
+          "earned": 0,
+          "points": 10,
+          "submitted": [
+            "A",
+            "C"
+          ],
+          "expected": [
+            "A",
+            "C",
+            "E"
+          ]
+        }
+      ],
+      "attempts": [
+        {
+          "case_id": "hard_tls_state",
+          "seconds": 151.81,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v5\\claude_tls.json"
+        },
+        {
+          "case_id": "hard_delay_import",
+          "seconds": 28.92,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v6\\claude_new.json"
+        },
+        {
+          "case_id": "hard_unwind_frame",
+          "seconds": 40.42,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v6\\claude_new.json"
+        }
+      ],
+      "source_files": [
+        "results\\v4\\claude_combined.json",
+        "results\\v5\\claude_tls.json",
+        "results\\v6\\claude_new.json"
+      ]
+    },
+    "opencode": {
+      "model": "explabs/glm-5.3-flash-abliterated",
+      "earned": 412,
+      "evaluated_points": 412,
+      "total_points": 542,
+      "completed_cases": 22,
+      "total_cases": 23,
+      "missing_cases": [
+        "hard_tls_state"
+      ],
+      "by_track": {
+        "foundations": {
+          "earned": 72,
+          "total": 72
+        },
+        "expert": {
+          "earned": 112,
+          "total": 112
+        },
+        "research": {
+          "earned": 228,
+          "total": 358
+        }
+      },
+      "evaluated_by_track": {
+        "foundations": 72,
+        "expert": 112,
+        "research": 228
+      },
+      "lost_points": [],
+      "attempts": [
+        {
+          "case_id": "hard_tls_state",
+          "seconds": 3600.05,
+          "exit_code": null,
+          "parse_error": "timeout",
+          "file": "results\\v5\\opencode_tls.json"
+        },
+        {
+          "case_id": "hard_delay_import",
+          "seconds": 734.88,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v6\\opencode_new.json"
+        },
+        {
+          "case_id": "hard_unwind_frame",
+          "seconds": 2631.53,
+          "exit_code": 0,
+          "parse_error": null,
+          "file": "results\\v6\\opencode_new.json"
+        }
+      ],
+      "source_files": [
+        "results\\v4\\opencode_combined.json",
+        "results\\v5\\opencode_tls.json",
+        "results\\v6\\opencode_new.json"
+      ]
+    }
+  }
+}

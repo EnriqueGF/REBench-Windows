@@ -1,0 +1,17 @@
+Caller:
+  push 4
+  push esi
+  push 0
+  push edi
+  call 00402700
+  mov  ebx,eax
+  ; no add esp,10h here
+
+00402700:
+  push ebp
+  mov  ebp,esp
+  mov  eax,[ebp+08h]
+  ; ...
+  mov  esp,ebp
+  pop  ebp
+  ret  10h

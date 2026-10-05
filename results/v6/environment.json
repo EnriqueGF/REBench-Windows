@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-04",
+  "platform": "Windows x64",
+  "cli_versions": {
+    "codex": "codex-cli 0.160.0",
+    "claude": "Claude Code 2.1.289",
+    "opencode": "1.2.26"
+  },
+  "models": {
+    "codex": "gpt-6-sol",
+    "claude": "claude-opus-4-7",
+    "opencode": "explabs/glm-5.3-flash-abliterated"
+  },
+  "model_source": {
+    "codex": "results/v2/models.json: -m argument",
+    "claude": "results/v2/models.json: --model argument",
+    "opencode": "user opencode.json model field and providerID/modelID in the active local OpenCode session metadata; results/v2/models.json invokes opencode run without a model override"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "benchmark_version": "8.0",
+  "started_at": "2026-10-05T08:08:37.522791+00:00",
+  "profile": "opencode",
+  "results": [
+    {
+      "case_id": "hard_repair_aob",
+      "profile": "opencode",
+      "exit_code": 0,
+      "seconds": 1535.59,
+      "raw_output": "Las tres builds defectuosas invierten exactamente el contrato (todo ACCEPT esperado → REJECT y viceversa), lo que sugiere dos saltos condicionales invertidos. Ahora voy a realizar la ingeniería inversa de los binarios.\nSe ha encontrado el sitio de decisión. Las funciones de predicado llamadas justo antes de `test rax,rax; cmovne` son: v1:0x1170, v2:0x1200, v3:0x1180. Voy a volcarlas junto con el helper en 0x1000.\nLa ventana de volcado se pasó por alto por poco las funciones de predicado (funciones hoja sin entradas en .pdata). Voy a volcar los rangos de código brutos 0x1000–0x1300 para cada build.\nLas tres compilaciones comparten un predicado idéntico a nivel de bytes:\n\n```\ncmp rcx, 0x100 ; jae R   (defective: x>=0x100 → reject; contract needs x>0x100, i.e. `ja`)\ntest dl, 0x20  ; jne R   (defective: bit set → reject; contract needs bit set, i.e. `je`)\nxor rax, rcx/rdx parity test al,1 ; jne R  (correct, unchanged)\n```\n\nVerificando con las 11 muestras: `ja`(0x77) + `je`(0x74) coincide con todas. Ahora procedo a verificar la exclusividad del AOB, aplicar el parche y probar.\nTodos los 11 casos oficiales pasaron; los desajustes se debieron únicamente a mis propios casos de prueba especulativos (por ejemplo, `0x100,0x22` legítimamente da ACCEPT bajo el contrato derivado; mi etiqueta de suposición estaba mal). Reejecutando solo con las muestras oficiales:\nTodas las comprobaciones pasan con éxito. Resumen de la evidencia:\n\n- Las tres builds contienen un predicado idéntico a nivel de bytes (v1:0x1170, v2:0x1200, v3:0x1180): `cmp rcx,0x100; jae R` / `test dl,0x20; jne R` / `xor rax,rcx⁻y; test al,1; jne R; ret 1`. Su resultado selecciona ACCEPT/REJECT mediante `cmovne` (una rutina de auditoría hash independiente en 0x1000/0x1120/0x1060 solo alimenta globales).\n- Dos saltos invertidos explican la inversión exacta del contrato: `jae`(0x73)→`ja`(0x77) corrige el límite de x (acepta x≤0x100), y `jne`(0x75)→`je`(0x74) corrige el bit de y (requiere y&0x20). El parche en los tres archivos EXE logra pasar las 11 muestras oficiales.\n- Las firmas AOB (exclusivas en .text de v1/v2/v3, sin bytes modificados por el otro parche, por lo que son independientes del orden; el predicado no contiene referencias relativas a RIP/reubicaciones, por lo que se transfieren a la build oculta):\n  - length: `48 81 F9 00 01 00 00 73 15 F6 C2 20` (desplazamiento 7 → `77`)\n  - flag: `F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06` (desplazamiento 3 → `74`)\n\n{\"case_id\":\"hard_repair_aob\",\"answers\":{\"q1\":{\"sites\":{\"length\":{\"pattern\":\"48 81 F9 00 01 00 00 73 15 F6 C2 20\",\"offset\":7,\"byte\":\"77\"},\"flag\":{\"pattern\":\"F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06\",\"offset\":3,\"byte\":\"74\"}}},\"q2\":\"0x1170\",\"q3\":\"0x1207\",\"q4\":\"0x118c\",\"q5\":\"A\",\"q6\":\"B\",\"q7\":[\"A\",\"C\",\"E\"]},\"reasoning\":\"El predicado que decide (llamado justo antes de test rax,rax/cmovne que elige las cadenas ACCEPT/REJECT en 0x11330/0x11338) es idéntico byte a byte en las tres builds: v1 RVA 0x1170, v2 0x1200, v3 0x1180: cmp rcx,0x100; jae(R); test dl,0x20; jne(R); mov rax,rcx; xor rax,rdx; test al,1; jne(R); mov eax,1. Los dos saltos defectuosos están invertidos: el límite de x usa jae (0x73, acepta x<0x100) cuando el contrato exige x<=0x100, luego opcode 0x77 (ja) en v2 RVA 0x1207; el bit de y usa jne (0x75, rechaza si y&0x20) cuando el contrato exige y&0x20 establecido, luego opcode 0x74 (je) en v3 RVA 0x118c. El tercer salto (paridad (x^y)&1, jne) es correcto. Parcheando solo esos dos bytes en v1/v2/v3, los 11 pares de expected_samples producen la salida esperada (verificado ejecutando los EXE). Las firmas AOB coinciden una sola vez en .text de cada build, no contienen bytes del otro sitio parcheado (orden de aplicación irrelevante) y no dependen de direcciones (inmediato 0x100 y desplazamientos intra-función), por lo que localizan la cuarta build. q5: (0x100,0x20) ACCEPT; q6: (0,0) REJECT; q7: válidas A (coincidencia única), C (conserva acepta/rechaza correctos), E (offset señala el opcode); B y D contradicen el brief (conservar desplazamientos; se exige AOB, no RVA absoluto).\"}\n",
+      "stderr": "     je 0x1217\n  0x120b: 488d0df6040000     lea rcx, [rip + 0x4f6]\n  0x1212: e8693b0000         call 0x4d80\n  0x1217: e814050000         call 0x1730\n  0x121c: e80f050000         call 0x1730\n  0x1221: e8e2040000         call 0x1708\n  0x1226: 8bc8               mov ecx, eax\n  0x1228: e857470000         call 0x5984\n  0x122d: e8fa040000         call 0x172c\n  0x1232: 84c0               test al, al\n  0x1234: 7405               je 0x123b\n  0x1236: e8bd420000         call 0x54f8\n  0x123b: e8c8040000         call 0x1708\n  0x1240: e88f060000         call 0x18d4\n  0x1245: 85c0               test eax, eax\n  0x1247: 7506               jne 0x124f\n  0x1249: 4883c420           add rsp, 0x20\n  0x124d: 5b                 pop rbx\n  0x124e: c3                 ret \n  0x124f: b907000000         mov ecx, 7\n  0x1254: e82f050000         call 0x1788\n  0x1259: cc                 int3 \n  0x125a: cc                 int3 \n  0x125b: cc                 int3 \n  0x125c: 4883ec28           sub rsp, 0x28\n  0x1260: e8df040000         call 0x1744\n  0x1265: 33c0               xor eax, eax\n  0x1267: 4883c428           add rsp, 0x28\n  0x126b: c3                 ret \n  0x126c: 4883ec28           sub rsp, 0x28\n  0x1270: e8bb060000         call 0x1930\n  0x1275: e88e040000         call 0x1708\n  0x127a: 8bc8               mov ecx, eax\n  0x127c: 4883c428           add rsp, 0x28\n  0x1280: e97b470000         jmp 0x5a00\n  0x1285: cc                 int3 \n  0x1286: cc                 int3 \n  0x1287: cc                 int3 \n  0x1288: 48895c2408         mov qword ptr [rsp + 8], rbx\n  0x128d: 4889742410         mov qword ptr [rsp + 0x10], rsi\n  0x1292: 57                 push rdi\n  0x1293: 4883ec30           sub rsp, 0x30\n  0x1297: b901000000         mov ecx, 1\n  0x129c: e8b3010000         call 0x1454\n  0x12a1: 84c0               test al, al\n  0x12a3: 0f8436010000       je 0x13df\n  0x12a9: 4032f6             xor sil, sil\n  0x12ac: 4088742420         mov byte ptr [rsp + 0x20], sil\n  0x12b1: e862010000         call 0x1418\n  0x12b6: 8ad8               mov bl, al\n  0x12b8: 8b0d4aa80100       mov ecx, dword ptr [rip + 0x1a84a]\n  0x12be: 83f901             cmp ecx, 1\n  0x12c1: 0f8423010000       je 0x13ea\n  0x12c7: 85c9               test ecx, ecx\n  0x12c9: 754a               jne 0x1315\n  0x12cb: c70533a8010001000000 mov dword ptr [rip + 0x1a833], 1\n  0x12d5: 488d1514000100     lea rdx, [rip + 0x10014]\n  0x12dc: 488d0dd5ff0000     lea rcx, [rip + 0xffd5]\n  0x12e3: e850420000         call 0x5538\n  0x12e8: 85c0               test eax, eax\n  0x12ea: 740a               je 0x12f6\n  0x12ec: b8ff000000         mov eax, 0xff\n  0x12f1: e9d9000000         jmp 0x13cf\n  0x12f6: 488d15b3ff0000     lea rdx, [rip + 0xffb3]\n\u001b[0m\n\u001b[0m← \u001b[0mWrite work\\patch_test.py\nWrote file successfully.\n\nLSP errors detected in other files:\n<diagnostics file=\"C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-ggsb6shq\\work\\an1.py\">\nERROR [13:29] \"ImageBase\" is not a known attribute of \"None\"\nERROR [13:29] Cannot access attribute \"ImageBase\" for class \"Structure\"\n  Attribute \"ImageBase\" is unknown\nERROR [15:64] \"AddressOfEntryPoint\" is not a known attribute of \"None\"\nERROR [15:64] Cannot access attribute \"AddressOfEntryPoint\" for class \"Structure\"\n  Attribute \"AddressOfEntryPoint\" is unknown\n</diagnostics>\n\nLSP errors detected in other files:\n<diagnostics file=\"C:\\Users\\el_en\\AppData\\Local\\Temp\\rebench-ggsb6shq\\work\\an3.py\">\nERROR [43:20] Object of type \"None\" is not subscriptable\n</diagnostics>\n\u001b[0m\n\u001b[0m$ \u001b[0mpython work/patch_test.py\nv1: len-pattern matches at ['0x1170']; flag-pattern matches at ['0x1179']\n  len opcode RVA=0x1177 cur=0x73 -> 0x77\n  flag opcode RVA=0x117c cur=0x75 -> 0x74\n  v1 MISMATCH 0x100,0x22: got 'ACCEPT' exp REJECT\n  v1 patched -> all samples FAIL\nv2: len-pattern matches at ['0x1200']; flag-pattern matches at ['0x1209']\n  len opcode RVA=0x1207 cur=0x73 -> 0x77\n  flag opcode RVA=0x120c cur=0x75 -> 0x74\n  v2 MISMATCH 0x100,0x22: got 'ACCEPT' exp REJECT\n  v2 patched -> all samples FAIL\nv3: len-pattern matches at ['0x1180']; flag-pattern matches at ['0x1189']\n  len opcode RVA=0x1187 cur=0x73 -> 0x77\n  flag opcode RVA=0x118c cur=0x75 -> 0x74\n  v3 MISMATCH 0x100,0x22: got 'ACCEPT' exp REJECT\n  v3 patched -> all samples FAIL\nPROBLEM\n\u001b[0m\n\u001b[0m$ \u001b[0mpython - <<'EOF'\nimport subprocess\nsamples = [(\"0x0\",\"0x0\",\"REJECT\"),(\"0x0\",\"0x20\",\"ACCEPT\"),(\"0x0\",\"0x21\",\"REJECT\"),\n(\"0x1\",\"0x20\",\"REJECT\"),(\"0x1\",\"0x21\",\"ACCEPT\"),(\"0xff\",\"0x21\",\"ACCEPT\"),\n(\"0x100\",\"0x20\",\"ACCEPT\"),(\"0x100\",\"0x21\",\"REJECT\"),(\"0x101\",\"0x21\",\"REJECT\"),\n(\"0x80\",\"0x20\",\"ACCEPT\"),(\"0x80\",\"0x0\",\"REJECT\")]\nok=True\nfor v in (1,2,3):\n    p=rf\"work\\patched\\repair_v{v}_fixed.exe\"\n    bad=[]\n    for x,y,exp in samples:\n        got=subprocess.run([p,x,y],capture_output=True,text=True,timeout=30).stdout.strip()\n        if got!=exp: bad.append((x,y,got,exp))\n    print(f\"v{v}: {'ALL 11 OK' if not bad else bad}\")\n    ok = ok and not bad\nprint(\"FINAL:\", \"ALL OK\" if ok else \"FAIL\")\nEOF\nv1: ALL 11 OK\nv2: ALL 11 OK\nv3: ALL 11 OK\nFINAL: ALL OK\n\u001b[0m\n",
+      "submission": {
+        "case_id": "hard_repair_aob",
+        "answers": {
+          "q1": {
+            "sites": {
+              "length": {
+                "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20",
+                "offset": 7,
+                "byte": "77"
+              },
+              "flag": {
+                "pattern": "F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06",
+                "offset": 3,
+                "byte": "74"
+              }
+            }
+          },
+          "q2": "0x1170",
+          "q3": "0x1207",
+          "q4": "0x118c",
+          "q5": "A",
+          "q6": "B",
+          "q7": [
+            "A",
+            "C",
+            "E"
+          ]
+        },
+        "reasoning": "El predicado que decide (llamado justo antes de test rax,rax/cmovne que elige las cadenas ACCEPT/REJECT en 0x11330/0x11338) es idéntico byte a byte en las tres builds: v1 RVA 0x1170, v2 0x1200, v3 0x1180: cmp rcx,0x100; jae(R); test dl,0x20; jne(R); mov rax,rcx; xor rax,rdx; test al,1; jne(R); mov eax,1. Los dos saltos defectuosos están invertidos: el límite de x usa jae (0x73, acepta x<0x100) cuando el contrato exige x<=0x100, luego opcode 0x77 (ja) en v2 RVA 0x1207; el bit de y usa jne (0x75, rechaza si y&0x20) cuando el contrato exige y&0x20 establecido, luego opcode 0x74 (je) en v3 RVA 0x118c. El tercer salto (paridad (x^y)&1, jne) es correcto. Parcheando solo esos dos bytes en v1/v2/v3, los 11 pares de expected_samples producen la salida esperada (verificado ejecutando los EXE). Las firmas AOB coinciden una sola vez en .text de cada build, no contienen bytes del otro sitio parcheado (orden de aplicación irrelevante) y no dependen de direcciones (inmediato 0x100 y desplazamientos intra-función), por lo que localizan la cuarta build. q5: (0x100,0x20) ACCEPT; q6: (0,0) REJECT; q7: válidas A (coincidencia única), C (conserva acepta/rechaza correctos), E (offset señala el opcode); B y D contradicen el brief (conservar desplazamientos; se exige AOB, no RVA absoluto)."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_repair_aob",
+      "answers": {
+        "q1": {
+          "sites": {
+            "length": {
+              "pattern": "48 81 F9 00 01 00 00 73 15 F6 C2 20",
+              "offset": 7,
+              "byte": "77"
+            },
+            "flag": {
+              "pattern": "F6 C2 20 75 10 48 8B C1 48 33 C2 A8 01 75 06",
+              "offset": 3,
+              "byte": "74"
+            }
+          }
+        },
+        "q2": "0x1170",
+        "q3": "0x1207",
+        "q4": "0x118c",
+        "q5": "A",
+        "q6": "B",
+        "q7": [
+          "A",
+          "C",
+          "E"
+        ]
+      },
+      "reasoning": "El predicado que decide (llamado justo antes de test rax,rax/cmovne que elige las cadenas ACCEPT/REJECT en 0x11330/0x11338) es idéntico byte a byte en las tres builds: v1 RVA 0x1170, v2 0x1200, v3 0x1180: cmp rcx,0x100; jae(R); test dl,0x20; jne(R); mov rax,rcx; xor rax,rdx; test al,1; jne(R); mov eax,1. Los dos saltos defectuosos están invertidos: el límite de x usa jae (0x73, acepta x<0x100) cuando el contrato exige x<=0x100, luego opcode 0x77 (ja) en v2 RVA 0x1207; el bit de y usa jne (0x75, rechaza si y&0x20) cuando el contrato exige y&0x20 establecido, luego opcode 0x74 (je) en v3 RVA 0x118c. El tercer salto (paridad (x^y)&1, jne) es correcto. Parcheando solo esos dos bytes en v1/v2/v3, los 11 pares de expected_samples producen la salida esperada (verificado ejecutando los EXE). Las firmas AOB coinciden una sola vez en .text de cada build, no contienen bytes del otro sitio parcheado (orden de aplicación irrelevante) y no dependen de direcciones (inmediato 0x100 y desplazamientos intra-función), por lo que localizan la cuarta build. q5: (0x100,0x20) ACCEPT; q6: (0,0) REJECT; q7: válidas A (coincidencia única), C (conserva acepta/rechaza correctos), E (offset señala el opcode); B y D contradicen el brief (conservar desplazamientos; se exige AOB, no RVA absoluto)."
+    }
+  ]
+}

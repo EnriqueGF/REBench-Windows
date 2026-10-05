@@ -1,0 +1,21 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO pe_reloc: Relocación DIR64 bajo ASLR
+La misma imagen se carga en 0x180000000. Reconstruye el parche que aplica el loader en la dirección cubierta por la tabla de relocaciones.
+
+--- ARTEFACTO BINARIO artifacts/pe64/sample_pe.bin ---
+SHA256: 98c1c931cc0c6904b5b667becadd649058e3c35c8bc4fb02d92b6d762daf3c65
+Bytes: 2560. Archivo disponible en el directorio del caso.
+
+q1 [hex]: ¿Qué valor QWORD queda en RVA 0x2028 tras aplicar la relocación?
+
+q2 [single]: ¿Qué significa la entrada de relocación 0xA028?
+  A. HIGHLOW en RVA 0xA028
+  B. DIR64 en RVA 0x2028
+  C. DIR64 en offset de archivo 0x28
+  D. ABSOLUTE en RVA 0x2028
+
+q3 [hex]: ¿Cuál es el delta de carga aplicado?

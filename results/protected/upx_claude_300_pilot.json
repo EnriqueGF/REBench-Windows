@@ -1,0 +1,15 @@
+{
+  "track": "protected-vm",
+  "variant": "upx",
+  "profile": "claude",
+  "timeout_seconds": 300,
+  "attempts": [
+    {
+      "case_id": "vm_e1a4c106677a",
+      "seconds": 300.03,
+      "parse_error": "timeout",
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

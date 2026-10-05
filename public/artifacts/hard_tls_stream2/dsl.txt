@@ -1,0 +1,24 @@
+Formato de answers.q1: objeto JSON con `tables`, `steps` y `return`.
+Registros iniciales: `x=0`, `y=0`, `n` = longitud del mensaje. Destinos
+libres con nombre alfanumérico; no se puede asignar a x,y,n,i,byte.
+Los operandos son registros definidos, enteros o constantes `0x...`.
+Todas las operaciones se calculan módulo 2^64.
+
+Operaciones: add, sub, xor, and, or, mul (a,b); rol, ror, shl, shr (a,bits);
+not (a); sel (cond,a,b), que elige a cuando cond != 0; lookup
+(table,index), con índice módulo longitud de la tabla.
+Hasta cuatro tablas, cada una de hasta 16 uint64. `steps` admite hasta 64
+instrucciones. `each` ejecuta `body` en orden creciente de índice; `each_reverse`
+lo ejecuta en orden decreciente. Dentro del cuerpo están disponibles `i` y
+`byte`. Cada cuerpo admite hasta 32 instrucciones. Ambos bucles pueden compartir
+los registros calculados antes o durante el otro bucle. Sin bucles anidados.
+Máximo 8192 instrucciones ejecutadas por entrada; se incluye el mensaje vacío.
+
+Ejemplo de sintaxis, NO es la solución:
+{"tables":{"k":["0x5"]},"steps":[
+  {"dst":"acc","op":"xor","a":"n","b":"0x5"},
+  {"op":"each","body":[{"dst":"acc","op":"add","a":"acc","b":"byte"}]},
+  {"op":"each_reverse","body":[{"dst":"acc","op":"xor","a":"acc","b":"i"}]}
+],"return":"acc"}
+
+Devuelve el objeto en answers.q1, no código ejecutable ni una cadena JSON.

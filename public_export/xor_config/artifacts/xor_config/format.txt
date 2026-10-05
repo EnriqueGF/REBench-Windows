@@ -1,0 +1,6 @@
+Formato del recurso config.dat:
+offset 0..3 : ASCII 'XCFG'
+offset 4    : clave XOR (un byte)
+offset 5    : longitud de payload (un byte)
+offset 6..  : payload con cada byte XOR clave
+El payload es texto ASCII terminado exactamente por la longitud; no hay NUL implícito.

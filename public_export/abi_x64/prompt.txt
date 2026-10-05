@@ -1,0 +1,37 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO abi_x64: Argumentos y shadow space
+Has pausado una función Windows x64 justo al entrar, antes de su prólogo. Identifica los argumentos de una llamada mixta sin confundir shadow space y pila del llamador.
+
+--- ARTEFACTO artifacts/abi_x64/registers.txt ---
+RIP = 00007ff6`21301000  RSP = 000000d2`00b0ff58
+RCX = 00000000`00000011  RDX = 00000000`00000022
+R8  = 00000000`00000033  R9  = 00000000`00000044
+XMM0 = 0.0  XMM1 = 0.0  XMM2 = 0.0  XMM3 = 0.0
+
+dq rsp L8
+000000d2`00b0ff58  00007ff6`21302234  11111111`11111111
+000000d2`00b0ff68  22222222`22222222  33333333`33333333
+000000d2`00b0ff78  44444444`44444444  00000000`00000055
+000000d2`00b0ff88  00000000`00000066  00000000`00000000
+
+Firma conocida: uint64_t f(uint64_t a, uint64_t b, uint64_t c,
+                             uint64_t d, uint64_t e, uint64_t f);
+
+
+q1 [hex]: ¿Cuál es el quinto argumento, e?
+
+q2 [single]: ¿Qué representa [rsp+0x20] en este instante?
+  A. Quinto argumento
+  B. Cuarto slot de shadow space
+  C. Dirección de retorno
+  D. Sexto argumento
+
+q3 [multi]: Selecciona las afirmaciones seguras.
+  A. RCX contiene a.
+  B. [rsp+0x28] contiene e.
+  C. [rsp+0x30] contiene f.
+  D. [rsp+0x08] está garantizado que contiene a.

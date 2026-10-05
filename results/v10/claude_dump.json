@@ -1,0 +1,59 @@
+{
+  "benchmark_version": "10.0",
+  "started_at": "2026-10-05T08:38:17.247426+00:00",
+  "profile": "claude",
+  "results": [
+    {
+      "case_id": "hard_crash_dump",
+      "profile": "claude",
+      "exit_code": 0,
+      "seconds": 142.39,
+      "raw_output": "All answers derived. Let me verify:\n\n- q1: NTSTATUS 0xc0000005\n- q2: RVA 0x10ae\n- q3: VA 0x7a200003\n- q4: Read (param[0]=0)\n- q5: Buffer start VA = 0x1d47a200000\n- q6: encoded_payload = 0xa5c39fa92b920f46\n- q7: XOR constant = 0xa5c39e7d51b20f46\n- q8: resolve_payload RVA = 0x13e0\n- q9: consume_payload RVA = 0x10a0\n- q10: dispatch_ret = 0x1bc... wait, let me recheck. The question says \"valor uint64 que devolvería dispatch_job con el mismo búfer tras conservar los 64 bits del puntero\". My calc gave 0x1bc.\n\nLet me double-check: seed=0x39b74a1ed5c2608f, b3=0x36, b7=0x7a. (seed^0x36)+0x7a = 0x39b74a1ed5c260b9 + 0x7a = 0x39b74a1ed5c26133. Then ^ seed(0x39b74a1ed5c2608f) = 0x1bc. ✓\n\nq11: B (truncation to 32 bits)\nq12: A and B\n\n```json\n{\"case_id\":\"hard_crash_dump\",\"answers\":{\"q1\":\"0xc0000005\",\"q2\":\"0x10ae\",\"q3\":\"0x7a200003\",\"q4\":\"A\",\"q5\":\"0x1d47a200000\",\"q6\":\"0xa5c39fa92b920f46\",\"q7\":\"0xa5c39e7d51b20f46\",\"q8\":\"0x13e0\",\"q9\":\"0x10a0\",\"q10\":\"0x1bc\",\"q11\":\"B\",\"q12\":[\"A\",\"B\"]},\"reasoning\":\"Minidump ExceptionCode=0xC0000005 at module+0x10ae (base 0x7ff64bf20000). Instruction: movzx eax,byte[rdx+3]; rdx=0x7a200000 so fault VA=0x7a200003. ExceptionInformation[0]=0 → read. JOB at 0x7ff64bf42b20: encoded_payload=0xa5c39fa92b920f46; audit routine at RVA 0x1060 XORs with 0xa5c39e7d51b20f46 giving true buffer 0x1d47a200000 (also stored at JOB+8, VirtualAlloc result). Bug: resolve_payload (RVA 0x13e0) does `mov edx,[rcx]` (zero-extend 32-bit) then `xor rdx,0x51b20f46`, truncating pointer to 0x7a200000. consume_payload at 0x10a0. Buffer bytes 03 14 25 36 47 58 69 7a..., so with 64-bit ptr: consume = (seed^buf[3])+buf[7] = (0x39b74a1ed5c2608f^0x36)+0x7a = 0x39b74a1ed5c26133; dispatch_job XORs with [JOB+0x10]=seed → 0x1bc. Fix: keep decoded addr in uintptr_t and drop the uint32_t truncation.\"}\n```\n",
+      "stderr": "",
+      "submission": {
+        "case_id": "hard_crash_dump",
+        "answers": {
+          "q1": "0xc0000005",
+          "q2": "0x10ae",
+          "q3": "0x7a200003",
+          "q4": "A",
+          "q5": "0x1d47a200000",
+          "q6": "0xa5c39fa92b920f46",
+          "q7": "0xa5c39e7d51b20f46",
+          "q8": "0x13e0",
+          "q9": "0x10a0",
+          "q10": "0x1bc",
+          "q11": "B",
+          "q12": [
+            "A",
+            "B"
+          ]
+        },
+        "reasoning": "Minidump ExceptionCode=0xC0000005 at module+0x10ae (base 0x7ff64bf20000). Instruction: movzx eax,byte[rdx+3]; rdx=0x7a200000 so fault VA=0x7a200003. ExceptionInformation[0]=0 → read. JOB at 0x7ff64bf42b20: encoded_payload=0xa5c39fa92b920f46; audit routine at RVA 0x1060 XORs with 0xa5c39e7d51b20f46 giving true buffer 0x1d47a200000 (also stored at JOB+8, VirtualAlloc result). Bug: resolve_payload (RVA 0x13e0) does `mov edx,[rcx]` (zero-extend 32-bit) then `xor rdx,0x51b20f46`, truncating pointer to 0x7a200000. consume_payload at 0x10a0. Buffer bytes 03 14 25 36 47 58 69 7a..., so with 64-bit ptr: consume = (seed^buf[3])+buf[7] = (0x39b74a1ed5c2608f^0x36)+0x7a = 0x39b74a1ed5c26133; dispatch_job XORs with [JOB+0x10]=seed → 0x1bc. Fix: keep decoded addr in uintptr_t and drop the uint32_t truncation."
+      }
+    }
+  ],
+  "submissions": [
+    {
+      "case_id": "hard_crash_dump",
+      "answers": {
+        "q1": "0xc0000005",
+        "q2": "0x10ae",
+        "q3": "0x7a200003",
+        "q4": "A",
+        "q5": "0x1d47a200000",
+        "q6": "0xa5c39fa92b920f46",
+        "q7": "0xa5c39e7d51b20f46",
+        "q8": "0x13e0",
+        "q9": "0x10a0",
+        "q10": "0x1bc",
+        "q11": "B",
+        "q12": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "Minidump ExceptionCode=0xC0000005 at module+0x10ae (base 0x7ff64bf20000). Instruction: movzx eax,byte[rdx+3]; rdx=0x7a200000 so fault VA=0x7a200003. ExceptionInformation[0]=0 → read. JOB at 0x7ff64bf42b20: encoded_payload=0xa5c39fa92b920f46; audit routine at RVA 0x1060 XORs with 0xa5c39e7d51b20f46 giving true buffer 0x1d47a200000 (also stored at JOB+8, VirtualAlloc result). Bug: resolve_payload (RVA 0x13e0) does `mov edx,[rcx]` (zero-extend 32-bit) then `xor rdx,0x51b20f46`, truncating pointer to 0x7a200000. consume_payload at 0x10a0. Buffer bytes 03 14 25 36 47 58 69 7a..., so with 64-bit ptr: consume = (seed^buf[3])+buf[7] = (0x39b74a1ed5c2608f^0x36)+0x7a = 0x39b74a1ed5c26133; dispatch_job XORs with [JOB+0x10]=seed → 0x1bc. Fix: keep decoded addr in uintptr_t and drop the uint32_t truncation."
+    }
+  ]
+}

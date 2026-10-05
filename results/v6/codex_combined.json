@@ -1,0 +1,546 @@
+{
+  "benchmark_version": "6.0",
+  "profile": "codex",
+  "model": "gpt-6-sol",
+  "submissions": [
+    {
+      "case_id": "pe_rva",
+      "answers": {
+        "q1": "0x680",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": ".rdata comienza en RVA 0x2000 y offset 0x600; por tanto, RVA 0x2080 corresponde al offset 0x680. Su tamaño en archivo es 0x200, así que RVA 0x2250 cae en la cola virtual sin bytes propios en disco. La VA preferida del punto de entrada es ImageBase 0x140000000 + RVA 0x1000 = 0x140001000."
+    },
+    {
+      "case_id": "pe_reloc",
+      "answers": {
+        "q1": "0x180001234",
+        "q2": "B",
+        "q3": "0x40000000"
+      },
+      "reasoning": "La base preferida es 0x140000000 y la imagen se carga en 0x180000000: el delta es 0x40000000. El bloque de relocaciones tiene RVA de página 0x2000; la entrada 0xA028 indica DIR64 (tipo 0xA) en RVA 0x2028. El QWORD original, 0x140001234, queda en 0x180001234."
+    },
+    {
+      "case_id": "abi_x64",
+      "answers": {
+        "q1": "0x55",
+        "q2": "B",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "Al entrar, RCX contiene a. [rsp] guarda la dirección de retorno; [rsp+0x08] a [rsp+0x20] son shadow space y no garantizan copias de los registros. El quinto y sexto argumentos están en [rsp+0x28]=0x55 y [rsp+0x30]=0x66."
+    },
+    {
+      "case_id": "crash_av",
+      "answers": {
+        "q1": "A",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "Parameter[0]=0 indica lectura y Parameter[1]=0x18 indica la dirección accedida. La instrucción lee [RAX+18h] con RAX=0, por lo que primero hay que comprobar el retorno de get_optional_context. Como el contexto es opcional, la corrección es comprobar ctx antes de acceder a ctx->next y definir la ruta sin contexto."
+    },
+    {
+      "case_id": "wow64_view",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "El proceso x86 bajo WOW64 puede ver una ruta de archivos y una vista del registro distintas de las del proceso x64. Sysnative da acceso al System32 nativo y KEY_WOW64_64KEY selecciona la vista x64 del registro. El acceso al DLL no implica que un proceso x86 pueda cargarlo."
+    },
+    {
+      "case_id": "unwind_x64",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": [
+          "A",
+          "B"
+        ]
+      },
+      "reasoning": "RtlLookupFunctionEntry devuelve NULL en +0x18, por lo que el stack walker trata el trampolín como leaf y lee [rsp] como retorno. El prólogo hizo push rbx y sub rsp,30h; sus metadatos de unwind deben describir el guardado de RBX y la asignación de 0x30 bytes. RtlAddFunctionTable registra una tabla de funciones dinámica para ese código."
+    },
+    {
+      "case_id": "symbols_pdb",
+      "answers": {
+        "q1": "0x71A0",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "El RIP 0x400071A0 menos la base 0x40000000 da el RVA 0x71A0. El GUID coincide, pero el módulo tiene Age 3 y el PDB Age 2. Hasta obtener símbolos correctos, la atribución debe basarse en el RVA y el desensamblado del binario cargado."
+    },
+    {
+      "case_id": "loader_lock",
+      "answers": {
+        "q1": "B",
+        "q2": "B",
+        "q3": "A"
+      },
+      "reasoning": "DllMain espera el evento del worker mientras el worker sigue pendiente de la notificación DLL_THREAD_ATTACH del loader; DllMain aún no ha retornado. Mover el inicio y la sincronización a Init, llamada tras LoadLibraryW, elimina esa espera dentro de DllMain. La existencia de Thread 18 confirma que el worker se creó."
+    },
+    {
+      "case_id": "etw_pid",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": "B"
+      },
+      "reasoning": "new.bin aparece en un FileWrite del PID 4380 con process_start_key B92 e imagen updater.exe. El PID 4380 perteneció antes a worker.exe/A17, pero esa instancia terminó; correlacionar PID y process_start_key distingue ambas instancias."
+    },
+    {
+      "case_id": "plugin_lifetime",
+      "answers": {
+        "q1": "B",
+        "q2": "A",
+        "q3": "A"
+      },
+      "reasoning": "En t3, FreeLibrary reduce el contador de referencias a cero y desasigna la imagen, pero registry.callback conserva la dirección obtenida en t1. En t4, otro DLL puede reutilizar ese rango: la llamada de t5 puede causar una AV o ejecutar código inesperado."
+    },
+    {
+      "case_id": "x86_stack",
+      "answers": {
+        "q1": "0x10",
+        "q2": "B",
+        "q3": "B"
+      },
+      "reasoning": "El llamador apila cuatro argumentos de 4 bytes y no ajusta ESP tras la llamada. La instrucción ret 10h del callee retira 16 bytes de argumentos, además de la dirección de retorno. Ese patrón también puede proceder de ensamblador o de una convención personalizada, por lo que no identifica una convención de fuente exacta."
+    },
+    {
+      "case_id": "rip_relative",
+      "answers": {
+        "q1": "0x180004B00",
+        "q2": "0x6B00",
+        "q3": "B"
+      },
+      "reasoning": "El destino se calcula desde la dirección siguiente a cada instrucción: 0x180005127−0x627=0x180004B00; 0x190006317+0x7E9=0x190006B00, cuyo RVA es 0x6B00. Los cuatro bytes disp32 cambian entre builds y deben tratarse como variables."
+    },
+    {
+      "case_id": "xor_config",
+      "answers": {
+        "q1": "A",
+        "q2": "0x5A",
+        "q3": "A"
+      },
+      "reasoning": "El encabezado XCFG indica clave 0x5A y longitud 0x13 (19 bytes). Al aplicar XOR a esos 19 bytes se obtiene MODE=SAFE;PORT=8443. El formato usa una longitud explícita y no garantiza un NUL final."
+    },
+    {
+      "case_id": "com_activation",
+      "answers": {
+        "q1": "B",
+        "q2": "C",
+        "q3": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "reasoning": "El hilo UI ya se inicializó como STA; intentar inicializarlo después como MTA produjo 0x80010106. El cliente x86 solicita un servidor in-process, pero el único DLL indicado es AMD64 y no existe una build x86. Las reparaciones válidas son mantener un solo modelo de apartamento, proporcionar un DLL x86 compatible o usar un servidor x64 fuera de proceso con marshaling adecuado."
+    },
+    {
+      "case_id": "aob_versions",
+      "answers": {
+        "q1": "A",
+        "q2": [
+          "A",
+          "B"
+        ],
+        "q3": "B"
+      },
+      "reasoning": "Entre los bloques objetivo cambian el disp32 y el desplazamiento del salto corto. El patrón A los sustituye por wildcards y conserva 8B 48 08 85 C9, secuencia que distingue el objetivo del bloque no objetivo en Build B. Antes de usarlo en otra actualización, conviene verificar que el match sea único, respete los límites de instrucción y apunte al destino RIP-relative esperado."
+    },
+    {
+      "case_id": "hard_license",
+      "answers": {
+        "q1": "N7K4C2R9Q5M8V3X6T1P0",
+        "q2": "A1B2C3D4E5F6G7H8J9K0",
+        "q3": "0x3212CF66",
+        "q4": "0x1180"
+      },
+      "reasoning": "El descifrado del PE produce ambos códigos; el estado actual tras la máscara 9 es 0x3212CF66. El ejecutable confirma ACCEPT para el código actual y RETIRED ACCEPT para el retirado; este último devuelve REJECT en la ruta normal. La rutina de descifrado actual comienza en RVA 0x1180."
+    },
+    {
+      "case_id": "hard_vm",
+      "answers": {
+        "q1": "Q8M4Z2N7R5T9V3X6",
+        "q2": "0x6D",
+        "q3": "A",
+        "q4": "7,0,12,3",
+        "q5": "af1ccf55231d74341be7b089261c10f6f1dd5331c73b7b14b596422f29152de8"
+      },
+      "reasoning": "La rutina de descifrado inicia la máscara en 0x6D y la actualiza como (máscara×0x49+0x29) módulo 256 antes de aplicar XOR. El opcode 0x5B rota el registro a la izquierda. Al invertir las comprobaciones en el orden de índices 7,0,12,3…, se obtiene el código indicado; el ejecutable responde ACCEPT para él y REJECT al cambiar su último carácter."
+    },
+    {
+      "case_id": "hard_pattern",
+      "answers": {
+        "q1": "0x1070",
+        "q2": "0x1080",
+        "q3": "0x1090",
+        "q4": "A",
+        "q5": "0x3091C972"
+      },
+      "reasoning": "Las llamadas desde la función principal identifican la rutina viva en esos RVA; la otra lectura de +0x2A8 corresponde a auditoría. El patrón A aparece exactamente una vez en .text de cada build. En v3, la rutina calcula ROR32(((0x12345678 XOR 0x76E2845D) - 0x1EC498F7) módulo 2^32, 29) = 0x3091C972."
+    },
+    {
+      "case_id": "hard_pipeline",
+      "answers": {
+        "q1": {
+          "steps": [
+            {
+              "dst": "r0",
+              "op": "xor",
+              "a": "x",
+              "b": "0xD6E8FEB86659FD93"
+            },
+            {
+              "dst": "r1",
+              "op": "rol",
+              "a": "r0",
+              "bits": 13
+            },
+            {
+              "dst": "r2",
+              "op": "mul",
+              "a": "y",
+              "b": "0x9E3779B185EBCA87"
+            },
+            {
+              "dst": "r3",
+              "op": "add",
+              "a": "r1",
+              "b": "r2"
+            },
+            {
+              "dst": "r4",
+              "op": "add",
+              "a": "r3",
+              "b": "0xA0761D6478BD642F"
+            },
+            {
+              "dst": "r5",
+              "op": "xor",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r6",
+              "op": "and",
+              "a": "r5",
+              "b": "0x20"
+            },
+            {
+              "dst": "r7",
+              "op": "xor",
+              "a": "r4",
+              "b": "0xE7037ED1A0B428DB"
+            },
+            {
+              "dst": "r8",
+              "op": "rol",
+              "a": "r7",
+              "bits": 17
+            },
+            {
+              "dst": "r9",
+              "op": "add",
+              "a": "r4",
+              "b": "0x8EBC6AF09C88C6E3"
+            },
+            {
+              "dst": "r10",
+              "op": "ror",
+              "a": "r9",
+              "bits": 9
+            },
+            {
+              "dst": "r11",
+              "op": "sel",
+              "cond": "r6",
+              "a": "r8",
+              "b": "r10"
+            },
+            {
+              "dst": "r12",
+              "op": "add",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r13",
+              "op": "mul",
+              "a": "r12",
+              "b": "0xC2B2AE3D27D4EB4F"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r13",
+              "b": "r11"
+            }
+          ],
+          "return": "r14"
+        },
+        "q2": "0x1100",
+        "q3": "0x73E9A26282AC1611",
+        "q4": "0x20",
+        "q5": "0xC2B2AE3D27D4EB4F"
+      },
+      "reasoning": "El código en RVA 0x1100 carga las seis constantes de .data, aplica las rotaciones de 13, 17 y 9 bits y elige la rama mediante (x xor y) & 0x20. El resultado coincide con el oráculo en la entrada solicitada y en 25 pares adicionales."
+    },
+    {
+      "case_id": "hard_pattern_open",
+      "answers": {
+        "q1": "8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3",
+        "q2": "0x1070",
+        "q3": "0x1090",
+        "q4": "B"
+      },
+      "reasoning": "La firma empieza en la rutina que conserva la secuencia mov, xor, ajuste aritmético, ror y ret. Coincide exactamente una vez en .text de cada build visible: 0x1070, 0x1080 y 0x1090. Los wildcards cubren las constantes y el cambio de add a sub; en aritmética módulo 2^32, sumar una constante equivale a restar su complemento a dos. La cuarta build no está disponible para comprobarla."
+    },
+    {
+      "case_id": "hard_tls_state",
+      "answers": {
+        "q1": {
+          "tables": {
+            "k": [
+              "0x4cf5ad432745937f",
+              "0xe97b1d0f83ac6b29",
+              "0xc13fa9a902a6328f",
+              "0x7b4d3be2a5ed7d63",
+              "0xd0ed6f7758fb31a9",
+              "0x2b6d85fe993ce12d",
+              "0x8a6e52342d9afc71",
+              "0xf963b3d5c6a98e4b"
+            ],
+            "m": [
+              "0x9e3779b185ebca87",
+              "0xc2b2ae3d27d4eb4f",
+              "0xd6e8feb86659fd93",
+              "0xa24baed4963ee407"
+            ]
+          },
+          "steps": [
+            {
+              "dst": "r0",
+              "op": "lookup",
+              "table": "k",
+              "index": 0
+            },
+            {
+              "dst": "r1",
+              "op": "xor",
+              "a": "r0",
+              "b": "x"
+            },
+            {
+              "dst": "r2",
+              "op": "lookup",
+              "table": "k",
+              "index": 1
+            },
+            {
+              "dst": "r3",
+              "op": "add",
+              "a": "r2",
+              "b": "y"
+            },
+            {
+              "op": "loop",
+              "count": 8,
+              "body": [
+                {
+                  "dst": "r4",
+                  "op": "rol",
+                  "a": "r3",
+                  "bits": 11
+                },
+                {
+                  "dst": "r5",
+                  "op": "add",
+                  "a": "r1",
+                  "b": "r4"
+                },
+                {
+                  "dst": "r6",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "i"
+                },
+                {
+                  "dst": "r5",
+                  "op": "xor",
+                  "a": "r5",
+                  "b": "r6"
+                },
+                {
+                  "dst": "r7",
+                  "op": "xor",
+                  "a": "r5",
+                  "b": "x"
+                },
+                {
+                  "dst": "r7",
+                  "op": "and",
+                  "a": "r7",
+                  "b": "0x200"
+                },
+                {
+                  "dst": "r8",
+                  "op": "rol",
+                  "a": "r5",
+                  "bits": 13
+                },
+                {
+                  "dst": "r9",
+                  "op": "add",
+                  "a": "i",
+                  "b": 3
+                },
+                {
+                  "dst": "r10",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r9"
+                },
+                {
+                  "dst": "r10",
+                  "op": "xor",
+                  "a": "r10",
+                  "b": "r5"
+                },
+                {
+                  "dst": "r10",
+                  "op": "ror",
+                  "a": "r10",
+                  "bits": 17
+                },
+                {
+                  "dst": "r1",
+                  "op": "sel",
+                  "cond": "r7",
+                  "a": "r8",
+                  "b": "r10"
+                },
+                {
+                  "dst": "r3",
+                  "op": "xor",
+                  "a": "r3",
+                  "b": "r1"
+                },
+                {
+                  "dst": "r11",
+                  "op": "lookup",
+                  "table": "m",
+                  "index": "i"
+                },
+                {
+                  "dst": "r3",
+                  "op": "mul",
+                  "a": "r3",
+                  "b": "r11"
+                },
+                {
+                  "dst": "r12",
+                  "op": "sub",
+                  "a": "i",
+                  "b": 3
+                },
+                {
+                  "dst": "r13",
+                  "op": "lookup",
+                  "table": "k",
+                  "index": "r12"
+                },
+                {
+                  "dst": "r3",
+                  "op": "add",
+                  "a": "r13",
+                  "b": "r3"
+                }
+              ]
+            },
+            {
+              "dst": "r14",
+              "op": "rol",
+              "a": "r3",
+              "bits": 23
+            },
+            {
+              "dst": "r15",
+              "op": "mul",
+              "a": "x",
+              "b": "y"
+            },
+            {
+              "dst": "r15",
+              "op": "mul",
+              "a": "r15",
+              "b": "0x8cb92ba72f3d8dd7"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r14",
+              "b": "r15"
+            },
+            {
+              "dst": "r14",
+              "op": "xor",
+              "a": "r14",
+              "b": "r1"
+            }
+          ],
+          "return": "r14"
+        },
+        "q2": "0x1000",
+        "q3": "0x11D0",
+        "q4": "0x4CF5AD432745937F",
+        "q5": "0x5685DD8B1B0483F1",
+        "q6": "B"
+      },
+      "reasoning": "El directorio TLS señala al callback RVA 0x1000, que genera ocho claves a partir de una semilla y datos en RVA 0x17350, y las escribe sobre los señuelos en RVA 0x22000. La función en RVA 0x11D0 usa esas claves en ocho iteraciones. El DSL coincidió con el ejecutable en 71 pares, incluidos valores frontera y el par de q5."
+    },
+    {
+      "case_id": "hard_delay_import",
+      "answers": {
+        "q1": "0x211E4",
+        "q2": "0x21368",
+        "q3": "0x20168",
+        "q4": "0x140001BB3",
+        "q5": "0x22B80",
+        "q6": [
+          "A",
+          "C",
+          "E"
+        ],
+        "q7": "B"
+      },
+      "reasoning": "El descriptor de USER32.dll está en el RVA 0x211E4 y tiene grAttrs=1. Sus campos pUnloadIAT y phmod son 0x21368 y 0x22B80. La UIAT cae en .rdata: 0x15E00+(0x21368-0x17000)=0x20168. El primer QWORD del IAT y de la UIAT contiene 0x140001BB3; la UIAT permite restaurar ese thunk tras la descarga para resolver de nuevo la llamada."
+    },
+    {
+      "case_id": "hard_unwind_frame",
+      "answers": {
+        "q1": "0x10A0",
+        "q2": "0x1EDF0",
+        "q3": "0x88",
+        "q4": "0x20",
+        "q5": "0x000000C00100FF10",
+        "q6": "0x1122334455667788",
+        "q7": "0x00007FF612345678",
+        "q8": "A"
+      },
+      "reasoning": "El RUNTIME_FUNCTION que cubre RVA 0x10B0 comienza en 0x10A0 y apunta a 0x1EDF0. UNWIND_INFO codifica ALLOC_LARGE con slot adicional 0x0011 (0x11×8=0x88), SET_FPREG con desplazamiento 2×16=0x20 y dos PUSH. Al deshacerlos, se recupera RBX de [RSP+0x88], el retorno de [RSP+0x98] y el RSP del llamador queda en RSP+0xA0."
+    }
+  ],
+  "source_files": [
+    "results\\v4\\codex_combined.json",
+    "results\\v5\\codex_tls.json",
+    "results\\v6\\codex_new.json"
+  ]
+}

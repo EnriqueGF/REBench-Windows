@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "codex": [
+      "codex", "exec", "--skip-git-repo-check", "--sandbox", "read-only",
+      "--ephemeral", "--color", "never", "-m", "gpt-6-sol", "{prompt}"
+    ],
+    "claude": [
+      "claude", "-p", "{prompt}", "--model", "claude-opus-4-7",
+      "--output-format", "text"
+    ],
+    "opencode": ["opencode", "run", "{prompt}"]
+  }
+}

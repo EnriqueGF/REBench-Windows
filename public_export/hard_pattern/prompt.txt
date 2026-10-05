@@ -1,0 +1,42 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO hard_pattern: Firma robusta entre tres builds PE64
+Dispones de tres versiones de la misma utilidad PE64 sin símbolos. El objetivo es la rutina viva que lee el campo de modo en desplazamiento 0x2A8 de una estructura; hay otra rutina de auditoría que lee el mismo campo. Encuentra la rutina viva en cada build, construye una firma AOB que la identifique una sola vez en `.text` de las tres y calcula un resultado de la versión más nueva.
+Herramientas disponibles: Python 3 con pefile y capstone, comandos locales y ejecución de los PE de prueba. Puedes crear scripts en el directorio temporal. No necesitas IDA. Examina el binario antes de concluir que faltan datos.
+
+--- ARTEFACTO artifacts/hard_pattern/brief.txt ---
+layout_v1.exe, layout_v2.exe y layout_v3.exe son builds x64 del mismo programa.
+La función principal combina el resultado de la rutina viva con auditoría y helpers
+antes de imprimir. Por ello, ejecutar el EXE no entrega directamente el valor de
+la rutina viva. El campo de modo es un DWORD en +0x2A8 desde el contexto.
+Los tres PE tienen ImageBase preferida 0x140000000 y no incluyen PDB.
+
+
+--- ARTEFACTO BINARIO artifacts/hard_pattern/layout_v1.exe ---
+SHA256: 2fe7a82393a1ae24f756d10777f93744c2948d107c3a15020995378334b706e1
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+--- ARTEFACTO BINARIO artifacts/hard_pattern/layout_v2.exe ---
+SHA256: f9d6c2b61c736d5d7f7584fc6e56ed864479113458e63ad66ea7defa2e79b863
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+--- ARTEFACTO BINARIO artifacts/hard_pattern/layout_v3.exe ---
+SHA256: 7fa003addb45b6021dc19e8853a96c505300fbc01b1a43699a04cef33a83cc36
+Bytes: 142336. Archivo disponible en el directorio del caso.
+
+q1 [hex]: RVA inicial de la rutina viva en layout_v1.exe.
+
+q2 [hex]: RVA inicial de la rutina viva en layout_v2.exe.
+
+q3 [hex]: RVA inicial de la rutina viva en layout_v3.exe.
+
+q4 [single]: ¿Qué patrón AOB encuentra exactamente una vez la rutina viva en los tres `.text`?
+  A. 8B 81 A8 02 00 00 35 ?? ?? ?? ?? ?? ?? ?? ?? ?? C1 C8 1D C3
+  B. 8B 81 A8 02 00 00
+  C. 8B 81 A8 02 00 00 35 19 7E 5C A3 05 03 2A 4F 17 C1 C8 1D C3
+  D. 8B 81 A8 02 00 00 35 ?? ?? ?? ?? 05 ?? ?? ?? ?? C1 C8 1D C3
+
+q5 [hex]: Resultado de la rutina viva de layout_v3 para modo de entrada 0x12345678 (sin XOR con auditoría ni helpers).

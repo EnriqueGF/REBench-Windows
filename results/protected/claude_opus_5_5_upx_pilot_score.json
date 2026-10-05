@@ -1,0 +1,30 @@
+{
+  "track": "protected-vm",
+  "score": 100,
+  "maximum": 300,
+  "variant": "upx",
+  "valid_full_bank": false,
+  "cases": [
+    {
+      "case_id": "vm_e1a4c106677a",
+      "points": 100,
+      "code_correct": true,
+      "bytecode_hash_correct": true,
+      "status": "answered"
+    },
+    {
+      "case_id": "vm_59f2ce1d4f22",
+      "points": 0,
+      "code_correct": false,
+      "bytecode_hash_correct": false,
+      "status": "missing"
+    },
+    {
+      "case_id": "vm_c48f7e7dd145",
+      "points": 0,
+      "code_correct": false,
+      "bytecode_hash_correct": false,
+      "status": "missing"
+    }
+  ]
+}

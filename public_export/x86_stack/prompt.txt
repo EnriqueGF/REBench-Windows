@@ -1,0 +1,41 @@
+Eres analista de ingeniería inversa. Resuelve el caso usando exclusivamente la evidencia adjunta.
+No presupongas datos que no aparecen. Devuelve SOLO un objeto JSON válido, sin Markdown.
+Formato: {"case_id":"ID","answers":{"q1":"A","q2":["A","C"],"q3":"0x1234"},"reasoning":"explicación breve con evidencia"}.
+En preguntas multi, devuelve una lista de letras. Para valores, usa el formato pedido.
+
+CASO x86_stack: Inferencia de convención x86
+Una función x86 sin símbolos se invoca desde dos sitios. Hay que inferir quién limpia la pila, sin atribuir más semántica de la que permite el desensamblado.
+
+--- ARTEFACTO artifacts/x86_stack/disasm.txt ---
+Caller:
+  push 4
+  push esi
+  push 0
+  push edi
+  call 00402700
+  mov  ebx,eax
+  ; no add esp,10h here
+
+00402700:
+  push ebp
+  mov  ebp,esp
+  mov  eax,[ebp+08h]
+  ; ...
+  mov  esp,ebp
+  pop  ebp
+  ret  10h
+
+
+q1 [hex]: ¿Cuántos bytes de argumentos retira el callee además de la dirección de retorno?
+
+q2 [single]: ¿Qué afirmación está mejor sustentada?
+  A. El llamador limpia cuatro argumentos
+  B. El callee limpia 16 bytes de argumentos
+  C. Es necesariamente __thiscall de MSVC
+  D. El retorno es de tipo void
+
+q3 [single]: ¿Por qué sería excesivo afirmar una convención de fuente exacta solo con estas instrucciones?
+  A. ret 10h no existe en x86
+  B. Código ensamblador o convenciones personalizadas pueden compartir el mismo patrón de limpieza
+  C. Los argumentos nunca se pasan por pila
+  D. EAX no puede contener resultados

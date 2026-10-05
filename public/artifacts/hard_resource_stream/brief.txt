@@ -1,0 +1,9 @@
+Uso: stream_oracle.exe HEX
+HEX contiene un número par de dígitos hexadecimales, sin prefijo; usa '-' para
+el mensaje vacío. Longitud máxima: 96 bytes. La salida correcta tiene 16 dígitos
+hexadecimales. Entrada inválida: código de salida 2.
+
+El oráculo puede consultarse. La clave q1 debe representar la transformación
+completa, no solo las muestras visibles. El corrector compara la salida del DSL
+con el ejecutable en 384 entradas ocultas: longitudes frontera, bytes uniformes,
+secuencias y entradas aleatorias. Hay crédito proporcional por coincidencias.
