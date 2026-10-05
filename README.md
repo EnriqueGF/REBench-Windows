@@ -13,19 +13,19 @@ The v10 prompts remain in their original Spanish. Translating them would change 
 
 ## Results at a glance
 
-The [v11 pilot](results/hard_suite/PILOT.md) covers **two of the thirteen cases**, each with a 300-second limit. Its static case is normalized to 100 points in this table.
+The latest [900-second comparison](results/hard_suite/EXTENDED_900.md) repeats **two of the thirteen v11 cases** with fresh attempts for each model. Its static case is normalized to 100 points in this table.
 
-| Model and CLI | Static PE /100 | UPX + VM /100 | Two-case pilot /200 |
+| Model and CLI | Static PE /100 | UPX + VM /100 | Two-case total /200 |
 |---|---:|---:|---:|
-| Claude Opus 5.5 (`claude`) | 58.36 | 100 | **158.36** |
-| Kimi K3 (OpenCode/OpenRouter) | 53.66 | 0, timeout | 53.66 |
-| DeepSeek V4 Pro 0813 (OpenCode/OpenRouter) | 49.96 | 0, timeout | 49.96 |
-| Codex Sol (`codex`) | 46.44 | 0, timeout | 46.44 |
-| Claude Opus 4.7 (`claude`) | 37.00 | 0, timeout | 37.00 |
-| DeepSeek V4.1 Flash (OpenCode/OpenRouter) | 0, timeout | 0, timeout | 0 |
+| Claude Opus 5.5 (`claude`) | 40.49 | 100 | 140.49 |
+| Kimi K3 (OpenCode/OpenRouter) | 47.97 | 0, timeout | 47.97 |
+| DeepSeek V4 Pro 0813 (OpenCode/OpenRouter) | 51.20 | 0, timeout | 51.20 |
+| Codex Sol (`codex`) | 45.00 | 100 | 145.00 |
+| Claude Opus 4.7 (`claude`) | 35.11 | 100 | 135.11 |
+| DeepSeek V4.1 Flash (OpenCode/OpenRouter) | 55.88 | 0, timeout | 55.88 |
 | OpenCode's former default GLM gateway | Authentication failure | Not run | N/A |
 
-A timeout means the agent produced no final answer before the limit; it does not mean an incorrect candidate was tested. Opus 5.5 recovered both the accepted code and the decrypted bytecode hash in the packed case. **These are local pilot results, not a full v11 leaderboard or a blind evaluation.** The [v10 results](results/v10/RESULTS.md) show Codex Sol at 1,380/1,380, Opus 4.7 at 1,354/1,380, and the former OpenCode default at 572/1,380 with four unfinished cases. Results from the two generations are not directly comparable.
+A timeout means no final answer arrived before the limit. Codex Sol and Opus 4.7 solved the packed case under 900 seconds after timing out in the [original 300-second pilot](results/hard_suite/PILOT.md). **These are local two-case results, not a full v11 leaderboard or a blind evaluation.** The [v10 results](results/v10/RESULTS.md) show Codex Sol at 1,380/1,380, Opus 4.7 at 1,354/1,380, and the former OpenCode default at 572/1,380 with four unfinished cases. Results from the two generations are not directly comparable.
 
 ## Requirements
 
@@ -56,20 +56,20 @@ python .\protected_vm_bench.py upx
 
 `build` without a seed generates new VM variants. The current checked-in examples have published reference data, so generate **fresh variants and keep their answer key off the agent machine** for a blind evaluation. Building replaces the corresponding local samples and manifest; keep a clean checkout if you want to reproduce the published pilot.
 
-Run the complete 13-case bank with one model per profile and 300 seconds per case:
+Run the complete 13-case bank with one model per profile and a 900-second limit per case:
 
 ```powershell
-python .\hard_suite.py run codex
-python .\hard_suite.py run claude --model claude-opus-5-5
-python .\hard_suite.py run opencode --model openrouter/moonshotai/kimi-k3
+python .\hard_suite.py run codex --research-timeout 900 --vm-timeout 900
+python .\hard_suite.py run claude --model claude-opus-5-5 --research-timeout 900 --vm-timeout 900
+python .\hard_suite.py run opencode --model openrouter/moonshotai/kimi-k3 --research-timeout 900 --vm-timeout 900
 ```
 
-`hard_suite.py` names output files by **profile**, so use a fresh checkout or distinct per-track `--output` paths when comparing several models through the same CLI. For a single repeatable pilot case:
+`hard_suite.py` names output files by **profile**, so use a fresh checkout or distinct per-track `--output` paths when comparing several models through the same CLI. For one of the extended comparison cases:
 
 ```powershell
-python .\agentre_track.py run claude --case pe_69e70ad5f453 --timeout 300 --model claude-opus-5-5 --output .\results\research\my_static.json
+python .\agentre_track.py run claude --case pe_69e70ad5f453 --timeout 900 --model claude-opus-5-5 --output .\results\research\my_static.json
 python .\agentre_track.py grade .\results\research\my_static.json
-python .\protected_vm_bench.py run claude --upx --case vm_e1a4c106677a --timeout 300 --model claude-opus-5-5 --output .\results\protected\my_vm.json
+python .\protected_vm_bench.py run claude --upx --case vm_e1a4c106677a --timeout 900 --model claude-opus-5-5 --output .\results\protected\my_vm.json
 python .\protected_vm_bench.py grade .\results\protected\my_vm.json
 ```
 

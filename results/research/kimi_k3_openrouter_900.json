@@ -1,0 +1,53 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "model": "openrouter/moonshotai/kimi-k3",
+  "timeout_seconds": 900,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 323.08,
+      "exit_code": 0,
+      "stdout": "{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":true,\"techniques\":[\"xor_string_obfuscation\",\"recursive_file_discovery\",\"targeted_extension_file_encryption\",\"ransom_note_creation\",\"service_creation_auto_start_persistence\",\"microsoft_security_center_masquerade\",\"single_instance_mutex\",\"debugger_detection\",\"vm_sandbox_detection\",\"http_connectivity_check_example_com\",\"raw_tcp_send_system_info_port_8443\",\"tcp_445_connect_attempts_192_0_2_1_4\"],\"injection_details\":{},\"encryption_details\":{\"algorithm\":\"custom 16-byte block transform: 10 rounds of AES S-box substitution, XOR with key byte, XOR with round constant 27*round; independent full blocks only\",\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\"plaintext ASCII in .rdata at file offset 0x8500; pointer passed to file encryption routine\"},\"decoded_strings\":{\"appended_extension\":\".WNCRY\",\"public_path_suffix\":\"\\\\Documents\\\\synthetic_target\"},\"anti_analysis\":[\"IsDebuggerPresent\",\"PEB.BeingDebugged via gs:[0x60]+2\",\"NtQueryInformationProcess class 7 ProcessDebugPort\",\"VM driver files vmmouse.sys and vmhgfs.sys\",\"Sandboxie module sbiedll.dll\",\"CPUID leaf 1 hypervisor bit ECX.31\"],\"decoded_c2\":null,\"c2_protocol\":null}}\n",
+      "stderr": "\u001b[0m\n> build · moonshotai/kimi-k3\n\u001b[0m\n\u001b[0m✱ \u001b[0mGlob \"**/evidence.txt\"\u001b[90m in . · 1 match\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1, limit=2000]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1073, limit=2000]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1835, limit=2000]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=2631, limit=2000]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=3413, limit=2000]\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"^[A-Z][A-Z0-9 _-]{2,}$\"\u001b[90m in . · 0 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"SECTIONS|IMPORTS|ASCII STRINGS|UTF-16LE STRINGS|EXECUTABLE SECTION DISASSEMBLY\"\u001b[90m in . · 5 matches\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"0x000083|0x00008620|0x00009128|9128|8620\"\u001b[90m in . · 4 matches\u001b[0m\n",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "xor_string_obfuscation",
+          "recursive_file_discovery",
+          "targeted_extension_file_encryption",
+          "ransom_note_creation",
+          "service_creation_auto_start_persistence",
+          "microsoft_security_center_masquerade",
+          "single_instance_mutex",
+          "debugger_detection",
+          "vm_sandbox_detection",
+          "http_connectivity_check_example_com",
+          "raw_tcp_send_system_info_port_8443",
+          "tcp_445_connect_attempts_192_0_2_1_4"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": "custom 16-byte block transform: 10 rounds of AES S-box substitution, XOR with key byte, XOR with round constant 27*round; independent full blocks only",
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": "plaintext ASCII in .rdata at file offset 0x8500; pointer passed to file encryption routine"
+        },
+        "decoded_strings": {
+          "appended_extension": ".WNCRY",
+          "public_path_suffix": "\\Documents\\synthetic_target"
+        },
+        "anti_analysis": [
+          "IsDebuggerPresent",
+          "PEB.BeingDebugged via gs:[0x60]+2",
+          "NtQueryInformationProcess class 7 ProcessDebugPort",
+          "VM driver files vmmouse.sys and vmhgfs.sys",
+          "Sandboxie module sbiedll.dll",
+          "CPUID leaf 1 hypervisor bit ECX.31"
+        ],
+        "decoded_c2": null,
+        "c2_protocol": null
+      }
+    }
+  ]
+}

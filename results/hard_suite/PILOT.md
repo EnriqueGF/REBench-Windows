@@ -1,5 +1,7 @@
 # Experimental v11 pilot — October 5, 2026
 
+For fresh attempts with a 900-second limit, see the [extended comparison](EXTENDED_900.md). Codex Sol and Claude Opus 4.7 both solved the packed VM case under that longer budget.
+
 These calibration runs cover **two of thirteen cases**, not the full 1,300-point v11 bank. Every case had a 300-second limit. The static AgentRE-style score is multiplied by 100 in the comparison table, so the two-case maximum is 200 points. A timeout counts as zero because no final answer was submitted; it does not prove that a tested candidate was wrong.
 
 | Model and CLI | Static PE /100 | UPX + VM /100 | Pilot /200 |

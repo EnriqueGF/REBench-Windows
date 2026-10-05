@@ -1,0 +1,44 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "model": "openrouter/deepseek/deepseek-v4.1-flash",
+  "timeout_seconds": 900,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 66.42,
+      "exit_code": 0,
+      "stdout": "{\n  \"case_id\": \"pe_69e70ad5f453\",\n  \"answer\": {\n    \"file_type\": \"PE64\",\n    \"encoded_strings\": true,\n    \"techniques\": [\n      \"Ransomware file encryption: targets .doc/.docx/.xls/.xlsx/.ppt/.pptx/.pdf/.txt/.jpg/.png/.bmp/.zip/.rar/.sql/.mdb/.cpp/.html/.css/.xml/.json/.csv/.mp3/.mp4/.avi/.wav; drops '%s\\\\@Please_Read_Me@.txt' note with Bitcoin payment demand; appends '.WNC' extension and renames with MoveFileA\",\n      \"Persistence via Windows service: ADVAPI32 OpenSCManagerA/CreateServiceA/OpenServiceA/StartServiceA; service name 'mssecsvc2.0', display name 'Microsoft Security Center (2.0)'\",\n      \"Anti-analysis: IsDebuggerPresent and PEB BeingDebugged (gs:[0x60]), NtQueryInformationProcess with ProcessDebugPort (edx=7), CPUID hypervisor bit, and VM/sandbox artifact checks for vmmouse.sys, vmhgfs.sys, sbiedll.dll, dbghelp.dll\",\n      \"Single-instance mutex 'Global\\\\MsWinZonesCacheCounterMutexA' (CreateMutexA / GetLastError==183)\",\n      \"File and directory discovery for encryption (FindFirstFileA/FindNextFileA/GetFileAttributesA over USERPROFILE/Desktop/Documents and PUBLIC)\",\n      \"Network propagation scan: WS2_32 socket(2,1,6)/setsockopt/connect to '192.0.2.%d' (d=1..4) on TCP port 445\",\n      \"HTTP kill-switch check: WININET InternetOpenA with UA 'Microsoft Internet Explorer' + InternetOpenUrlA 'http://example.com'\",\n      \"Raw TCP C2 beacon: socket/connect/send of formatted 'SYSTEM:%s:WIN:%ld' to an XOR-encoded IP on port 8443\"\n    ],\n    \"injection_details\": {},\n    \"encryption_details\": {\n      \"algorithm\": \"Custom symmetric 16-byte-block cipher: 10 rounds of byte S-box substitution (256-byte table at RVA 0xA120) XOR a 16-byte key and a per-round constant (index*27); a separate repeating-key XOR routine obfuscates strings/C2 data\",\n      \"key\": \"W@nCryPt0K3y2024\",\n      \"key_storage\": \"Hardcoded ASCII string in .rdata at RVA 0xA100; the string-XOR key is hardcoded at RVA 0xA220\"\n    },\n    \"decoded_strings\": {},\n    \"anti_analysis\": [\n      \"IsDebuggerPresent / PEB BeingDebugged check\",\n      \"NtQueryInformationProcess ProcessDebugPort\",\n      \"CPUID hypervisor-present bit check\",\n      \"VM/sandbox artifact enumeration (vmmouse.sys, vmhgfs.sys, sbiedll.dll, dbghelp.dll)\"\n    ],\n    \"decoded_c2\": null,\n    \"c2_protocol\": \"TCP\"\n  }\n}\n",
+      "stderr": "\u001b[0m\n> build · deepseek/deepseek-v4.1-flash\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1073]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1835]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=2631]\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=3413]\u001b[0m\n\u001b[0m\n\u001b[0m$ \u001b[0mwc -l \"C:\\Users\\el_en\\AppData\\Local\\Temp\\agentre_static_cjcmzx6q\\evidence.txt\"\n9295 C:\\Users\\el_en\\AppData\\Local\\Temp\\agentre_static_cjcmzx6q\\evidence.txt\n\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"(?i)inject|remote|thread|writeprocess|createremote|virtualalloc|openprocess|shellcode|decode|decoded|c2|beacon|killsw|propagat|persist|registry\"\u001b[90m in evidence.txt · 350 matches\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=9250]\u001b[0m\n",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "Ransomware file encryption: targets .doc/.docx/.xls/.xlsx/.ppt/.pptx/.pdf/.txt/.jpg/.png/.bmp/.zip/.rar/.sql/.mdb/.cpp/.html/.css/.xml/.json/.csv/.mp3/.mp4/.avi/.wav; drops '%s\\@Please_Read_Me@.txt' note with Bitcoin payment demand; appends '.WNC' extension and renames with MoveFileA",
+          "Persistence via Windows service: ADVAPI32 OpenSCManagerA/CreateServiceA/OpenServiceA/StartServiceA; service name 'mssecsvc2.0', display name 'Microsoft Security Center (2.0)'",
+          "Anti-analysis: IsDebuggerPresent and PEB BeingDebugged (gs:[0x60]), NtQueryInformationProcess with ProcessDebugPort (edx=7), CPUID hypervisor bit, and VM/sandbox artifact checks for vmmouse.sys, vmhgfs.sys, sbiedll.dll, dbghelp.dll",
+          "Single-instance mutex 'Global\\MsWinZonesCacheCounterMutexA' (CreateMutexA / GetLastError==183)",
+          "File and directory discovery for encryption (FindFirstFileA/FindNextFileA/GetFileAttributesA over USERPROFILE/Desktop/Documents and PUBLIC)",
+          "Network propagation scan: WS2_32 socket(2,1,6)/setsockopt/connect to '192.0.2.%d' (d=1..4) on TCP port 445",
+          "HTTP kill-switch check: WININET InternetOpenA with UA 'Microsoft Internet Explorer' + InternetOpenUrlA 'http://example.com'",
+          "Raw TCP C2 beacon: socket/connect/send of formatted 'SYSTEM:%s:WIN:%ld' to an XOR-encoded IP on port 8443"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": "Custom symmetric 16-byte-block cipher: 10 rounds of byte S-box substitution (256-byte table at RVA 0xA120) XOR a 16-byte key and a per-round constant (index*27); a separate repeating-key XOR routine obfuscates strings/C2 data",
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": "Hardcoded ASCII string in .rdata at RVA 0xA100; the string-XOR key is hardcoded at RVA 0xA220"
+        },
+        "decoded_strings": {},
+        "anti_analysis": [
+          "IsDebuggerPresent / PEB BeingDebugged check",
+          "NtQueryInformationProcess ProcessDebugPort",
+          "CPUID hypervisor-present bit check",
+          "VM/sandbox artifact enumeration (vmmouse.sys, vmhgfs.sys, sbiedll.dll, dbghelp.dll)"
+        ],
+        "decoded_c2": null,
+        "c2_protocol": "TCP"
+      }
+    }
+  ]
+}

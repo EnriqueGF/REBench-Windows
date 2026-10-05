@@ -1,0 +1,60 @@
+{
+  "track": "static-evidence",
+  "profile": "claude",
+  "model": "claude-opus-5-5",
+  "timeout_seconds": 900,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 144.81,
+      "exit_code": 0,
+      "stdout": "{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":true,\"techniques\":[\"Data Encrypted for Impact (T1486): recursive FindFirstFileA/FindNextFileA walk of %PUBLIC%\\\\Documents\\\\synthetic_target; files whose extension (strrchr '.', _stricmp) is in a list (.doc .docx .xls .xlsx .ppt .pptx .pdf .txt .jpg .png .bmp .zip .rar .sql .mdb .cpp .html .css .xml .json .csv .mp3 .mp4 .avi .wav ...) are read (first 1 MB at most), encrypted, written back in place, renamed to <name>.WNCRY with MoveFileA and then set hidden with SetFileAttributesA(FILE_ATTRIBUTE_HIDDEN)\",\"File and Directory Discovery (T1083)\",\"Ransom note: '@Please_Read_Me@.txt' written to %USERPROFILE%\\\\Desktop and %USERPROFILE%\\\\Documents ('Oops, your files have been encrypted!', $300 in Bitcoin to 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa)\",\"Kill switch: InternetOpenA('Microsoft Internet Explorer') + InternetOpenUrlA('http://example.com', 0x84000000); the program exits if the URL opens\",\"Single-instance mutex 'Global\\\\MsWinZonesCacheCounterMutexA' (exits on ERROR_ALREADY_EXISTS 0xB7)\",\"Persistence via Windows service (T1543.003): OpenSCManagerA, then CreateServiceA 'mssecsvc2.0' / display name 'Microsoft Security Center (2.0)', SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, binary = own path from GetModuleFileNameA (falls back to OpenServiceA), then StartServiceA (T1569.002)\",\"Network service scanning (T1046): TCP connect attempts to 192.0.2.1-192.0.2.4 on port 445 (SMB), 2000 ms SO_RCVTIMEO, 100 ms Sleep between attempts, no payload sent\",\"System Information Discovery (T1082): GetComputerNameA + GetVersion\",\"C2 beacon over raw TCP to port 8443 (T1095/T1571): sends 'SYSTEM:<computername>:WIN:<GetVersion>'\",\"Obfuscated strings (T1027): C2 IP string is repeating-key XOR encoded; stack-built strings\",\"Debugger evasion (T1622)\",\"Virtualization/Sandbox evasion (T1497.001)\",\"Hidden files (T1564.001)\",\"Dynamic API resolution with GetModuleHandleA/GetProcAddress (NtQueryInformationProcess)\",\"Sleep(60000) after the main routine\"],\"injection_details\":{},\"encryption_details\":{\"algorithm\":\"Custom AES-like substitution cipher (not standard AES). It works on each full 16-byte block in ECB-style: 10 rounds of out[j] = AES_SBOX[b[j]] ^ key[j] ^ ((round*27) & 0xFF). The AES S-box is in .rdata at VA 0x14000A120. A trailing partial block is left as plaintext, and only the first 1 MB (0x100000) of each file is processed.\",\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\"Hardcoded 16-byte ASCII key in plaintext in .rdata at VA 0x14000A100 (file offset 0x8500), referenced at 0x140001914 and passed to the block routine 0x1400014C3\"},\"decoded_strings\":{\"0x140001a0a_stack_built_extension\":\".WNCRY\",\"0x140002400_stack_built_path_suffix\":\"\\\\Documents\\\\synthetic_target (appended to %PUBLIC%)\",\"0x140001f31_c2_string\":\"13-byte IPv4 string copied from .data 0x140009128, decoded by repeating-key XOR (routine 0x14000156B, 8-byte key at .rdata 0x14000A220); raw bytes are not present in the evidence, so the plaintext cannot be recovered\"},\"anti_analysis\":[\"IsDebuggerPresent\",\"PEB->BeingDebugged read via gs:[0x60]+2\",\"NtQueryInformationProcess(ProcessDebugPort=7) resolved via GetModuleHandleA('ntdll.dll')/GetProcAddress; debugger flagged if port == -1\",\"VMware driver file checks via GetFileAttributesA: C:\\\\Windows\\\\System32\\\\drivers\\\\vmmouse.sys and vmhgfs.sys\",\"Sandboxie check via GetModuleHandleA('sbiedll.dll')\",\"GetModuleHandleA('dbghelp.dll') is called but the result is not checked\",\"CPUID leaf 1 hypervisor bit (ECX bit 31) check\",\"Kill-switch URL check (exits if http://example.com is reachable)\",\"Exits silently if any debugger or VM check fires\"],\"decoded_c2\":null,\"c2_protocol\":\"Raw TCP (Winsock socket/connect/send) to port 8443 (htons 0x20FB), 3000 ms SO_RCVTIMEO, plaintext beacon 'SYSTEM:%s:WIN:%ld' (computer name, GetVersion); the HTTP request via WinINet is only for the kill-switch check\"}}\n",
+      "stderr": "",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "Data Encrypted for Impact (T1486): recursive FindFirstFileA/FindNextFileA walk of %PUBLIC%\\Documents\\synthetic_target; files whose extension (strrchr '.', _stricmp) is in a list (.doc .docx .xls .xlsx .ppt .pptx .pdf .txt .jpg .png .bmp .zip .rar .sql .mdb .cpp .html .css .xml .json .csv .mp3 .mp4 .avi .wav ...) are read (first 1 MB at most), encrypted, written back in place, renamed to <name>.WNCRY with MoveFileA and then set hidden with SetFileAttributesA(FILE_ATTRIBUTE_HIDDEN)",
+          "File and Directory Discovery (T1083)",
+          "Ransom note: '@Please_Read_Me@.txt' written to %USERPROFILE%\\Desktop and %USERPROFILE%\\Documents ('Oops, your files have been encrypted!', $300 in Bitcoin to 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa)",
+          "Kill switch: InternetOpenA('Microsoft Internet Explorer') + InternetOpenUrlA('http://example.com', 0x84000000); the program exits if the URL opens",
+          "Single-instance mutex 'Global\\MsWinZonesCacheCounterMutexA' (exits on ERROR_ALREADY_EXISTS 0xB7)",
+          "Persistence via Windows service (T1543.003): OpenSCManagerA, then CreateServiceA 'mssecsvc2.0' / display name 'Microsoft Security Center (2.0)', SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START, binary = own path from GetModuleFileNameA (falls back to OpenServiceA), then StartServiceA (T1569.002)",
+          "Network service scanning (T1046): TCP connect attempts to 192.0.2.1-192.0.2.4 on port 445 (SMB), 2000 ms SO_RCVTIMEO, 100 ms Sleep between attempts, no payload sent",
+          "System Information Discovery (T1082): GetComputerNameA + GetVersion",
+          "C2 beacon over raw TCP to port 8443 (T1095/T1571): sends 'SYSTEM:<computername>:WIN:<GetVersion>'",
+          "Obfuscated strings (T1027): C2 IP string is repeating-key XOR encoded; stack-built strings",
+          "Debugger evasion (T1622)",
+          "Virtualization/Sandbox evasion (T1497.001)",
+          "Hidden files (T1564.001)",
+          "Dynamic API resolution with GetModuleHandleA/GetProcAddress (NtQueryInformationProcess)",
+          "Sleep(60000) after the main routine"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": "Custom AES-like substitution cipher (not standard AES). It works on each full 16-byte block in ECB-style: 10 rounds of out[j] = AES_SBOX[b[j]] ^ key[j] ^ ((round*27) & 0xFF). The AES S-box is in .rdata at VA 0x14000A120. A trailing partial block is left as plaintext, and only the first 1 MB (0x100000) of each file is processed.",
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": "Hardcoded 16-byte ASCII key in plaintext in .rdata at VA 0x14000A100 (file offset 0x8500), referenced at 0x140001914 and passed to the block routine 0x1400014C3"
+        },
+        "decoded_strings": {
+          "0x140001a0a_stack_built_extension": ".WNCRY",
+          "0x140002400_stack_built_path_suffix": "\\Documents\\synthetic_target (appended to %PUBLIC%)",
+          "0x140001f31_c2_string": "13-byte IPv4 string copied from .data 0x140009128, decoded by repeating-key XOR (routine 0x14000156B, 8-byte key at .rdata 0x14000A220); raw bytes are not present in the evidence, so the plaintext cannot be recovered"
+        },
+        "anti_analysis": [
+          "IsDebuggerPresent",
+          "PEB->BeingDebugged read via gs:[0x60]+2",
+          "NtQueryInformationProcess(ProcessDebugPort=7) resolved via GetModuleHandleA('ntdll.dll')/GetProcAddress; debugger flagged if port == -1",
+          "VMware driver file checks via GetFileAttributesA: C:\\Windows\\System32\\drivers\\vmmouse.sys and vmhgfs.sys",
+          "Sandboxie check via GetModuleHandleA('sbiedll.dll')",
+          "GetModuleHandleA('dbghelp.dll') is called but the result is not checked",
+          "CPUID leaf 1 hypervisor bit (ECX bit 31) check",
+          "Kill-switch URL check (exits if http://example.com is reachable)",
+          "Exits silently if any debugger or VM check fires"
+        ],
+        "decoded_c2": null,
+        "c2_protocol": "Raw TCP (Winsock socket/connect/send) to port 8443 (htons 0x20FB), 3000 ms SO_RCVTIMEO, plaintext beacon 'SYSTEM:%s:WIN:%ld' (computer name, GetVersion); the HTTP request via WinINet is only for the kill-switch check"
+      }
+    }
+  ]
+}

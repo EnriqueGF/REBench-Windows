@@ -1,0 +1,43 @@
+{
+  "track": "static-evidence",
+  "profile": "claude",
+  "model": "claude-opus-4-7",
+  "timeout_seconds": 900,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 107.09,
+      "exit_code": 0,
+      "stdout": "Now I have a good picture. Let me check for anti-analysis — IsDebuggerPresent is imported, and strings reference VM/sandbox detection files (vmmouse.sys, vmhgfs.sys, sbiedll.dll, dbghelp.dll, NtQueryInformationProcess).\n\nKey findings:\n- PE64 (Machine 0x8664)\n- Encoded strings: short garbled fragments (c|w{, 9JLX, ~=d]) between offsets 0x8520–0x85c0, suggesting XOR-encoded blocks adjacent to the key \"W@nCryPt0K3y2024\"\n- No injection APIs imported (no VirtualAllocEx, WriteProcessMemory, CreateRemoteThread, NtMapViewOfSection, QueueUserAPC). So no process injection claim can be supported.\n- Service persistence via CreateServiceA/StartServiceA (mssecsvc2.0)\n- Anti-analysis: IsDebuggerPresent, VM detection (vmmouse.sys, vmhgfs.sys), sandbox detection (sbiedll.dll), debugger lib (dbghelp.dll), NtQueryInformationProcess (likely ProcessDebugPort check)\n- C2 URL: http://example.com (and example.com appears twice - possible killswitch), 192.0.2.%d (TEST-NET)\n- The encryption key \"W@nCryPt0K3y2024\" is in .rdata — stored as a literal string.\n\nNo specific algorithm name (AES/RC4) is confirmed by imports (no CryptAcquireContext, no bcrypt). Encrypted file extension not shown but \".WNC\" appears at offset 0x0000e0c. The algorithm is unknown from this evidence.\n\nDecoded C2: \"example.com\" (also appears in http URL). This is the killswitch-style domain. But we can't tell killswitch vs. C2 — the URL is passed to InternetOpenUrlA. Given WannaCry parallels, example.com here mirrors the killswitch; however, this is the only HTTP URL in the file. I'll report http://example.com as decoded_c2 with protocol http.\n\nActually, \"example.com\" and \"http://example.com\" are NOT encoded — they appear as plain ASCII strings. The encoded strings are the garbled fragments. So decoded_strings should include what we can decode. Without the actual encoded bytes/XOR evidence shown clearly, I shouldn't claim decoded output.\n\nLet me be conservative — report only clearly supported findings:\n\n```json\n{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":true,\"techniques\":[\"service_persistence\",\"file_encryption\",\"anti_debug\",\"vm_detection\",\"sandbox_detection\"],\"injection_details\":{},\"encryption_details\":{\"algorithm\":null,\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\".rdata\"},\"decoded_strings\":{},\"anti_analysis\":[\"IsDebuggerPresent\",\"NtQueryInformationProcess\",\"vmmouse.sys\",\"vmhgfs.sys\",\"sbiedll.dll\",\"dbghelp.dll\"],\"decoded_c2\":\"http://example.com\",\"c2_protocol\":\"http\"}}\n```\n",
+      "stderr": "",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "service_persistence",
+          "file_encryption",
+          "anti_debug",
+          "vm_detection",
+          "sandbox_detection"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": null,
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": ".rdata"
+        },
+        "decoded_strings": {},
+        "anti_analysis": [
+          "IsDebuggerPresent",
+          "NtQueryInformationProcess",
+          "vmmouse.sys",
+          "vmhgfs.sys",
+          "sbiedll.dll",
+          "dbghelp.dll"
+        ],
+        "decoded_c2": "http://example.com",
+        "c2_protocol": "http"
+      }
+    }
+  ]
+}

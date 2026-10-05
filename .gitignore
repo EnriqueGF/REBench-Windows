@@ -4,6 +4,10 @@ __pycache__/
 .venv/
 Thumbs.db
 .DS_Store
+*.partial
+
+# Background-session traces may contain unrelated local environment metadata.
+/results/protected/*_background_trace.jsonl
 
 # UPX is downloaded from its official, hash-pinned release by the build script.
 /external/upx-5.2.1-win64/

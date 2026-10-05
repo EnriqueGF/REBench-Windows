@@ -286,24 +286,36 @@ def run(profile, output, timeout, variant="custom", case_ids=None, retry=False, 
             work = Path(temp)
             shutil.copy2(exe, work / "guard.exe")
             start = time.monotonic()
-            try:
-                proc = subprocess.run(profiles[profile] + [prompt], cwd=work, capture_output=True, text=True,
-                                      encoding="utf-8", errors="replace", timeout=timeout)
+            output.parent.mkdir(parents=True, exist_ok=True)
+            stdout_partial = output.with_name(f"{output.stem}_{case_id}.stdout.partial")
+            stderr_partial = output.with_name(f"{output.stem}_{case_id}.stderr.partial")
+            with stdout_partial.open("wb") as stdout_stream, stderr_partial.open("wb") as stderr_stream:
+                try:
+                    proc = subprocess.run(profiles[profile] + [prompt], cwd=work,
+                                          stdout=stdout_stream, stderr=stderr_stream, timeout=timeout)
+                    timed_out = False
+                except subprocess.TimeoutExpired:
+                    proc = None
+                    timed_out = True
+            stdout = stdout_partial.read_text(encoding="utf-8", errors="replace")
+            stderr = stderr_partial.read_text(encoding="utf-8", errors="replace")
+            if not timed_out:
                 attempt = {"case_id": case_id, "seconds": round(time.monotonic() - start, 2),
-                           "exit_code": proc.returncode, "stdout": proc.stdout, "stderr": proc.stderr}
-                error = infrastructure_error(proc.stdout, proc.stderr)
+                           "exit_code": proc.returncode, "stdout": stdout, "stderr": stderr}
+                error = infrastructure_error(stdout, stderr)
                 if error:
                     attempt["infrastructure_error"] = error
                 try:
-                    attempt["answer"] = parse_answer(proc.stdout, case_id)
+                    attempt["answer"] = parse_answer(stdout, case_id)
                 except ValueError as exc:
                     attempt["parse_error"] = str(exc)
-            except subprocess.TimeoutExpired as exc:
+            else:
                 attempt = {"case_id": case_id, "seconds": round(time.monotonic() - start, 2),
-                           "parse_error": "timeout", "stdout": str(exc.stdout or ""),
-                           "stderr": str(exc.stderr or "")}
+                           "parse_error": "timeout", "stdout": stdout, "stderr": stderr}
         result["attempts"].append(attempt)
         write_json(output, result)
+        stdout_partial.unlink(missing_ok=True)
+        stderr_partial.unlink(missing_ok=True)
         print(case_id, attempt["seconds"], "answered" if "answer" in attempt else
               attempt.get("infrastructure_error", attempt.get("parse_error")), flush=True)
         if attempt.get("infrastructure_error"):

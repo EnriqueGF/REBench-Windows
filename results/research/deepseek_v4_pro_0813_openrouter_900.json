@@ -1,0 +1,46 @@
+{
+  "track": "static-evidence",
+  "profile": "opencode",
+  "model": "openrouter/deepseek/deepseek-v4-pro-0813",
+  "timeout_seconds": 900,
+  "attempts": [
+    {
+      "case_id": "pe_69e70ad5f453",
+      "seconds": 105.11,
+      "exit_code": 0,
+      "stdout": "Based on my complete analysis of the evidence, here is the single JSON object.\n\n```json\n{\"case_id\":\"pe_69e70ad5f453\",\"answer\":{\"file_type\":\"PE64\",\"encoded_strings\":true,\"techniques\":[\"T1486 - Data Encrypted for Impact (file encryption, renames to .WNCRY and drops @Please_Read_Me@.txt ransom note)\",\"T1543.003 - Create/Modify Windows Service (persistence via OpenSCManagerA/CreateServiceA/StartServiceA with service name 'mssecsvc2.0')\",\"T1046 - Network Service Scanning (TCP connect sweep of 192.0.2.%d on port 445)\",\"T1571 - Non-Standard Port / raw TCP C2 on port 8443\",\"T1497 - Virtualization/Sandbox Evasion (VMware vmmouse.sys/vmhgfs.sys, Sandboxie sbiedll.dll, CPUID hypervisor bit)\",\"T1622 - Debugger Evasion (IsDebuggerPresent, PEB.BeingDebugged, NtQueryInformationProcess ProcessDebugPort)\",\"Kill-switch domain check via InternetOpenUrlA to http://example.com\"],\"injection_details\":{},\"encryption_details\":{\"algorithm\":\"custom XOR cipher (byte-wise XOR with 256-byte substitution table over 16-byte blocks; plus repeating-key XOR routine)\",\"key\":\"W@nCryPt0K3y2024\",\"key_storage\":\"hardcoded plaintext in .data section\"},\"decoded_strings\":{},\"anti_analysis\":[\"IsDebuggerPresent API call\",\"PEB.BeingDebugged flag check (gs:[0x60]+2)\",\"NtQueryInformationProcess with InfoClass 7 (ProcessDebugPort) resolved from ntdll.dll\",\"VMware detection via GetFileAttributesA on C:\\\\Windows\\\\System32\\\\drivers\\\\vmmouse.sys and vmhgfs.sys\",\"Sandboxie detection via GetModuleHandleA(sbiedll.dll)\",\"Debugger helper detection via GetModuleHandleA(dbghelp.dll)\",\"CPUID leaf 1 hypervisor-present bit (ECX bit 31) check\"],\"decoded_c2\":null,\"c2_protocol\":\"raw TCP socket (WS2_32), port 8443, beacon payload format 'SYSTEM:%s:WIN:%ld' with computer name; C2 address is XOR-obfuscated and decoded at runtime via repeating-key XOR\"}}\n```\n\nKey supported findings from the evidence:\n\n- **PE64**: `Machine 0x8664`, `ImageBase 0x140000000`, GCC/MinGW-w64 compiled.\n- **Ransomware**: file encryption via custom XOR/table cipher (`0x1400014c3`), `0x14000156b` repeating-key XOR; extension list (.doc/.xls/.../.sql/.mdb) and encrypted files renamed to `.WNCRY` (bytes `0x434e572e` + `0x595243`); ransom note `@Please_Read_Me@.txt` with \"Send $300 worth of Bitcoin\".\n- **Hardcoded key** `W@nCryPt0K3y2024` at offset `0x8500`.\n- **Persistence**: `OpenSCManagerA`/`CreateServiceA`/`StartServiceA` with `mssecsvc2.0` / `Microsoft Security Center (2.0)`.\n- **SMB sweep**: `0x140001c8d` builds `192.0.2.%d` and connects to port `0x1bd` (445).\n- **C2**: `0x140001f31` decodes an XOR-obfuscated address, connects to port `0x20fb` (8443), sends `SYSTEM:%s:WIN:%ld`.\n- **Anti-analysis**: `IsDebuggerPresent`, PEB `BeingDebugged`, `NtQueryInformationProcess` (ProcessDebugPort), VMware/Sandboxie/dbghelp detection, CPUID hypervisor bit.\n- **Kill-switch**: `InternetOpenUrlA(\"http://example.com\")`.\n- **No process injection** (no `WriteProcessMemory`/`CreateRemoteThread`/`VirtualAllocEx`/`OpenProcess` present), so `injection_details` is empty.\n- C2 host is XOR-encoded and not decodable from this static snapshot, so `decoded_c2` is `null`.\n",
+      "stderr": "\u001b[0m\n> build · deepseek/deepseek-v4-pro-0813\n\u001b[0m\n\u001b[0m$ \u001b[0mls -la\ntotal 2128\ndrwxr-xr-x 1 el_en 197609      0 Oct  5 16:16 .\ndrwxr-xr-x 1 el_en 197609      0 Oct  5 16:16 ..\n-rw-r--r-- 1 el_en 197609 597842 Oct  5 16:16 evidence.txt\n\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1073, limit=1500]\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"WriteProcessMemory|VirtualAllocEx|CreateRemoteThread|CreateProcess|OpenProcess|NtWriteVirtualMemory|SetWindowsHookEx|shellcode|0x1400014c3\"\u001b[90m in evidence.txt · 1 match\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"tasksche|mssecsvc|cmd.exe|process|inject|\\.exe\"\u001b[90m in evidence.txt · 1 match\u001b[0m\n\u001b[0m✱ \u001b[0mGrep \"OpenSCManagerA|CreateServiceA|StartServiceA|MoveFileA|GetModuleFileNameA|GetComputerNameA|GetEnvironmentVariableA|InternetOpenUrlA|InternetOpenA|NtQueryInformationProcess|IsDebuggerPresent\"\u001b[90m in evidence.txt · 14 matches\u001b[0m\n\u001b[0m→ \u001b[0mRead evidence.txt\u001b[90m [offset=1835, limit=2000]\u001b[0m\n",
+      "answer": {
+        "file_type": "PE64",
+        "encoded_strings": true,
+        "techniques": [
+          "T1486 - Data Encrypted for Impact (file encryption, renames to .WNCRY and drops @Please_Read_Me@.txt ransom note)",
+          "T1543.003 - Create/Modify Windows Service (persistence via OpenSCManagerA/CreateServiceA/StartServiceA with service name 'mssecsvc2.0')",
+          "T1046 - Network Service Scanning (TCP connect sweep of 192.0.2.%d on port 445)",
+          "T1571 - Non-Standard Port / raw TCP C2 on port 8443",
+          "T1497 - Virtualization/Sandbox Evasion (VMware vmmouse.sys/vmhgfs.sys, Sandboxie sbiedll.dll, CPUID hypervisor bit)",
+          "T1622 - Debugger Evasion (IsDebuggerPresent, PEB.BeingDebugged, NtQueryInformationProcess ProcessDebugPort)",
+          "Kill-switch domain check via InternetOpenUrlA to http://example.com"
+        ],
+        "injection_details": {},
+        "encryption_details": {
+          "algorithm": "custom XOR cipher (byte-wise XOR with 256-byte substitution table over 16-byte blocks; plus repeating-key XOR routine)",
+          "key": "W@nCryPt0K3y2024",
+          "key_storage": "hardcoded plaintext in .data section"
+        },
+        "decoded_strings": {},
+        "anti_analysis": [
+          "IsDebuggerPresent API call",
+          "PEB.BeingDebugged flag check (gs:[0x60]+2)",
+          "NtQueryInformationProcess with InfoClass 7 (ProcessDebugPort) resolved from ntdll.dll",
+          "VMware detection via GetFileAttributesA on C:\\Windows\\System32\\drivers\\vmmouse.sys and vmhgfs.sys",
+          "Sandboxie detection via GetModuleHandleA(sbiedll.dll)",
+          "Debugger helper detection via GetModuleHandleA(dbghelp.dll)",
+          "CPUID leaf 1 hypervisor-present bit (ECX bit 31) check"
+        ],
+        "decoded_c2": null,
+        "c2_protocol": "raw TCP socket (WS2_32), port 8443, beacon payload format 'SYSTEM:%s:WIN:%ld' with computer name; C2 address is XOR-obfuscated and decoded at runtime via repeating-key XOR"
+      }
+    }
+  ]
+}
